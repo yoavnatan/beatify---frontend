@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
 
+import logoImg from '../assets/img/logo.png'
+
 export function AppHeader() {
 	const user = useSelector(storeState => storeState.userModule.user)
 	const navigate = useNavigate()
@@ -22,14 +24,13 @@ export function AppHeader() {
 		<header className="app-header full">
 			<nav>
 				<NavLink to="/" className="logo">
-					E2E Demo
+					<img src={logoImg} />
 				</NavLink>
 				<NavLink to="about">About</NavLink>
-				<NavLink to="car">Cars</NavLink>
+				<NavLink to="station">Stations</NavLink>
 				<NavLink to="chat">Chat</NavLink>
-				<NavLink to="review">Review</NavLink>
 
-                {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
+				{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
 
 				{!user && <NavLink to="auth/login" className="login-link">Login</NavLink>}
 				{user && (
