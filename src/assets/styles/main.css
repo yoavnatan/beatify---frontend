@@ -22,7 +22,3 @@
 @import "cmps/station/StationList";
 @import "cmps/station/StationPreview";
 @import "cmps/station/StationFilter";
-
-@import "cmps/review/ReviewEdit";
-@import "cmps/review/ReviewList";
-@import "cmps/review/ReviewPreview";
