@@ -1,8 +1,76 @@
 @font-face {
-    /* font-family: caveat; */
-    /* src: url(../../fonts/Caveat/Caveat-Regular.ttf); */
+  font-family: "Inter";
+  src: url("/fonts/Inter/Inter_24pt-Regular.ttf") format("truetype");
+  font-weight: 400;
 }
+
 @font-face {
-    /* font-family: montserrat; */
-    /* src: url(../../fonts/Montserrat/Montserrat-Regular.ttf); */
+  font-family: "Inter";
+  src: url("/fonts/Inter/Inter_18pt-Medium.ttf") format("truetype");
+  font-weight: 500;
 }
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter/Inter_24pt-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+
+
+
+:root {
+  --font-primary: "Inter", Helvetica, Arial, sans-serif;
+
+  --fs-display: 32px;
+  --fs-h1: 24px;
+  --fs-h2: 20px;
+  --fs-h3: 18px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-tiny: 12px;
+
+  --lh-tight: 1.1;
+  --lh-normal: 1.4;
+  --lh-relaxed: 1.6;
+
+  --ls-tight: -0.5px;
+  --ls-normal: 0;
+}
+
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--sp-white);
+}
+
+
+
+h1 {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+}
+
+
+p {
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+}
+
+

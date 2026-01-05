@@ -1,5 +1,4 @@
 :root {
-  /* Spotify core colors */
   --sp-black: #121212;
   --sp-dark: #181818;
   --sp-dark-2: #1f1f1f;
@@ -8,20 +7,16 @@
   --sp-white: #ffffff;
   --sp-green: #1db954;
 
-  /* UI elements */
   --sp-card: #242424;
   --sp-hover: #2a2a2a;
   --sp-border: #3a3a3a;
 
-  /* Gradients */
   --sp-gradient-1: linear-gradient(135deg, #450af5, #c4efd9);
   --sp-gradient-2: linear-gradient(135deg, #1db954, #1ed760);
 
-  /* Status colors */
   --success: #1db954;
   --error: #e91429;
 
-  /* Optional tints */
   --sp-green-light: color-mix(in lab, var(--sp-green), white 20%);
   --sp-gray-light: color-mix(in lab, var(--sp-gray), white 30%);
 }

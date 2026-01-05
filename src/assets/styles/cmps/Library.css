@@ -1,0 +1,146 @@
+
+.library {
+  padding: 16px;
+  color: var(--sp-white);
+  font-family: var(--font-primary);
+  background-color: var(--sp-dark);
+  border-radius: 8px;
+  width: 300px;
+}
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.library-header h1 {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  color: var(--sp-white);
+}
+
+.header-actions {
+  display: flex;
+  gap: 20px;
+}
+
+.header-actions i {
+  color: var(--sp-gray);
+  cursor: pointer;
+  font-size: var(--fs-body);
+  transition: 0.2s;
+}
+
+.header-actions i:hover {
+  color: var(--sp-white);
+}
+
+.library-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.library-filter button {
+  background-color: var(--sp-card);
+  color: var(--sp-white);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: var(--fs-small);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.library-filter button:hover {
+  background-color: var(--sp-hover);
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-input-wrapper i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--sp-gray);
+  font-size: var(--fs-small);
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  background-color: var(--sp-card);
+  border: none;
+  padding: 8px 12px;
+  padding-left: 36px;
+  border-radius: 6px;
+  color: var(--sp-white);
+  outline: none;
+  font-family: var(--font-primary);
+  font-size: var(--fs-small);
+  transition: 0.2s;
+}
+
+.search-input-wrapper input::placeholder {
+  color: var(--sp-gray);
+}
+
+.search-input-wrapper input:focus {
+  background-color: var(--sp-hover);
+}
+
+.sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+  color: var(--sp-gray);
+  cursor: pointer;
+  font-size: var(--fs-small);
+  transition: 0.2s;
+}
+
+.sort-wrapper:hover {
+  color: var(--sp-white);
+}
+
+.library-list {
+  margin-top: 12px;
+  scroll-behavior: smooth;
+}
+
+.library-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.library-list li {
+  padding: 10px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--sp-light-gray);
+  font-family: var(--font-primary);
+  font-size: var(--fs-small);
+  transition: 0.2s;
+}
+
+.library-list li:hover {
+  background-color: var(--sp-hover);
+  color: var(--sp-white);
+}
