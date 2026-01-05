@@ -1,17 +1,27 @@
 :root {
-  --clr1: #ce2e6c;
-  --clr2: #4f3a65;
-  --clr3: #574f7d;
-  --clr4: #95adbe;
-  --clr5: #dff0ea;
+  /* Spotify core colors */
+  --sp-black: #121212;
+  --sp-dark: #181818;
+  --sp-dark-2: #1f1f1f;
+  --sp-gray: #b3b3b3;
+  --sp-light-gray: #e5e5e5;
+  --sp-white: #ffffff;
+  --sp-green: #1db954;
 
-  --clr1-light: color-mix(in lab, var(--clr1), white 15%);
+  /* UI elements */
+  --sp-card: #242424;
+  --sp-hover: #2a2a2a;
+  --sp-border: #3a3a3a;
 
-  --gray1: #ddd;
-  --gray2: #aaa;
-  --gray3: #777;
-  --gray4: #333;
+  /* Gradients */
+  --sp-gradient-1: linear-gradient(135deg, #450af5, #c4efd9);
+  --sp-gradient-2: linear-gradient(135deg, #1db954, #1ed760);
 
-  --success: rgb(41, 189, 73);
-  --error: rgb(216, 59, 59);
+  /* Status colors */
+  --success: #1db954;
+  --error: #e91429;
+
+  /* Optional tints */
+  --sp-green-light: color-mix(in lab, var(--sp-green), white 20%);
+  --sp-gray-light: color-mix(in lab, var(--sp-gray), white 30%);
 }

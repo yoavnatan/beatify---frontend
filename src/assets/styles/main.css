@@ -1,24 +1,32 @@
-@import "setup/var";
-@import "setup/typography";
+/* // Setup styles */
+@import "../styles/setup/typography.css";
+@import "../styles/setup/var.css";
 
-@import "basics/helpers";
-@import "basics/layout";
-@import "basics/base";
-@import "basics/forms";
+/* // Basic styles */
+@import "../styles/basics/base.css";
+@import "../styles/basics/layout.css";
+@import "../styles/basics/base.css";
+@import "../styles/basics/forms.css";
 
-@import "RootCmp";
+/* // Component styles  */
 
-@import "cmps/AboutUs";
-@import "cmps/HomePage";
-@import "cmps/UserDetails";
-@import "cmps/LoginSignup";
-@import "cmps/Chat";
+@import "../styles/cmps/AppHeader.css";
+@import "../styles/cmps/AppFooter.css";
+@import "../styles/cmps/UserMsg.css";
 
-@import "cmps/AppHeader";
-@import "cmps/AppFooter";
-@import "cmps/UserMsg";
+/* //Pages styles */
 
-@import "cmps/station/StationIndex";
-@import "cmps/station/StationList";
-@import "cmps/station/StationPreview";
-@import "cmps/station/StationFilter";
+@import "../styles/pages/AboutUs.css";
+@import "../styles/pages/HomePage.css";
+@import "../styles/pages/Chat.css";
+@import "../styles/pages/LoginSignup.css";
+@import "../styles/pages/UserDetails.css";
+
+
+
+/* // Station components styles */
+
+@import "../styles/cmps/station/StationFilter.css";
+@import "../styles/cmps/station/StationList.css";
+@import "../styles/cmps/station/StationPreview.css";
+@import "../styles/cmps/station/StationFilter.css";

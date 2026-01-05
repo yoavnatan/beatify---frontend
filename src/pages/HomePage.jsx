@@ -1,8 +1,14 @@
+import { Library} from "../cmps/Library"
+import { StationIndex } from "./StationIndex"
+
+
+
 export function HomePage() {
     return (
-        <section className="home">
-            <h1>Home sweet Home</h1>
-        </section >
+        <div className="home">
+            <Library />   
+            <StationIndex />
+        </div>
     )
 }
 
