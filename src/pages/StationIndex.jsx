@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import { loadStations, addStation, updateStation, removeStation, addStationMsg } from '../store/actions/station.actions.js'
+import { loadStations, addStation, updateStation, removeStation, addStationMsg } from '../store/actions/station.actions'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
-import { userService } from '../services/user.js'
-import { stationService } from '../services/car/station.service.js'
+import { userService } from '../services/user'
+import { stationService } from '../services/station'
 
 import { StationList } from '../cmps/StationList.jsx'
 import { StationFilter } from '../cmps/StationFilter.jsx'

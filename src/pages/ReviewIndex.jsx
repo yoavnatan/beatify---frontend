@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { loadReviews, removeReview, getActionAddReview, getActionRemoveReview } from '../store/actions/review.actions'
-import { loadUsers } from '../store/actions/user.actions'
+import { loadReviews, removeReview, getActionAddReview, getActionRemoveReview } from '../store/actions/review.actions.js'
+import { loadUsers } from '../store/actions/user.actions.js'
 
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { socketService, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED } from '../services/socket.service'
-import { ReviewList } from '../cmps/ReviewList'
-import { ReviewEdit } from '../cmps/ReviewEdit'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { socketService, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED } from '../services/socket.service.js'
+import { ReviewList } from '../cmps/ReviewList.jsx'
+import { ReviewEdit } from '../cmps/ReviewEdit.jsx'
 
 export function ReviewIndex() {
 	const loggedInUser = useSelector(storeState => storeState.userModule.user)
@@ -30,9 +30,9 @@ export function ReviewIndex() {
 		})
 
 		return () => {
-            socketService.off(SOCKET_EVENT_REVIEW_ADDED)
-            socketService.off(SOCKET_EVENT_REVIEW_REMOVED)
-        }
+			socketService.off(SOCKET_EVENT_REVIEW_ADDED)
+			socketService.off(SOCKET_EVENT_REVIEW_REMOVED)
+		}
 	}, [])
 
 	async function onRemoveReview(reviewId) {
@@ -45,10 +45,10 @@ export function ReviewIndex() {
 	}
 
 	return <div className="review-index">
-        <h2>Reviews and Gossip</h2>
-        {loggedInUser && <ReviewEdit/>}
-        <ReviewList 
-            reviews={reviews} 
-            onRemoveReview={onRemoveReview}/>
-    </div>
+		<h2>Reviews and Gossip</h2>
+		{loggedInUser && <ReviewEdit />}
+		<ReviewList
+			reviews={reviews}
+			onRemoveReview={onRemoveReview} />
+	</div>
 }
