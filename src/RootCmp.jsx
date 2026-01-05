@@ -18,7 +18,7 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 
 export function RootCmp() {
     return (
-        <div className="main-container">
+        <div className="main-container main-layout">
             <AppHeader />
             <UserMsg />
 
