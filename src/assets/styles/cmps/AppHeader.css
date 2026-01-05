@@ -4,13 +4,13 @@
 
     background-color: var(--clr4);
     padding: .8rem 1rem;
-    
+
     & nav {
         display: flex;
         width: 100%;
         align-items: center;
         gap: 1em;
-        
+
         font-size: .8em;
 
         .active {
@@ -21,6 +21,10 @@
             font-size: 1.4em;
             font-weight: bold;
             margin-inline-end: 2em;
+
+            img {
+                width: 100px;
+            }
         }
 
         .login-link {
