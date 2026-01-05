@@ -26,8 +26,18 @@ export function AppHeader() {
 				<NavLink to="/" className="logo">
 					<img src={logoImg} />
 				</NavLink>
+				<NavLink to="/"><i className="fa-solid fa-house"></i></NavLink>
+				<div className="search-wrapper">
+				<i className="fa-solid fa-magnifying-glass"></i>
+				<input
+					type="text"
+					className="search-input"
+					placeholder="What do you want to play?"
+				/>
+				<i className="fa-solid fa-basket-shopping"></i>
+				</div>
 				<NavLink to="about">About</NavLink>
-				<NavLink to="station">Stations</NavLink>
+				{/* <NavLink to="station">Stations</NavLink> */}
 				<NavLink to="chat">Chat</NavLink>
 
 				{user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
