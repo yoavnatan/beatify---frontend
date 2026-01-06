@@ -5,8 +5,8 @@ export function AppFooter() {
 
 	return (
 		<footer className="app-footer full">
-
-
+			<div>Now playing</div>
+			<div>Player</div>
 			{import.meta.env.VITE_LOCAL ?
 				<span className="local-services">Local Services</span> :
 				<span className="remote-services">Remote Services</span>}
