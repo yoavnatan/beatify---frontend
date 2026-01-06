@@ -1,6 +1,8 @@
 .main-container {
     display: grid;
     grid-template-columns: 1rem 1fr 1rem;
+    grid-template-rows: auto 1fr;
+    height: 100dvh;
 
     >* {
         grid-column: 2;
@@ -9,6 +11,12 @@
             grid-column: 1 / -1;
         }
     }
+}
+
+main {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
 }
 
 .sample-grid-layout {

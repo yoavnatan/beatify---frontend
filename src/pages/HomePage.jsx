@@ -1,4 +1,4 @@
-import { Library} from "../cmps/Library"
+import { Library } from "../cmps/Library"
 import { StationIndex } from "./StationIndex"
 
 
@@ -6,7 +6,7 @@ import { StationIndex } from "./StationIndex"
 export function HomePage() {
     return (
         <div className="home">
-            <Library />   
+            {/* <Library />    */}
             <StationIndex />
         </div>
     )

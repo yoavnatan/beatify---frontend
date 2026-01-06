@@ -1,11 +1,11 @@
-
 .library {
   padding: 16px;
   color: var(--sp-white);
   font-family: var(--font-primary);
-  background-color: var(--sp-dark);
+  background-color: var(--sp-black);
   border-radius: 8px;
   width: 300px;
+  height: 100%;
 }
 
 .library-header {

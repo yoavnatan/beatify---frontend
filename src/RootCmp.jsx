@@ -2,7 +2,6 @@ import React from 'react'
 import { Routes, Route } from 'react-router'
 
 import { HomePage } from './pages/HomePage'
-import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs.jsx'
 import { StationIndex } from './pages/StationIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
@@ -14,6 +13,7 @@ import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
+import { Library } from './cmps/Library.jsx'
 
 
 export function RootCmp() {
@@ -21,14 +21,11 @@ export function RootCmp() {
         <div className="main-container main-layout">
             <AppHeader />
             <UserMsg />
-
             <main>
+                <Library />
                 <Routes>
                     <Route path="" element={<HomePage />} />
-                    <Route path="about" element={<AboutUs />}>
-                        <Route path="team" element={<AboutTeam />} />
-                        <Route path="vision" element={<AboutVision />} />
-                    </Route>
+
                     <Route path="station" element={<StationIndex />} />
                     <Route path="station/:stationId" element={<StationDetails />} />
                     <Route path="user/:id" element={<UserDetails />} />

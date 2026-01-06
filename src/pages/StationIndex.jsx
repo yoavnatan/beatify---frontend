@@ -53,12 +53,12 @@ export function StationIndex() {
     }
 
     return (
-        <section className="station-index">
+        <section className="station-index container">
             <header>
                 <h2>Stations</h2>
                 {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>}
             </header>
-            <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} />
+            {/* <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
             <StationList
                 stations={stations}
                 onRemoveStation={onRemoveStation}

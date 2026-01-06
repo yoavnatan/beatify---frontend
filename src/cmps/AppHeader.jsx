@@ -33,7 +33,7 @@ export function AppHeader() {
                 </div>
 
                 <div className="nav-center">
-					<NavLink to="/" className="nav-icon">
+                    <NavLink to="/" className="nav-icon">
                         <i className="fa-solid fa-house"></i>
                     </NavLink>
                     <div className="search-wrapper">
@@ -48,8 +48,6 @@ export function AppHeader() {
                 </div>
 
                 <div className="nav-right">
-					<NavLink to="/about">About</NavLink>
-                    <NavLink to="/chat">Chat</NavLink>
                     {!user && (
                         <NavLink to="auth/login" className="login-link">
                             Login

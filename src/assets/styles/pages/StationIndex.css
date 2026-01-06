@@ -1,0 +1,9 @@
+.station-index.container {
+    padding: 16px;
+    color: var(--sp-white);
+    font-family: var(--font-primary);
+    background-color: var(--sp-black);
+    border-radius: 8px;
+    height: 100%;
+
+}
