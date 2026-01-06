@@ -8,6 +8,7 @@
   height: 100%;
 }
 
+
 .library-header {
   display: flex;
   justify-content: space-between;
@@ -39,6 +40,7 @@
   color: var(--sp-white);
 }
 
+
 .library-filter {
   display: flex;
   gap: 8px;
@@ -61,47 +63,60 @@
   background-color: var(--sp-hover);
 }
 
-.search-bar {
+
+.search-toggle i {
+  color: var(--sp-gray);
+  cursor: pointer;
+  font-size: var(--fs-body);
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+
+.search-toggle i:hover {
+  color: var(--sp-white);
+}
+
+
+
+.search-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 16px;
 }
 
-.search-input-wrapper {
-  position: relative;
-  flex: 1;
-}
-
-.search-input-wrapper i {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+.search-row i.fa-magnifying-glass {
   color: var(--sp-gray);
-  font-size: var(--fs-small);
-}
-
-.search-input-wrapper input {
-  width: 100%;
-  background-color: var(--sp-card);
-  border: none;
-  padding: 8px 12px;
-  padding-left: 36px;
-  border-radius: 6px;
-  color: var(--sp-white);
-  outline: none;
-  font-family: var(--font-primary);
-  font-size: var(--fs-small);
+  cursor: pointer;
+  font-size: var(--fs-body);
   transition: 0.2s;
 }
 
-.search-input-wrapper input::placeholder {
-  color: var(--sp-gray);
+.search-row i.fa-magnifying-glass:hover {
+  color: var(--sp-white);
 }
 
-.search-input-wrapper input:focus {
-  background-color: var(--sp-hover);
+.search-row input {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  border: none;
+  transform: translateX(-70px);
+  background-color: var(--sp-card);
+  border-radius: 6px;
+  color: var(--sp-white);
+  font-size: var(--fs-tiny);
+  font-family: var(--font-primary);
+  outline: none;
+  transition: width 0.3s ease, opacity 0.1s ease, padding 0.3s ease, transform 0.3s ease;
+}
+
+.search-row input.open {
+  width: 100%;
+  opacity: 1;
+  padding: 8px 12px;
+  transform: translateX(0);
 }
 
 .sort-wrapper {
@@ -109,15 +124,26 @@
   align-items: center;
   gap: 6px;
   margin-left: 12px;
-  color: var(--sp-gray);
-  cursor: pointer;
-  font-size: var(--fs-small);
-  transition: 0.2s;
+  transition: 0.3s ease;
 }
 
-.sort-wrapper:hover {
-  color: var(--sp-white);
+.label-recents {
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
+
+.label-recents.open {
+  opacity: 0;
+}
+
+.fa-list {
+  opacity: 1;
+  transform: translateX(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+
 
 .library-list {
   margin-top: 12px;
