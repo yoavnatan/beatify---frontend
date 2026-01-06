@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
+import Broswe from "../assets/svg/browse.svg?react"
+import Home from "../assets/svg/home.svg?react"
+import Search from "../assets/svg/search.svg?react"
 
 import logoImg from '../assets/img/logo.png'
 
@@ -34,16 +37,17 @@ export function AppHeader() {
 
                 <div className="nav-center">
                     <NavLink to="/" className="nav-icon">
-                        <i className="fa-solid fa-house"></i>
+                        <Home className="icon medium" />
                     </NavLink>
                     <div className="search-wrapper">
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                        <Search className="icon medium" />
                         <input
                             type="text"
                             className="search-input"
                             placeholder="What do you want to play?"
                         />
-                        <i className="fa-solid fa-basket-shopping"></i>
+                        <Broswe className="icon medium" />
+                        {/* <i className="fa-solid fa-basket-shopping"></i> */}
                     </div>
                 </div>
 

@@ -53,3 +53,16 @@ object {
     max-width: 100%;
     display: block;
 }
+
+.icon {
+    fill: var(--sp-gray);
+    cursor: pointer;
+
+    &:hover {
+        fill: var(--sp-white)
+    }
+
+    &.medium {
+        width: 24px;
+    }
+}
