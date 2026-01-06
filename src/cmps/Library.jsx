@@ -1,6 +1,15 @@
+import { useState } from "react"
+
 export function Library() {
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+    function toggleSearch() {
+        setIsSearchOpen(prev => !prev)
+    }
+
     return (
         <div className="library">
+
             <div className="library-header">
                 <h1>Your Library</h1>
                 <div className="header-actions">
@@ -14,17 +23,23 @@ export function Library() {
                 <button>Artists</button>
             </div>
 
-            <div className="search-bar">
-                <div className="search-input-wrapper">
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search in Your Library" />
-                </div>
+            <div className="search-row">
+                <i className="fa-solid fa-magnifying-glass" onClick={toggleSearch}></i>
+
+                <input
+                    type="text"
+                    placeholder="Search in Your Library"
+                    className={isSearchOpen ? "open" : ""}
+                />
 
                 <div className="sort-wrapper">
-                    <label>Recents</label>
-                    <i className="fa-solid fa-list"></i>
+                    <label className={`label-recents ${isSearchOpen ? "open" : ""}`}>Recents</label>
+                    <i className={`fa-solid fa-list ${isSearchOpen ? "open" : ""}`}></i>
                 </div>
             </div>
+
+
+
 
             <section className="library-list">
                 <ul>
@@ -39,6 +54,9 @@ export function Library() {
                     <li>Rock Anthems</li>
                 </ul>
             </section>
+
         </div>
     )
 }
+
+        
