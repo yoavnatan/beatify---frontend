@@ -179,6 +179,24 @@
     transform: scale(1.04);
     transition: none;
     background-color: var(--sp-hover);
+
   }
 
+}
+
+.broswe-wrapper {
+  position: relative;
+  height: 24px;
+
+}
+
+.broswe-wrapper::before {
+  content: '';
+  position: absolute;
+
+  top: 0;
+  left: -12px;
+  width: 1px;
+  height: 24px;
+  background-color: var(--sp-gray);
 }

@@ -53,7 +53,9 @@ export function AppHeader() {
                             className="search-input"
                             placeholder="What do you want to play?"
                         />
-                        <Broswe className="icon medium" />
+                        <div className="broswe-wrapper">
+                            <Broswe className="icon medium search" />
+                        </div>
                         {/* <i className="fa-solid fa-basket-shopping"></i> */}
                     </div>
                 </div>
