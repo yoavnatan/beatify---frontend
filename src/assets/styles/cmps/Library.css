@@ -7,6 +7,13 @@
   width: 300px;
   height: 100%;
 }
+.library:hover .collapse-library  {
+  opacity: 1;
+  transform: translateX(0px);
+}
+.library:hover .library-header h1 {
+  transform: translateX(0px);
+}
 
 
 .library-header {
@@ -22,6 +29,20 @@
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-tight);
   color: var(--sp-white);
+  transform: translateX(-20px);
+  transition: transform 0.3s ease;
+}
+.collapse-library {
+  width: var(--fs-body);
+  fill: var(--sp-gray);
+  cursor: pointer;
+  transition: fill 0.2s ease;
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: transform 0.3s ease;
+}
+.collapse-library:hover {
+  fill: var(--sp-white);
 }
 
 .header-actions {
@@ -190,4 +211,32 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.tooltip::after {
+  content: "Collapse library";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+}
+
+.tooltip::after {
+  content: "Search your library";
+  position: absolute;
+  top: -30px;
+  right: 50%;
+  transform: translateX(-50%);
+  background: var(--sp-card);
+  color: var(--sp-white);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+}
+
 

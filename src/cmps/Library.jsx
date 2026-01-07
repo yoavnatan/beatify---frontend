@@ -2,6 +2,7 @@ import { useState , useEffect} from "react"
 import { stationService } from '../services/station/station.service.js'
 import Search from "../assets/svg/search.svg?react"
 import List from "../assets/svg/list.svg?react"
+import Collapse from "../assets/svg/collapse-library.svg?react"
 
 
 
@@ -27,6 +28,7 @@ export function Library() {
         <div className="library">
 
             <div className="library-header">
+                <Collapse className="collapse-library tooltip" />
                 <h1>Your Library</h1>
                 <div className="header-actions">
                     <i className="fa-solid fa-plus"></i>
