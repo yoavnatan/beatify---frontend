@@ -19,6 +19,10 @@
   gap: 18px;
 }
 
+.logo {
+  margin-inline-end: 2em;
+}
+
 .logo img {
   width: 40px;
   filter: brightness(0) invert(1);
@@ -85,6 +89,9 @@
     outline: 2px solid white;
   }
 
+  @media (min-width: 650px) {
+    width: 474px;
+  }
 }
 
 .search-wrapper:focus-within .icon-search {
@@ -218,4 +225,21 @@
   border-radius: 50%;
   object-fit: cover;
   border: 9px solid var(--sp-dark-2);
+}
+
+.search-result.container {
+  display: none;
+}
+
+.search-wrapper:focus-within .search-result.container {
+  display: block;
+  position: absolute;
+  top: 53px;
+  right: 0;
+  width: inherit;
+  height: min-content;
+  border-radius: 10px;
+  padding: 1em;
+  background-color: var(--sp-card);
+  z-index: 1;
 }

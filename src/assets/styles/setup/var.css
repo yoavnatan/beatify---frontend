@@ -21,4 +21,5 @@
 
   --sp-green-light: color-mix(in lab, var(--sp-green), white 20%);
   --sp-gray-light: color-mix(in lab, var(--sp-gray), white 30%);
+
 }

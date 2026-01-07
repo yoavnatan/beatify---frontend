@@ -57,6 +57,7 @@ export function AppHeader() {
                         <div className="broswe-wrapper">
                             <Broswe className="icon medium" />
                         </div>
+                        <DropDownSearchMenu />
                         {/* <i className="fa-solid fa-basket-shopping"></i> */}
                     </div>
                 </div>
@@ -90,4 +91,21 @@ export function AppHeader() {
             </nav>
         </header>
     )
+}
+
+function DropDownSearchMenu() {
+    return (
+        <div className="search-result container">
+            <h3>Recent Search</h3>
+            <ul>
+                <li>Search result</li>
+                <li>Search result</li>
+                <li>Search result</li>
+                <li>Search result</li>
+                <li>Search result</li>
+                <li>Search result</li>
+            </ul>
+        </div>
+    )
+
 }
