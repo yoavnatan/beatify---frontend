@@ -11,6 +11,7 @@ import HomeActive from "../assets/svg/home-active.svg?react"
 import Search from "../assets/svg/search.svg?react"
 
 import logoImg from '../assets/img/logo_symbol.png'
+import profileImg from '../assets/img/profile-pic.jpg'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -47,21 +48,22 @@ export function AppHeader() {
                         {(location.pathname !== '/') && <Home className="icon medium" />}
                     </NavLink>
                     <div className="search-wrapper">
-                        <Search className="icon medium" />
+                        <Search className="icon medium icon-search" />
                         <input
                             type="text"
                             className="search-input"
                             placeholder="What do you want to play?"
                         />
                         <div className="broswe-wrapper">
-                            <Broswe className="icon medium search" />
+                            <Broswe className="icon medium" />
                         </div>
                         {/* <i className="fa-solid fa-basket-shopping"></i> */}
                     </div>
                 </div>
 
                 <div className="nav-right">
-                    {!user && (
+                    <img className='profile-pic' src={profileImg} alt="profile-picture" />
+                    {/* {!user && (
                         <NavLink to="auth/login" className="login-link">
                             Login
                         </NavLink>
@@ -82,7 +84,7 @@ export function AppHeader() {
                                 Logout
                             </button>
                         </div>
-                    )}
+                    )} */}
                 </div>
 
             </nav>

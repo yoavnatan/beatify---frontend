@@ -73,14 +73,23 @@
   align-items: center;
   gap: 10px;
   outline: transparent;
-
-
   transition: background-color .4s, outline .1s;
 
   &:hover {
     background-color: var(--sp-hover);
     outline: 1px solid var(--sp-border-hover);
   }
+
+
+  &:focus-within {
+    outline: 2px solid white;
+  }
+
+}
+
+.search-wrapper:focus-within .icon-search {
+  fill: white;
+
 }
 
 .search-wrapper i {
@@ -96,6 +105,8 @@
   color: var(--sp-white);
   font-family: var(--font-primary);
   font-size: var(--fs-small);
+
+
 }
 
 .search-input::placeholder {
@@ -199,4 +210,12 @@
   width: 1px;
   height: 24px;
   background-color: var(--sp-gray);
+}
+
+.app-header .profile-pic {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 9px solid var(--sp-dark-2);
 }
