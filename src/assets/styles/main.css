@@ -12,17 +12,14 @@
 
 @import "../styles/cmps/AppHeader.css";
 @import "../styles/cmps/AppFooter.css";
-@import "../styles/cmps/UserMsg.css";
 @import "../styles/cmps/Library.css";
 
 
 /* //Pages styles */
 
-@import "../styles/pages/AboutUs.css";
 @import "../styles/pages/HomePage.css";
 @import "../styles/pages/Chat.css";
 @import "../styles/pages/LoginSignup.css";
-@import "../styles/pages/UserDetails.css";
 @import "../styles/pages/StationIndex.css";
 
 
