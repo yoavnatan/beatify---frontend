@@ -21,6 +21,15 @@
   transform: translateX(0px);
 }
 
+.library:hover .collapse-library {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.library:hover .library-header h1 {
+  transform: translateX(0px);
+}
+
 
 .library-header {
   display: flex;
