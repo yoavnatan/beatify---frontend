@@ -12,12 +12,19 @@
         }
     }
 
+    @media (max-width:600px) {}
+
 }
 
 main {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 10px;
+
+    @media (max-width:600px) {
+        grid-template-columns: auto;
+        margin-top: 75px;
+    }
 }
 
 .sample-grid-layout {
@@ -48,22 +55,5 @@ main {
 
     >*:not(.full) {
         background-color: var(--clr4);
-    }
-}
-
-.grid-container {
-    display: grid;
-    /* grid-template-columns: repeat(4, 1fr); */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 10px;
-
-    >article {
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        padding: 2rem;
-        text-align: center;
-        display: grid;
-        grid-template-rows: subgrid;
-        grid-row: span 3;
     }
 }
