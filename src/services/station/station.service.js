@@ -10,7 +10,8 @@ export const stationService = {
     getById,
     save,
     remove,
-    addStationMsg
+    addStationMsg,
+    _getStations
 }
 window.cs = stationService
 
