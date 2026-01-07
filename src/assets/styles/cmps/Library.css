@@ -24,6 +24,7 @@
 .library:hover .collapse-library {
   opacity: 1;
   transform: translateX(0px);
+  transition: transform 0.3s, opacity 0.1s .1s;
 }
 
 .library:hover .library-header h1 {
@@ -45,7 +46,7 @@
   letter-spacing: var(--ls-tight);
   color: var(--sp-white);
   transform: translateX(-20px);
-  transition: transform 0.3s ease;
+  transition: 0.3s ease;
   cursor: pointer;
   margin: 0;
 }
@@ -57,7 +58,7 @@
   transition: fill 0.2s ease;
   opacity: 0;
   transform: translateX(-40px);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.1s;
 }
 
 .collapse-library:hover {
