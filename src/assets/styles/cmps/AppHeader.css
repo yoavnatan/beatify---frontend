@@ -1,6 +1,6 @@
 .app-header {
   background-color: var(--sp-dark);
-  padding: .02em 20px;
+  padding: .5em 20px;
   color: var(--sp-white);
   background-color: var(--app-background);
   font-family: var(--font-primary);
@@ -19,8 +19,12 @@
   gap: 18px;
 }
 
+.logo {
+  margin-inline-end: 2em;
+}
+
 .logo img {
-  height: 4em;
+  width: 40px;
   filter: brightness(0) invert(1);
 
 }
@@ -68,10 +72,31 @@
   width: 380px;
   background-color: var(--sp-card);
   border-radius: 500px;
-  padding: 8px 14px;
+  padding: 11px 14px;
   display: flex;
   align-items: center;
   gap: 10px;
+  outline: transparent;
+  transition: background-color .4s, outline .1s;
+
+  &:hover {
+    background-color: var(--sp-hover);
+    outline: 1px solid var(--sp-border-hover);
+  }
+
+
+  &:focus-within {
+    outline: 2px solid white;
+  }
+
+  @media (min-width: 650px) {
+    width: 474px;
+  }
+}
+
+.search-wrapper:focus-within .icon-search {
+  fill: white;
+
 }
 
 .search-wrapper i {
@@ -87,6 +112,8 @@
   color: var(--sp-white);
   font-family: var(--font-primary);
   font-size: var(--fs-small);
+
+
 }
 
 .search-input::placeholder {
@@ -153,4 +180,66 @@
   background-color: var(--sp-hover);
   border-color: var(--sp-white);
   color: var(--sp-white);
+}
+
+.icon-home {
+  display: flex;
+  justify-content: center;
+  background-color: var(--sp-card);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  transition: background-color .4s;
+
+
+
+  &:hover {
+    transform: scale(1.04);
+    transition: none;
+    background-color: var(--sp-hover);
+
+  }
+
+}
+
+.broswe-wrapper {
+  position: relative;
+  height: 24px;
+
+}
+
+.broswe-wrapper::before {
+  content: '';
+  position: absolute;
+
+  top: 0;
+  left: -12px;
+  width: 1px;
+  height: 24px;
+  background-color: var(--sp-gray);
+}
+
+.app-header .profile-pic {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 9px solid var(--sp-dark-2);
+}
+
+.search-result.container {
+  display: none;
+}
+
+.search-wrapper:focus-within .search-result.container {
+  display: block;
+  position: absolute;
+  top: 53px;
+  right: 0;
+  width: inherit;
+  height: min-content;
+  border-radius: 10px;
+  padding: 1em;
+  background-color: var(--sp-card);
+  z-index: 1;
 }
