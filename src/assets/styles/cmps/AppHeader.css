@@ -1,6 +1,6 @@
 .app-header {
   background-color: var(--sp-dark);
-  padding: .02em 20px;
+  padding: .5em 20px;
   color: var(--sp-white);
   background-color: var(--app-background);
   font-family: var(--font-primary);
@@ -20,7 +20,7 @@
 }
 
 .logo img {
-  height: 4em;
+  width: 40px;
   filter: brightness(0) invert(1);
 
 }
@@ -68,10 +68,19 @@
   width: 380px;
   background-color: var(--sp-card);
   border-radius: 500px;
-  padding: 8px 14px;
+  padding: 11px 14px;
   display: flex;
   align-items: center;
   gap: 10px;
+  outline: transparent;
+
+
+  transition: background-color .4s, outline .1s;
+
+  &:hover {
+    background-color: var(--sp-hover);
+    outline: 1px solid var(--sp-border-hover);
+  }
 }
 
 .search-wrapper i {
@@ -153,4 +162,22 @@
   background-color: var(--sp-hover);
   border-color: var(--sp-white);
   color: var(--sp-white);
+}
+
+.icon-home {
+  display: flex;
+  justify-content: center;
+  background-color: var(--sp-card);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  transition: background-color .4s;
+
+
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: var(--sp-hover);
+  }
+
 }

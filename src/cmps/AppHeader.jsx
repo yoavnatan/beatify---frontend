@@ -1,17 +1,23 @@
 import { Link, NavLink } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
 import Broswe from "../assets/svg/browse.svg?react"
 import Home from "../assets/svg/home.svg?react"
+import HomeActive from "../assets/svg/home-active.svg?react"
 import Search from "../assets/svg/search.svg?react"
 
-import logoImg from '../assets/img/logo.png'
+import logoImg from '../assets/img/logo_symbol.png'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
+    const location = useLocation();
+    console.log(location.pathname)
+
 
     async function onLogout() {
         try {
@@ -36,8 +42,9 @@ export function AppHeader() {
                 </div>
 
                 <div className="nav-center">
-                    <NavLink to="/" className="nav-icon">
-                        <Home className="icon medium" />
+                    <NavLink to="/" className="nav-icon icon-home">
+                        {(location.pathname === '/') && <HomeActive className="icon medium active" />}
+                        {(location.pathname !== '/') && <Home className="icon medium" />}
                     </NavLink>
                     <div className="search-wrapper">
                         <Search className="icon medium" />

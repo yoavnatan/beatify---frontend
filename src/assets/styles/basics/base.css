@@ -65,4 +65,8 @@ object {
     &.medium {
         width: 24px;
     }
+
+    &.active {
+        fill: white;
+    }
 }
