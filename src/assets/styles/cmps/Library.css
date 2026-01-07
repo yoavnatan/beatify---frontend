@@ -64,19 +64,6 @@
 }
 
 
-.search-toggle i {
-  color: var(--sp-gray);
-  cursor: pointer;
-  font-size: var(--fs-body);
-  transition: 0.2s;
-  margin-bottom: 10px;
-}
-
-.search-toggle i:hover {
-  color: var(--sp-white);
-}
-
-
 
 .search-row {
   display: flex;
@@ -84,17 +71,6 @@
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 16px;
-}
-
-.search-row i.fa-magnifying-glass {
-  color: var(--sp-gray);
-  cursor: pointer;
-  font-size: var(--fs-body);
-  transition: 0.2s;
-}
-
-.search-row i.fa-magnifying-glass:hover {
-  color: var(--sp-white);
 }
 
 .search-row input {
@@ -113,11 +89,23 @@
 }
 
 .search-row input.open {
-  width: 100%;
+  width: 50%;
   opacity: 1;
   padding: 8px 12px;
   transform: translateX(0);
 }
+.search-row .icon-medium {
+  width: 18px;
+  height: 18px;
+  fill: var(--sp-gray);
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.search-row .icon-medium:hover {
+  fill: var(--sp-white);
+}
+
 
 .sort-wrapper {
   display: flex;
@@ -126,6 +114,7 @@
   margin-left: 12px;
   transition: 0.3s ease;
 }
+
 
 .label-recents {
   opacity: 1;
@@ -136,13 +125,15 @@
   opacity: 0;
 }
 
-.fa-list {
-  opacity: 1;
-  transform: translateX(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.list-icon {
+  width: var(--fs-h1);
+  fill: var(--sp-gray);
+  cursor: pointer;
+  transition: fill 0.2s ease;
 }
-
-
+.list-icon:hover {
+  fill: var(--sp-white);
+}
 
 .library-list ul {
   list-style: none;
@@ -199,3 +190,4 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+

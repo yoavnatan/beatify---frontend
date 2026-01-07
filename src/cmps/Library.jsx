@@ -1,5 +1,10 @@
 import { useState , useEffect} from "react"
 import { stationService } from '../services/station/station.service.js'
+import Search from "../assets/svg/search.svg?react"
+import List from "../assets/svg/list.svg?react"
+
+
+
 
 
 export function Library() {
@@ -35,7 +40,8 @@ export function Library() {
             </div>
 
             <div className="search-row">
-                <i className="fa-solid fa-magnifying-glass" onClick={toggleSearch}></i>
+                <Search className="icon-medium" onClick={toggleSearch} />
+
 
                 <input
                     type="text"
@@ -45,7 +51,7 @@ export function Library() {
 
                 <div className="sort-wrapper">
                     <label className={`label-recents ${isSearchOpen ? "open" : ""}`}>Recents</label>
-                    <i className={`fa-solid fa-list ${isSearchOpen ? "open" : ""}`}></i>
+                    <List className="list-icon" />
                 </div>
             </div>
 
