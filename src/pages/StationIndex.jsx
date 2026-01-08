@@ -68,7 +68,7 @@ export function StationIndex() {
                     stations={stations}
                     onRemoveStation={onRemoveStation}
                     onUpdateStation={onUpdateStation} />
-                <StationCarousel stations={stations.slice(9)} />
+                <StationCarousel stations={stations} />
             </div>
         </section>
     )
