@@ -1,4 +1,4 @@
-export function LikedSongsStation(likedSongs){
+export function LikedSongsStation({likedSongs}){
     return(
         <li className="liked-songs">
         <img src="https://misc.scdn.co/liked-songs/liked-songs-300.png" />
