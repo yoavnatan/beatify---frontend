@@ -1,4 +1,6 @@
 .station-carousel {
+    position: relative;
+
     margin-top: 2em;
     color: var(--sp-white);
 
@@ -9,6 +11,7 @@
     }
 
     .list {
+
         display: flex;
         gap: 1em;
         scrollbar-width: none;
@@ -30,4 +33,40 @@
         border-radius: 5px;
     }
 
+    .arrow-left {
+        rotate: 180deg;
+
+    }
+
+    .arrow-wrapper {
+        position: absolute;
+        top: 45%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        background-color: var(--sp-card);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        transition: background-color .4s;
+
+        &.left {
+            left: 1em;
+        }
+
+        &.right {
+            right: 1em;
+        }
+
+        &:hover {
+            transform: scale(1.04);
+            transition: none;
+            background-color: var(--sp-hover);
+
+            .icon {
+                fill: white;
+            }
+        }
+
+    }
 }
