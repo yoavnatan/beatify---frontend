@@ -9,6 +9,7 @@ import { stationService } from '../services/station'
 
 import { StationList } from '../cmps/StationList.jsx'
 import { StationFilter } from '../cmps/StationFilter.jsx'
+import { StationCarousel } from '../cmps/StationCarousel.jsx'
 
 export function StationIndex() {
 
@@ -67,7 +68,7 @@ export function StationIndex() {
                     stations={stations}
                     onRemoveStation={onRemoveStation}
                     onUpdateStation={onUpdateStation} />
-
+                <StationCarousel stations={stations.slice(9)} />
             </div>
         </section>
     )

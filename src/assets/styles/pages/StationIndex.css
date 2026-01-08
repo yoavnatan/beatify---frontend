@@ -1,4 +1,6 @@
 .station-index.container {
+    display: flex;
+    flex-direction: column;
     color: var(--sp-white);
     font-family: var(--font-primary);
     background-color: var(--sp-black);
@@ -8,11 +10,11 @@
 
     header {
         height: 64px;
+        border-radius: 5px 5px 0 0;
     }
 
-    .body {
+    .body>:not(.station-carousel) {
         padding: 1em 2.3em;
-
     }
 
 }
@@ -21,7 +23,7 @@
 
     display: flex;
     gap: .6em;
-    padding: .7em 2em;
+    padding: 1em 2.2em;
 
 
     button {

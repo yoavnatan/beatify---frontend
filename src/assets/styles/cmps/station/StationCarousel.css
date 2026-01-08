@@ -1,0 +1,33 @@
+.station-carousel {
+    margin-top: 2em;
+    color: var(--sp-white);
+
+
+    h2 {
+        padding: 0 0 .5em 2em;
+
+    }
+
+    .list {
+        display: flex;
+        gap: 1em;
+        scrollbar-width: none;
+        overflow-x: scroll;
+        z-index: 99;
+        padding: 0 2.3em 0 2.3em;
+        /* width: 110%; */
+
+        h4 {
+            margin-top: .7em;
+        }
+
+    }
+
+    img {
+        width: 153px;
+        height: 153px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+}
