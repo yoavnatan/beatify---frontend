@@ -51,18 +51,24 @@ export function StationIndex() {
             showErrorMsg('Cannot update station')
         }
     }
-
+    console.log(stations)
     return (
         <section className="station-index container">
             <header>
-                <h2>Stations</h2>
+                <div className="filter-btns">
+                    <button>Playlists</button>
+                    <button>Artists</button>
+                </div>
                 {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>}
             </header>
-            {/* <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
-            <StationList
-                stations={stations}
-                onRemoveStation={onRemoveStation}
-                onUpdateStation={onUpdateStation} />
+            <div className="body">
+                {/* <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
+                <StationList
+                    stations={stations}
+                    onRemoveStation={onRemoveStation}
+                    onUpdateStation={onUpdateStation} />
+
+            </div>
         </section>
     )
 }

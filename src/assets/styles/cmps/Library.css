@@ -107,7 +107,7 @@
 
 .library-filter {
   display: flex;
-  gap: 8px;
+  gap: .2em;
   margin-bottom: 16px;
 }
 

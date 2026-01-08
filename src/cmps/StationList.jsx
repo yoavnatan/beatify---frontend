@@ -12,8 +12,9 @@ export function StationList({ stations, onRemoveStation, onUpdateStation }) {
     }
 
     return <section>
-        <ul className="station-list">
-            {stations.map(station =>
+
+        <ul className="station-list container">
+            {stations.slice(0, 8).map(station =>
                 <li key={station._id}>
                     <StationPreview station={station} />
                     {shouldShowActionBtns(station) && <div className="actions">

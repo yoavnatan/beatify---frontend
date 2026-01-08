@@ -21,7 +21,6 @@
 
 .logo {
   margin-inline-end: 2em;
-
 }
 
 .logo img {
@@ -98,7 +97,7 @@
   @media (max-width: 600px) {
     position: absolute;
     top: 80px;
-    width: 90vw;
+    /* width: 90vw; */
     background-color: white;
     border-radius: 3px;
   }

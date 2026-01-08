@@ -1,9 +1,44 @@
 .station-index.container {
-    padding: 16px;
     color: var(--sp-white);
     font-family: var(--font-primary);
     background-color: var(--sp-black);
     border-radius: 8px;
     height: 100%;
+
+    header {
+        height: 64px;
+    }
+
+    .body {
+        padding: 1em 2.3em;
+
+    }
+
+}
+
+.station-index .filter-btns {
+
+    display: flex;
+    gap: .6em;
+    padding: .7em 2em;
+
+
+    button {
+        background-color: var(--sp-card);
+        color: var(--sp-white);
+        border: none;
+        padding: 10px 14px;
+        margin: 0;
+        border-radius: 20px;
+        font-size: var(--fs-small);
+        font-family: var(--font-primary);
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background-color: var(--sp-hover);
+    }
+
 
 }

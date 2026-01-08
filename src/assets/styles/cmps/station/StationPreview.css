@@ -1,13 +1,30 @@
 .station-preview {
-    color: var(--gray2);
+    display: flex;
+    align-items: center;
+    color: var(--sp-white);
+    background-color: var(--sp-card-transparent);
+    height: 48px;
+    border-radius: 5px;
+    min-width: 173px;
+    cursor: pointer;
+    transition: background-color .3s;
 
-    >header {
-        font-size: 1.2em;
-        color: var(--gray1);
+    img {
+        cursor: auto;
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
     }
 
-    & p {
-        margin-block: 0 0.2rem;
-        font-size: .9em;
+    h3 {
+        margin: 0;
+        padding-left: .8em;
+        padding-right: 2em;
+
     }
+
+    &:hover {
+        background-color: var(--sp-hover-transparent);
+    }
+
 }

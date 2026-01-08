@@ -5,8 +5,7 @@ import { StationIndex } from "./StationIndex"
 
 export function HomePage() {
     return (
-        <div className="home">
-            {/* <Library />    */}
+        <div className="home container">
             <StationIndex />
         </div>
     )
