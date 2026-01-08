@@ -1,5 +1,6 @@
 import { useState , useEffect} from "react"
 import { stationService } from '../services/station/station.service.js'
+import { LikedSongsStation } from "./LikedSongsStation.jsx"
 import Search from "../assets/svg/search.svg?react"
 import List from "../assets/svg/list.svg?react"
 import Collapse from "../assets/svg/collapse-library.svg?react"
@@ -12,9 +13,13 @@ import Expend from "../assets/svg/expand-side-bar.svg?react"
 
 
 
+
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [stations, setStations] = useState([])
+    const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
+
+    console.log('stations', stations);
 
     function toggleSearch() {
         setIsSearchOpen(prev => !prev)
@@ -76,6 +81,7 @@ export function Library() {
 
             <section className="library-list">
             <ul>
+                <LikedSongsStation likedSongs={likedSongs}/>
                 {stations.slice(0, 4).map(station => (
                 <li key={station._id}>
                     <img src={station.songs[0]?.imgUrl} alt={station.name} />
@@ -94,5 +100,6 @@ export function Library() {
         </div>
     )
 }
+
 
         
