@@ -48,14 +48,17 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        transition: background-color .4s;
+        opacity: 0;
+        transition: background-color .4s, opacity .1s;
+
 
         &.left {
-            left: 1em;
+            left: 0;
+
         }
 
         &.right {
-            right: 1em;
+            right: 0;
         }
 
         &:hover {
@@ -68,5 +71,18 @@
             }
         }
 
+    }
+
+    &:hover .arrow-wrapper {
+        opacity: 1;
+
+        &.left {
+            left: 1em;
+
+        }
+
+        &.right {
+            right: 1em;
+        }
     }
 }

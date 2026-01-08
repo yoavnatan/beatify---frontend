@@ -1,36 +1,52 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Arrow from "../assets/svg/nav-arrow.svg?react"
 
 export function StationCarousel({ stations }) {
     const listRef = useRef()
 
+    const [showLeftArrow, setShowLeftArrow] = useState(false)
+    const [showRightArrow, setShowRightArrow] = useState(true)
 
     useEffect(() => {
-        // listRef.current.scrollTo(0, 0)
+        listRef.current.addEventListener('scroll', onScrollEvent)
+
+        return () => listRef.current.removeEventListener('scroll', onScrollEvent)
+
     }, [])
 
-
+    function onScrollEvent() {
+        setShowLeftArrow(true)
+        setShowRightArrow(true)
+        if (listRef.current.scrollLeft + listRef.current.offsetWidth + 1 >= listRef.current.scrollWidth) setShowRightArrow(false)
+        if (listRef.current.scrollLeft === 0) setShowLeftArrow(false)
+    }
     function scrollCarousel(side) {
-        if (side === 'right') listRef.current.scrollBy({
-            left: 350,
-            behavior: 'smooth'
-        })
-        else listRef.current.scrollBy({
-            left: -330,
-            behavior: 'smooth'
-        })
+        if (side === 'right') {
+            listRef.current.scrollBy({
+                left: 350,
+                behavior: 'smooth'
+            })
+        }
+        else {
+            listRef.current.scrollBy({
+                left: -350,
+                behavior: 'smooth'
+            })
+        }
+
 
     }
 
+
     return (
-        <section className="station-carousel">
+        <section className="station-carousel" >
             <h2>More of your taste</h2>
-            <div className="arrow-wrapper left" onClick={() => scrollCarousel('left')} >
+            {showLeftArrow && <div className="arrow-wrapper left " onClick={() => scrollCarousel('left')}  >
                 <Arrow className="icon small arrow-left" />
-            </div>
-            <div className="arrow-wrapper right" onClick={() => scrollCarousel('right')}>
+            </div>}
+            {showRightArrow && <div className="arrow-wrapper right " onClick={() => scrollCarousel('right')}>
                 <Arrow className="icon small arrow-right" />
-            </div>
+            </div>}
             <ul ref={listRef} className="list">
                 {stations.map(station =>
                     <li key={station._id} className="item">
