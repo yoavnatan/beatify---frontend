@@ -62,6 +62,14 @@ object {
         fill: var(--sp-white)
     }
 
+    &.black {
+        fill: black;
+    }
+
+    &.small {
+        width: 16px;
+    }
+
     &.medium {
         width: 24px;
     }

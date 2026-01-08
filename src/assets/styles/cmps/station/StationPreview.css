@@ -1,4 +1,5 @@
 .station-preview {
+    position: relative;
     display: flex;
     align-items: center;
     color: var(--sp-white);
@@ -23,8 +24,34 @@
 
     }
 
+    .btn-play {
+        display: none;
+
+    }
+
     &:hover {
         background-color: var(--sp-hover-transparent);
+
+        .btn-play {
+            display: block;
+            position: absolute;
+            right: 10px;
+            background-color: var(--sp-green);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: grid;
+            place-content: center;
+            box-shadow: 0 8px 8px rgba(0, 0, 0, .3);
+            transition: none;
+
+            &:hover {
+                transform: scale(1.04);
+
+            }
+        }
     }
+
+
 
 }

@@ -56,8 +56,8 @@ export function StationIndex() {
         <section className="station-index container">
             <header>
                 <div className="filter-btns">
-                    <button>Playlists</button>
-                    <button>Artists</button>
+                    <button>All</button>
+                    <button>Music</button>
                 </div>
                 {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>}
             </header>
