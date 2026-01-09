@@ -1,5 +1,7 @@
 .general-layout {
     display: grid;
+    max-width: 100vw;
+    overflow-x: hidden;
     grid-template-columns: .8rem 1fr .8rem;
     grid-template-rows: auto 1fr;
     height: 100dvh;
@@ -16,16 +18,28 @@
 
 }
 
+
 main {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 10px;
-
+    grid-template-columns: auto 6px 1fr;
+    gap: 4px;
+    max-width: 100%;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
     @media (max-width:600px) {
         grid-template-columns: auto;
         margin-top: 75px;
     }
 }
+.main-content {
+    width: 100%;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+
 
 .sample-grid-layout {
     display: grid;

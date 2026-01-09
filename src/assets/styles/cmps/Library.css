@@ -276,7 +276,6 @@
     opacity: 0;
     pointer-events: none;
     white-space: nowrap;
-
     transition: opacity 0.2s ease;
     transition-delay: 0s; 
   }
