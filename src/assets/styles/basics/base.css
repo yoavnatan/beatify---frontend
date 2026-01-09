@@ -71,6 +71,10 @@ object {
         width: 16px;
     }
 
+    &.small-medium {
+        width: 20px;
+    }
+
     &.medium {
         width: 24px;
     }

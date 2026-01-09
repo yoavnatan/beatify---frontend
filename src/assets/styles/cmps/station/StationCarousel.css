@@ -10,10 +10,19 @@
 
     }
 
+    .description {
+
+        font-size: 12px;
+        color: var(--sp-gray);
+        margin-top: 1em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .list {
 
         display: flex;
-        gap: 1em;
         scrollbar-width: none;
         overflow-x: scroll;
         z-index: 99;
@@ -49,6 +58,7 @@
         height: 32px;
         border-radius: 50%;
         opacity: 0;
+        z-index: 1;
         transition: background-color .4s, opacity .1s;
 
 
@@ -84,5 +94,47 @@
         &.right {
             right: 1em;
         }
+    }
+
+    .img-container {
+        position: relative;
+
+        &:hover .btn-play {
+            transform: translateY(-10px);
+            opacity: 1;
+
+
+            &:hover {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    }
+
+    .item {
+        padding: .7em;
+
+        &:hover {
+            background-color: var(--sp-carusel-hover);
+            border-radius: 8px;
+        }
+    }
+
+
+    .btn-play {
+        display: block;
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        bottom: 5px;
+        background-color: var(--sp-green);
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: grid;
+        place-content: center;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, .3);
+        opacity: 0;
+        transition: transform .1s, opacity .2s;
     }
 }
