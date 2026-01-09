@@ -4,9 +4,12 @@
   font-family: var(--font-primary);
   background-color: var(--sp-black);
   border-radius: 8px;
-  width: 300px;
+  width: 100%;
   height: 100%;
+  overflow: hidden; 
 }
+
+
 .library:hover .collapse-library  {
   opacity: 1;
   transform: translateX(0px);
