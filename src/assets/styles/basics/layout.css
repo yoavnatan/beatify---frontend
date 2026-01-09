@@ -24,28 +24,6 @@ main {
     overflow-y: auto;
 }
 
-
-.library-wrapper {
-    overflow: hidden;
-    background: var(--sp-black);
-    border-radius: 8px;
-}
-.resize-handle {
-    width: 6px;
-    cursor: grab;
-    background-color: transparent;
-    transition: background-color 0.2s ease;
-}
-
-.resize-handle:hover {
-    background-color: white;
-    opacity: 0.4;
-}
-
-.resize-handle:active {
-    cursor: grabbing;
-}
-
 .sample-grid-layout {
     display: grid;
     grid-template-columns: 12px 1fr 12px;

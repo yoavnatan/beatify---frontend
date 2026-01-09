@@ -27,9 +27,18 @@ export function RootCmp() {
 
         function onMouseMove(e) {
             const newWidth = startWidth + (e.clientX - startX)
-            const clamped = Math.max(70, Math.min(500, newWidth))
+
+            if (newWidth < 280) {
+                main.style.setProperty("--sidebar-width", `72px`)
+                main.classList.add("sidebar-collapsed")
+                return
+            }
+
+            main.classList.remove("sidebar-collapsed")
+            const clamped = Math.min(340, newWidth)
             main.style.setProperty("--sidebar-width", `${clamped}px`)
         }
+
 
         function onMouseUp() {
             document.removeEventListener("mousemove", onMouseMove)
