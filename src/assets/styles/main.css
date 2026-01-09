@@ -1,6 +1,7 @@
 /* // Setup styles */
 @import "../styles/setup/typography.css";
 @import "../styles/setup/var.css";
+@import "../styles/setup/animations.css";
 
 /* // Basic styles */
 @import "../styles/basics/base.css";
@@ -13,6 +14,7 @@
 @import "../styles/cmps/AppHeader.css";
 @import "../styles/cmps/AppFooter.css";
 @import "../styles/cmps/Library.css";
+@import "../styles/cmps/Loader.css";
 
 
 /* //Pages styles */

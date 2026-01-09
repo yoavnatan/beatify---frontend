@@ -7,12 +7,12 @@ export function StationCarousel({ stations }) {
     const [showLeftArrow, setShowLeftArrow] = useState(false)
     const [showRightArrow, setShowRightArrow] = useState(true)
 
-    useEffect(() => {
-        listRef.current.addEventListener('scroll', onScrollEvent)
+    // useEffect(() => {
+    //     listRef.current.addEventListener('scroll', onScrollEvent)
 
-        return () => listRef.current.removeEventListener('scroll', onScrollEvent)
+    //     return () => listRef.current.removeEventListener('scroll', onScrollEvent)
 
-    }, [])
+    // }, [])
 
     function onScrollEvent() {
         setShowLeftArrow(true)
@@ -47,7 +47,7 @@ export function StationCarousel({ stations }) {
             {showRightArrow && <div className="arrow-wrapper right " onClick={() => scrollCarousel('right')}>
                 <Arrow className="icon small arrow-right" />
             </div>}
-            <ul ref={listRef} className="list">
+            <ul ref={listRef} className="list" onScroll={onScrollEvent}>
                 {stations.map(station =>
                     <li key={station._id} className="item">
                         <img src={station.songs[0]?.imgUrl} alt={station.name} />
