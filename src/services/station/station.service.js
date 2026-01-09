@@ -115,107 +115,10 @@ function _getStations() {
             ]
         },
 
-        {
-            _id: 'st002',
-            name: 'Israeli Classics',
-            tags: ['Israeli', 'Classic', 'Nostalgia'],
-            createdBy: { _id: 'u101', fullname: 'Yoav' },
-            likedByUsers: [],
-            songs: [
-                { id: '3K8mJ7FJ9zM', title: 'שלום חנוך - מחכים למשיח', embedUrl: 'https://www.youtube.com/embed/3K8mJ7FJ9zM', imgUrl: 'https://img.youtube.com/vi/3K8mJ7FJ9zM/hqdefault.jpg' },
-                { id: '9Zy8C5h7mCk', title: 'כוורת - נתתי לה חיי', embedUrl: 'https://www.youtube.com/embed/9Zy8C5h7mCk', imgUrl: 'https://img.youtube.com/vi/9Zy8C5h7mCk/hqdefault.jpg' },
-                { id: 'qz5t6q5X7Ew', title: 'אריק איינשטיין - אני ואתה', embedUrl: 'https://www.youtube.com/embed/qz5t6q5X7Ew', imgUrl: 'https://img.youtube.com/vi/qz5t6q5X7Ew/hqdefault.jpg' },
-                { id: 'G8QYq8JrjXQ', title: 'מאיר אריאל - לא יכול להוריד ממך את העיניים', embedUrl: 'https://www.youtube.com/embed/G8QYq8JrjXQ', imgUrl: 'https://img.youtube.com/vi/G8QYq8JrjXQ/hqdefault.jpg' },
-                { id: 'xk3BvNLeNgw', title: 'משינה - רכבת לילה', embedUrl: 'https://www.youtube.com/embed/xk3BvNLeNgw', imgUrl: 'https://img.youtube.com/vi/xk3BvNLeNgw/hqdefault.jpg' },
-                { id: 'Z6pV7z5Z8Ls', title: 'שלמה ארצי - ירח', embedUrl: 'https://www.youtube.com/embed/Z6pV7z5Z8Ls', imgUrl: 'https://img.youtube.com/vi/Z6pV7z5Z8Ls/hqdefault.jpg' },
-                { id: 'L3wKzyIN1yk', title: 'יהודית רביץ - מישהו', embedUrl: 'https://www.youtube.com/embed/L3wKzyIN1yk', imgUrl: 'https://img.youtube.com/vi/L3wKzyIN1yk/hqdefault.jpg' },
-                { id: 'Ckom3gf57Yw', title: 'עפרה חזה - חי', embedUrl: 'https://www.youtube.com/embed/Ckom3gf57Yw', imgUrl: 'https://img.youtube.com/vi/Ckom3gf57Yw/hqdefault.jpg' },
-                { id: 'YcY7ZzR5bQY', title: 'אביתר בנאי - עד מחר', embedUrl: 'https://www.youtube.com/embed/YcY7ZzR5bQY', imgUrl: 'https://img.youtube.com/vi/YcY7ZzR5bQY/hqdefault.jpg' },
-                { id: 'd9J6H1yP8x8', title: 'ברי סחרוף - חלליות', embedUrl: 'https://www.youtube.com/embed/d9J6H1yP8x8', imgUrl: 'https://img.youtube.com/vi/d9J6H1yP8x8/hqdefault.jpg' },
-                { id: '5zNnZ3zRk0A', title: 'אהוד בנאי - היום', embedUrl: 'https://www.youtube.com/embed/5zNnZ3zRk0A', imgUrl: 'https://img.youtube.com/vi/5zNnZ3zRk0A/hqdefault.jpg' },
-                { id: '0P5yD8pYw4Y', title: 'ריטה - בוא', embedUrl: 'https://www.youtube.com/embed/0P5yD8pYw4Y', imgUrl: 'https://img.youtube.com/vi/0P5yD8pYw4Y/hqdefault.jpg' },
-                { id: 'yN9cQ9cY3yA', title: 'פורטיסחרוף - אביב', embedUrl: 'https://www.youtube.com/embed/yN9cQ9cY3yA', imgUrl: 'https://img.youtube.com/vi/yN9cQ9cY3yA/hqdefault.jpg' },
-                { id: '6zT4YkZc5kA', title: 'גזוז - מישהו חולם עליך', embedUrl: 'https://www.youtube.com/embed/6zT4YkZc5kA', imgUrl: 'https://img.youtube.com/vi/6zT4YkZc5kA/hqdefault.jpg' },
-                { id: 'r6zK6bZfR1M', title: 'דני סנדרסון - זה הכל בשבילך', embedUrl: 'https://www.youtube.com/embed/r6zK6bZfR1M', imgUrl: 'https://img.youtube.com/vi/r6zK6bZfR1M/hqdefault.jpg' }
-            ]
-        },
+
 
         {
             _id: 'st003',
-            name: 'Global Pop',
-            tags: ['Pop', 'Hits'],
-            createdBy: { _id: 'u101', fullname: 'Yoav' },
-            likedByUsers: [],
-            songs: [
-                { id: 'JGwWNGJdvx8', title: 'Ed Sheeran - Shape of You', embedUrl: 'https://www.youtube.com/embed/JGwWNGJdvx8', imgUrl: 'https://img.youtube.com/vi/JGwWNGJdvx8/hqdefault.jpg' },
-                { id: 'kJQP7kiw5Fk', title: 'Luis Fonsi - Despacito', embedUrl: 'https://www.youtube.com/embed/kJQP7kiw5Fk', imgUrl: 'https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg' },
-                { id: 'OPf0YbXqDm0', title: 'Mark Ronson - Uptown Funk', embedUrl: 'https://www.youtube.com/embed/OPf0YbXqDm0', imgUrl: 'https://img.youtube.com/vi/OPf0YbXqDm0/hqdefault.jpg' },
-                { id: 'YQHsXMglC9A', title: 'Adele - Hello', embedUrl: 'https://www.youtube.com/embed/YQHsXMglC9A', imgUrl: 'https://img.youtube.com/vi/YQHsXMglC9A/hqdefault.jpg' },
-                { id: 'RgKAFK5djSk', title: 'Wiz Khalifa - See You Again', embedUrl: 'https://www.youtube.com/embed/RgKAFK5djSk', imgUrl: 'https://img.youtube.com/vi/RgKAFK5djSk/hqdefault.jpg' },
-                { id: 'SlPhMPnQ58k', title: 'Taylor Swift - Blank Space', embedUrl: 'https://www.youtube.com/embed/SlPhMPnQ58k', imgUrl: 'https://img.youtube.com/vi/SlPhMPnQ58k/hqdefault.jpg' },
-                { id: 'nfWlot6h_JM', title: 'Taylor Swift - Shake It Off', embedUrl: 'https://www.youtube.com/embed/nfWlot6h_JM', imgUrl: 'https://img.youtube.com/vi/nfWlot6h_JM/hqdefault.jpg' },
-                { id: '2Vv-BfVoq4g', title: 'Ed Sheeran - Perfect', embedUrl: 'https://www.youtube.com/embed/2Vv-BfVoq4g', imgUrl: 'https://img.youtube.com/vi/2Vv-BfVoq4g/hqdefault.jpg' },
-                { id: '09R8_2nJtjg', title: 'Maroon 5 - Sugar', embedUrl: 'https://www.youtube.com/embed/09R8_2nJtjg', imgUrl: 'https://img.youtube.com/vi/09R8_2nJtjg/hqdefault.jpg' },
-                { id: 'fRh_vgS2dFE', title: 'Justin Bieber - Sorry', embedUrl: 'https://www.youtube.com/embed/fRh_vgS2dFE', imgUrl: 'https://img.youtube.com/vi/fRh_vgS2dFE/hqdefault.jpg' },
-                { id: 'lp-EO5I60KA', title: 'Katy Perry - Roar', embedUrl: 'https://www.youtube.com/embed/lp-EO5I60KA', imgUrl: 'https://img.youtube.com/vi/lp-EO5I60KA/hqdefault.jpg' },
-                { id: 'CevxZvSJLk8', title: 'Katy Perry - Dark Horse', embedUrl: 'https://www.youtube.com/embed/CevxZvSJLk8', imgUrl: 'https://img.youtube.com/vi/CevxZvSJLk8/hqdefault.jpg' },
-                { id: 'e-ORhEE9VVg', title: 'Taylor Swift - Style', embedUrl: 'https://www.youtube.com/embed/e-ORhEE9VVg', imgUrl: 'https://img.youtube.com/vi/e-ORhEE9VVg/hqdefault.jpg' },
-                { id: 'uelHwf8o7_U', title: 'Eminem - Love The Way You Lie', embedUrl: 'https://www.youtube.com/embed/uelHwf8o7_U', imgUrl: 'https://img.youtube.com/vi/uelHwf8o7_U/hqdefault.jpg' },
-                { id: 'KQ6zr6kCPj8', title: 'Bruno Mars - Just The Way You Are', embedUrl: 'https://www.youtube.com/embed/KQ6zr6kCPj8', imgUrl: 'https://img.youtube.com/vi/KQ6zr6kCPj8/hqdefault.jpg' }
-            ]
-        },
-        {
-            _id: 'st101',
-            name: 'Indie Chill',
-            tags: ['Indie', 'Chill', 'Alternative'],
-            createdBy: { _id: 'u101', fullname: 'Yoav' },
-            likedByUsers: [],
-            songs: [
-                { id: 'wXhTHyIgQ_U', title: 'Arctic Monkeys - Do I Wanna Know?', embedUrl: 'https://www.youtube.com/embed/wXhTHyIgQ_U', imgUrl: 'https://img.youtube.com/vi/wXhTHyIgQ_U/hqdefault.jpg' },
-                { id: 'NUC2EQvdzmY', title: 'Tame Impala - The Less I Know The Better', embedUrl: 'https://www.youtube.com/embed/NUC2EQvdzmY', imgUrl: 'https://img.youtube.com/vi/NUC2EQvdzmY/hqdefault.jpg' },
-                { id: 'pXRviuL6vMY', title: 'Radiohead - Karma Police', embedUrl: 'https://www.youtube.com/embed/pXRviuL6vMY', imgUrl: 'https://img.youtube.com/vi/pXRviuL6vMY/hqdefault.jpg' },
-                { id: 'd020hcWA_Wg', title: 'alt-J - Breezeblocks', embedUrl: 'https://www.youtube.com/embed/d020hcWA_Wg', imgUrl: 'https://img.youtube.com/vi/d020hcWA_Wg/hqdefault.jpg' },
-                { id: 'IcrbM1l_BoI', title: 'Glass Animals - Heat Waves', embedUrl: 'https://www.youtube.com/embed/IcrbM1l_BoI', imgUrl: 'https://img.youtube.com/vi/IcrbM1l_BoI/hqdefault.jpg' },
-                { id: '1V_xRb0x9aw', title: 'The Strokes - Reptilia', embedUrl: 'https://www.youtube.com/embed/1V_xRb0x9aw', imgUrl: 'https://img.youtube.com/vi/1V_xRb0x9aw/hqdefault.jpg' },
-                { id: 'lBFdX37Qpnk', title: 'Bon Iver - Holocene', embedUrl: 'https://www.youtube.com/embed/lBFdX37Qpnk', imgUrl: 'https://img.youtube.com/vi/lBFdX37Qpnk/hqdefault.jpg' },
-                { id: 'KQetemT1sWc', title: 'Phoenix - Lisztomania', embedUrl: 'https://www.youtube.com/embed/KQetemT1sWc', imgUrl: 'https://img.youtube.com/vi/KQetemT1sWc/hqdefault.jpg' },
-                { id: 'fe4EK4HSPkI', title: 'MGMT - Electric Feel', embedUrl: 'https://www.youtube.com/embed/fe4EK4HSPkI', imgUrl: 'https://img.youtube.com/vi/fe4EK4HSPkI/hqdefault.jpg' },
-                { id: '0KSOMA3QBU0', title: 'Coldplay - Yellow', embedUrl: 'https://www.youtube.com/embed/0KSOMA3QBU0', imgUrl: 'https://img.youtube.com/vi/0KSOMA3QBU0/hqdefault.jpg' },
-                { id: 'bpOSxM0rNPM', title: 'Arctic Monkeys - R U Mine?', embedUrl: 'https://www.youtube.com/embed/bpOSxM0rNPM', imgUrl: 'https://img.youtube.com/vi/bpOSxM0rNPM/hqdefault.jpg' },
-                { id: 'ktvTqknDobU', title: 'Imagine Dragons - Radioactive', embedUrl: 'https://www.youtube.com/embed/ktvTqknDobU', imgUrl: 'https://img.youtube.com/vi/ktvTqknDobU/hqdefault.jpg' },
-                { id: '5NV6Rdv1a3I', title: 'Daft Punk - Get Lucky', embedUrl: 'https://www.youtube.com/embed/5NV6Rdv1a3I', imgUrl: 'https://img.youtube.com/vi/5NV6Rdv1a3I/hqdefault.jpg' },
-                { id: 'hTWKbfoikeg', title: 'Nirvana - Smells Like Teen Spirit', embedUrl: 'https://www.youtube.com/embed/hTWKbfoikeg', imgUrl: 'https://img.youtube.com/vi/hTWKbfoikeg/hqdefault.jpg' },
-                { id: 'fLexgOxsZu0', title: 'RHCP - Under The Bridge', embedUrl: 'https://www.youtube.com/embed/fLexgOxsZu0', imgUrl: 'https://img.youtube.com/vi/fLexgOxsZu0/hqdefault.jpg' }
-            ]
-        },
-
-        {
-            _id: 'st102',
-            name: 'Israeli Classics',
-            tags: ['Israeli', 'Classic', 'Nostalgia'],
-            createdBy: { _id: 'u101', fullname: 'Yoav' },
-            likedByUsers: [],
-            songs: [
-                { id: '3K8mJ7FJ9zM', title: 'שלום חנוך - מחכים למשיח', embedUrl: 'https://www.youtube.com/embed/3K8mJ7FJ9zM', imgUrl: 'https://img.youtube.com/vi/3K8mJ7FJ9zM/hqdefault.jpg' },
-                { id: '9Zy8C5h7mCk', title: 'כוורת - נתתי לה חיי', embedUrl: 'https://www.youtube.com/embed/9Zy8C5h7mCk', imgUrl: 'https://img.youtube.com/vi/9Zy8C5h7mCk/hqdefault.jpg' },
-                { id: 'qz5t6q5X7Ew', title: 'אריק איינשטיין - אני ואתה', embedUrl: 'https://www.youtube.com/embed/qz5t6q5X7Ew', imgUrl: 'https://img.youtube.com/vi/qz5t6q5X7Ew/hqdefault.jpg' },
-                { id: 'G8QYq8JrjXQ', title: 'מאיר אריאל - לא יכול להוריד ממך את העיניים', embedUrl: 'https://www.youtube.com/embed/G8QYq8JrjXQ', imgUrl: 'https://img.youtube.com/vi/G8QYq8JrjXQ/hqdefault.jpg' },
-                { id: 'xk3BvNLeNgw', title: 'משינה - רכבת לילה', embedUrl: 'https://www.youtube.com/embed/xk3BvNLeNgw', imgUrl: 'https://img.youtube.com/vi/xk3BvNLeNgw/hqdefault.jpg' },
-                { id: 'Z6pV7z5Z8Ls', title: 'שלמה ארצי - ירח', embedUrl: 'https://www.youtube.com/embed/Z6pV7z5Z8Ls', imgUrl: 'https://img.youtube.com/vi/Z6pV7z5Z8Ls/hqdefault.jpg' },
-                { id: 'L3wKzyIN1yk', title: 'יהודית רביץ - מישהו', embedUrl: 'https://www.youtube.com/embed/L3wKzyIN1yk', imgUrl: 'https://img.youtube.com/vi/L3wKzyIN1yk/hqdefault.jpg' },
-                { id: 'Ckom3gf57Yw', title: 'עפרה חזה - חי', embedUrl: 'https://www.youtube.com/embed/Ckom3gf57Yw', imgUrl: 'https://img.youtube.com/vi/Ckom3gf57Yw/hqdefault.jpg' },
-                { id: 'YcY7ZzR5bQY', title: 'אביתר בנאי - עד מחר', embedUrl: 'https://www.youtube.com/embed/YcY7ZzR5bQY', imgUrl: 'https://img.youtube.com/vi/YcY7ZzR5bQY/hqdefault.jpg' },
-                { id: 'd9J6H1yP8x8', title: 'ברי סחרוף - חלליות', embedUrl: 'https://www.youtube.com/embed/d9J6H1yP8x8', imgUrl: 'https://img.youtube.com/vi/d9J6H1yP8x8/hqdefault.jpg' },
-                { id: '5zNnZ3zRk0A', title: 'אהוד בנאי - היום', embedUrl: 'https://www.youtube.com/embed/5zNnZ3zRk0A', imgUrl: 'https://img.youtube.com/vi/5zNnZ3zRk0A/hqdefault.jpg' },
-                { id: '0P5yD8pYw4Y', title: 'ריטה - בוא', embedUrl: 'https://www.youtube.com/embed/0P5yD8pYw4Y', imgUrl: 'https://img.youtube.com/vi/0P5yD8pYw4Y/hqdefault.jpg' },
-                { id: 'yN9cQ9cY3yA', title: 'פורטיסחרוף - אביב', embedUrl: 'https://www.youtube.com/embed/yN9cQ9cY3yA', imgUrl: 'https://img.youtube.com/vi/yN9cQ9cY3yA/hqdefault.jpg' },
-                { id: '6zT4YkZc5kA', title: 'גזוז - מישהו חולם עליך', embedUrl: 'https://www.youtube.com/embed/6zT4YkZc5kA', imgUrl: 'https://img.youtube.com/vi/6zT4YkZc5kA/hqdefault.jpg' },
-                { id: 'r6zK6bZfR1M', title: 'דני סנדרסון - זה הכל בשבילך', embedUrl: 'https://www.youtube.com/embed/r6zK6bZfR1M', imgUrl: 'https://img.youtube.com/vi/r6zK6bZfR1M/hqdefault.jpg' }
-            ]
-        },
-
-        {
-            _id: 'st103',
             name: 'Global Pop',
             tags: ['Pop', 'Hits'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },

@@ -6,6 +6,7 @@
 
 html {
     height: 100dvh;
+    overscroll-behavior: none;
 }
 
 body {
@@ -60,6 +61,14 @@ object {
 
     &:hover {
         fill: var(--sp-white)
+    }
+
+    &.black {
+        fill: black;
+    }
+
+    &.small {
+        width: 16px;
     }
 
     &.medium {

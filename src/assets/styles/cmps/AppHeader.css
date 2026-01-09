@@ -82,6 +82,7 @@
   &:hover {
     background-color: var(--sp-hover);
     outline: 1px solid var(--sp-border-hover);
+
   }
 
 
@@ -89,8 +90,16 @@
     outline: 2px solid white;
   }
 
-  @media (min-width: 650px) {
+  @media (min-width: 700px) {
     width: 474px;
+  }
+
+  @media (max-width: 600px) {
+    position: absolute;
+    top: 80px;
+    /* width: 90vw; */
+    background-color: white;
+    border-radius: 3px;
   }
 }
 
@@ -113,11 +122,14 @@
   font-family: var(--font-primary);
   font-size: var(--fs-small);
 
-
 }
 
 .search-input::placeholder {
   color: var(--sp-gray);
+
+  @media (max-width: 600px) {
+    color: var(--sp-dark);
+  }
 }
 
 
@@ -200,13 +212,20 @@
 
   }
 
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 
 .broswe-wrapper {
   position: relative;
   height: 24px;
 
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
+
 
 .broswe-wrapper::before {
   content: '';

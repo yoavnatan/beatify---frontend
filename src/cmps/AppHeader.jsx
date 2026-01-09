@@ -17,8 +17,6 @@ export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
     const location = useLocation();
-    console.log(location.pathname)
-
 
     async function onLogout() {
         try {
