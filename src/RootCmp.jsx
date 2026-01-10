@@ -19,6 +19,7 @@ export function RootCmp() {
         let startWidth = 0
 
         function onMouseDown(e) {
+            if (main.classList.contains("sidebar-expend")) return  
             e.preventDefault()
             startX = e.clientX
             startWidth = parseInt(
@@ -28,6 +29,7 @@ export function RootCmp() {
             document.addEventListener("mousemove", onMouseMove)
             document.addEventListener("mouseup", onMouseUp)
         }
+
 
         function onMouseMove(e) {
             e.preventDefault()
