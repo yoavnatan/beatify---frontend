@@ -18,6 +18,7 @@ export function RootCmp() {
         let startWidth = 0
 
         function onMouseDown(e) {
+            e.preventDefault()
             startX = e.clientX
             startWidth = parseInt(getComputedStyle(main).getPropertyValue("--sidebar-width")) || 340
 
@@ -26,6 +27,7 @@ export function RootCmp() {
         }
 
         function onMouseMove(e) {
+            e.preventDefault()
             const newWidth = startWidth + (e.clientX - startX)
 
             if (newWidth < 280) {
@@ -35,9 +37,11 @@ export function RootCmp() {
             }
 
             main.classList.remove("sidebar-collapsed")
-            const clamped = Math.min(340, newWidth)
+
+            const clamped = Math.min(400, Math.max(280, newWidth))
             main.style.setProperty("--sidebar-width", `${clamped}px`)
         }
+
 
 
         function onMouseUp() {

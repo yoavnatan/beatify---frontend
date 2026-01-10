@@ -19,14 +19,13 @@
 }
 
 
-main {
+main { 
     display: grid;
-    grid-template-columns: auto 6px 1fr;
-    gap: 4px;
+    grid-template-columns: var(--sidebar-width) 6px 1fr;
+    gap: 2px;
+
     max-width: 100%;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
+    overflow: visible;
     @media (max-width:600px) {
         grid-template-columns: auto;
         margin-top: 75px;
