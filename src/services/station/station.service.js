@@ -2,6 +2,8 @@
 import { storageService } from '../async-storage.service.js'
 import { makeId, saveToStorage } from '../util.service.js'
 import { userService } from '../user'
+import { FastAverageColor } from 'fast-average-color';
+
 
 const STORAGE_KEY = 'station'
 
@@ -18,7 +20,7 @@ window.cs = stationService
 
 async function query(filterBy = { txt: '' }) {
     var stations = await storageService.query(STORAGE_KEY)
-    if (!stations || stations.length < 0) stations = await _getStations()
+    if (!stations || stations.length <= 0) stations = await _getStations()
     const { txt, sortField, sortDir, tags } = filterBy
 
     // Filter by text
@@ -88,8 +90,8 @@ async function addStationMsg(stationId, txt) {
 }
 
 
-function _getStations() {
-    const stations = [
+async function _getStations() {
+    let stations = [
 
 
         {
@@ -446,6 +448,31 @@ function _getStations() {
         }
 
     ]
+
+    stations = await _getAvgColors(stations)
+    console.log(stations)
     saveToStorage(STORAGE_KEY, stations)
     return stations
 }
+
+
+async function _getAvgColors(stations) {
+    await Promise.all(
+        stations.map(async station => {
+            const fac = new FastAverageColor()
+            try {
+                const color = await fac.getColorAsync(station.songs[0].imgUrl)
+                station.averageColor = `rgba(${[...color.value.slice(0, 3), 0.5]})`
+
+            } catch (err) {
+                console.error(err)
+                station.averageColor = 'rgba(0,0,0,1)' // fallback
+            }
+        })
+    )
+    return stations
+}
+
+
+
+

@@ -1,4 +1,4 @@
-.home{
+.home {
     margin: 0;
     height: 100%;
     overflow: hidden;
@@ -19,6 +19,7 @@
     }
 
     .gradient {
+
         background-image: linear-gradient(rgba(52, 52, 52, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
         border-radius: 8px;
 
