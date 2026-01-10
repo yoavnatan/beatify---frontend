@@ -41,7 +41,7 @@ export function StationCarousel({ stations }) {
 
     return (
         <section className="station-carousel" >
-            <h2>More of your taste</h2>
+            <h2 className="carusel-title">More of your taste</h2>
             {showLeftArrow && <div className="arrow-wrapper left " onClick={() => scrollCarousel('left')}  >
                 <Arrow className="icon small arrow-left" />
             </div>}
