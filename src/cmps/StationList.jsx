@@ -1,7 +1,9 @@
 import { userService } from '../services/user'
+import { LikedSongsStation } from './LikedSongsStation.jsx'
 import { StationPreview } from './StationPreview'
 
 export function StationList({ stations, onRemoveStation, onUpdateStation }) {
+    const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
 
     function shouldShowActionBtns(station) {
         const user = userService.getLoggedinUser()
@@ -14,7 +16,8 @@ export function StationList({ stations, onRemoveStation, onUpdateStation }) {
     return <section>
 
         <ul className="station-list container">
-            {stations.slice(0, 8).map(station =>
+            <LikedSongsStation likedSongs={likedSongs} />
+            {stations.slice(1, 8).map(station =>
                 <li key={station._id}>
                     <StationPreview station={station} />
                     {shouldShowActionBtns(station) && <div className="actions">
