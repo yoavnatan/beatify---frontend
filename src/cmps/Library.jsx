@@ -8,6 +8,7 @@ import Plus from "../assets/svg/plus.svg?react"
 import Expend from "../assets/svg/expand-side-bar.svg?react"
 import OpenLibrary from "../assets/svg/open-library.svg?react"
 import LibraryBooksShelves from "../assets/svg/library-books-shelves.svg?react"
+import MinimizeLibrary from "../assets/svg/minimize-library.svg?react"
 
 
 
@@ -31,13 +32,26 @@ export function Library() {
         const stations = await stationService._getStations()
         setStations(stations)
     }
+    function expandLibrary() {
+        const event = new CustomEvent("expand-library")
+        window.dispatchEvent(event)
+    }
+    function expandLibraryToNoramal(){
+        const event = new CustomEvent("expand-library-to-normal")
+        window.dispatchEvent(event)
+    }
+    function collapseLibrary(){
+        const event = new CustomEvent("sidebar-collapsed")
+        window.dispatchEvent(event)
+    }
+
 
     return (
         <div className="library">
 
             <div className="library-header">
-                <div className="tooltip" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library">
-                    <Collapse className="collapse-library tooltip" />
+                <div className="tooltip" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library" onClick={collapseLibrary}>
+                    <Collapse className="collapse-library tooltip"  />
                     <h1 className="tooltip">Your Library</h1>
                 </div>
 
@@ -45,10 +59,11 @@ export function Library() {
                     <div className="icon-circle tooltip" data-tip="Create a Playlist, folder or jam">
                         <Plus className="icon-plus" />
                     </div>
-                    <div className="icon-circle-expend tooltip" data-tip="Expand Your Library">
-                        <Expend className="expend-side-bar tooltip" />
+                    <div className="icon-circle-expend-wrapper tooltip" data-tip="Expand / Minimize Your Library" onClick={expandLibrary} >
+                        <Expend className="expend-side-bar tooltip"/>
+                        <MinimizeLibrary className="minimize-side-bar tooltip"/>
                     </div>
-                    <div className="library-books-wrapper tooltip" data-tip="Open Your Library">
+                    <div className="library-books-wrapper tooltip" data-tip="Open Your Library" onClick={expandLibraryToNoramal}>
                         <OpenLibrary className="open-library-icon "/>
                         <LibraryBooksShelves className="library-books-icon" />
                     </div>

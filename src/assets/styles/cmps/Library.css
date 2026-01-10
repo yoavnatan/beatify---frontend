@@ -304,11 +304,6 @@
       cursor: grabbing;
   }
 
-  .sidebar-collapsed .library-wrapper {
-      width: 72px !important;
-      min-width: 72px;
-  }
-
   .sidebar-collapsed .library-header h1,
   .sidebar-collapsed .library-filter,
   .sidebar-collapsed .search-row,
@@ -339,6 +334,9 @@
     height: 40px;
     margin: 0;
   }
+  .sidebar-collapsed .icon-circle-expend-wrapper{
+    display: none;
+  }
 
   .library-books-wrapper {
     width: var(--fs-display);
@@ -365,8 +363,7 @@
     width: var(--fs-h2); 
     fill: var(--sp-gray);
     transition: fill 0.2s ease;
-  } 
-
+  }
   .library-books-wrapper:hover .library-books-icon {
     opacity: 0;
   }
@@ -377,3 +374,48 @@
   .sidebar-collapsed .library-books-wrapper {
     display: flex;
   }
+
+
+
+
+  .icon-circle-expend-wrapper {
+    width: var(--fs-display);
+    height: var(--fs-display);
+    display: flex ;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color .2s ease;
+  }
+  .icon-circle-expend-wrapper:hover{
+    background-color: var(--sp-hover);
+  }
+  .expend-side-bar{
+    position: absolute;
+    transition: opacity 0.2s ease;
+    width: var(--fs-h2); 
+    fill: var(--sp-gray);
+    transition: fill 0.2s ease;
+  }
+  .minimize-side-bar{
+    position: absolute;
+    transition: opacity 0.2s ease;
+    width: var(--fs-h2); 
+    fill: var(--sp-gray);
+    transition: fill 0.2s ease;
+    opacity: 0;
+  }
+  .sidebar-expend .minimize-side-bar{
+    opacity: 1;
+  }
+  .sidebar-expend .expend-side-bar{
+    opacity: 0;
+  }
+
+
+  main.sidebar-expend {
+  grid-template-columns: 1fr 6px 1fr;
+}
+

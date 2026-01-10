@@ -14,13 +14,16 @@ export function RootCmp() {
     useEffect(() => {
         const handle = document.querySelector(".resize-handle")
         const main = document.querySelector("main")
+
         let startX = 0
         let startWidth = 0
 
         function onMouseDown(e) {
             e.preventDefault()
             startX = e.clientX
-            startWidth = parseInt(getComputedStyle(main).getPropertyValue("--sidebar-width")) || 340
+            startWidth = parseInt(
+                getComputedStyle(main).getPropertyValue("--sidebar-width")
+            ) || 400
 
             document.addEventListener("mousemove", onMouseMove)
             document.addEventListener("mouseup", onMouseUp)
@@ -31,7 +34,7 @@ export function RootCmp() {
             const newWidth = startWidth + (e.clientX - startX)
 
             if (newWidth < 280) {
-                main.style.setProperty("--sidebar-width", `72px`)
+                main.style.setProperty("--sidebar-width", "72px")
                 main.classList.add("sidebar-collapsed")
                 return
             }
@@ -42,8 +45,6 @@ export function RootCmp() {
             main.style.setProperty("--sidebar-width", `${clamped}px`)
         }
 
-
-
         function onMouseUp() {
             document.removeEventListener("mousemove", onMouseMove)
             document.removeEventListener("mouseup", onMouseUp)
@@ -51,7 +52,33 @@ export function RootCmp() {
 
         handle.addEventListener("mousedown", onMouseDown)
 
-        return () => handle.removeEventListener("mousedown", onMouseDown)
+        function expandLibrary() {
+            main.classList.toggle("sidebar-expend")
+            main.classList.remove("sidebar-collapsed")
+        }
+
+        function expandLibraryToNormal() {
+            main.classList.remove("sidebar-collapsed")
+            main.classList.remove("sidebar-expend")
+            main.style.setProperty("--sidebar-width", "400px")
+        }
+
+        function collapseSidebar() {
+            main.classList.add("sidebar-collapsed")
+            main.classList.remove("sidebar-expend")
+            main.style.setProperty("--sidebar-width", "72px")
+        }
+
+        window.addEventListener("sidebar-collapsed", collapseSidebar)
+        window.addEventListener("expand-library", expandLibrary)
+        window.addEventListener("expand-library-to-normal", expandLibraryToNormal)
+
+        return () => {
+            handle.removeEventListener("mousedown", onMouseDown)
+            window.removeEventListener("sidebar-collapsed", collapseSidebar)
+            window.removeEventListener("expand-library", expandLibrary)
+            window.removeEventListener("expand-library-to-normal", expandLibraryToNormal)
+        }
     }, [])
 
     return (
