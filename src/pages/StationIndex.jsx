@@ -10,11 +10,13 @@ import { stationService } from '../services/station'
 import { StationList } from '../cmps/StationList.jsx'
 import { StationFilter } from '../cmps/StationFilter.jsx'
 import { StationCarousel } from '../cmps/StationCarousel.jsx'
+import { Loader } from '../cmps/Loader.jsx'
 
 export function StationIndex() {
 
     const [filterBy, setFilterBy] = useState(stationService.getDefaultFilter())
     const stations = useSelector(storeState => storeState.stationModule.stations)
+    const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
 
     useEffect(() => {
         loadStations(filterBy)
@@ -54,22 +56,28 @@ export function StationIndex() {
     }
     console.log(stations)
     return (
-        <section className="station-index container">
-            <header>
-                <div className="filter-btns">
-                    <button>All</button>
-                    <button>Music</button>
+
+        <section className="station-index container ">
+            <Loader isLoading={isLoading}>
+                <div className="gradient">
+                    <header>
+                        <div className="filter-btns">
+                            <button>All</button>
+                            <button>Music</button>
+                        </div>
+                        {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>}
+                    </header>
+                    <div className="body">
+                        {/* <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
+                        <StationList
+                            stations={stations}
+                            onRemoveStation={onRemoveStation}
+                            onUpdateStation={onUpdateStation} />
+                        <StationCarousel stations={stations} />
+                    </div>
                 </div>
-                {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>}
-            </header>
-            <div className="body">
-                {/* <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
-                <StationList
-                    stations={stations}
-                    onRemoveStation={onRemoveStation}
-                    onUpdateStation={onUpdateStation} />
-                <StationCarousel stations={stations} />
-            </div>
+            </Loader>
         </section>
+
     )
 }
