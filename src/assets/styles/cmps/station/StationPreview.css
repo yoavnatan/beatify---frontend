@@ -1,4 +1,5 @@
-.station-preview {
+.station-preview,
+.station-list .liked-songs {
     position: relative;
     display: flex;
     align-items: center;
@@ -28,6 +29,15 @@
     .btn-play {
         display: none;
 
+    }
+
+    .station-name-preview {
+        font-size: var(--fs-small);
+        font-weight: 600;
+        color: var(--sp-white);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &:hover {

@@ -30,3 +30,9 @@
   --sp-gray-light: color-mix(in lab, var(--sp-gray), white 30%);
 
 }
+
+@property --avg-color {
+  syntax: '<color>';
+  initial-value: transparent;
+  inherits: false;
+}

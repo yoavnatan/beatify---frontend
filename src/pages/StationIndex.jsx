@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 import { loadStations, addStation, updateStation, removeStation, addStationMsg } from '../store/actions/station.actions'
@@ -14,10 +14,12 @@ import { Loader } from '../cmps/Loader.jsx'
 
 export function StationIndex() {
 
+    const [gradientColor, setGradientColor] = useState('rgba(52, 52, 52, 0.5)')
     const [filterBy, setFilterBy] = useState(stationService.getDefaultFilter())
     const stations = useSelector(storeState => storeState.stationModule.stations)
     const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
 
+    const gradientRef = useRef()
     useEffect(() => {
         loadStations(filterBy)
     }, [filterBy])
@@ -59,7 +61,12 @@ export function StationIndex() {
 
         <section className="station-index container ">
             <Loader isLoading={isLoading}>
-                <div className="gradient">
+                <div className="gradient" style={{
+                    '--avg-color': gradientColor,
+                    background: `linear-gradient(var(--avg-color)0%, rgba(0, 0, 0, 0) 50%)`,
+                    transition: '--avg-color 0.5s ease-in-out'
+
+                }}>
                     <header>
                         <div className="filter-btns">
                             <button>All</button>
@@ -72,7 +79,8 @@ export function StationIndex() {
                         <StationList
                             stations={stations}
                             onRemoveStation={onRemoveStation}
-                            onUpdateStation={onUpdateStation} />
+                            onUpdateStation={onUpdateStation}
+                            setGradientColor={setGradientColor} />
                         <StationCarousel stations={stations} />
                     </div>
                 </div>

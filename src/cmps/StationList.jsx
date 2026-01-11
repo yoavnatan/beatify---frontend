@@ -1,7 +1,9 @@
 import { userService } from '../services/user'
+import { LikedSongsStation } from './LikedSongsStation.jsx'
 import { StationPreview } from './StationPreview'
 
-export function StationList({ stations, onRemoveStation, onUpdateStation }) {
+export function StationList({ stations, onRemoveStation, onUpdateStation, setGradientColor }) {
+    const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
 
     function shouldShowActionBtns(station) {
         const user = userService.getLoggedinUser()
@@ -14,9 +16,10 @@ export function StationList({ stations, onRemoveStation, onUpdateStation }) {
     return <section>
 
         <ul className="station-list container">
-            {stations.slice(0, 8).map(station =>
+            <LikedSongsStation likedSongs={likedSongs} />
+            {stations.slice(1, 8).map(station =>
                 <li key={station._id}>
-                    <StationPreview station={station} />
+                    <StationPreview station={station} setGradientColor={setGradientColor} />
                     {shouldShowActionBtns(station) && <div className="actions">
                         <button onClick={() => onUpdateStation(station)}>Edit</button>
                         <button onClick={() => onRemoveStation(station._id)}>x</button>

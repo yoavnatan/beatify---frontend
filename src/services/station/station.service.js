@@ -2,6 +2,8 @@
 import { storageService } from '../async-storage.service.js'
 import { makeId, saveToStorage } from '../util.service.js'
 import { userService } from '../user'
+import { FastAverageColor } from 'fast-average-color';
+
 
 const STORAGE_KEY = 'station'
 
@@ -18,7 +20,7 @@ window.cs = stationService
 
 async function query(filterBy = { txt: '' }) {
     var stations = await storageService.query(STORAGE_KEY)
-    if (!stations || stations.length < 0) stations = await _getStations()
+    if (!stations || stations.length <= 0) stations = await _getStations()
     const { txt, sortField, sortDir, tags } = filterBy
 
     // Filter by text
@@ -88,9 +90,13 @@ async function addStationMsg(stationId, txt) {
 }
 
 
-function _getStations() {
-    const stations = [
+async function _getStations() {
+    let stations = [
+
+
         {
+
+
             _id: 'st001',
             name: 'Indie Chill',
             tags: ['Indie', 'Chill', 'Alternative'],
@@ -98,20 +104,20 @@ function _getStations() {
             likedByUsers: [],
             songs: [
                 { id: 'wXhTHyIgQ_U', title: 'Arctic Monkeys - Do I Wanna Know?', embedUrl: 'https://www.youtube.com/embed/wXhTHyIgQ_U', imgUrl: 'https://img.youtube.com/vi/wXhTHyIgQ_U/hqdefault.jpg', liked: true },
-                { id: 'NUC2EQvdzmY', title: 'Tame Impala - The Less I Know The Better', embedUrl: 'https://www.youtube.com/embed/NUC2EQvdzmY', imgUrl: 'https://img.youtube.com/vi/NUC2EQvdzmY/hqdefault.jpg',  liked: false  },
-                { id: 'pXRviuL6vMY', title: 'Radiohead - Karma Police', embedUrl: 'https://www.youtube.com/embed/pXRviuL6vMY', imgUrl: 'https://img.youtube.com/vi/pXRviuL6vMY/hqdefault.jpg',  liked: true  },
-                { id: 'd020hcWA_Wg', title: 'alt-J - Breezeblocks', embedUrl: 'https://www.youtube.com/embed/d020hcWA_Wg', imgUrl: 'https://img.youtube.com/vi/d020hcWA_Wg/hqdefault.jpg',  liked: false  },
-                { id: 'IcrbM1l_BoI', title: 'Glass Animals - Heat Waves', embedUrl: 'https://www.youtube.com/embed/IcrbM1l_BoI', imgUrl: 'https://img.youtube.com/vi/IcrbM1l_BoI/hqdefault.jpg',  liked: true  },
-                { id: '1V_xRb0x9aw', title: 'The Strokes - Reptilia', embedUrl: 'https://www.youtube.com/embed/1V_xRb0x9aw', imgUrl: 'https://img.youtube.com/vi/1V_xRb0x9aw/hqdefault.jpg',  liked: false  },
-                { id: 'lBFdX37Qpnk', title: 'Bon Iver - Holocene', embedUrl: 'https://www.youtube.com/embed/lBFdX37Qpnk', imgUrl: 'https://img.youtube.com/vi/lBFdX37Qpnk/hqdefault.jpg',  liked: true  },
-                { id: 'KQetemT1sWc', title: 'Phoenix - Lisztomania', embedUrl: 'https://www.youtube.com/embed/KQetemT1sWc', imgUrl: 'https://img.youtube.com/vi/KQetemT1sWc/hqdefault.jpg',  liked: false  },
-                { id: 'fe4EK4HSPkI', title: 'MGMT - Electric Feel', embedUrl: 'https://www.youtube.com/embed/fe4EK4HSPkI', imgUrl: 'https://img.youtube.com/vi/fe4EK4HSPkI/hqdefault.jpg',  liked: true  },
-                { id: '0KSOMA3QBU0', title: 'Coldplay - Yellow', embedUrl: 'https://www.youtube.com/embed/0KSOMA3QBU0', imgUrl: 'https://img.youtube.com/vi/0KSOMA3QBU0/hqdefault.jpg',  liked: false  },
-                { id: 'bpOSxM0rNPM', title: 'Arctic Monkeys - R U Mine?', embedUrl: 'https://www.youtube.com/embed/bpOSxM0rNPM', imgUrl: 'https://img.youtube.com/vi/bpOSxM0rNPM/hqdefault.jpg',  liked: true  },
-                { id: 'ktvTqknDobU', title: 'Imagine Dragons - Radioactive', embedUrl: 'https://www.youtube.com/embed/ktvTqknDobU', imgUrl: 'https://img.youtube.com/vi/ktvTqknDobU/hqdefault.jpg',  liked: false  },
-                { id: '5NV6Rdv1a3I', title: 'Daft Punk - Get Lucky', embedUrl: 'https://www.youtube.com/embed/5NV6Rdv1a3I', imgUrl: 'https://img.youtube.com/vi/5NV6Rdv1a3I/hqdefault.jpg',  liked: true  },
-                { id: 'hTWKbfoikeg', title: 'Nirvana - Smells Like Teen Spirit', embedUrl: 'https://www.youtube.com/embed/hTWKbfoikeg', imgUrl: 'https://img.youtube.com/vi/hTWKbfoikeg/hqdefault.jpg',  liked: false  },
-                { id: 'fLexgOxsZu0', title: 'RHCP - Under The Bridge', embedUrl: 'https://www.youtube.com/embed/fLexgOxsZu0', imgUrl: 'https://img.youtube.com/vi/fLexgOxsZu0/hqdefault.jpg',  liked: true  }
+                { id: 'NUC2EQvdzmY', title: 'Tame Impala - The Less I Know The Better', embedUrl: 'https://www.youtube.com/embed/NUC2EQvdzmY', imgUrl: 'https://img.youtube.com/vi/NUC2EQvdzmY/hqdefault.jpg', liked: false },
+                { id: 'pXRviuL6vMY', title: 'Radiohead - Karma Police', embedUrl: 'https://www.youtube.com/embed/pXRviuL6vMY', imgUrl: 'https://img.youtube.com/vi/pXRviuL6vMY/hqdefault.jpg', liked: true },
+                { id: 'd020hcWA_Wg', title: 'alt-J - Breezeblocks', embedUrl: 'https://www.youtube.com/embed/d020hcWA_Wg', imgUrl: 'https://img.youtube.com/vi/d020hcWA_Wg/hqdefault.jpg', liked: false },
+                { id: 'IcrbM1l_BoI', title: 'Glass Animals - Heat Waves', embedUrl: 'https://www.youtube.com/embed/IcrbM1l_BoI', imgUrl: 'https://img.youtube.com/vi/IcrbM1l_BoI/hqdefault.jpg', liked: true },
+                { id: '1V_xRb0x9aw', title: 'The Strokes - Reptilia', embedUrl: 'https://www.youtube.com/embed/1V_xRb0x9aw', imgUrl: 'https://img.youtube.com/vi/1V_xRb0x9aw/hqdefault.jpg', liked: false },
+                { id: 'lBFdX37Qpnk', title: 'Bon Iver - Holocene', embedUrl: 'https://www.youtube.com/embed/lBFdX37Qpnk', imgUrl: 'https://img.youtube.com/vi/lBFdX37Qpnk/hqdefault.jpg', liked: true },
+                { id: 'KQetemT1sWc', title: 'Phoenix - Lisztomania', embedUrl: 'https://www.youtube.com/embed/KQetemT1sWc', imgUrl: 'https://img.youtube.com/vi/KQetemT1sWc/hqdefault.jpg', liked: false },
+                { id: 'fe4EK4HSPkI', title: 'MGMT - Electric Feel', embedUrl: 'https://www.youtube.com/embed/fe4EK4HSPkI', imgUrl: 'https://img.youtube.com/vi/fe4EK4HSPkI/hqdefault.jpg', liked: true },
+                { id: '0KSOMA3QBU0', title: 'Coldplay - Yellow', embedUrl: 'https://www.youtube.com/embed/0KSOMA3QBU0', imgUrl: 'https://img.youtube.com/vi/0KSOMA3QBU0/hqdefault.jpg', liked: false },
+                { id: 'bpOSxM0rNPM', title: 'Arctic Monkeys - R U Mine?', embedUrl: 'https://www.youtube.com/embed/bpOSxM0rNPM', imgUrl: 'https://img.youtube.com/vi/bpOSxM0rNPM/hqdefault.jpg', liked: true },
+                { id: 'ktvTqknDobU', title: 'Imagine Dragons - Radioactive', embedUrl: 'https://www.youtube.com/embed/ktvTqknDobU', imgUrl: 'https://img.youtube.com/vi/ktvTqknDobU/hqdefault.jpg', liked: false },
+                { id: '5NV6Rdv1a3I', title: 'Daft Punk - Get Lucky', embedUrl: 'https://www.youtube.com/embed/5NV6Rdv1a3I', imgUrl: 'https://img.youtube.com/vi/5NV6Rdv1a3I/hqdefault.jpg', liked: true },
+                { id: 'hTWKbfoikeg', title: 'Nirvana - Smells Like Teen Spirit', embedUrl: 'https://www.youtube.com/embed/hTWKbfoikeg', imgUrl: 'https://img.youtube.com/vi/hTWKbfoikeg/hqdefault.jpg', liked: false },
+                { id: 'fLexgOxsZu0', title: 'RHCP - Under The Bridge', embedUrl: 'https://www.youtube.com/embed/fLexgOxsZu0', imgUrl: 'https://img.youtube.com/vi/fLexgOxsZu0/hqdefault.jpg', liked: true }
             ]
         },
 
@@ -442,6 +448,31 @@ function _getStations() {
         }
 
     ]
+
+    stations = await _getAvgColors(stations)
+    console.log(stations)
     saveToStorage(STORAGE_KEY, stations)
     return stations
 }
+
+
+async function _getAvgColors(stations) {
+    await Promise.all(
+        stations.map(async station => {
+            const fac = new FastAverageColor()
+            try {
+                const color = await fac.getColorAsync(station.songs[0].imgUrl)
+                station.averageColor = `rgba(${[...color.value.slice(0, 3), 0.5]})`
+
+            } catch (err) {
+                console.error(err)
+                station.averageColor = 'rgba(0,0,0,1)' // fallback
+            }
+        })
+    )
+    return stations
+}
+
+
+
+
