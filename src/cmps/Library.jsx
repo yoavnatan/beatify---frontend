@@ -1,4 +1,4 @@
-import { useState , useEffect} from "react"
+import { useState , useEffect, useRef} from "react"
 import { stationService } from '../services/station/station.service.js'
 import { LikedSongsStation } from "./LikedSongsStation.jsx"
 import Search from "../assets/svg/search.svg?react"
@@ -23,10 +23,28 @@ export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [stations, setStations] = useState([])
     const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
+    const inputRef = useRef(null);
+    const searchWrapperRef = useRef(null)
+
+
 
     useEffect(() => {
         loadStations()
     }, [])
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                searchWrapperRef.current &&
+                !searchWrapperRef.current.contains(event.target)
+            ) {
+                setIsSearchOpen(false)
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
+
 
     async function loadStations() {
         const stations = await stationService._getStations()
@@ -75,22 +93,40 @@ export function Library() {
                 <button>Artists</button>
             </div>
 
-            <div className="search-row">
-                <div className="tooltip" data-tip="Search in Your Library">
-                    <Search className="icon-medium" onClick={() => setIsSearchOpen(prev => !prev)} />
+
+            <div
+                ref={searchWrapperRef}
+                className={`search-row ${isSearchOpen ? "open" : ""}`}
+            >
+                <div className="search-input-wrapper">
+                    <Search
+                        className={`icon-medium ${isSearchOpen ? "open" : ""}`}
+                        onClick={() => {
+                            setIsSearchOpen(prev => {
+                                const next = !prev;
+                                if (!prev) {
+                                    setTimeout(() => inputRef.current?.focus(), 150);
+                                }
+                                return next;
+                            });
+                        }}
+                    />
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        placeholder="Search in Your Library"
+                        className={`search-input ${isSearchOpen ? "open" : ""}`}
+                    />
                 </div>
 
-                <input
-                    type="text"
-                    placeholder="Search in Your Library"
-                    className={isSearchOpen ? "open" : ""}
-                />
-
                 <div className="sort-wrapper">
-                    <label className={`label-recents ${isSearchOpen ? "open" : ""}`}>Recents</label>
+                    <label className={`label-recents ${isSearchOpen ? "hide" : ""}`}>
+                        Recents
+                    </label>
                     <List className="list-icon" />
                 </div>
             </div>
+
 
             <section className="library-list">
                 <ul>
