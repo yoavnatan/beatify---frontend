@@ -16,11 +16,30 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: spotify-regular;
+  src: url("../../fonts/SpotifyMixUI-Regular.woff2") format("truetype");
+}
+
+@font-face {
+  font-family: spotify-bold;
+  src: url("../../fonts/SpotifyMixUI-Bold.woff2") format("truetype");
+}
+
+@font-face {
+  font-family: spotify-title;
+  src: url("../../fonts/SpotifyMixUITitleVariable.woff2") format("truetype");
+}
+
+
+
 
 
 
 :root {
-  --font-primary: "Inter", Helvetica, Arial, sans-serif;
+  --font-primary: spotify-regular;
+  --font-bold: spotify-bold;
+
 
   --fs-display: 32px;
   --fs-h1: 24px;
@@ -72,5 +91,3 @@ p {
   font-size: var(--fs-body);
   line-height: var(--lh-normal);
 }
-
-
