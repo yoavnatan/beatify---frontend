@@ -159,9 +159,7 @@
 .search-row {
   display: flex;
   align-items: center;
-  justify-content:space-between;
-  gap: 12px;
-  width: 100%;
+  justify-content: space-between;
   position: relative;
   margin-bottom: 30px;
 }
@@ -211,8 +209,16 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-left: auto; 
+  margin-left: auto;
 }
+
+.sort-wrapper.open {
+  margin-left: 0;
+  justify-content: flex-start;
+}
+
+
+
 
 .label-recents {
   color: var(--sp-gray);
@@ -279,6 +285,8 @@
   cursor: pointer;
   transition: fill 0.2s ease;
 }
+
+
 
 .tooltip {
   position: relative;

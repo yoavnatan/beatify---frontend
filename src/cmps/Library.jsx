@@ -138,7 +138,7 @@ export function Library() {
                     />
                 </div>
 
-                <div className="sort-wrapper">
+                <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
                     <label className={`label-recents ${isSearchOpen ? "hide" : ""}`}>
                         Recents
                     </label>
