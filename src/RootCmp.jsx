@@ -43,7 +43,7 @@ export function MainLayout() {
 
             main.classList.remove("sidebar-collapsed")
 
-            const clamped = Math.min(400, Math.max(280, newWidth))
+            const clamped = Math.min(520, Math.max(280, newWidth))
             main.style.setProperty("--sidebar-width", `${clamped}px`)
         }
 
@@ -62,7 +62,7 @@ export function MainLayout() {
         function expandLibraryToNormal() {
             main.classList.remove("sidebar-collapsed")
             main.classList.remove("sidebar-expend")
-            main.style.setProperty("--sidebar-width", "400px")
+            main.style.setProperty("--sidebar-width", "280px")
         }
 
         function collapseSidebar() {

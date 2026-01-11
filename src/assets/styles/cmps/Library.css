@@ -70,7 +70,6 @@
 .icon-circle {
   width: var(--fs-display);
   height: var(--fs-display);
-  background: var(--sp-dark-2);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -84,6 +83,32 @@
   fill: currentColor;
   transition: fill 0.2s ease;
 }
+.create-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: var(--sp-black);
+  border-radius: 40px;
+}
+
+.create-btn {
+  color: var(--sp-white);
+  border: none;
+  font-size: var(--fs-small);
+  font-family: var(--font-primary);
+  transition: background-color 0.2s ease;
+  font-weight: bold;
+  margin-left: 0;
+  padding-left: 0;
+  margin: 0;
+}
+
+.create-wrapper {
+  background-color: var(--sp-hover);
+}
+
+
 
 .icon-circle:hover .icon-plus {
   fill: var(--sp-gray);
@@ -490,3 +515,5 @@
 .sidebar-expend .tooltip-title {
   pointer-events: none;
 }
+
+

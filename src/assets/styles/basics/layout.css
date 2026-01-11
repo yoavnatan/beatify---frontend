@@ -27,8 +27,7 @@ main {
     width: 100%;
     max-width: 100%;
     overflow: visible;
-    --sidebar-width: 400px;
-    transition: grid-template-columns .35s ease;
+    --sidebar-width: 280px;
     @media (max-width:600px) {
         grid-template-columns: auto;
         margin-top: 75px;

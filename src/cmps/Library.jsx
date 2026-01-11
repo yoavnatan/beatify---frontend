@@ -13,18 +13,15 @@ import MinimizeLibrary from "../assets/svg/minimize-library.svg?react"
 
 
 
-
-
-
-
-
-
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [stations, setStations] = useState([])
     const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
     const inputRef = useRef(null);
     const searchWrapperRef = useRef(null)
+    const [showCreateBtn, setShowCreateBtn] = useState(true)
+    const libraryRef = useRef(null)
+
 
 
 
@@ -44,6 +41,26 @@ export function Library() {
         document.addEventListener("mousedown", handleClickOutside)
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
+
+    useEffect(() => {
+    const observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            const width = entry.contentRect.width
+            setShowCreateBtn(width > 340)
+        }
+    })
+
+    if (libraryRef.current) {
+        observer.observe(libraryRef.current)
+    }
+
+    return () => {
+        if (libraryRef.current) {
+            observer.unobserve(libraryRef.current)
+        }
+    }
+}, [])
+
 
 
     async function loadStations() {
@@ -65,7 +82,7 @@ export function Library() {
 
 
     return (
-        <div className="library">
+        <div className="library" ref={libraryRef}>
 
             <div className="library-header">
                 <div className="tooltip-title" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library" onClick={collapseLibrary}>
@@ -74,15 +91,26 @@ export function Library() {
                 </div>
 
                 <div className="header-actions">
-                    <div className="icon-circle tooltip" data-tip="Create a Playlist, folder or jam">
-                        <Plus className="icon-plus" />
+                    <div
+                        className="create-wrapper tooltip"
+                        data-tip="Create a Playlist, folder or jam"
+                        style={showCreateBtn ? { padding: "3px 10px" } : {}}
+                    >
+                        <div className="icon-circle">
+                            <Plus className="icon-plus" />
+                        </div>
+
+                        {showCreateBtn && (
+                            <button className="create-btn">Create</button>
+                        )}
                     </div>
-                    <div className="icon-circle-expend-wrapper tooltip" data-tip="Expand / Minimize Your Library" onClick={expandLibrary} >
+                    <div className="icon-circle-expend-wrapper tooltip" data-tip="Expand / Minimize Your Library" onClick={expandLibrary}>
                         <Expend className="expend-side-bar tooltip"/>
                         <MinimizeLibrary className="minimize-side-bar tooltip"/>
                     </div>
+
                     <div className="library-books-wrapper tooltip" data-tip="Open Your Library" onClick={expandLibraryToNoramal}>
-                        <OpenLibrary className="open-library-icon "/>
+                        <OpenLibrary className="open-library-icon"/>
                         <LibraryBooksShelves className="library-books-icon" />
                     </div>
                 </div>
