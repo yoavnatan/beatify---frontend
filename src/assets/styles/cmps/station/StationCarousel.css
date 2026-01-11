@@ -6,6 +6,7 @@
 
 
     .carusel-title {
+        font-family: var(--font-bold);
         padding: 0 0 .5em 2em;
         margin: 0;
 
