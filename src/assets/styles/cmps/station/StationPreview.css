@@ -11,6 +11,7 @@
     cursor: pointer;
     transition: background-color .3s;
 
+
     img {
         cursor: auto;
         width: 48px;
@@ -64,6 +65,7 @@
     }
 
 }
+
 
 
 .skeleton-loader {

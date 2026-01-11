@@ -1,0 +1,9 @@
+main .menu {
+    display: flex;
+    flex-direction: column;
+    color: var(--sp-white);
+    font-family: var(--font-primary);
+    background-color: var(--sp-black);
+    border-radius: 8px;
+    height: 100%;
+}
