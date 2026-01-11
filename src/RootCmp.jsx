@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route, Outlet } from 'react-router'
 import { HomePage } from './pages/HomePage'
 import { StationIndex } from './pages/StationIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
@@ -9,7 +9,7 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { Library } from './cmps/Library.jsx'
 import { useEffect } from 'react'
 
-export function RootCmp() {
+export function MainLayout() {
 
     useEffect(() => {
         const handle = document.querySelector(".resize-handle")
@@ -19,7 +19,7 @@ export function RootCmp() {
         let startWidth = 0
 
         function onMouseDown(e) {
-            if (main.classList.contains("sidebar-expend")) return  
+            if (main.classList.contains("sidebar-expend")) return
             e.preventDefault()
             startX = e.clientX
             startWidth = parseInt(
@@ -84,7 +84,7 @@ export function RootCmp() {
     }, [])
 
     return (
-        <section className="general-layout">
+        <section className="general-layout main-layout">
             <AppHeader />
 
             <main>
@@ -95,20 +95,33 @@ export function RootCmp() {
                 <div className="resize-handle"></div>
 
                 <section className="main-content">
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/station" element={<StationIndex />} />
-                        <Route path="/station/:stationId" element={<StationDetails />} />
-                        <Route path="/chat" element={<ChatApp />} />
-                        <Route path="/auth" element={<LoginSignup />}>
-                            <Route path="login" element={<Login />} />
-                            <Route path="signup" element={<Signup />} />
-                        </Route>
-                    </Routes>
+                    <Outlet />
                 </section>
             </main>
 
             <AppFooter />
         </section>
+    )
+}
+
+
+export function RootCmp() {
+    return (
+
+        <Routes>
+            <Route path="auth" element={<LoginSignup />}>
+                <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
+            </Route>
+
+            <Route element={<MainLayout />}>
+                <Route path="" element={<HomePage />} />
+                <Route path="station" element={<StationIndex />} />
+                <Route path="station/:stationId" element={<StationDetails />} />
+                <Route path="chat" element={<ChatApp />} />
+            </Route>
+
+        </Routes>
+
     )
 }
