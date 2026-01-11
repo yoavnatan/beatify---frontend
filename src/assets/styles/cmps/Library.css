@@ -481,15 +481,12 @@
 }
 
 
-main.sidebar-expend {
-  grid-template-columns: 1fr 6px 1fr;
-}
+
 
 .sidebar-expend .collapse-library {
   display: none;
 }
 
-.sidebar-expend .library-header h1 {
+.sidebar-expend .tooltip-title {
   pointer-events: none;
-  cursor: default;
 }

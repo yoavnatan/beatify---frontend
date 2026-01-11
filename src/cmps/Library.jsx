@@ -68,7 +68,7 @@ export function Library() {
         <div className="library">
 
             <div className="library-header">
-                <div className="tooltip" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library" onClick={collapseLibrary}>
+                <div className="tooltip-title" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library" onClick={collapseLibrary}>
                     <Collapse className="collapse-library tooltip"  />
                     <h1 className="tooltip">Your Library</h1>
                 </div>
