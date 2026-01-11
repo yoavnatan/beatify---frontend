@@ -9,13 +9,15 @@ import Expend from "../assets/svg/expand-side-bar.svg?react"
 import OpenLibrary from "../assets/svg/open-library.svg?react"
 import LibraryBooksShelves from "../assets/svg/library-books-shelves.svg?react"
 import MinimizeLibrary from "../assets/svg/minimize-library.svg?react"
+import { useSelector } from "react-redux"
+
 
 
 
 
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
-    const [stations, setStations] = useState([])
+    const stations = useSelector(storeState => storeState.stationModule.stations)
     const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
     const inputRef = useRef(null);
     const searchWrapperRef = useRef(null)
@@ -24,10 +26,6 @@ export function Library() {
 
 
 
-
-    useEffect(() => {
-        loadStations()
-    }, [])
     useEffect(() => {
         function handleClickOutside(event) {
             if (
@@ -60,13 +58,6 @@ export function Library() {
         }
     }
 }, [])
-
-
-
-    async function loadStations() {
-        const stations = await stationService._getStations()
-        setStations(stations)
-    }
     function expandLibrary() {
         const event = new CustomEvent("expand-library")
         window.dispatchEvent(event)
