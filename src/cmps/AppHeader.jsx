@@ -71,17 +71,16 @@ export function AppHeader() {
                     {user && (
                         <div className="user-info">
                             <Link to={`user/${user._id}`} className="user-link">
-                                {user.imgUrl && <img src={user.imgUrl} alt="User" />}
-                                <span>{user.fullname}</span>
+                                {user.imgUrl && <img className='profile-pic' src={profileImg} alt="User" />}
                             </Link>
-
+{/* 
                             <span className="score">
                                 {user.score?.toLocaleString()}
                             </span>
 
                             <button onClick={onLogout} className="logout-btn">
                                 Logout
-                            </button>
+                            </button> */}
                         </div>
                     )}
                 </div>
