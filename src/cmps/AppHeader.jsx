@@ -3,15 +3,16 @@ import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
+
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
 import Broswe from "../assets/svg/browse.svg?react"
 import Home from "../assets/svg/home.svg?react"
 import HomeActive from "../assets/svg/home-active.svg?react"
 import Search from "../assets/svg/search.svg?react"
-
 import logoImg from '../assets/img/logo_symbol.png'
 import profileImg from '../assets/img/profile-pic.jpg'
+import { userService } from '../services/user/user.service'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)

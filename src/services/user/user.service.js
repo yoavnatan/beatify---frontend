@@ -62,7 +62,21 @@ async function logout() {
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    let user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+
+    if (!user) {
+        user = {
+            _id: 'u999',
+			username:'Default User',
+            fullname: 'Default User',
+			password: '123',
+            imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+			likedSongs:[]
+        }
+        saveLoggedinUser(user)
+    }
+
+    return user
 }
 
 function saveLoggedinUser(user) {
