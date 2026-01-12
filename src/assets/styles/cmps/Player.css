@@ -1,0 +1,13 @@
+.player .btn-play {
+    cursor: pointer;
+    display: block;
+    right: 10px;
+    background-color: var(--sp-white);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, .3);
+    transition: none;
+}

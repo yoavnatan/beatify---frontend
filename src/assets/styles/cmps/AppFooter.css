@@ -8,6 +8,7 @@
     font-size: 1.3em;
     padding: .8rem 1rem;
     background-color: --var(clr4);
+    height: 90px;
 
     div {
         font-weight: 500;

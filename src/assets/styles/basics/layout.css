@@ -19,15 +19,16 @@
 }
 
 
-main { 
+main {
     display: grid;
     grid-template-columns: var(--sidebar-width) 6px 1fr;
     gap: 4px;
     max-width: 100%;
     width: 100%;
     max-width: 100%;
-    overflow: visible;
+    overflow: hidden;
     --sidebar-width: 280px;
+
     @media (max-width:600px) {
         grid-template-columns: auto;
         margin-top: 75px;
@@ -36,7 +37,7 @@ main {
 }
 
 main.sidebar-expend {
-  grid-template-columns: 1fr 0fr 0fr;
+    grid-template-columns: 1fr 0fr 0fr;
 }
 
 .main-content {

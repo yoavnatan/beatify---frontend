@@ -12,6 +12,7 @@
     background-color: var(--sp-black);
     border-radius: 8px;
     height: 100%;
+    overflow-y: scroll;
 
     header {
         height: 64px;
