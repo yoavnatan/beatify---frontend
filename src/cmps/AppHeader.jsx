@@ -18,6 +18,8 @@ export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
     const location = useLocation();
+    console.log(user)
+
 
     async function onLogout() {
         try {
@@ -57,13 +59,11 @@ export function AppHeader() {
                             <Broswe className="icon medium" />
                         </div>
                         <DropDownSearchMenu />
-                        {/* <i className="fa-solid fa-basket-shopping"></i> */}
                     </div>
                 </div>
 
                 <div className="nav-right">
-                    <img className='profile-pic' src={profileImg} alt="profile-picture" />
-                    {/* {!user && (
+                    {!user && (
                         <NavLink to="auth/login" className="login-link">
                             Login
                         </NavLink>
@@ -84,7 +84,7 @@ export function AppHeader() {
                                 Logout
                             </button>
                         </div>
-                    )} */}
+                    )}
                 </div>
 
             </nav>
