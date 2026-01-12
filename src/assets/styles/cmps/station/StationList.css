@@ -15,4 +15,13 @@
     @media (max-width: 740px) {
         grid-template-columns: repeat(auto-fit, minmax(173px, 1fr));
     }
+
+    .station-created-by {
+        display: none;
+    }
+
+    .station-name {
+        margin-inline-start: 1em;
+        display: block;
+    }
 }
