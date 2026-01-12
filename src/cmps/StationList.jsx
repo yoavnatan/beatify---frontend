@@ -1,13 +1,12 @@
-import { userService } from '../services/user'
-import { LikedSongsStation } from './LikedSongsStation.jsx'
 import { StationPreview } from './StationPreview'
+import { useSelector } from "react-redux"
+
 
 export function StationList({ stations, onRemoveStation, onUpdateStation, setGradientColor }) {
-    const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
+    const user = useSelector(storeState => storeState.userModule.user)
+    
 
     function shouldShowActionBtns(station) {
-        const user = userService.getLoggedinUser()
-
         if (!user) return false
         if (user.isAdmin) return true
         return station.owner?._id === user._id
@@ -16,8 +15,7 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
     return <section>
 
         <ul className="station-list container">
-            <LikedSongsStation likedSongs={likedSongs} />
-            {stations.slice(1, 8).map(station =>
+            {stations.slice(0, 8).map(station =>
                 <li key={station._id}>
                     <StationPreview station={station} setGradientColor={setGradientColor} />
                     {shouldShowActionBtns(station) && <div className="actions">

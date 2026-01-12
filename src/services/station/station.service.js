@@ -40,8 +40,10 @@ async function query(filterBy = { txt: '' }) {
         stations.sort((station1, station2) =>
             station1[sortField].localeCompare(station2[sortField]) * +sortDir)
     }
+    const likedStation = await getLikedSongsStation()
+    stations.unshift(likedStation)
+    console.log(stations)
 
-    // stations = stations.map(({ _id, vendor, speed, owner }) => ({ _id, vendor, speed, owner }))
     return stations
 }
 
@@ -450,16 +452,23 @@ async function _getStations() {
     ]
 
     stations = await _getAvgColors(stations)
-    stations.forEach(station => {
-        station.songs = station.songs.map(song => ({
-            ...song,
-            liked: typeof song.liked === 'boolean' ? song.liked : Math.random() < 0.5
-        }));
-    });
     saveToStorage(STORAGE_KEY, stations)
     return stations
 }
-
+   async function getLikedSongsStation() {
+    const user = userService.getLoggedinUser()
+    if (!user.liked) user.liked = []   
+    const stations = await _getStations() 
+    const allSongs = stations.flatMap(st => st.songs)
+    const likedSongs = allSongs.filter(song => user.liked.includes(song.id))
+    return {
+        _id: 'likedSongs',
+        name: 'Liked Songs',
+        createdBy: user,
+        songs: likedSongs,
+        imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+    }
+}
 
 async function _getAvgColors(stations) {
     await Promise.all(

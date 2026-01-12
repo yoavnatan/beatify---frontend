@@ -18,7 +18,6 @@ export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
     const location = useLocation();
-    console.log(user)
 
 
     async function onLogout() {
