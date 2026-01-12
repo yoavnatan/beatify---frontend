@@ -71,7 +71,7 @@ export function StationIndex() {
                             <button>All</button>
                             <button>Music</button>
                         </div>
-                        {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>}
+                        {/* {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>} */}
                     </header>
                     <div className="body">
                         {/* <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}

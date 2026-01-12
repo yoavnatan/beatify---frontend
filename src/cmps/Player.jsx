@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_IS_PLAYING, SET_IS_SEEKING, SET_PLAYED, SET_SRC } from '../store/reducers/player.reducer.js';
+import { SET_IS_PLAYING, SET_IS_SEEKING, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -11,10 +11,21 @@ import Shuffle from "../assets/svg/shuffle.svg?react"
 import Repeat from "../assets/svg/repeat.svg?react"
 
 export function Player() {
+
+    // const [value, setValue] = useState(played);
+
+
     const playerRef = useRef(null);
     const { playing, src, seeking, played } = useSelector(storeState => storeState.playerModule)
     const dispatch = useDispatch()
 
+    const min = 0;
+    const max = 0.99;
+    function getBackgroundSize() {
+        return {
+            backgroundSize: `${(played - min) * 100 / (max - min)}% 100%`,
+        }
+    }
     function handleSeekMouseDown() {
         dispatch({ type: SET_IS_SEEKING, seeking: true })
     }
@@ -22,6 +33,8 @@ export function Player() {
     const handleSeekChange = (event) => {
         const inputTarget = event.target
         dispatch({ type: SET_PLAYED, played: Number.parseFloat(inputTarget.value) })
+        setValue(inputTarget.value)
+        console.log('played:', played)
     };
 
     const handleSeekMouseUp = (event) => {
@@ -29,15 +42,28 @@ export function Player() {
         dispatch({ type: SET_IS_SEEKING, seeking: false })
         if (playerRef.current) {
             playerRef.current.currentTime = Number.parseFloat(inputTarget.value) * playerRef.current.duration;
+            console.log(playerRef.current.currentTime)
         }
     };
 
+
+    function handleTimeUpdate() {
+        const player = playerRef.current;
+        // We only want to update time slider if we are not currently seeking
+        if (!player || seeking) return;
+
+        console.log('onTimeUpdate', player.currentTime);
+        console.log('onTimeUpdate', player.duration);
+        // dispatch({ type: SET_PLAYED_SECONDS, playedSeconds: player.currentTime })
+        dispatch({ type: SET_PLAYED, played: player.currentTime / player.duration })
+        console.log(played)
+    }
 
 
     return (
         <section className="player container">
 
-            <div className="controls flex justify-between">
+            <div className="controls flex">
                 <Shuffle className="icon small" />
                 <PlayPrev className="icon small" />
                 <div className="btn-play" onMouseDown={() => {
@@ -53,12 +79,13 @@ export function Player() {
                 <PlayNext className="icon small" />
                 <Repeat className="icon small" />
             </div>
-            <div className="seek">
+            <div className="progress-bar">
                 <input
+                    style={getBackgroundSize()}
                     id="seek"
                     type="range"
-                    min={0}
-                    max={0.999999}
+                    min={min}
+                    max={max}
                     step="any"
                     value={played}
                     onMouseDown={handleSeekMouseDown}
@@ -82,6 +109,8 @@ export function Player() {
                     height="100%"
                     playing={playing}
                     muted={false}
+                    onTimeUpdate={handleTimeUpdate}
+
                     // onProgress={handleProgress}
                     config={{
                         youtube: {
