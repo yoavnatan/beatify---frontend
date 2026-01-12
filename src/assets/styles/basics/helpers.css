@@ -17,6 +17,15 @@
     &.align-center {
         align-items: center;
     }
+
+    &.flex-column {
+        flex-direction: column;
+    }
+
+    &.justify-between {
+        justify-content: space-between;
+    }
+
 }
 
 /* Simple and useful CSS Debugging Technique */

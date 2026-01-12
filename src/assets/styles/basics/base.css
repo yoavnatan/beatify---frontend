@@ -67,6 +67,7 @@ object {
         fill: black;
     }
 
+
     &.small {
         width: 16px;
     }
