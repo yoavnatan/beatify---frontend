@@ -1,6 +1,4 @@
-import { useState , useEffect} from "react"
-import { stationService } from '../services/station/station.service.js'
-import { LikedSongsStation } from "./LikedSongsStation.jsx"
+import { useState , useEffect, useRef} from "react"
 import Search from "../assets/svg/search.svg?react"
 import List from "../assets/svg/list.svg?react"
 import Collapse from "../assets/svg/collapse-library.svg?react"
@@ -9,10 +7,8 @@ import Expend from "../assets/svg/expand-side-bar.svg?react"
 import OpenLibrary from "../assets/svg/open-library.svg?react"
 import LibraryBooksShelves from "../assets/svg/library-books-shelves.svg?react"
 import MinimizeLibrary from "../assets/svg/minimize-library.svg?react"
-
-
-
-
+import { useSelector } from "react-redux"
+import { LibraryList } from "./LibraryList.jsx"
 
 
 
@@ -21,17 +17,47 @@ import MinimizeLibrary from "../assets/svg/minimize-library.svg?react"
 
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
-    const [stations, setStations] = useState([])
+    const stations = useSelector(storeState => storeState.stationModule.stations)
     const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
+    const inputRef = useRef(null);
+    const searchWrapperRef = useRef(null)
+    const [showCreateBtn, setShowCreateBtn] = useState(true)
+    const libraryRef = useRef(null)
+
+
 
     useEffect(() => {
-        loadStations()
+        function handleClickOutside(event) {
+            if (
+                searchWrapperRef.current &&
+                !searchWrapperRef.current.contains(event.target)
+            ) {
+                setIsSearchOpen(false)
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
 
-    async function loadStations() {
-        const stations = await stationService._getStations()
-        setStations(stations)
+    useEffect(() => {
+    const observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            const width = entry.contentRect.width
+            setShowCreateBtn(width > 340)
+        }
+    })
+
+    if (libraryRef.current) {
+        observer.observe(libraryRef.current)
     }
+
+    return () => {
+        if (libraryRef.current) {
+            observer.unobserve(libraryRef.current)
+        }
+    }
+}, [])
     function expandLibrary() {
         const event = new CustomEvent("expand-library")
         window.dispatchEvent(event)
@@ -47,24 +73,35 @@ export function Library() {
 
 
     return (
-        <div className="library">
+        <div className="library" ref={libraryRef}>
 
             <div className="library-header">
-                <div className="tooltip" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library" onClick={collapseLibrary}>
+                <div className="tooltip-title" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library" onClick={collapseLibrary}>
                     <Collapse className="collapse-library tooltip"  />
                     <h1 className="tooltip">Your Library</h1>
                 </div>
 
                 <div className="header-actions">
-                    <div className="icon-circle tooltip" data-tip="Create a Playlist, folder or jam">
-                        <Plus className="icon-plus" />
+                    <div
+                        className="create-wrapper tooltip"
+                        data-tip="Create a Playlist, folder or jam"
+                        style={showCreateBtn ? { padding: "3px 10px" } : {}}
+                    >
+                        <div className="icon-circle">
+                            <Plus className="icon-plus" />
+                        </div>
+
+                        {showCreateBtn && (
+                            <button className="create-btn">Create</button>
+                        )}
                     </div>
-                    <div className="icon-circle-expend-wrapper tooltip" data-tip="Expand / Minimize Your Library" onClick={expandLibrary} >
+                    <div className="icon-circle-expend-wrapper tooltip" data-tip="Expand / Minimize Your Library" onClick={expandLibrary}>
                         <Expend className="expend-side-bar tooltip"/>
                         <MinimizeLibrary className="minimize-side-bar tooltip"/>
                     </div>
+
                     <div className="library-books-wrapper tooltip" data-tip="Open Your Library" onClick={expandLibraryToNoramal}>
-                        <OpenLibrary className="open-library-icon "/>
+                        <OpenLibrary className="open-library-icon"/>
                         <LibraryBooksShelves className="library-books-icon" />
                     </div>
                 </div>
@@ -75,37 +112,41 @@ export function Library() {
                 <button>Artists</button>
             </div>
 
-            <div className="search-row">
-                <div className="tooltip" data-tip="Search in Your Library">
-                    <Search className="icon-medium" onClick={() => setIsSearchOpen(prev => !prev)} />
+
+            <div
+                ref={searchWrapperRef}
+                className={`search-row ${isSearchOpen ? "open" : ""}`}
+            >
+                <div className="search-input-wrapper">
+                    <Search
+                        className={`icon-medium ${isSearchOpen ? "open" : ""}`}
+                        onClick={() => {
+                            setIsSearchOpen(prev => {
+                                const next = !prev;
+                                if (!prev) {
+                                    setTimeout(() => inputRef.current?.focus(), 150);
+                                }
+                                return next;
+                            });
+                        }}
+                    />
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        placeholder="Search in Your Library"
+                        className={`search-input ${isSearchOpen ? "open" : ""}`}
+                    />
                 </div>
 
-                <input
-                    type="text"
-                    placeholder="Search in Your Library"
-                    className={isSearchOpen ? "open" : ""}
-                />
-
-                <div className="sort-wrapper">
-                    <label className={`label-recents ${isSearchOpen ? "open" : ""}`}>Recents</label>
+                <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
+                    <label className={`label-recents ${isSearchOpen ? "hide" : ""}`}>
+                        Recents
+                    </label>
                     <List className="list-icon" />
                 </div>
             </div>
 
-            <section className="library-list">
-                <ul>
-                    <LikedSongsStation likedSongs={likedSongs} />
-                    {stations.slice(0, 4).map(station => (
-                        <li key={station._id}>
-                            <img src={station.songs[0]?.imgUrl} alt={station.name} />
-                            <div className="station-info">
-                                <div className="station-name">{station.name}</div>
-                                <div className="station-created-by">by {station.createdBy.fullname}</div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+            <LibraryList/>
 
         </div>
     )
