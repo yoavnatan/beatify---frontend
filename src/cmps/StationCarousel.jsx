@@ -52,11 +52,19 @@ export function StationCarousel({ stations }) {
                 {stations.map(station =>
                     <li key={station._id} className="item">
                         <div className="img-container">
-                            <img src={station.songs[0]?.imgUrl} alt={station.name} />
-                            <div className="btn-play">
-                                <Play className="icon small-medium black" />
-                            </div>
+                            <img
+                                src={
+                                    station._id === 'likedSongs'
+                                        ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+                                        : station.songs[0]?.imgUrl
+                                }
+                                alt={station.name}
+                                />                            
+                                    <div className="btn-play">
+                                            <Play className="icon small-medium black" />
+                                    </div>
                         </div>
+                        
                         <div className="description ">{station.name}</div>
 
                     </li>

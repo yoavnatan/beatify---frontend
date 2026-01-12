@@ -18,7 +18,6 @@ import { LibraryList } from "./LibraryList.jsx"
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const stations = useSelector(storeState => storeState.stationModule.stations)
-    const likedSongs = stations.flatMap(station => station.songs).filter(song => song.liked)
     const inputRef = useRef(null);
     const searchWrapperRef = useRef(null)
     const [showCreateBtn, setShowCreateBtn] = useState(true)

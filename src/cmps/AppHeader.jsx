@@ -3,20 +3,22 @@ import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
+
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
 import Broswe from "../assets/svg/browse.svg?react"
 import Home from "../assets/svg/home.svg?react"
 import HomeActive from "../assets/svg/home-active.svg?react"
 import Search from "../assets/svg/search.svg?react"
-
 import logoImg from '../assets/img/logo_symbol.png'
 import profileImg from '../assets/img/profile-pic.jpg'
+import { userService } from '../services/user/user.service'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
     const location = useLocation();
+
 
     async function onLogout() {
         try {
@@ -56,13 +58,11 @@ export function AppHeader() {
                             <Broswe className="icon medium" />
                         </div>
                         <DropDownSearchMenu />
-                        {/* <i className="fa-solid fa-basket-shopping"></i> */}
                     </div>
                 </div>
 
                 <div className="nav-right">
-                    <img className='profile-pic' src={profileImg} alt="profile-picture" />
-                    {/* {!user && (
+                    {!user && (
                         <NavLink to="auth/login" className="login-link">
                             Login
                         </NavLink>
@@ -71,19 +71,18 @@ export function AppHeader() {
                     {user && (
                         <div className="user-info">
                             <Link to={`user/${user._id}`} className="user-link">
-                                {user.imgUrl && <img src={user.imgUrl} alt="User" />}
-                                <span>{user.fullname}</span>
+                                {user.imgUrl && <img className='profile-pic' src={profileImg} alt="User" />}
                             </Link>
-
+{/* 
                             <span className="score">
                                 {user.score?.toLocaleString()}
                             </span>
 
                             <button onClick={onLogout} className="logout-btn">
                                 Logout
-                            </button>
+                            </button> */}
                         </div>
-                    )} */}
+                    )}
                 </div>
 
             </nav>

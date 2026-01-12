@@ -79,7 +79,8 @@ export function StationIndex() {
                             stations={stations}
                             onRemoveStation={onRemoveStation}
                             onUpdateStation={onUpdateStation}
-                            setGradientColor={setGradientColor} />
+                            setGradientColor={setGradientColor}
+                             />
                         <StationCarousel stations={stations} />
                     </div>
                 </div>

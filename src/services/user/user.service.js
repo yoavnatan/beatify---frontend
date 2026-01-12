@@ -62,16 +62,30 @@ async function logout() {
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    let user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+
+    if (!user) {
+        user = {
+            _id: 'u999',
+			username:'Default User',
+            fullname: 'Default User',
+			password: '123',
+            imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+			likedSongs:['vW4kZ0yV6xM','kqZ2YkHhDZo','hT_nvWreIhg','kffacxfA7G4','I_2D8Eo15wE','pXRviuL6vMY','60ItHLz5WEA','Kbj2Zss','DksSPZTZES0']
+        }
+        saveLoggedinUser(user)
+    }
+
+    return user
 }
 
 function saveLoggedinUser(user) {
     user = {
         _id: user._id,
         fullname: user.fullname,
+        username: user.username,
         imgUrl: user.imgUrl,
-        score: user.score,
-        isAdmin: user.isAdmin
+        likedSongs: user.likedSongs
     }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
     return user
