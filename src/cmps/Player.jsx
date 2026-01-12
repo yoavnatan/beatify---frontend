@@ -20,7 +20,7 @@ export function Player() {
     const dispatch = useDispatch()
 
     const min = 0;
-    const max = 0.99;
+    const max = 1;
     function getBackgroundSize() {
         return {
             backgroundSize: `${(played - min) * 100 / (max - min)}% 100%`,
@@ -33,7 +33,6 @@ export function Player() {
     const handleSeekChange = (event) => {
         const inputTarget = event.target
         dispatch({ type: SET_PLAYED, played: Number.parseFloat(inputTarget.value) })
-        setValue(inputTarget.value)
         console.log('played:', played)
     };
 
@@ -59,42 +58,78 @@ export function Player() {
         console.log(played)
     }
 
+    function Duration({ className, seconds }) {
+        return (
+            <time dateTime={`P${Math.round(seconds)}S`} className={className}>
+                {format(seconds)}
+            </time>
+        );
+    }
+
+    function format(seconds) {
+        const date = new Date(seconds * 1000);
+        const hh = date.getUTCHours();
+        const mm = date.getUTCMinutes();
+        const ss = pad(date.getUTCSeconds());
+
+        if (hh) {
+            return `${hh}:${pad(mm)}:${ss}`;
+        }
+
+        if (ss > 0) {
+            return `${mm}:${ss}`;
+        }
+
+        return '0:00'
+
+    }
+
+    function pad(value) {
+        return (`0${value}`).slice(-2);
+    }
+
+
 
     return (
-        <section className="player container">
-
-            <div className="controls flex">
-                <Shuffle className="icon small" />
-                <PlayPrev className="icon small" />
-                <div className="btn-play" onMouseDown={() => {
-                    dispatch({ type: SET_SRC, src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
-                }}
-                    onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
-                    }>{(playing)
-                        ?
-                        <Pause className="icon small black" />
-                        :
-                        <Play className="icon small black" />}
+        <section className="player container ">
+            <div className='main-container flex column'>
+                <div className="controls flex">
+                    <Shuffle className="icon small" />
+                    <PlayPrev className="icon small" />
+                    <div className="btn-play" onMouseDown={() => {
+                        dispatch({ type: SET_SRC, src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
+                    }}
+                        onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
+                        }>{(playing)
+                            ?
+                            <Pause className="icon small black" />
+                            :
+                            <Play className="icon small black" />}
+                    </div>
+                    <PlayNext className="icon small" />
+                    <Repeat className="icon small" />
                 </div>
-                <PlayNext className="icon small" />
-                <Repeat className="icon small" />
-            </div>
-            <div className="progress-bar">
-                <input
-                    style={getBackgroundSize()}
-                    id="seek"
-                    type="range"
-                    min={min}
-                    max={max}
-                    step="any"
-                    value={played}
-                    onMouseDown={handleSeekMouseDown}
-                    onChange={handleSeekChange}
-                    onMouseUp={handleSeekMouseUp}
 
-                />
-            </div>
+                <div className='info flex'>
+                    {playerRef.current && src && <Duration seconds={playerRef.current.duration * played} className={'timer'} />}
+                    <div className="progress-bar flex ">
+                        <input
+                            style={getBackgroundSize()}
+                            id="seek"
+                            type="range"
+                            min={min}
+                            max={max}
+                            step="any"
+                            value={played}
+                            onMouseDown={handleSeekMouseDown}
+                            onChange={handleSeekChange}
+                            onMouseUp={handleSeekMouseUp}
+                        />
+                    </div>
+                    {playerRef.current && src && <Duration seconds={playerRef.current.duration} className={'timer'} />}
+                </div>
 
+            </div>
 
             <div style={{
                 visibility: 'hidden',

@@ -17,17 +17,14 @@
 
     .controls {
         justify-content: center;
-        gap: 1em;
+        gap: 1.1em;
 
     }
 
     .progress-bar {
-        height: 4px;
         width: 232px;
 
-        input#seek {
-            width: 100%;
-        }
+
 
         /* BUTTON  */
 
@@ -90,5 +87,25 @@
             }
         }
 
+    }
+
+    .timer {
+        color: var(--sp-gray);
+        font-size: var(--fs-small);
+    }
+
+    #seek {
+        width: 100%;
+    }
+
+    .info {
+        align-items: center;
+        gap: .3em;
+
+
+    }
+
+    .main-container {
+        gap: 7px;
     }
 }
