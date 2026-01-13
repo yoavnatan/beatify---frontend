@@ -57,10 +57,12 @@ object {
 
 .icon {
     fill: var(--sp-gray);
+    color: var(--sp-gray);
     cursor: pointer;
 
     &:hover {
-        fill: var(--sp-white)
+        fill: var(--sp-white);
+        color: var(--sp-white)
     }
 
     &.black {

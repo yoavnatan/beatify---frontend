@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_IS_PLAYING, SET_IS_SEEKING, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE } from '../store/reducers/player.reducer.js';
+import { SET_IS_PLAYING, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -13,14 +13,13 @@ import VolumeMute from "../assets/svg/volume-mute.svg?react"
 import VolumeLow from "../assets/svg/volume-low.svg?react"
 import VolumeMid from "../assets/svg/volume-mid.svg?react"
 import VolumeHigh from "../assets/svg/volume-high.svg?react"
+import Queue from "../assets/svg/queue.svg?react"
+import FullScreen from "../assets/svg/full-screen.svg?react"
 
 export function Player() {
 
-    // const [value, setValue] = useState(played);
-
-
     const playerRef = useRef(null);
-    const { playing, src, seeking, played, volume, muted } = useSelector(storeState => storeState.playerModule)
+    let { playing, src, seeking, played, volume, muted, shuffle, lastVolume } = useSelector(storeState => storeState.playerModule)
     const dispatch = useDispatch()
 
     const min = 0;
@@ -38,7 +37,11 @@ export function Player() {
     }
 
     function onToggleMute() {
-        dispatch({ type: TOGGLE_MUTE })
+        console.log(volume)
+        if (volume === 0 && !muted) {
+            dispatch({ type: SET_VOLUME, volume: 0.1 })
+        }
+        dispatch({ type: TOGGLE_MUTE, muted: volume !== 0 ? !muted : false })
     }
 
     function handleSeekMouseDown() {
@@ -48,7 +51,6 @@ export function Player() {
     const handleSeekChange = (event) => {
         const inputTarget = event.target
         dispatch({ type: SET_PLAYED, played: Number.parseFloat(inputTarget.value) })
-        console.log('played:', played)
     };
 
     const handleSeekMouseUp = (event) => {
@@ -56,15 +58,18 @@ export function Player() {
         dispatch({ type: SET_IS_SEEKING, seeking: false })
         if (playerRef.current) {
             playerRef.current.currentTime = Number.parseFloat(inputTarget.value) * playerRef.current.duration;
-            console.log(playerRef.current.currentTime)
         }
     };
 
+    function onSetLastVolume(ev) {
+        console.log('last')
+        dispatch({ type: SET_LAST_VOLUME, lastVolume: ev.target.value })
+    }
+
     function handleVolumeChange(event) {
         const inputTarget = event.target
+        dispatch({ type: TOGGLE_MUTE, muted: false })
         dispatch({ type: SET_VOLUME, volume: Number.parseFloat(inputTarget.value) })
-        console.log(volume)
-
     };
 
 
@@ -108,12 +113,14 @@ export function Player() {
     }
 
 
+    if (muted) volume = 0;
+
     return (
         <section className="player container flex ">
             <div className='now-playing'></div>
             <div className='main-container flex column'>
                 <div className="controls flex">
-                    <Shuffle className="icon small" />
+                    <Shuffle className={`icon small ${shuffle ? 'on' : ''}`} />
                     <PlayPrev className="icon small" />
                     <div className="btn-play" onMouseDown={() => {
                         dispatch({ type: SET_SRC, src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
@@ -150,14 +157,15 @@ export function Player() {
             </div>
 
             <div className="volume-controls flex align-center">
-
+                <Queue className="icon small" />
                 <div className="volume-icon" onClick={onToggleMute}>
-                    {(volume === 0 || muted) && <VolumeMute className="icon small" />}
+                    {volume === 0 && <VolumeMute className="icon small" />}
                     {!muted && volume > 0 && volume < 0.3 && <VolumeLow className="icon small" />}
-                    {!muted && volume >= 0.3 && volume < 0.8 && <VolumeMid className="icon small" />}
-                    {!muted && volume >= 0.8 && < VolumeHigh className="icon small" />}
+                    {!muted && volume >= 0.3 && volume < 0.7 && <VolumeMid className="icon small" />}
+                    {!muted && volume >= 0.7 && < VolumeHigh className="icon small" />}
                 </div>
                 <input
+                    onMouseDown={onSetLastVolume}
                     style={getVolumeBackgroundSize()}
                     id="volume"
                     type="range"
@@ -167,6 +175,7 @@ export function Player() {
                     value={volume}
                     onChange={handleVolumeChange}
                 />
+                <FullScreen className="icon small" />
             </div>
 
             <div style={{

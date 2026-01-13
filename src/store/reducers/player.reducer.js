@@ -5,6 +5,7 @@ export const SET_PLAYED = 'SET_PLAYED'
 export const SET_PLAYED_SECONDS = 'SET_PLAYED_SECONDS'
 export const SET_VOLUME = 'SET_VOLUME'
 export const TOGGLE_MUTE = 'TOGGLE_MUTE'
+export const SET_LAST_VOLUME = 'SET_LAST_VOLUME'
 
 const initialState = {
     playing: false,
@@ -18,6 +19,8 @@ const initialState = {
     volume: 1,
     playedSeconds: 0,
     queue: [],
+    suffle: false,
+    lastVolume: 0,
 }
 
 export function playerReducer(state = initialState, action) {
@@ -38,10 +41,13 @@ export function playerReducer(state = initialState, action) {
         case SET_VOLUME:
             newState = { ...state, volume: action.volume }
             break
-        case TOGGLE_MUTE: {
-            newState = { ...state, muted: !state.muted }
+        case TOGGLE_MUTE:
+            newState = { ...state, muted: action.muted }
             break
-        }
+        case SET_LAST_VOLUME:
+            newState = { ...state, lastVolume: action.lastVolume }
+            break
+
         default:
     }
     return newState

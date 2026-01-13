@@ -4,9 +4,7 @@
     justify-content: space-between;
     align-items: center;
 
-    .volume-conttrols {
-        justify-self: end;
-    }
+
 
     .btn-play {
         cursor: pointer;
@@ -24,12 +22,37 @@
 
     .controls {
         justify-content: center;
+        margin-bottom: 4px;
         gap: 1.1em;
 
     }
 
     .progress-bar {
         width: 232px;
+    }
+
+    .volume-controls {
+
+        align-items: center;
+        gap: .3em;
+
+        >*:not(#volume) {
+            margin-inline-start: .3em;
+        }
+
+        .volume-icon {
+            margin-top: 2px;
+        }
+
+        .shuffle.on {
+            fill: var(--sp-green);
+        }
+
+
+        &:hover input[type="range"] {
+            background-image: linear-gradient(#4CAF50, #4CAF50);
+
+        }
     }
 
     .progress-bar,
@@ -95,8 +118,6 @@
 
     }
 
-
-
     .timer {
         color: var(--sp-gray);
         font-size: var(--fs-small);
@@ -107,9 +128,20 @@
     }
 
     .info {
+        height: 20px;
         align-items: center;
         gap: .3em;
 
+
+        .timer {
+            width: 50px;
+
+        }
+
+        .timer:first-child {
+
+            text-align: right;
+        }
 
     }
 
