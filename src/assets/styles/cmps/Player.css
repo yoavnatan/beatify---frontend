@@ -3,6 +3,8 @@
     flex: 1;
     justify-content: space-between;
     align-items: center;
+    user-select: none;
+
 
 
 
@@ -42,10 +44,6 @@
 
         .volume-icon {
             margin-top: 2px;
-        }
-
-        .shuffle.on {
-            fill: var(--sp-green);
         }
 
 
@@ -116,6 +114,62 @@
             }
         }
 
+    }
+
+    .shuffle,
+    .repeat {
+        display: flex;
+        align-items: center;
+    }
+
+    .on .icon {
+        fill: var(--sp-green);
+    }
+
+    .on {
+        position: relative;
+    }
+
+    .on::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 33%;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--sp-green);
+    }
+
+    .tooltip {
+        position: relative;
+        overflow: visible;
+    }
+
+
+    .tooltip::after {
+        content: attr(data-tip);
+        position: absolute;
+        top: -35px;
+        left: 0;
+        transform: translateX(-10%);
+        background: var(--sp-card);
+        color: var(--sp-white);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: var(--fs-small);
+        opacity: 0;
+        pointer-events: none;
+        white-space: nowrap;
+        transition: opacity 0.2s ease;
+        transition-delay: 0s;
+        z-index: 1000;
+
+    }
+
+    .tooltip:hover::after {
+        opacity: 1;
+        transition-delay: 0.4s;
     }
 
     .timer {

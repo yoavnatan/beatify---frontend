@@ -6,6 +6,8 @@ export const SET_PLAYED_SECONDS = 'SET_PLAYED_SECONDS'
 export const SET_VOLUME = 'SET_VOLUME'
 export const TOGGLE_MUTE = 'TOGGLE_MUTE'
 export const SET_LAST_VOLUME = 'SET_LAST_VOLUME'
+export const TOGLLE_SHUFFLE = 'TOGLLE_SHUFFLE'
+export const TOGLLE_LOOP = 'TOGLLE_LOOP'
 
 const initialState = {
     playing: false,
@@ -19,7 +21,7 @@ const initialState = {
     volume: 1,
     playedSeconds: 0,
     queue: [],
-    suffle: false,
+    shuffle: false,
     lastVolume: 0,
 }
 
@@ -46,6 +48,12 @@ export function playerReducer(state = initialState, action) {
             break
         case SET_LAST_VOLUME:
             newState = { ...state, lastVolume: action.lastVolume }
+            break
+        case TOGLLE_SHUFFLE:
+            newState = { ...state, shuffle: !state.shuffle }
+            break
+        case TOGLLE_LOOP:
+            newState = { ...state, loop: !state.loop }
             break
 
         default:

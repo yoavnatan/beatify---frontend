@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_IS_PLAYING, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE } from '../store/reducers/player.reducer.js';
+import { SET_IS_PLAYING, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -16,10 +16,13 @@ import VolumeHigh from "../assets/svg/volume-high.svg?react"
 import Queue from "../assets/svg/queue.svg?react"
 import FullScreen from "../assets/svg/full-screen.svg?react"
 
+
+
+
 export function Player() {
 
     const playerRef = useRef(null);
-    let { playing, src, seeking, played, volume, muted, shuffle, lastVolume } = useSelector(storeState => storeState.playerModule)
+    let { playing, src, seeking, played, volume, muted, shuffle, lastVolume, loop } = useSelector(storeState => storeState.playerModule)
     const dispatch = useDispatch()
 
     const min = 0;
@@ -72,6 +75,13 @@ export function Player() {
         dispatch({ type: SET_VOLUME, volume: Number.parseFloat(inputTarget.value) })
     };
 
+    function onToggleShuffle() {
+        dispatch({ type: TOGLLE_SHUFFLE })
+    }
+
+    function onToggleLoop() {
+        dispatch({ type: TOGLLE_LOOP })
+    }
 
     function handleTimeUpdate() {
         const player = playerRef.current;
@@ -120,7 +130,7 @@ export function Player() {
             <div className='now-playing'></div>
             <div className='main-container flex column'>
                 <div className="controls flex">
-                    <Shuffle className={`icon small ${shuffle ? 'on' : ''}`} />
+                    <div className={`shuffle tooltip ${shuffle ? ' on' : ''}`} data-tip={shuffle ? `Disable shuffle ` : 'Enable shuffle'} ><Shuffle className={`icon small`} onClick={onToggleShuffle} /></div>
                     <PlayPrev className="icon small" />
                     <div className="btn-play" onMouseDown={() => {
                         dispatch({ type: SET_SRC, src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
@@ -131,9 +141,11 @@ export function Player() {
                             <Pause className="icon small black" />
                             :
                             <Play className="icon small black" />}
+
+
                     </div>
                     <PlayNext className="icon small" />
-                    <Repeat className="icon small" />
+                    <div className={`repeat ${loop ? ' on' : ''}`} ><Repeat className={`icon small`} onClick={onToggleLoop} /></div>
                 </div>
 
                 <div className='info flex'>
