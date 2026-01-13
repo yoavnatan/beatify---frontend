@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_IS_PLAYING, SET_IS_SEEKING, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME } from '../store/reducers/player.reducer.js';
+import { SET_IS_PLAYING, SET_IS_SEEKING, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
 import PlayPrev from "../assets/svg/play-prev.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
 import Repeat from "../assets/svg/repeat.svg?react"
+import VolumeMute from "../assets/svg/volume-mute.svg?react"
+import VolumeLow from "../assets/svg/volume-low.svg?react"
+import VolumeMid from "../assets/svg/volume-mid.svg?react"
+import VolumeHigh from "../assets/svg/volume-high.svg?react"
 
 export function Player() {
 
@@ -16,7 +20,7 @@ export function Player() {
 
 
     const playerRef = useRef(null);
-    const { playing, src, seeking, played, volume } = useSelector(storeState => storeState.playerModule)
+    const { playing, src, seeking, played, volume, muted } = useSelector(storeState => storeState.playerModule)
     const dispatch = useDispatch()
 
     const min = 0;
@@ -31,6 +35,10 @@ export function Player() {
         return {
             backgroundSize: `${(volume - min) * 100 / (max - min)}% 100%`,
         }
+    }
+
+    function onToggleMute() {
+        dispatch({ type: TOGGLE_MUTE })
     }
 
     function handleSeekMouseDown() {
@@ -55,6 +63,8 @@ export function Player() {
     function handleVolumeChange(event) {
         const inputTarget = event.target
         dispatch({ type: SET_VOLUME, volume: Number.parseFloat(inputTarget.value) })
+        console.log(volume)
+
     };
 
 
@@ -63,11 +73,8 @@ export function Player() {
         // We only want to update time slider if we are not currently seeking
         if (!player || seeking) return;
 
-        console.log('onTimeUpdate', player.currentTime);
-        console.log('onTimeUpdate', player.duration);
         // dispatch({ type: SET_PLAYED_SECONDS, playedSeconds: player.currentTime })
         dispatch({ type: SET_PLAYED, played: player.currentTime / player.duration })
-        console.log(played)
     }
 
     function Duration({ className, seconds }) {
@@ -99,7 +106,6 @@ export function Player() {
     function pad(value) {
         return (`0${value}`).slice(-2);
     }
-
 
 
     return (
@@ -143,7 +149,14 @@ export function Player() {
                 </div>
             </div>
 
-            <div className="volume-controls">
+            <div className="volume-controls flex align-center">
+
+                <div className="volume-icon" onClick={onToggleMute}>
+                    {(volume === 0 || muted) && <VolumeMute className="icon small" />}
+                    {!muted && volume > 0 && volume < 0.3 && <VolumeLow className="icon small" />}
+                    {!muted && volume >= 0.3 && volume < 0.8 && <VolumeMid className="icon small" />}
+                    {!muted && volume >= 0.8 && < VolumeHigh className="icon small" />}
+                </div>
                 <input
                     style={getVolumeBackgroundSize()}
                     id="volume"
@@ -169,7 +182,7 @@ export function Player() {
                     height="100%"
                     playing={playing}
                     volume={volume}
-                    muted={false}
+                    muted={muted}
                     onTimeUpdate={handleTimeUpdate}
 
                     // onProgress={handleProgress}

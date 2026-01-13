@@ -4,6 +4,7 @@ export const SET_IS_SEEKING = 'SET_IS_SEEKING'
 export const SET_PLAYED = 'SET_PLAYED'
 export const SET_PLAYED_SECONDS = 'SET_PLAYED_SECONDS'
 export const SET_VOLUME = 'SET_VOLUME'
+export const TOGGLE_MUTE = 'TOGGLE_MUTE'
 
 const initialState = {
     playing: false,
@@ -37,6 +38,10 @@ export function playerReducer(state = initialState, action) {
         case SET_VOLUME:
             newState = { ...state, volume: action.volume }
             break
+        case TOGGLE_MUTE: {
+            newState = { ...state, muted: !state.muted }
+            break
+        }
         default:
     }
     return newState
