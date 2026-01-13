@@ -130,7 +130,7 @@ export function Player() {
             <div className='now-playing'></div>
             <div className='main-container flex column'>
                 <div className="controls flex">
-                    <div className={`shuffle tooltip ${shuffle ? ' on' : ''}`} data-tip={shuffle ? `Disable shuffle ` : 'Enable shuffle'} ><Shuffle className={`icon small`} onClick={onToggleShuffle} /></div>
+                    <div className={`shuffle ${shuffle ? ' on' : ''}`} data-tip={shuffle ? `Disable shuffle ` : 'Enable shuffle'} ><Shuffle className={`icon small`} onClick={onToggleShuffle} /></div>
                     <PlayPrev className="icon small" />
                     <div className="btn-play" onMouseDown={() => {
                         dispatch({ type: SET_SRC, src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
