@@ -1,5 +1,12 @@
 .player {
 
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+
+    .volume-conttrols {
+        justify-self: end;
+    }
 
     .btn-play {
         cursor: pointer;
@@ -23,8 +30,10 @@
 
     .progress-bar {
         width: 232px;
+    }
 
-
+    .progress-bar,
+    .volume-controls {
 
         /* BUTTON  */
 
@@ -69,15 +78,12 @@
 
             -webkit-appearance: none;
             appearance: none;
-            width: 300px;
+            /* width: 300px; */
             height: 4px;
             background: var(--sp-player-slider);
-            /* צבע המסלול הריק */
             border-radius: 5px;
-            /* הגדרת ה"מילוי" */
             background-image: linear-gradient(var(--sp-white), var(--sp-white));
             background-size: 50% 100%;
-            /* כאן ה-JS ישלוט */
             background-repeat: no-repeat;
             outline: none;
 
@@ -88,6 +94,8 @@
         }
 
     }
+
+
 
     .timer {
         color: var(--sp-gray);

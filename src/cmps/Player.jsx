@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_IS_PLAYING, SET_IS_SEEKING, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC } from '../store/reducers/player.reducer.js';
+import { SET_IS_PLAYING, SET_IS_SEEKING, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -16,16 +16,23 @@ export function Player() {
 
 
     const playerRef = useRef(null);
-    const { playing, src, seeking, played } = useSelector(storeState => storeState.playerModule)
+    const { playing, src, seeking, played, volume } = useSelector(storeState => storeState.playerModule)
     const dispatch = useDispatch()
 
     const min = 0;
     const max = 1;
-    function getBackgroundSize() {
+    function getDurationBackgroundSize() {
         return {
             backgroundSize: `${(played - min) * 100 / (max - min)}% 100%`,
         }
     }
+
+    function getVolumeBackgroundSize() {
+        return {
+            backgroundSize: `${(volume - min) * 100 / (max - min)}% 100%`,
+        }
+    }
+
     function handleSeekMouseDown() {
         dispatch({ type: SET_IS_SEEKING, seeking: true })
     }
@@ -43,6 +50,11 @@ export function Player() {
             playerRef.current.currentTime = Number.parseFloat(inputTarget.value) * playerRef.current.duration;
             console.log(playerRef.current.currentTime)
         }
+    };
+
+    function handleVolumeChange(event) {
+        const inputTarget = event.target
+        dispatch({ type: SET_VOLUME, volume: Number.parseFloat(inputTarget.value) })
     };
 
 
@@ -91,7 +103,8 @@ export function Player() {
 
 
     return (
-        <section className="player container ">
+        <section className="player container flex ">
+            <div className='now-playing'></div>
             <div className='main-container flex column'>
                 <div className="controls flex">
                     <Shuffle className="icon small" />
@@ -114,7 +127,7 @@ export function Player() {
                     {playerRef.current && src && <Duration seconds={playerRef.current.duration * played} className={'timer'} />}
                     <div className="progress-bar flex ">
                         <input
-                            style={getBackgroundSize()}
+                            style={getDurationBackgroundSize()}
                             id="seek"
                             type="range"
                             min={min}
@@ -128,7 +141,19 @@ export function Player() {
                     </div>
                     {playerRef.current && src && <Duration seconds={playerRef.current.duration} className={'timer'} />}
                 </div>
+            </div>
 
+            <div className="volume-controls">
+                <input
+                    style={getVolumeBackgroundSize()}
+                    id="volume"
+                    type="range"
+                    min={0}
+                    max={1}
+                    step="any"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                />
             </div>
 
             <div style={{
@@ -143,6 +168,7 @@ export function Player() {
                     width="100%"
                     height="100%"
                     playing={playing}
+                    volume={volume}
                     muted={false}
                     onTimeUpdate={handleTimeUpdate}
 

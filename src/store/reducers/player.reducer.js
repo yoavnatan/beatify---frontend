@@ -3,6 +3,7 @@ export const SET_SRC = 'SET_SRC'
 export const SET_IS_SEEKING = 'SET_IS_SEEKING'
 export const SET_PLAYED = 'SET_PLAYED'
 export const SET_PLAYED_SECONDS = 'SET_PLAYED_SECONDS'
+export const SET_VOLUME = 'SET_VOLUME'
 
 const initialState = {
     playing: false,
@@ -13,6 +14,7 @@ const initialState = {
     played: 0,
     duration: 0,
     loop: false,
+    volume: 1,
     playedSeconds: 0,
     queue: [],
 }
@@ -31,6 +33,9 @@ export function playerReducer(state = initialState, action) {
             break
         case SET_PLAYED:
             newState = { ...state, played: action.played }
+            break
+        case SET_VOLUME:
+            newState = { ...state, volume: action.volume }
             break
         default:
     }
