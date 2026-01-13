@@ -19,17 +19,16 @@ window.cs = stationService
 
 
 async function query(filterBy = { txt: '' }) {
-    var stations = await storageService.query(STORAGE_KEY)
+    let stations = await storageService.query(STORAGE_KEY)
     if (!stations || stations.length <= 0) stations = await _getStations()
+
     const { txt, sortField, sortDir, tags } = filterBy
 
-    // Filter by text
     if (txt) {
         const regex = new RegExp(filterBy.txt, 'i')
         stations = stations.filter(station => regex.test(station.name))
     }
 
-    // Filter by tags
     if (tags?.length) {
         stations = stations.filter(station =>
             tags.every(tag => station.tags.includes(tag))
@@ -37,17 +36,23 @@ async function query(filterBy = { txt: '' }) {
     }
 
     if (sortField === 'txt') {
-        stations.sort((station1, station2) =>
-            station1[sortField].localeCompare(station2[sortField]) * +sortDir)
+        stations.sort((a, b) =>
+            a[sortField].localeCompare(b[sortField]) * +sortDir
+        )
     }
-    const likedStation = await getLikedSongsStation()
-    stations.unshift(likedStation)
-    console.log(stations)
 
+    const likedStation = await getLikedSongsStation()
+
+    const idx = stations.findIndex(st => st._id === 'likedSongs')
+    if (idx === -1) stations.unshift(likedStation)
+    else stations[idx] = likedStation
+    saveToStorage(STORAGE_KEY, stations)
     return stations
 }
 
+
 function getById(stationId) {
+    console.log(stationId)
     return storageService.get(STORAGE_KEY, stationId)
 }
 
@@ -455,19 +460,21 @@ async function _getStations() {
     saveToStorage(STORAGE_KEY, stations)
     return stations
 }
-   async function getLikedSongsStation() {
-    const user = userService.getLoggedinUser()
-    if (!user.liked) user.liked = []   
-    const stations = await _getStations() 
-    const allSongs = stations.flatMap(st => st.songs)
-    const likedSongs = allSongs.filter(song => user.liked.includes(song.id))
-    return {
-        _id: 'likedSongs',
-        name: 'Liked Songs',
-        createdBy: user,
-        songs: likedSongs,
-        imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-    }
+
+async function getLikedSongsStation() {
+const user = userService.getLoggedinUser()
+if (!user.likedSongs) user.likedSongs = [] 
+const stations = await _getStations() 
+const allSongs = stations.flatMap(st => st.songs)
+const likedSongs = allSongs.filter(song => user.likedSongs.includes(song.id))
+return {
+    _id: 'likedSongs',
+    name: 'Liked Songs',
+    createdBy: { fullname: user.fullname || "You" },
+    songs: likedSongs,
+    imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+}
+
 }
 
 async function _getAvgColors(stations) {

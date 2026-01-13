@@ -7,7 +7,9 @@
   --sp-grey2: rgb(179, 179, 179);
   --sp-light-gray: #e5e5e5;
   --sp-white: #ffffff;
-  --sp-green: #1db954;
+  --sp-green: hsl(141, 73%, 42%);
+  --sp-greenBrighter: hsl(141, 73%, 62%);
+
 
   --sp-index-btns: #383838;
 
