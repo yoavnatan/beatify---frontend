@@ -86,3 +86,8 @@ object {
         fill: white;
     }
 }
+
+.tooltip-wrapper {
+    display: flex;
+    align-items: center;
+}

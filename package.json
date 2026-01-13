@@ -14,6 +14,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tippyjs/react": "^4.2.6",
     "axios": "^1.5.0",
     "fast-average-color": "^9.5.0",
     "react": "^18.2.0",

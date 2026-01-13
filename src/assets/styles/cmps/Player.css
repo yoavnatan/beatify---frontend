@@ -33,21 +33,27 @@
         width: 232px;
     }
 
+    .volume-bar {
+        max-width: 93px;
+    }
+
     .volume-controls {
 
         align-items: center;
         gap: .3em;
 
-        >*:not(#volume) {
+        >*:not(.volume-bar) {
             margin-inline-start: .3em;
         }
 
-        .volume-icon {
-            margin-top: 2px;
+        .inner-container {
+            display: flex;
+            align-items: center;
+            gap: .3em;
+
         }
 
-
-        &:hover input[type="range"] {
+        &.main-container:hover input[type="range"] {
             background-image: linear-gradient(#4CAF50, #4CAF50);
 
         }
@@ -147,37 +153,13 @@
     }
 
 
-    .tooltip::after {
-        content: attr(data-tip);
-        position: absolute;
-        top: -35px;
-        left: 0;
-        transform: translateX(-10%);
-        background: var(--sp-card);
-        color: var(--sp-white);
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: var(--fs-small);
-        opacity: 0;
-        pointer-events: none;
-        white-space: nowrap;
-        transition: opacity 0.2s ease;
-        transition-delay: 0s;
-        z-index: 1000;
-
-    }
-
-    .tooltip:hover::after {
-        opacity: 1;
-        transition-delay: 0.4s;
-    }
-
     .timer {
         color: var(--sp-gray);
         font-size: var(--fs-small);
     }
 
-    #seek {
+    #seek,
+    #volume {
         width: 100%;
     }
 
@@ -185,7 +167,6 @@
         height: 20px;
         align-items: center;
         gap: .3em;
-
 
         .timer {
             width: 50px;
@@ -200,6 +181,7 @@
     }
 
     .main-container {
+        /* min-width: 345px; */
         gap: 7px;
     }
 }

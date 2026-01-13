@@ -15,8 +15,9 @@ import VolumeMid from "../assets/svg/volume-mid.svg?react"
 import VolumeHigh from "../assets/svg/volume-high.svg?react"
 import Queue from "../assets/svg/queue.svg?react"
 import FullScreen from "../assets/svg/full-screen.svg?react"
+import Tippy from '@tippyjs/react';
 
-
+import 'tippy.js/dist/tippy.css';
 
 
 export function Player() {
@@ -130,26 +131,53 @@ export function Player() {
             <div className='now-playing'></div>
             <div className='main-container flex column'>
                 <div className="controls flex">
-                    <div className={`shuffle ${shuffle ? ' on' : ''}`} data-tip={shuffle ? `Disable shuffle ` : 'Enable shuffle'} ><Shuffle className={`icon small`} onClick={onToggleShuffle} /></div>
-                    <PlayPrev className="icon small" />
+
+                    <div className={`shuffle ${shuffle ? ' on' : ''}`} >
+                        <Tippy content={`${shuffle ? 'Disable' : 'Enable'} shuffle mode`} delay={[500, 0]} arrow={false}>
+                            <span className="tooltip-wrapper">
+                                <Shuffle className={`icon small`} onClick={onToggleShuffle} />
+                            </span>
+                        </Tippy>
+                    </div>
+                    <Tippy content={'Previous'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                        <span className="tooltip-wrapper">
+                            <PlayPrev className="icon small" />
+                        </span>
+                    </Tippy>
                     <div className="btn-play" onMouseDown={() => {
                         dispatch({ type: SET_SRC, src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
                     }}
                         onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
                         }>{(playing)
                             ?
-                            <Pause className="icon small black" />
+                            <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} key="pause-tip">
+                                <span className="tooltip-wrapper"><Pause className="icon small black" /></span>
+                            </Tippy>
                             :
-                            <Play className="icon small black" />}
-
-
+                            <Tippy content={'Play'} delay={[500, 0]} offset={[0, 15]} arrow={false} key="play-tip">
+                                <span className="tooltip-wrapper"><Play className="icon small black" /></span>
+                            </Tippy>
+                        }
                     </div>
-                    <PlayNext className="icon small" />
-                    <div className={`repeat ${loop ? ' on' : ''}`} ><Repeat className={`icon small`} onClick={onToggleLoop} /></div>
+
+                    <Tippy content={'Next'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                        <span className="tooltip-wrapper">
+                            <PlayNext className="icon small" />
+                        </span>
+                    </Tippy>
+
+                    <div className={`repeat ${loop ? ' on' : ''}`} >
+                        <Tippy content={`${loop ? 'Disable' : 'Enable'} repeat mode`} delay={[500, 0]} arrow={false}>
+                            <span className="tooltip-wrapper">
+                                <Repeat className={`icon small`} onClick={onToggleLoop} />
+                            </span>
+                        </Tippy>
+                    </div>
+
                 </div>
 
                 <div className='info flex'>
-                    {playerRef.current && src && <Duration seconds={playerRef.current.duration * played} className={'timer'} />}
+                    <div className='timer'> {playerRef.current && src && <Duration seconds={playerRef.current.duration * played} />}</div>
                     <div className="progress-bar flex ">
                         <input
                             style={getDurationBackgroundSize()}
@@ -164,30 +192,53 @@ export function Player() {
                             onMouseUp={handleSeekMouseUp}
                         />
                     </div>
-                    {playerRef.current && src && <Duration seconds={playerRef.current.duration} className={'timer'} />}
+                    <div className='timer'>  {playerRef.current && src && <Duration seconds={playerRef.current.duration} />} </div>
                 </div>
             </div>
 
             <div className="volume-controls flex align-center">
-                <Queue className="icon small" />
-                <div className="volume-icon" onClick={onToggleMute}>
-                    {volume === 0 && <VolumeMute className="icon small" />}
-                    {!muted && volume > 0 && volume < 0.3 && <VolumeLow className="icon small" />}
-                    {!muted && volume >= 0.3 && volume < 0.7 && <VolumeMid className="icon small" />}
-                    {!muted && volume >= 0.7 && < VolumeHigh className="icon small" />}
+                <Tippy content={'Queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                    <span className="tooltip-wrapper">
+                        <Queue className="icon small" />
+                    </span>
+                </Tippy>
+
+                <div className="inner-container">
+                    <div className="volume-icon" onClick={onToggleMute}>
+                        {volume === 0 &&
+                            <Tippy content={'Unmute'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                <span className="tooltip-wrapper">
+                                    <VolumeMute className="icon small" />
+                                </span>
+                            </Tippy>
+                        }
+                        <Tippy content={'Mute'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                            <span className="tooltip-wrapper">
+                                {!muted && volume > 0 && volume < 0.3 && <VolumeLow className="icon small" />}
+                                {!muted && volume >= 0.3 && volume < 0.7 && <VolumeMid className="icon small" />}
+                                {!muted && volume >= 0.7 && < VolumeHigh className="icon small" />}                            </span>
+                        </Tippy>
+
+                    </div>
+                    <div className="volume-bar flex ">
+                        <input
+                            onMouseDown={onSetLastVolume}
+                            style={getVolumeBackgroundSize()}
+                            id="volume"
+                            type="range"
+                            min={0}
+                            max={1}
+                            step="any"
+                            value={volume}
+                            onChange={handleVolumeChange}
+                        />
+                    </div>
                 </div>
-                <input
-                    onMouseDown={onSetLastVolume}
-                    style={getVolumeBackgroundSize()}
-                    id="volume"
-                    type="range"
-                    min={0}
-                    max={1}
-                    step="any"
-                    value={volume}
-                    onChange={handleVolumeChange}
-                />
-                <FullScreen className="icon small" />
+                <Tippy content={'Enter full screen'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                    <span className="tooltip-wrapper">
+                        <FullScreen className="icon small" />
+                    </span>
+                </Tippy>
             </div>
 
             <div style={{

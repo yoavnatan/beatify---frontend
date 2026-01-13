@@ -110,21 +110,21 @@ async function _getStations() {
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
             songs: [
-                { id: 'wXhTHyIgQ_U', title: 'Arctic Monkeys - Do I Wanna Know?', embedUrl: 'https://www.youtube.com/embed/wXhTHyIgQ_U', imgUrl: 'https://img.youtube.com/vi/wXhTHyIgQ_U/hqdefault.jpg'},
-                { id: 'NUC2EQvdzmY', title: 'Tame Impala - The Less I Know The Better', embedUrl: 'https://www.youtube.com/embed/NUC2EQvdzmY', imgUrl: 'https://img.youtube.com/vi/NUC2EQvdzmY/hqdefault.jpg'},
-                { id: 'pXRviuL6vMY', title: 'Radiohead - Karma Police', embedUrl: 'https://www.youtube.com/embed/pXRviuL6vMY', imgUrl: 'https://img.youtube.com/vi/pXRviuL6vMY/hqdefault.jpg'},
-                { id: 'd020hcWA_Wg', title: 'alt-J - Breezeblocks', embedUrl: 'https://www.youtube.com/embed/d020hcWA_Wg', imgUrl: 'https://img.youtube.com/vi/d020hcWA_Wg/hqdefault.jpg'},
-                { id: 'IcrbM1l_BoI', title: 'Glass Animals - Heat Waves', embedUrl: 'https://www.youtube.com/embed/IcrbM1l_BoI', imgUrl: 'https://img.youtube.com/vi/IcrbM1l_BoI/hqdefault.jpg'},
-                { id: '1V_xRb0x9aw', title: 'The Strokes - Reptilia', embedUrl: 'https://www.youtube.com/embed/1V_xRb0x9aw', imgUrl: 'https://img.youtube.com/vi/1V_xRb0x9aw/hqdefault.jpg'},
-                { id: 'lBFdX37Qpnk', title: 'Bon Iver - Holocene', embedUrl: 'https://www.youtube.com/embed/lBFdX37Qpnk', imgUrl: 'https://img.youtube.com/vi/lBFdX37Qpnk/hqdefault.jpg'},
-                { id: 'KQetemT1sWc', title: 'Phoenix - Lisztomania', embedUrl: 'https://www.youtube.com/embed/KQetemT1sWc', imgUrl: 'https://img.youtube.com/vi/KQetemT1sWc/hqdefault.jpg'},
-                { id: 'fe4EK4HSPkI', title: 'MGMT - Electric Feel', embedUrl: 'https://www.youtube.com/embed/fe4EK4HSPkI', imgUrl: 'https://img.youtube.com/vi/fe4EK4HSPkI/hqdefault.jpg'},
-                { id: '0KSOMA3QBU0', title: 'Coldplay - Yellow', embedUrl: 'https://www.youtube.com/embed/0KSOMA3QBU0', imgUrl: 'https://img.youtube.com/vi/0KSOMA3QBU0/hqdefault.jpg'},
-                { id: 'bpOSxM0rNPM', title: 'Arctic Monkeys - R U Mine?', embedUrl: 'https://www.youtube.com/embed/bpOSxM0rNPM', imgUrl: 'https://img.youtube.com/vi/bpOSxM0rNPM/hqdefault.jpg'},
-                { id: 'ktvTqknDobU', title: 'Imagine Dragons - Radioactive', embedUrl: 'https://www.youtube.com/embed/ktvTqknDobU', imgUrl: 'https://img.youtube.com/vi/ktvTqknDobU/hqdefault.jpg'},
-                { id: '5NV6Rdv1a3I', title: 'Daft Punk - Get Lucky', embedUrl: 'https://www.youtube.com/embed/5NV6Rdv1a3I', imgUrl: 'https://img.youtube.com/vi/5NV6Rdv1a3I/hqdefault.jpg'},
-                { id: 'hTWKbfoikeg', title: 'Nirvana - Smells Like Teen Spirit', embedUrl: 'https://www.youtube.com/embed/hTWKbfoikeg', imgUrl: 'https://img.youtube.com/vi/hTWKbfoikeg/hqdefault.jpg'},
-                { id: 'fLexgOxsZu0', title: 'RHCP - Under The Bridge', embedUrl: 'https://www.youtube.com/embed/fLexgOxsZu0', imgUrl: 'https://img.youtube.com/vi/fLexgOxsZu0/hqdefault.jpg'}
+                { id: 'wXhTHyIgQ_U', title: 'Arctic Monkeys - Do I Wanna Know?', embedUrl: 'https://www.youtube.com/embed/wXhTHyIgQ_U', imgUrl: 'https://img.youtube.com/vi/wXhTHyIgQ_U/hqdefault.jpg' },
+                { id: 'NUC2EQvdzmY', title: 'Tame Impala - The Less I Know The Better', embedUrl: 'https://www.youtube.com/embed/NUC2EQvdzmY', imgUrl: 'https://img.youtube.com/vi/NUC2EQvdzmY/hqdefault.jpg' },
+                { id: 'pXRviuL6vMY', title: 'Radiohead - Karma Police', embedUrl: 'https://www.youtube.com/embed/pXRviuL6vMY', imgUrl: 'https://img.youtube.com/vi/pXRviuL6vMY/hqdefault.jpg' },
+                { id: 'd020hcWA_Wg', title: 'alt-J - Breezeblocks', embedUrl: 'https://www.youtube.com/embed/d020hcWA_Wg', imgUrl: 'https://img.youtube.com/vi/d020hcWA_Wg/hqdefault.jpg' },
+                { id: 'IcrbM1l_BoI', title: 'Glass Animals - Heat Waves', embedUrl: 'https://www.youtube.com/embed/IcrbM1l_BoI', imgUrl: 'https://img.youtube.com/vi/IcrbM1l_BoI/hqdefault.jpg' },
+                { id: '1V_xRb0x9aw', title: 'The Strokes - Reptilia', embedUrl: 'https://www.youtube.com/embed/1V_xRb0x9aw', imgUrl: 'https://img.youtube.com/vi/1V_xRb0x9aw/hqdefault.jpg' },
+                { id: 'lBFdX37Qpnk', title: 'Bon Iver - Holocene', embedUrl: 'https://www.youtube.com/embed/lBFdX37Qpnk', imgUrl: 'https://img.youtube.com/vi/lBFdX37Qpnk/hqdefault.jpg' },
+                { id: 'KQetemT1sWc', title: 'Phoenix - Lisztomania', embedUrl: 'https://www.youtube.com/embed/KQetemT1sWc', imgUrl: 'https://img.youtube.com/vi/KQetemT1sWc/hqdefault.jpg' },
+                { id: 'fe4EK4HSPkI', title: 'MGMT - Electric Feel', embedUrl: 'https://www.youtube.com/embed/fe4EK4HSPkI', imgUrl: 'https://img.youtube.com/vi/fe4EK4HSPkI/hqdefault.jpg' },
+                { id: '0KSOMA3QBU0', title: 'Coldplay - Yellow', embedUrl: 'https://www.youtube.com/embed/0KSOMA3QBU0', imgUrl: 'https://img.youtube.com/vi/0KSOMA3QBU0/hqdefault.jpg' },
+                { id: 'bpOSxM0rNPM', title: 'Arctic Monkeys - R U Mine?', embedUrl: 'https://www.youtube.com/embed/bpOSxM0rNPM', imgUrl: 'https://img.youtube.com/vi/bpOSxM0rNPM/hqdefault.jpg' },
+                { id: 'ktvTqknDobU', title: 'Imagine Dragons - Radioactive', embedUrl: 'https://www.youtube.com/embed/ktvTqknDobU', imgUrl: 'https://img.youtube.com/vi/ktvTqknDobU/hqdefault.jpg' },
+                { id: '5NV6Rdv1a3I', title: 'Daft Punk - Get Lucky', embedUrl: 'https://www.youtube.com/embed/5NV6Rdv1a3I', imgUrl: 'https://img.youtube.com/vi/5NV6Rdv1a3I/hqdefault.jpg' },
+                { id: 'hTWKbfoikeg', title: 'Nirvana - Smells Like Teen Spirit', embedUrl: 'https://www.youtube.com/embed/hTWKbfoikeg', imgUrl: 'https://img.youtube.com/vi/hTWKbfoikeg/hqdefault.jpg' },
+                { id: 'fLexgOxsZu0', title: 'RHCP - Under The Bridge', embedUrl: 'https://www.youtube.com/embed/fLexgOxsZu0', imgUrl: 'https://img.youtube.com/vi/fLexgOxsZu0/hqdefault.jpg' }
             ]
         },
 
@@ -462,18 +462,18 @@ async function _getStations() {
 }
 
 async function getLikedSongsStation() {
-const user = userService.getLoggedinUser()
-if (!user.likedSongs) user.likedSongs = [] 
-const stations = await _getStations() 
-const allSongs = stations.flatMap(st => st.songs)
-const likedSongs = allSongs.filter(song => user.likedSongs.includes(song.id))
-return {
-    _id: 'likedSongs',
-    name: 'Liked Songs',
-    createdBy: { fullname: user.fullname || "You" },
-    songs: likedSongs,
-    imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-}
+    const user = userService.getLoggedinUser()
+    if (!user.likedSongs) user.likedSongs = []
+    const stations = await _getStations()
+    const allSongs = stations.flatMap(st => st.songs)
+    const likedSongs = allSongs.filter(song => user.likedSongs.includes(song.id))
+    return {
+        _id: 'likedSongs',
+        name: 'Liked Songs',
+        createdBy: { fullname: user.fullname || "You" },
+        songs: likedSongs,
+        imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+    }
 
 }
 

@@ -56,6 +56,8 @@ export function StationIndex() {
             showErrorMsg('Cannot update station')
         }
     }
+
+    console.log(stations)
     return (
 
         <section className="station-index container ">
@@ -80,7 +82,7 @@ export function StationIndex() {
                             onRemoveStation={onRemoveStation}
                             onUpdateStation={onUpdateStation}
                             setGradientColor={setGradientColor}
-                             />
+                        />
                         <StationCarousel stations={stations} />
                     </div>
                 </div>
