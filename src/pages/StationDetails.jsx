@@ -10,6 +10,7 @@ export function StationDetails() {
 
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
+  
 
   useEffect(() => {
     loadStation(stationId)
@@ -41,7 +42,7 @@ export function StationDetails() {
 
       <div className="station-actions">
         <button className="play-btn">
-          <Play className="icon large" />
+          <Play className="icon large black" />
         </button>
         <button className="shuffle-btn">
           <Shuffle className="icon large"/>

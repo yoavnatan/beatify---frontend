@@ -63,23 +63,24 @@
 .play-btn {
   background: var(--sp-green);
   border: none;
-  width: 64px;
-  height: 64px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform .15s ease;
+  transition: transform .1s ease;
 }
 
 .play-btn:hover {
   transform: scale(1.06);
+  background-color: var(--sp-greenBrighter);
 }
 .shuffle-btn{
   border: none;
-  width: 64px;
-  height: 64px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
