@@ -55,7 +55,6 @@
   opacity: 0.6;
 }
 
-/* PLAY BUTTON */
 .station-actions {
   padding: 20px 40px;
   display: flex;
@@ -92,36 +91,36 @@
   display: grid;
   grid-template-columns: 40px 4fr 3fr 2fr 40px;
   align-items: center;
-  padding: 0 40px;
-  height: 40px;
+  gap: 16px;
+  padding: 12px 40px;
   color: var(--sp-gray);
   font-size: var(--fs-small);
   border-bottom: 1px solid var(--sp-border);
   letter-spacing: var(--ls-normal);
 }
 
+
 .table-header .col {
   display: flex;
   align-items: center;
 }
 
-.table-header .index {
+
+.table-header .duration {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1px solid var(--sp-gray);
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.table-header .duration {
-  justify-content: flex-end;
-}
 
 .duration-icon {
   width: 18px;
   height: 18px;
   opacity: 0.7;
-}
-
-
-.song-list {
-  padding: 0 40px 40px;
 }
 
 .song-row {
