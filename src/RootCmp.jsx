@@ -8,10 +8,13 @@ import { AppFooter } from './cmps/AppFooter.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { Library } from './cmps/Library.jsx'
 import { useEffect } from 'react'
+import { loadStations } from './store/actions/station.actions.js'
 
 export function MainLayout() {
 
     useEffect(() => {
+
+        loadStations()
         const handle = document.querySelector(".resize-handle")
         const main = document.querySelector("main")
 
