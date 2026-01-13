@@ -53,14 +53,14 @@
 
         }
 
-        &.main-container:hover input[type="range"] {
+        .inner-container:hover input[type="range"] {
             background-image: linear-gradient(#4CAF50, #4CAF50);
 
         }
     }
 
     .progress-bar,
-    .volume-controls {
+    .volume-controls .inner-container {
 
         /* BUTTON  */
 
