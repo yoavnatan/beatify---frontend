@@ -1,10 +1,16 @@
+import { useNavigate } from 'react-router'
 import { StationPreview } from './StationPreview'
 import { useSelector } from "react-redux"
 
 
 export function StationList({ stations, onRemoveStation, onUpdateStation, setGradientColor }) {
     const user = useSelector(storeState => storeState.userModule.user)
-    
+    const navigate = useNavigate()
+
+
+    function displayStationDetails(id) {
+        navigate(`/station/${id}`)
+    }
 
     function shouldShowActionBtns(station) {
         if (!user) return false
@@ -16,7 +22,7 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
 
         <ul className="station-list container">
             {stations.slice(0, 8).map(station =>
-                <li key={station._id}>
+                <li key={station._id} onClick={() => displayStationDetails(station._id)}>
                     <StationPreview station={station} setGradientColor={setGradientColor} />
                     {shouldShowActionBtns(station) && <div className="actions">
                         <button onClick={() => onUpdateStation(station)}>Edit</button>
