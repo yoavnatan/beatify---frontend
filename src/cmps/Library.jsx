@@ -84,9 +84,10 @@ export function Library() {
                             className="create-wrapper"
                             style={showCreateBtn ? { padding: "3px 10px" } : {}}
                         >
-                            <div className="icon-circle">
-                                <Plus className="icon-plus" />
-                            </div>
+                        <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
+                            <Plus className="icon-plus" />
+                        </div>
+
                             {showCreateBtn && <button className="create-btn">Create</button>}
                         </div>
                     </Tippy>
@@ -126,7 +127,7 @@ export function Library() {
                 offset={[0, 10]} 
                 arrow={false}
             >
-                <span className="tooltip-wrapper">
+                <span className="search-library-wrapper">
                     <Search
                         className={`icon-medium ${isSearchOpen ? "open" : ""}`}
                         onClick={() => {
