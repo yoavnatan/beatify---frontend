@@ -113,21 +113,26 @@
   font-size: var(--fs-small);
 }
 
-.search-input {
+.main-search-input {
   flex: 1;
   background: transparent;
   border: none;
   outline: none;
   color: var(--sp-white);
-  font-family: var(--font-primary);
+  font-family: var(--font-title);
   font-size: var(--fs-small);
 
 }
 
-.search-input::placeholder {
+.main-search-input::placeholder {
   color: var(--sp-gray);
 
-  @media (max-width: 600px) {
+
+}
+
+@media (max-width: 600px) {
+  .search-input::placeholder {
+
     color: var(--sp-dark);
   }
 }

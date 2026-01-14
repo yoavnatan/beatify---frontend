@@ -1,4 +1,4 @@
-export const SET_IS_PLAYING = 'SET_IS_PLAYING'
+export const TOGGLE_PLAY = 'TOGGLE_PLAY'
 export const SET_SRC = 'SET_SRC'
 export const SET_IS_SEEKING = 'SET_IS_SEEKING'
 export const SET_PLAYED = 'SET_PLAYED'
@@ -9,6 +9,7 @@ export const SET_LAST_VOLUME = 'SET_LAST_VOLUME'
 export const TOGLLE_SHUFFLE = 'TOGLLE_SHUFFLE'
 export const TOGLLE_LOOP = 'TOGLLE_LOOP'
 export const SET_NOW_PLAYING = 'SET_NOW_PLAYING'
+export const PLAY = 'PLAY'
 
 const initialState = {
     playing: false,
@@ -33,8 +34,11 @@ export function playerReducer(state = initialState, action) {
             console.log(action.nowPlaying)
             newState = { ...state, nowPlaying: action.nowPlaying }
             break
-        case SET_IS_PLAYING:
+        case TOGGLE_PLAY:
             newState = { ...state, playing: !state.playing }
+            break
+        case PLAY:
+            newState = { ...state, playing: true }
             break
         case SET_SRC:
             newState = { ...state, src: action.src }

@@ -45,6 +45,9 @@ main.sidebar-expend {
     overflow-x: hidden;
     width: 100%;
     max-width: 100%;
+    border-radius: 8px;
+    height: 100%;
+    background-color: var(--sp-black);
 }
 
 

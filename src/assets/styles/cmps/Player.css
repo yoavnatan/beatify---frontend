@@ -14,7 +14,6 @@
             width: 56px;
         }
 
-        .description {}
 
         .song-title {
             overflow: hidden;
@@ -177,7 +176,7 @@
 
     .timer {
         color: var(--sp-gray);
-        font-size: var(--fs-small);
+        font-size: 13px;
     }
 
     #seek,

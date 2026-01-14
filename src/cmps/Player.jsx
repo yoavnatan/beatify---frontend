@@ -2,7 +2,7 @@
 // <div className="btn-play" onMouseDown={() => {
 //     setSong({ src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
 // }}
-//     onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
+//     onMouseUp={() => dispatch({ type: TOGGLE_PLAY })
 //     }>{(playing)
 // *** <HERE COMES THE ICON>
 
@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_IS_PLAYING, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE } from '../store/reducers/player.reducer.js';
+import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -139,10 +139,10 @@ export function Player() {
         <section className="player container flex ">
             <div className='now-playing flex'>
                 <img src={nowPlaying.imgUrl} />
-                <div className='description'>
+                {nowPlaying.src && <div className='description'>
                     <div className='song-title'>{nowPlaying.title}</div>
                     <div className='artist-name'>Artist name</div>
-                </div>
+                </div>}
             </div>
             <div className='main-container flex column'>
                 <div className="controls flex">
@@ -160,7 +160,7 @@ export function Player() {
                         </span>
                     </Tippy>
                     <div className="btn-play"
-                        onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
+                        onMouseUp={() => dispatch({ type: TOGGLE_PLAY })
                         }>{(playing)
                             ?
                             <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} key="pause-tip">

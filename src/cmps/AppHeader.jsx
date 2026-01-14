@@ -51,7 +51,7 @@ export function AppHeader() {
                         <Search className="icon medium icon-search" />
                         <input
                             type="text"
-                            className="search-input"
+                            className="main-search-input"
                             placeholder="What do you want to play?"
                         />
                         <div className="broswe-wrapper">
@@ -73,7 +73,7 @@ export function AppHeader() {
                             <Link to={`user/${user._id}`} className="user-link">
                                 {user.imgUrl && <img className='profile-pic' src={profileImg} alt="User" />}
                             </Link>
-{/* 
+                            {/* 
                             <span className="score">
                                 {user.score?.toLocaleString()}
                             </span>

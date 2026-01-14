@@ -30,6 +30,7 @@
   align-items: center;
   margin-bottom: 16px;
 }
+
 .library-title {
   display: flex;
   align-items: center;
@@ -224,7 +225,8 @@
   cursor: pointer;
   transition: fill 0.2s ease, transform 0.25s ease;
 }
-.icon-medium:hover{
+
+.icon-medium:hover {
   fill: var(--sp-white);
 }
 
@@ -281,7 +283,8 @@
   fill: var(--sp-white);
   cursor: pointer;
 }
-.tooltip-wrapper{
+
+.tooltip-wrapper {
   width: var(--fs-display);
   height: var(--fs-display);
   display: flex;
@@ -292,7 +295,8 @@
   border-radius: 50%;
   transition: background-color 0.2s ease;
 }
-.tooltip-wrapper:hover {
+
+.library.tooltip-wrapper:hover {
   background-color: var(--sp-hover);
 }
 
