@@ -1,3 +1,9 @@
+.library-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 
 
 .library-list ul {
@@ -7,6 +13,9 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px; 
 }
 
 .library-list li {
@@ -39,8 +48,7 @@
 }
 
 .station-name {
-  font-size: var(--fs-small);
-  font-weight: 600;
+  font-size: var(--fs-body);
   color: var(--sp-white);
   white-space: nowrap;
   overflow: hidden;
@@ -48,7 +56,7 @@
 }
 
 .station-created-by {
-  font-size: 12px;
+  font-size: var(--fs-tiny);
   color: var(--sp-gray);
   margin-top: 2px;
   white-space: nowrap;
