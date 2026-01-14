@@ -57,7 +57,6 @@ export function StationIndex() {
         }
     }
 
-    console.log(stations)
     return (
 
         <section className="station-index container ">

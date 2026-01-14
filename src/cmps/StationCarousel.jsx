@@ -9,20 +9,10 @@ export function StationCarousel({ stations }) {
     const [showRightArrow, setShowRightArrow] = useState(true)
     const [fadeLeft, setFadeLeft] = useState(0)
     const [fadeRight, setFadeRight] = useState(1)
-    // const [isScrolled, setIsScrolled] = useState(true)
 
-    // useEffect(() => {
-    //     listRef.current.addEventListener('scroll', onScrollEvent)
-
-    //     return () => listRef.current.removeEventListener('scroll', onScrollEvent)
-
-    // }, [])
-    console.log(fadeRight)
     function onScrollEvent() {
         if ((listRef.current.scrollWidth - (listRef.current.scrollLeft + listRef.current.offsetWidth + 1)) / 100 <= 1) setFadeRight((listRef.current.scrollWidth - (listRef.current.scrollLeft + listRef.current.offsetWidth + 1)) / 100)
-        // if ((listRef.current.scrollWidth - (listRef.current.scrollLeft + listRef.current.offsetWidth + 1)) / 100 <= 1) {
-        //     setFadeRight(prevFade => (prevFade - ((listRef.current.scrollWidth - (listRef.current.scrollLeft + listRef.current.offsetWidth + 1)) / 100)))
-        // }
+
         if (listRef.current.scrollLeft / 100 <= 1) setFadeLeft(listRef.current.scrollLeft / 100)
         setShowLeftArrow(true)
         setShowRightArrow(true)

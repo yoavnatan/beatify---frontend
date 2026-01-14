@@ -137,7 +137,7 @@ export function Player() {
 
     return (
         <section className="player container flex ">
-            <div className='now-playing flex'>
+            <div className='now-playing '>
                 <img src={nowPlaying.imgUrl} />
                 {nowPlaying.src && <div className='description'>
                     <div className='song-title'>{nowPlaying.title}</div>
