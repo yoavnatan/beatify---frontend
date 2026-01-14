@@ -28,10 +28,6 @@ async function query(filterBy = { txt: '' }) {
     if (idx === -1) stations.unshift(likedStation)
     else stations[idx] = likedStation
 
-    // stations = await Promise.all(
-    //     stations.map(st => enrichStationWithAverageColor(st))
-    // )
-
     saveToStorage(STORAGE_KEY, stations)
     return stations
 }
@@ -460,30 +456,8 @@ async function getLikedSongsStation() {
         songs: likedSongs,
         imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
         averageColor: 'rgba(47, 38, 89, 0.9)'
-
     }
 
-}
-async function enrichStationWithAverageColor(station) {
-    const fac = new FastAverageColor()
-    const likedSongsImg = "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-    const img = station._id === 'likedSongs'
-        ? likedSongsImg
-        : station.songs?.[0]?.imgUrl
-
-    if (!img) {
-        station.averageColor = '#000000'
-        return station
-    }
-
-    try {
-        const color = await fac.getColorAsync(img)
-        station.averageColor = color.hex
-    } catch {
-        station.averageColor = '#000000'
-    }
-
-    return station
 }
 
 
