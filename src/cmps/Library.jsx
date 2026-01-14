@@ -1,4 +1,4 @@
-import { useState , useEffect, useRef} from "react"
+import { useState, useEffect, useRef } from "react"
 import Search from "../assets/svg/search.svg?react"
 import List from "../assets/svg/list.svg?react"
 import Collapse from "../assets/svg/collapse-library.svg?react"
@@ -9,21 +9,18 @@ import LibraryBooksShelves from "../assets/svg/library-books-shelves.svg?react"
 import MinimizeLibrary from "../assets/svg/minimize-library.svg?react"
 import { useSelector } from "react-redux"
 import { LibraryList } from "./LibraryList.jsx"
-
-
-
-
+import Tippy from "@tippyjs/react"
 
 
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const stations = useSelector(storeState => storeState.stationModule.stations)
-    const inputRef = useRef(null);
+
+    const inputRef = useRef(null)
     const searchWrapperRef = useRef(null)
-    const [showCreateBtn, setShowCreateBtn] = useState(true)
     const libraryRef = useRef(null)
 
-
+    const [showCreateBtn, setShowCreateBtn] = useState(true)
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -40,104 +37,120 @@ export function Library() {
     }, [])
 
     useEffect(() => {
-    const observer = new ResizeObserver(entries => {
-        for (let entry of entries) {
-            const width = entry.contentRect.width
-            setShowCreateBtn(width > 340)
-        }
-    })
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const width = entry.contentRect.width
+                setShowCreateBtn(width > 340)
+            }
+        })
 
-    if (libraryRef.current) {
-        observer.observe(libraryRef.current)
-    }
+        if (libraryRef.current) observer.observe(libraryRef.current)
 
-    return () => {
-        if (libraryRef.current) {
-            observer.unobserve(libraryRef.current)
+        return () => {
+            if (libraryRef.current) observer.unobserve(libraryRef.current)
         }
-    }
-}, [])
+    }, [])
+
     function expandLibrary() {
-        const event = new CustomEvent("expand-library")
-        window.dispatchEvent(event)
-    }
-    function expandLibraryToNoramal(){
-        const event = new CustomEvent("expand-library-to-normal")
-        window.dispatchEvent(event)
-    }
-    function collapseLibrary(){
-        const event = new CustomEvent("sidebar-collapsed")
-        window.dispatchEvent(event)
+        window.dispatchEvent(new CustomEvent("expand-library"))
     }
 
+    function expandLibraryToNormal() {
+        window.dispatchEvent(new CustomEvent("expand-library-to-normal"))
+    }
+
+    function collapseLibrary() {
+        window.dispatchEvent(new CustomEvent("sidebar-collapsed"))
+    }
 
     return (
         <div className="library" ref={libraryRef}>
 
             <div className="library-header">
-                <div className="tooltip-title" style={{ display: 'flex', gap: '10px' }} data-tip="Collapse Your Library" onClick={collapseLibrary}>
-                    <Collapse className="collapse-library tooltip"  />
-                    <h1 className="tooltip">Your Library</h1>
-                </div>
+
+                <Tippy content="Collapse Your Library" delay={[500, 0]} offset={[10,-60]} arrow={false} placement="bottom">
+                    <div className="library-title"  onClick={collapseLibrary}>
+                        <Collapse className="collapse-library" />
+                        <h1>Your Library</h1>
+                    </div>
+                </Tippy>
+
+
 
                 <div className="header-actions">
-                    <div
-                        className="create-wrapper tooltip"
-                        data-tip="Create a Playlist, folder or jam"
-                        style={showCreateBtn ? { padding: "3px 10px" } : {}}
-                    >
-                        <div className="icon-circle">
-                            <Plus className="icon-plus" />
+
+                    <Tippy content="Create a Playlist, folder or jam" delay={[500, 0]} offset={[10,-70]} arrow={false} placement="bottom">
+                        <div
+                            className="create-wrapper"
+                            style={showCreateBtn ? { padding: "3px 10px" } : {}}
+                        >
+                            <div className="icon-circle">
+                                <Plus className="icon-plus" />
+                            </div>
+                            {showCreateBtn && <button className="create-btn">Create</button>}
                         </div>
+                    </Tippy>
 
-                        {showCreateBtn && (
-                            <button className="create-btn">Create</button>
-                        )}
-                    </div>
-                    <div className="icon-circle-expend-wrapper tooltip" data-tip="Expand / Minimize Your Library" onClick={expandLibrary}>
-                        <Expend className="expend-side-bar tooltip"/>
-                        <MinimizeLibrary className="minimize-side-bar tooltip"/>
-                    </div>
+                    <Tippy content="Expand / Minimize Your Library" delay={[500, 0]} offset={[10,-70]} arrow={false} placement="bottom">
+                        <div className="icon-circle-expend-wrapper" onClick={expandLibrary}>
+                            <Expend className="expend-side-bar" />
+                            <MinimizeLibrary className="minimize-side-bar" />
+                        </div>
+                    </Tippy>
 
-                    <div className="library-books-wrapper tooltip" data-tip="Open Your Library" onClick={expandLibraryToNoramal}>
-                        <OpenLibrary className="open-library-icon"/>
-                        <LibraryBooksShelves className="library-books-icon" />
-                    </div>
+                    <Tippy content="Open Your Library" delay={[500, 0]} offset={[10,-60]} arrow={false} placement="bottom">
+                        <div className="library-books-wrapper" onClick={expandLibraryToNormal}>
+                            <OpenLibrary className="open-library-icon" />
+                            <LibraryBooksShelves className="library-books-icon" />
+                        </div>
+                    </Tippy>
+
                 </div>
-            </div>
+
+        </div>
 
             <div className="library-filter">
                 <button>Playlists</button>
                 <button>Artists</button>
             </div>
 
-
             <div
                 ref={searchWrapperRef}
                 className={`search-row ${isSearchOpen ? "open" : ""}`}
             >
-                <div className="search-input-wrapper">
+            <div className="search-input-wrapper">
+
+            <Tippy 
+                content="Search In Your Library" 
+                delay={[500, 0]} 
+                offset={[0, 20]} 
+                arrow={false}
+            >
+                <span className="tooltip-wrapper">
                     <Search
                         className={`icon-medium ${isSearchOpen ? "open" : ""}`}
                         onClick={() => {
                             setIsSearchOpen(prev => {
-                                const next = !prev;
+                                const next = !prev
                                 if (!prev) {
-                                    setTimeout(() => inputRef.current?.focus(), 150);
+                                    setTimeout(() => inputRef.current?.focus(), 150)
                                 }
-                                return next;
-                            });
+                                return next
+                            })
                         }}
                     />
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        placeholder="Search in Your Library"
-                        className={`search-input ${isSearchOpen ? "open" : ""}`}
-                    />
-                </div>
+                </span>
+            </Tippy>
 
-                <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
+            <input
+                ref={inputRef}
+                type="text"
+                placeholder="Search in Your Library"
+                className={`search-input ${isSearchOpen ? "open" : ""}`}
+            />
+        </div>
+
+            <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
                     <label className={`label-recents ${isSearchOpen ? "hide" : ""}`}>
                         Recents
                     </label>
@@ -145,9 +158,7 @@ export function Library() {
                 </div>
             </div>
 
-            <LibraryList/>
-
+            <LibraryList />
         </div>
     )
 }
-
