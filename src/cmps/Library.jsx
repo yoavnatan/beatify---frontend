@@ -68,7 +68,7 @@ export function Library() {
 
             <div className="library-header">
 
-                <Tippy content="Collapse Your Library" delay={[500, 0]} offset={[10,-60]} arrow={false} placement="bottom">
+                <Tippy content="Collapse Your Library" delay={[300, 0]} offset={[10,-60]} arrow={false} placement="bottom">
                     <div className="library-title"  onClick={collapseLibrary}>
                         <Collapse className="collapse-library" />
                         <h1>Your Library</h1>
@@ -79,7 +79,7 @@ export function Library() {
 
                 <div className="header-actions">
 
-                    <Tippy content="Create a Playlist, folder or jam" delay={[500, 0]} offset={[10,-70]} arrow={false} placement="bottom">
+                    <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10,-70]} arrow={false} placement="bottom">
                         <div
                             className="create-wrapper"
                             style={showCreateBtn ? { padding: "3px 10px" } : {}}
@@ -91,14 +91,14 @@ export function Library() {
                         </div>
                     </Tippy>
 
-                    <Tippy content="Expand / Minimize Your Library" delay={[500, 0]} offset={[10,-70]} arrow={false} placement="bottom">
+                    <Tippy content="Expand / Minimize Your Library" delay={[300, 0]} offset={[10,-70]} arrow={false} placement="bottom">
                         <div className="icon-circle-expend-wrapper" onClick={expandLibrary}>
                             <Expend className="expend-side-bar" />
                             <MinimizeLibrary className="minimize-side-bar" />
                         </div>
                     </Tippy>
 
-                    <Tippy content="Open Your Library" delay={[500, 0]} offset={[10,-60]} arrow={false} placement="bottom">
+                    <Tippy content="Open Your Library" delay={[300, 0]} offset={[10,-60]} arrow={false} placement="bottom">
                         <div className="library-books-wrapper" onClick={expandLibraryToNormal}>
                             <OpenLibrary className="open-library-icon" />
                             <LibraryBooksShelves className="library-books-icon" />
@@ -122,8 +122,8 @@ export function Library() {
 
             <Tippy 
                 content="Search In Your Library" 
-                delay={[500, 0]} 
-                offset={[0, 20]} 
+                delay={[300, 0]} 
+                offset={[0, 10]} 
                 arrow={false}
             >
                 <span className="tooltip-wrapper">

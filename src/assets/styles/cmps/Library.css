@@ -262,6 +262,7 @@
   cursor: pointer;
 }
 
+
 .sort-wrapper.open {
   margin-left: 0;
   justify-content: flex-start;
@@ -280,6 +281,21 @@
   fill: var(--sp-white);
   cursor: pointer;
 }
+.tooltip-wrapper{
+  width: var(--fs-display);
+  height: var(--fs-display);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+.tooltip-wrapper:hover {
+  background-color: var(--sp-hover);
+}
+
 
 .label-recents {
   color: var(--sp-grey2);

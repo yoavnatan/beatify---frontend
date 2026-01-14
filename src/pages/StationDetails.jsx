@@ -25,20 +25,27 @@ export function StationDetails() {
   return (
     <section className="station-details">
 
-      <header className="station-header" style={{ '--avg-color': station.averageColor }}>
+      <header className="station-header" style={{ "--avg-color": station.averageColor }} >
+      <div className="image-wrapper">
         <img className="station-cover" src={stationImg} alt={station.name} />
+      </div>
 
-        <div className="station-meta">
-          <span className="playlist-label">Playlist</span>
-          <h1 className="station-title">{station.name}</h1>
+      <div className="station-meta">
+        <span className="playlist-label">Playlist</span>
 
-          <div className="station-subinfo">
-            <span className="creator">This playlist was created by : {station.createdBy.fullname}</span>
-            <span className="dot">•</span>
-            <span className="song-count">{station.songs.length} songs</span>
-          </div>
+        <h1 className="station-title">{station.name}</h1>
+
+        <div className="station-subinfo">
+          <span className="creator">
+            Created by {station.createdBy.fullname}
+          </span>
+          <span className="dot">•</span>
+          <span className="song-count">
+            {station.songs.length} songs
+          </span>
         </div>
-      </header>
+      </div>
+    </header>
 
       <div className="station-actions">
         <button className="play-btn">
