@@ -22,33 +22,20 @@ async function query(filterBy = { txt: '' }) {
     let stations = await storageService.query(STORAGE_KEY)
     if (!stations || stations.length <= 0) stations = await _getStations()
 
-    const { txt, sortField, sortDir, tags } = filterBy
-
-    if (txt) {
-        const regex = new RegExp(filterBy.txt, 'i')
-        stations = stations.filter(station => regex.test(station.name))
-    }
-
-    if (tags?.length) {
-        stations = stations.filter(station =>
-            tags.every(tag => station.tags.includes(tag))
-        )
-    }
-
-    if (sortField === 'txt') {
-        stations.sort((a, b) =>
-            a[sortField].localeCompare(b[sortField]) * +sortDir
-        )
-    }
-
     const likedStation = await getLikedSongsStation()
 
     const idx = stations.findIndex(st => st._id === 'likedSongs')
     if (idx === -1) stations.unshift(likedStation)
     else stations[idx] = likedStation
+
+    stations = await Promise.all(
+        stations.map(st => enrichStationWithAverageColor(st))
+    )
+
     saveToStorage(STORAGE_KEY, stations)
     return stations
 }
+
 
 
 function getById(stationId) {
@@ -475,6 +462,29 @@ async function getLikedSongsStation() {
     }
 
 }
+async function enrichStationWithAverageColor(station) {
+    const fac = new FastAverageColor()
+    const likedSongsImg = "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+    const img = station._id === 'likedSongs'
+        ? likedSongsImg
+        : station.songs?.[0]?.imgUrl
+
+    if (!img) {
+        station.averageColor = '#000000'
+        return station
+    }
+
+    try {
+        const color = await fac.getColorAsync(img)
+        station.averageColor = color.hex
+    } catch {
+        station.averageColor = '#000000'
+    }
+
+    return station
+}
+
+
 
 async function _getAvgColors(stations) {
     await Promise.all(
@@ -486,7 +496,7 @@ async function _getAvgColors(stations) {
 
             } catch (err) {
                 console.error(err)
-                station.averageColor = 'rgba(0,0,0,1)' // fallback
+                station.averageColor = 'rgba(0,0,0,1)' 
             }
         })
     )

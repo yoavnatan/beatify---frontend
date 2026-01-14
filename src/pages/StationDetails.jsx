@@ -10,6 +10,7 @@ export function StationDetails() {
 
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
+  console.log(station)
   
 
   useEffect(() => {
