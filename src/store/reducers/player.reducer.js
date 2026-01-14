@@ -8,11 +8,12 @@ export const TOGGLE_MUTE = 'TOGGLE_MUTE'
 export const SET_LAST_VOLUME = 'SET_LAST_VOLUME'
 export const TOGLLE_SHUFFLE = 'TOGLLE_SHUFFLE'
 export const TOGLLE_LOOP = 'TOGLLE_LOOP'
+export const SET_NOW_PLAYING = 'SET_NOW_PLAYING'
 
 const initialState = {
     playing: false,
-    src: null,
-    nowPlaying: null,
+    // src: null,
+    nowPlaying: {},
     muted: false,
     seeking: false,
     played: 0,
@@ -28,6 +29,10 @@ const initialState = {
 export function playerReducer(state = initialState, action) {
     var newState = state
     switch (action.type) {
+        case SET_NOW_PLAYING:
+            console.log(action.nowPlaying)
+            newState = { ...state, nowPlaying: action.nowPlaying }
+            break
         case SET_IS_PLAYING:
             newState = { ...state, playing: !state.playing }
             break

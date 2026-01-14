@@ -3,11 +3,10 @@
     align-items: center;
     justify-content: space-between;
     font-family: var(--font-primary);
-    /* color: var(--sp-white); */
+    color: var(--sp-white);
     min-height: 3.5rem;
     font-size: 1.3em;
     padding: .8rem 1rem;
-    background-color: --var(clr4);
     height: 90px;
 
     div {

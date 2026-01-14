@@ -6,7 +6,6 @@ export function AppFooter() {
 
 	return (
 		<footer className="app-footer full">
-			<div>Now playing</div>
 			<Player />
 		</footer>
 	)

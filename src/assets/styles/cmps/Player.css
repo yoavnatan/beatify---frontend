@@ -5,7 +5,29 @@
     align-items: center;
     user-select: none;
 
+    .now-playing {
 
+        gap: 1em;
+
+
+        img {
+            width: 56px;
+        }
+
+        .description {}
+
+        .song-title {
+            overflow: hidden;
+            color: var(--sp-white);
+            font-size: var(--fs-small);
+            text-overflow: ellipsis;
+        }
+
+        .artist-name {
+            color: var(--sp-gray);
+            font-size: var(--fs-tiny);
+        }
+    }
 
 
     .btn-play {
