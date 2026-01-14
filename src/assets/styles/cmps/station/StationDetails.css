@@ -6,7 +6,7 @@
 
 .station-header {
   align-items: end;
-  background: linear-gradient(to bottom, var(--avg-color) 0%, var(--sp-black) 70%);
+  background: linear-gradient(to bottom, var(--avg-color) 0%, var(--sp-black) 100%);
   display: grid;
   gap: 24px;
   grid-template-columns: 220px 1fr;

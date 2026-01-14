@@ -71,7 +71,7 @@ export function StationDetails() {
       </div>
       <ul className="song-list">
         {station.songs.map((song, idx) => (
-          <li key={song.id} className="song-row"
+        <li key={`${station._id}-${song.id}-${idx}`} className="song-row"
             onMouseDown={() => {
               lastClickedSong.current = nowPlaying
               setSong(song)
