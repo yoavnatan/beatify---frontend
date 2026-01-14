@@ -53,6 +53,7 @@ video,
 object {
     /* max-width: 100%; */
     display: block;
+    object-fit: cover;
 }
 
 .icon {

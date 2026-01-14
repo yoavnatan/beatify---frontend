@@ -1,16 +1,20 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { loadStation } from '../store/actions/station.actions.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadStation, loadStations } from '../store/actions/station.actions.js'
 import Play from "../assets/svg/play.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
 import Duration from "../assets/svg/duration.svg?react"
+import { SET_IS_PLAYING } from '../store/reducers/player.reducer.js'
+import { setSong } from '../store/actions/player.actions.js'
 
 export function StationDetails() {
 
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
-  
+  let { playing } = useSelector(storeState => storeState.playerModule)
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
     loadStation(stationId)
@@ -45,10 +49,10 @@ export function StationDetails() {
           <Play className="icon large black" />
         </button>
         <button className="shuffle-btn">
-          <Shuffle className="icon large"/>
+          <Shuffle className="icon large" />
         </button>
       </div>
-            
+
       <div className="table-header">
         <div className="col index">#</div>
         <div className="col title">Title</div>
@@ -60,7 +64,12 @@ export function StationDetails() {
       </div>
       <ul className="song-list">
         {station.songs.map((song, idx) => (
-          <li key={song.id} className="song-row">
+          <li key={song.id} className="song-row"
+            onMouseDown={() => {
+              setSong(song)
+            }}
+            onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
+            }>
             <div className="song-index">{idx + 1}</div>
 
             <div className="song-title-wrapper">

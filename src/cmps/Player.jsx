@@ -1,3 +1,12 @@
+// Method to play a song by click:
+// <div className="btn-play" onMouseDown={() => {
+//     setSong({ src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
+// }}
+//     onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
+//     }>{(playing)
+// *** <HERE COMES THE ICON>
+
+
 import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
@@ -18,12 +27,13 @@ import FullScreen from "../assets/svg/full-screen.svg?react"
 import Tippy from '@tippyjs/react';
 
 import 'tippy.js/dist/tippy.css';
+import { setSong } from '../store/actions/player.actions.js';
 
 
 export function Player() {
 
     const playerRef = useRef(null);
-    let { playing, src, seeking, played, volume, muted, shuffle, lastVolume, loop } = useSelector(storeState => storeState.playerModule)
+    let { playing, nowPlaying, src, seeking, played, volume, muted, shuffle, lastVolume, loop } = useSelector(storeState => storeState.playerModule)
     const dispatch = useDispatch()
 
     const min = 0;
@@ -88,7 +98,6 @@ export function Player() {
         const player = playerRef.current;
         // We only want to update time slider if we are not currently seeking
         if (!player || seeking) return;
-
         // dispatch({ type: SET_PLAYED_SECONDS, playedSeconds: player.currentTime })
         dispatch({ type: SET_PLAYED, played: player.currentTime / player.duration })
     }
@@ -128,7 +137,13 @@ export function Player() {
 
     return (
         <section className="player container flex ">
-            <div className='now-playing'></div>
+            <div className='now-playing flex'>
+                <img src={nowPlaying.imgUrl} />
+                <div className='description'>
+                    <div className='song-title'>{nowPlaying.title}</div>
+                    <div className='artist-name'>Artist name</div>
+                </div>
+            </div>
             <div className='main-container flex column'>
                 <div className="controls flex">
 
@@ -144,9 +159,7 @@ export function Player() {
                             <PlayPrev className="icon small" />
                         </span>
                     </Tippy>
-                    <div className="btn-play" onMouseDown={() => {
-                        dispatch({ type: SET_SRC, src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
-                    }}
+                    <div className="btn-play"
                         onMouseUp={() => dispatch({ type: SET_IS_PLAYING })
                         }>{(playing)
                             ?
@@ -177,7 +190,7 @@ export function Player() {
                 </div>
 
                 <div className='info flex'>
-                    <div className='timer'> {playerRef.current && src && <Duration seconds={playerRef.current.duration * played} />}</div>
+                    <div className='timer'> {playerRef.current && nowPlaying && <Duration seconds={playerRef.current.duration * played} />}</div>
                     <div className="progress-bar flex ">
                         <input
                             style={getDurationBackgroundSize()}
@@ -192,7 +205,7 @@ export function Player() {
                             onMouseUp={handleSeekMouseUp}
                         />
                     </div>
-                    <div className='timer'>  {playerRef.current && src && <Duration seconds={playerRef.current.duration} />} </div>
+                    <div className='timer'>  {playerRef.current && nowPlaying && <Duration seconds={playerRef.current.duration} />} </div>
                 </div>
             </div>
 
@@ -248,7 +261,7 @@ export function Player() {
             }}>
                 <ReactPlayer
                     ref={playerRef}
-                    src={src}
+                    src={nowPlaying.src}
                     controls={true}
                     width="100%"
                     height="100%"
@@ -269,7 +282,4 @@ export function Player() {
     )
 }
 
-<div className="btn-play">
-
-</div>
 
