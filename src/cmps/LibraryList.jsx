@@ -14,7 +14,7 @@ export function LibraryList() {
     return (
         <section className="library-list">
             <ul>
-                {stations.slice(0, 4).map(station => (
+                {stations.slice(0, 7).map(station => (
                     <li key={station._id} onClick={() => displayStationDetails(station._id)}>
                         
                         <img
