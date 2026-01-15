@@ -98,6 +98,9 @@ h3,
   transition: transform .1s ease;
   width: 54px;
 }
+.icon-large-black{
+  width: var(--fs-h3);
+}
 
 .play-btn:hover {
   background-color: var(--sp-greenBrighter);

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js'
+import { loadStation } from '../store/actions/station.actions.js'
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
@@ -9,17 +9,18 @@ import Duration from "../assets/svg/duration.svg?react"
 import { PLAY, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
+import Tippy from "@tippyjs/react"
 
 export function StationDetails() {
 
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
-  let { playing, nowPlaying } = useSelector(storeState => storeState.playerModule)
-  let { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
+  const { playing, nowPlaying } = useSelector(storeState => storeState.playerModule)
+  const { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
   const dispatch = useDispatch()
-  const lastClickedSong = useRef()
-  let isStationPlaying = (stationId === nowPlayingStationId)
-  console.log(station)
+  const lastClickedSong = useRef(null)
+
+  const isStationPlaying = stationId === nowPlayingStationId
 
   useEffect(() => {
     loadStation(stationId)
@@ -56,25 +57,43 @@ export function StationDetails() {
         </div>
       </header>
 
-      <div className="station-actions">
-        <button className="play-btn"
-          onClick={() => {
-            lastClickedSong.current = nowPlaying
-            if (isStationPlaying) dispatch({ type: TOGGLE_PLAY })
-            else {
-              setSong(station.songs[0])
-                (dispatch({ type: PLAY }))
-            }
-            dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
-          }}
-        >
-          {(!isStationPlaying || !playing) && <Play className="icon large black" />}
-          {isStationPlaying && playing && <Pause className="icon large black" />}
-        </button>
-        <button className="shuffle-btn">
-          <Shuffle className="icon large" />
-        </button>
-      </div>
+
+        <div className="station-actions">
+
+        <Tippy
+        content={`Play ${station.name}`}
+        delay={[1200, 0]}
+        offset={[0, -100]}
+        arrow={false}
+        placement="bottom"
+      >
+          <button
+            className="play-btn"
+            onClick={() => {
+              lastClickedSong.current = nowPlaying
+
+              if (isStationPlaying) {
+                dispatch({ type: TOGGLE_PLAY })
+              } else {
+                setSong(station.songs[0])
+                dispatch({ type: PLAY })
+              }
+
+              dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+            }}
+          >
+            {(!isStationPlaying || !playing) && <Play className="icon-large-black" />}
+            {isStationPlaying && playing && <Pause className="icon-large-black" />}
+          </button>
+          
+        </Tippy>
+
+          <button className="shuffle-btn">
+            <Shuffle className="icon large" />
+          </button>
+
+        </div>
+      
 
       <div className="table-header">
         <div className="col index">#</div>
@@ -85,14 +104,21 @@ export function StationDetails() {
           <Duration className="duration-icon" />
         </div>
       </div>
+
       <ul className="song-list">
         {station.songs.map((song, idx) => (
-          <li key={`${station._id}-${song.id}-${idx}`} className="song-row"
+          <li
+            key={`${station._id}-${song.id}-${idx}`}
+            className="song-row"
             onClick={() => {
+              const prev = lastClickedSong.current
               lastClickedSong.current = nowPlaying
+
               setSong(song)
-              if (lastClickedSong.current.id === song.id) dispatch({ type: TOGGLE_PLAY })
-              else {
+
+              if (prev?.id === song.id) {
+                dispatch({ type: TOGGLE_PLAY })
+              } else {
                 dispatch({ type: PLAY })
                 dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
               }
@@ -109,9 +135,7 @@ export function StationDetails() {
             </div>
 
             <div className="song-album">Album Name</div>
-
             <div className="song-date">2 days ago</div>
-
             <div className="song-duration">3:45</div>
           </li>
         ))}
