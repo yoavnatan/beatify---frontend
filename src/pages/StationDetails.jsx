@@ -65,11 +65,12 @@ export function StationDetails() {
             setSong(station.songs[0])
           }}
           onMouseUp={() => {
-            dispatch({ type: TOGGLE_PLAY })
+            if (isStationPlaying) dispatch({ type: TOGGLE_PLAY })
+            else (dispatch({ type: PLAY }))
             dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
           }
           }>
-          {!playing && <Play className="icon large black" />}
+          {(!isStationPlaying || !playing) && <Play className="icon large black" />}
           {isStationPlaying && playing && <Pause className="icon large black" />}
         </button>
         <button className="shuffle-btn">
