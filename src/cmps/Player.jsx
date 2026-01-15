@@ -100,7 +100,6 @@ export function Player() {
         const likedSongs = user.likedSongs
         if (user.likedSongs.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
-            console.log(userToUpdate)
             await updateUser(userToUpdate)
 
         } else {
@@ -145,6 +144,8 @@ export function Player() {
 
     if (muted) volume = 0;
 
+    const isSongLiked = (user.likedSongs.includes(nowPlaying.id))
+
     return (
         <section className="player container flex ">
             <div className='now-playing'>
@@ -153,10 +154,11 @@ export function Player() {
                     <div className='song-title'>{nowPlaying.title}</div>
                     <div className='artist-name'>Artist name</div>
                 </div>}
-                {nowPlaying.src && <div className='like-button'>
-                    <Tippy content={'Add to Liked Songs'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                {nowPlaying.src && <div className={`like-button ${isSongLiked ? ' on' : ''}`}>
+                    <Tippy content={`${isSongLiked ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                         <span className="tooltip-wrapper">
-                            <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />
+                            {!isSongLiked && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                            {isSongLiked && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
                         </span>
                     </Tippy>
                 </div>}
