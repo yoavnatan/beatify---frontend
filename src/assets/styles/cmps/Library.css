@@ -25,13 +25,17 @@
 }
 
 
-
 .library-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
+
+.sidebar-collapsed .library-header {
+  justify-content: center;
+}
+
 
 .library-title {
   display: flex;
@@ -89,10 +93,12 @@
   background-color: var(--sp-dark-2);
   transition: background-color .2s ease;
 }
-.icon-circle:hover{
+
+.icon-circle:hover {
   background-color: var(--sp-hover);
 }
-.icon-circle.createShown{
+
+.icon-circle.createShown {
   background-color: transparent;
 }
 

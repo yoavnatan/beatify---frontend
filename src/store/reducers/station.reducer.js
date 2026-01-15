@@ -4,6 +4,7 @@ export const REMOVE_STATION = 'REMOVE_STATION'
 export const ADD_STATION = 'ADD_STATION'
 export const UPDATE_STATION = 'UPDATE_STATION'
 export const ADD_STATION_MSG = 'ADD_STATION_MSG'
+export const SET_NOW_PLAYING_STATION = 'SET_NOW_PLAYING_STATION'
 
 const initialState = {
     stations: [],
@@ -21,6 +22,9 @@ export function stationReducer(state = initialState, action) {
             break
         case SET_STATION:
             newState = { ...state, station: action.station }
+            break
+        case SET_NOW_PLAYING_STATION:
+            newState = { ...state, nowPlaying: action.nowPlaying }
             break
         case REMOVE_STATION:
             const lastRemovedStation = state.stations.find(station => station._id === action.stationId)
