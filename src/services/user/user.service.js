@@ -30,9 +30,9 @@ function remove(userId) {
     return storageService.remove('user', userId)
 }
 
-async function update({ _id, score }) {
+async function update({ _id, likedSongs }) {
     const user = await storageService.get('user', _id)
-    user.score = score
+    user.likedSongs = likedSongs
     await storageService.put('user', user)
 
     // When admin updates other user's details, do not update loggedinUser
@@ -67,13 +67,14 @@ function getLoggedinUser() {
     if (!user) {
         user = {
             _id: 'u999',
-			username:'Default User',
+            username: 'Default User',
             fullname: 'Default User',
-			password: '123',
+            password: '123',
             imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-			likedSongs:['vW4kZ0yV6xM','kqZ2YkHhDZo','hT_nvWreIhg','kffacxfA7G4','I_2D8Eo15wE','pXRviuL6vMY','60ItHLz5WEA','Kbj2Zss','DksSPZTZES0']
+            likedSongs: ['vW4kZ0yV6xM', 'kqZ2YkHhDZo', 'hT_nvWreIhg', 'kffacxfA7G4', 'I_2D8Eo15wE', 'pXRviuL6vMY', '60ItHLz5WEA', 'Kbj2Zss', 'DksSPZTZES0']
         }
-        saveLoggedinUser(user)
+        // const savedUser = await storageService.post('user', user)
+        saveLoggedinUser(savedUser)
     }
 
     return user

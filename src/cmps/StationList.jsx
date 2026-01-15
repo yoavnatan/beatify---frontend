@@ -25,8 +25,8 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
                 <li key={station._id} onClick={() => displayStationDetails(station._id)}>
                     <StationPreview station={station} setGradientColor={setGradientColor} />
                     {shouldShowActionBtns(station) && <div className="actions">
-                        <button onClick={() => onUpdateStation(station)}>Edit</button>
-                        <button onClick={() => onRemoveStation(station._id)}>x</button>
+                        {/* <button onClick={() => onUpdateStation(station)}>Edit</button> */}
+                        {/* <button onClick={() => onRemoveStation(station._id)}>x</button> */}
                     </div>}
                 </li>)
             }

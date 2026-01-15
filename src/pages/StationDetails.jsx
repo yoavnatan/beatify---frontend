@@ -19,7 +19,7 @@ export function StationDetails() {
   const dispatch = useDispatch()
   const lastClickedSong = useRef()
   let isStationPlaying = (stationId === nowPlayingStationId)
-
+  console.log(station)
 
   useEffect(() => {
     loadStation(stationId)
@@ -30,8 +30,6 @@ export function StationDetails() {
   const stationImg = station._id === 'likedSongs'
     ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
     : station.songs[0]?.imgUrl
-
-  console.log(playing)
 
   return (
     <section className="station-details">
@@ -60,16 +58,16 @@ export function StationDetails() {
 
       <div className="station-actions">
         <button className="play-btn"
-          onMouseDown={() => {
+          onClick={() => {
             lastClickedSong.current = nowPlaying
-            setSong(station.songs[0])
-          }}
-          onMouseUp={() => {
             if (isStationPlaying) dispatch({ type: TOGGLE_PLAY })
-            else (dispatch({ type: PLAY }))
+            else {
+              setSong(station.songs[0])
+                (dispatch({ type: PLAY }))
+            }
             dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
-          }
-          }>
+          }}
+        >
           {(!isStationPlaying || !playing) && <Play className="icon large black" />}
           {isStationPlaying && playing && <Pause className="icon large black" />}
         </button>
@@ -90,19 +88,16 @@ export function StationDetails() {
       <ul className="song-list">
         {station.songs.map((song, idx) => (
           <li key={`${station._id}-${song.id}-${idx}`} className="song-row"
-            onMouseDown={() => {
+            onClick={() => {
               lastClickedSong.current = nowPlaying
               setSong(song)
-            }}
-            onMouseUp={() => {
               if (lastClickedSong.current.id === song.id) dispatch({ type: TOGGLE_PLAY })
               else {
                 dispatch({ type: PLAY })
                 dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
               }
-
-            }
-            }>
+            }}
+          >
             <div className="song-index">{idx + 1}</div>
 
             <div className="song-title-wrapper">

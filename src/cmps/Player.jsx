@@ -1,12 +1,3 @@
-// Method to play a song by click:
-// <div className="btn-play" onMouseDown={() => {
-//     setSong({ src: "https://www.youtube.com/watch?v=1e8mzCW0nlU&list=RD85qgguw11P4&index=2" })
-// }}
-//     onMouseUp={() => dispatch({ type: TOGGLE_PLAY })
-//     }>{(playing)
-// *** <HERE COMES THE ICON>
-
-
 import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
@@ -30,14 +21,15 @@ import Tippy from '@tippyjs/react';
 
 import 'tippy.js/dist/tippy.css';
 import { setSong } from '../store/actions/player.actions.js';
+import { updateUser } from '../store/actions/user.actions.js';
 
 
 export function Player() {
 
     const playerRef = useRef(null);
+    const { user } = useSelector(storeState => storeState.userModule)
     let { playing, nowPlaying, src, seeking, played, volume, muted, shuffle, lastVolume, loop } = useSelector(storeState => storeState.playerModule)
     const dispatch = useDispatch()
-
     const min = 0;
     const max = 1;
     function getDurationBackgroundSize() {
@@ -45,7 +37,6 @@ export function Player() {
             backgroundSize: `${(played - min) * 100 / (max - min)}% 100%`,
         }
     }
-
     function getVolumeBackgroundSize() {
         return {
             backgroundSize: `${(volume - min) * 100 / (max - min)}% 100%`,
@@ -104,6 +95,12 @@ export function Player() {
         dispatch({ type: SET_PLAYED, played: player.currentTime / player.duration })
     }
 
+    function likeSong(songId) {
+        const likedSongs = user.likedSongs
+        const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+        updateUser(userToUpdate)
+    }
+
     function Duration({ className, seconds }) {
         return (
             <time dateTime={`P${Math.round(seconds)}S`} className={className}>
@@ -111,6 +108,8 @@ export function Player() {
             </time>
         );
     }
+
+    console.log(user)
 
     function format(seconds) {
         const date = new Date(seconds * 1000);
@@ -148,7 +147,7 @@ export function Player() {
                 {nowPlaying.src && <div className='like-button'>
                     <Tippy content={'Add to Liked Songs'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                         <span className="tooltip-wrapper">
-                            <Like className="icon small" />
+                            <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />
                         </span>
                     </Tippy>
                 </div>}
@@ -170,7 +169,7 @@ export function Player() {
                         </span>
                     </Tippy>
                     <div className="btn-play"
-                        onMouseUp={() => dispatch({ type: TOGGLE_PLAY })
+                        onClick={() => dispatch({ type: TOGGLE_PLAY })
                         }>{(playing)
                             ?
                             <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} key="pause-tip">
