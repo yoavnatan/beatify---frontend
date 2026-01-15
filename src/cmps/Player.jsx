@@ -23,6 +23,8 @@ import VolumeLow from "../assets/svg/volume-low.svg?react"
 import VolumeMid from "../assets/svg/volume-mid.svg?react"
 import VolumeHigh from "../assets/svg/volume-high.svg?react"
 import Queue from "../assets/svg/queue.svg?react"
+import Like from "../assets/svg/like.svg?react"
+import Liked from "../assets/svg/liked.svg?react"
 import FullScreen from "../assets/svg/full-screen.svg?react"
 import Tippy from '@tippyjs/react';
 
@@ -137,13 +139,21 @@ export function Player() {
 
     return (
         <section className="player container flex ">
-            <div className='now-playing '>
+            <div className='now-playing'>
                 <img src={nowPlaying.imgUrl} />
-                {nowPlaying.src && <div className='description'>
+                {nowPlaying.src && <div>
                     <div className='song-title'>{nowPlaying.title}</div>
                     <div className='artist-name'>Artist name</div>
                 </div>}
+                {nowPlaying.src && <div className='like-button'>
+                    <Tippy content={'Add to Liked Songs'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                        <span className="tooltip-wrapper">
+                            <Like className="icon small" />
+                        </span>
+                    </Tippy>
+                </div>}
             </div>
+
             <div className='main-container flex column'>
                 <div className="controls flex">
 
@@ -278,7 +288,7 @@ export function Player() {
                     }}
                 />
             </div>
-        </section>
+        </section >
     )
 }
 
