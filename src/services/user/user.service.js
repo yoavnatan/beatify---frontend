@@ -2,6 +2,8 @@ import { storageService } from '../async-storage.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
+_createDefaultUser()
+
 export const userService = {
     login,
     logout,
@@ -63,20 +65,6 @@ async function logout() {
 
 function getLoggedinUser() {
     let user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
-
-    if (!user) {
-        user = {
-            _id: 'u999',
-            username: 'Default User',
-            fullname: 'Default User',
-            password: '123',
-            imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-            likedSongs: ['vW4kZ0yV6xM', 'kqZ2YkHhDZo', 'hT_nvWreIhg', 'kffacxfA7G4', 'I_2D8Eo15wE', 'pXRviuL6vMY', '60ItHLz5WEA', 'Kbj2Zss', 'DksSPZTZES0']
-        }
-        // const savedUser = await storageService.post('user', user)
-        saveLoggedinUser(savedUser)
-    }
-
     return user
 }
 
@@ -105,4 +93,29 @@ async function _createAdmin() {
 
     const newUser = await storageService.post('user', userCred)
     console.log('newUser: ', newUser)
+}
+
+async function _createDefaultUser() {
+    const users = await storageService.query('user')
+    if (!users || users.length === 0) {
+        const user = {
+            _id: 'u999',
+            username: 'Default User',
+            fullname: 'Default User',
+            password: '123',
+            imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+            likedSongs: ["song003",
+                "song042",
+                "song117",
+                "song189",
+                "song221",
+                "song234",
+                "song050",
+                "song178",
+                "song207",
+                "song230"]
+        }
+        const savedUser = await storageService.post('user', user)
+        saveLoggedinUser(user)
+    }
 }

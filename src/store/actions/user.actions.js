@@ -31,6 +31,7 @@ export async function updateUser(user) {
     try {
         const savedUser = await userService.update(user)
         store.dispatch({ type: SET_USER, user: user })
+        console.log(savedUser)
         return savedUser
     } catch (err) {
         console.log('Cannot update user', err)

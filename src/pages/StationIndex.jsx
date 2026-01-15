@@ -18,6 +18,7 @@ export function StationIndex() {
     const [filterBy, setFilterBy] = useState(stationService.getDefaultFilter())
     const stations = useSelector(storeState => storeState.stationModule.stations)
     const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
+    const { user } = useSelector(storeState => storeState.userModule)
 
     const gradientRef = useRef()
     useEffect(() => {

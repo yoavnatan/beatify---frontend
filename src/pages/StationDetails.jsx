@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js'
+import { loadLikedSongsStation, loadStation, loadStations, updateStation } from '../store/actions/station.actions.js'
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
@@ -19,11 +19,11 @@ export function StationDetails() {
   const dispatch = useDispatch()
   const lastClickedSong = useRef()
   let isStationPlaying = (stationId === nowPlayingStationId)
-  console.log(station)
 
   useEffect(() => {
-    loadStation(stationId)
-  }, [stationId])
+    if (stationId === 'likedSongs') loadLikedSongsStation()
+    else loadStation(stationId)
+  }, [stationId, station])
 
   if (!station) return <div>Loading...</div>
 

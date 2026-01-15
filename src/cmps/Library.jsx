@@ -15,6 +15,7 @@ import Tippy from "@tippyjs/react"
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const stations = useSelector(storeState => storeState.stationModule.stations)
+    const { user } = useSelector(storeState => storeState.userModule)
 
     const inputRef = useRef(null)
     const searchWrapperRef = useRef(null)
@@ -68,8 +69,8 @@ export function Library() {
 
             <div className="library-header">
 
-                <Tippy content="Collapse Your Library" delay={[300, 0]} offset={[10,-60]} arrow={false} placement="bottom">
-                    <div className="library-title"  onClick={collapseLibrary}>
+                <Tippy content="Collapse Your Library" delay={[300, 0]} offset={[10, -60]} arrow={false} placement="bottom">
+                    <div className="library-title" onClick={collapseLibrary}>
                         <Collapse className="collapse-library" />
                         <h1>Your Library</h1>
                     </div>
@@ -79,24 +80,24 @@ export function Library() {
 
                 <div className="header-actions">
 
-                    <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10,-70]} arrow={false} placement="bottom">
+                    <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
                         <button className={`create-wrapper ${showCreateBtn ? 'createShown' : ''}`}>
 
                             <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
                                 <Plus className="icon-plus" />
                             </div>
-                                {showCreateBtn && <button className="create-btn">Create</button>}
+                            {showCreateBtn && <button className="create-btn">Create</button>}
                         </button>
                     </Tippy>
 
-                    <Tippy content="Expand / Minimize Your Library" delay={[300, 0]} offset={[10,-70]} arrow={false} placement="bottom">
+                    <Tippy content="Expand / Minimize Your Library" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
                         <div className="icon-circle-expend-wrapper" onClick={expandLibrary}>
                             <Expend className="expend-side-bar" />
                             <MinimizeLibrary className="minimize-side-bar" />
                         </div>
                     </Tippy>
 
-                    <Tippy content="Open Your Library" delay={[300, 0]} offset={[10,-60]} arrow={false} placement="bottom">
+                    <Tippy content="Open Your Library" delay={[300, 0]} offset={[10, -60]} arrow={false} placement="bottom">
                         <div className="library-books-wrapper" onClick={expandLibraryToNormal}>
                             <OpenLibrary className="open-library-icon" />
                             <LibraryBooksShelves className="library-books-icon" />
@@ -105,7 +106,7 @@ export function Library() {
 
                 </div>
 
-        </div>
+            </div>
 
             <div className="library-filter">
                 <button>Playlists</button>
@@ -116,41 +117,41 @@ export function Library() {
                 ref={searchWrapperRef}
                 className={`search-row ${isSearchOpen ? "open" : ""}`}
             >
-            <div className="search-input-wrapper">
+                <div className="search-input-wrapper">
 
-            <Tippy 
-                content="Search In Your Library" 
-                delay={[300, 0]} 
-                offset={[0, 10]} 
-                arrow={false}
-            >
-                <span className="search-library-wrapper"
-                        onClick={() => {
-                                    setIsSearchOpen(prev => {
-                                        const next = !prev
-                                        if (!prev) {
-                                            setTimeout(() => inputRef.current?.focus(), 150)
-                                        }
-                                        return next
-                                    })
-                                }}
+                    <Tippy
+                        content="Search In Your Library"
+                        delay={[300, 0]}
+                        offset={[0, 10]}
+                        arrow={false}
+                    >
+                        <span className="search-library-wrapper"
+                            onClick={() => {
+                                setIsSearchOpen(prev => {
+                                    const next = !prev
+                                    if (!prev) {
+                                        setTimeout(() => inputRef.current?.focus(), 150)
+                                    }
+                                    return next
+                                })
+                            }}
                         >
-                    <Search
-                        className={`icon-medium ${isSearchOpen ? "open" : ""}`}
-                        
+                            <Search
+                                className={`icon-medium ${isSearchOpen ? "open" : ""}`}
+
+                            />
+                        </span>
+                    </Tippy>
+
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        placeholder="Search in Your Library"
+                        className={`search-input ${isSearchOpen ? "open" : ""}`}
                     />
-                </span>
-            </Tippy>
+                </div>
 
-            <input
-                ref={inputRef}
-                type="text"
-                placeholder="Search in Your Library"
-                className={`search-input ${isSearchOpen ? "open" : ""}`}
-            />
-        </div>
-
-            <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
+                <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
                     <label className={`label-recents ${isSearchOpen ? "hide" : ""}`}>
                         Recents
                     </label>

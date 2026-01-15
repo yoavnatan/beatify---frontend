@@ -22,6 +22,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { setSong } from '../store/actions/player.actions.js';
 import { updateUser } from '../store/actions/user.actions.js';
+import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js';
 
 
 export function Player() {
@@ -95,10 +96,19 @@ export function Player() {
         dispatch({ type: SET_PLAYED, played: player.currentTime / player.duration })
     }
 
-    function likeSong(songId) {
+    async function likeSong(songId) {
         const likedSongs = user.likedSongs
-        const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
-        updateUser(userToUpdate)
+        if (user.likedSongs.includes(songId)) {
+            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+            console.log(userToUpdate)
+            await updateUser(userToUpdate)
+
+        } else {
+            const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+            await updateUser(userToUpdate)
+
+
+        }
     }
 
     function Duration({ className, seconds }) {
@@ -109,7 +119,6 @@ export function Player() {
         );
     }
 
-    console.log(user)
 
     function format(seconds) {
         const date = new Date(seconds * 1000);
