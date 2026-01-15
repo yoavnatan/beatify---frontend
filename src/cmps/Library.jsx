@@ -80,16 +80,13 @@ export function Library() {
                 <div className="header-actions">
 
                     <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10,-70]} arrow={false} placement="bottom">
-                        <div
-                            className="create-wrapper"
-                            style={showCreateBtn ? { padding: "3px 10px" } : {}}
-                        >
-                        <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
-                            <Plus className="icon-plus" />
-                        </div>
+                        <button className="create-wrapper">
 
-                            {showCreateBtn && <button className="create-btn">Create</button>}
-                        </div>
+                            <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
+                                <Plus className="icon-plus" />
+                            </div>
+                                {showCreateBtn && <button className="create-btn">Create</button>}
+                        </button>
                     </Tippy>
 
                     <Tippy content="Expand / Minimize Your Library" delay={[300, 0]} offset={[10,-70]} arrow={false} placement="bottom">
@@ -127,18 +124,20 @@ export function Library() {
                 offset={[0, 10]} 
                 arrow={false}
             >
-                <span className="search-library-wrapper">
+                <span className="search-library-wrapper"
+                        onClick={() => {
+                                    setIsSearchOpen(prev => {
+                                        const next = !prev
+                                        if (!prev) {
+                                            setTimeout(() => inputRef.current?.focus(), 150)
+                                        }
+                                        return next
+                                    })
+                                }}
+                        >
                     <Search
                         className={`icon-medium ${isSearchOpen ? "open" : ""}`}
-                        onClick={() => {
-                            setIsSearchOpen(prev => {
-                                const next = !prev
-                                if (!prev) {
-                                    setTimeout(() => inputRef.current?.focus(), 150)
-                                }
-                                return next
-                            })
-                        }}
+                        
                     />
                 </span>
             </Tippy>
