@@ -85,7 +85,10 @@ export function Library() {
                             <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
                                 <Plus className="icon-plus" />
                             </div>
-                                {showCreateBtn && <button className="create-btn">Create</button>}
+
+                            {showCreateBtn && (
+                                <span className="create-btn">Create</span>
+                            )}
                         </button>
                     </Tippy>
 
