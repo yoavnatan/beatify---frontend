@@ -126,31 +126,35 @@ h3,
   display: grid;
   font-size: var(--fs-small);
   gap: 16px;
-  grid-template-columns: 40px 4fr 3fr 2fr 40px;
+grid-template-columns: 40px 4fr 3fr 2fr 40px;
   letter-spacing: var(--ls-normal);
   padding: 12px 40px;
 }
+.table-header .col:nth-child(5) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 
 .table-header .col {
   align-items: center;
   display: flex;
 }
 
-.table-header .duration {
-  align-items: center;
+.col-duration{
   border: 1px solid var(--sp-gray);
   border-radius: 50%;
-  display: flex;
   height: 17px;
-  justify-content: center;
   width: 17px;
 }
+.duration-icon{
+  width: var(--fs-h1);
+  fill:  var(--sp-gray);
 
-.duration-icon {
-  height: 18px;
-  opacity: 0.7;
-  width: 18px;
 }
+
+
 
 .song-row {
   align-items: center;
@@ -186,6 +190,13 @@ h3,
 .song-album {
   cursor: pointer;
 }
+.song-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 240px;
+}
+
 
 .song-title:hover,
 .song-artist:hover,
@@ -200,6 +211,7 @@ h3,
   color: var(--sp-gray);
   font-size: var(--fs-small);
 }
+
 
 .song-row:hover .song-artist,
 .song-row:hover .song-album {
