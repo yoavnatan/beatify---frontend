@@ -4,7 +4,7 @@
   --sp-dark: #181818;
   --sp-dark-2: #1f1f1f;
   --sp-gray: #b3b3b3;
-  --sp-grey2: rgb(179, 179, 179);
+  --sp-grey2: hsl(0, 0%, 50%);
   --sp-light-gray: #e5e5e5;
   --sp-white: #ffffff;
   --sp-green: hsl(141, 73%, 42%);

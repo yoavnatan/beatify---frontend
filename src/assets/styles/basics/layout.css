@@ -39,16 +39,15 @@ main {
 main.sidebar-expend {
     grid-template-columns: 1fr 0fr 0fr;
 }
-
 .main-content {
-    width: 100%;
-    overflow-x: hidden;
-    width: 100%;
-    max-width: 100%;
-    border-radius: 8px;
-    height: 100%;
-    background-color: var(--sp-black);
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;  
+  overflow-x: hidden;
+  border-radius: 8px;
+  background-color: var(--sp-black);
 }
+
 
 
 
@@ -82,3 +81,15 @@ main.sidebar-expend {
         background-color: var(--clr4);
     }
 }
+.main-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--sp-grey2)
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
