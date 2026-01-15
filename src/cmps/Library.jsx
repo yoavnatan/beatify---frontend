@@ -80,7 +80,7 @@ export function Library() {
                 <div className="header-actions">
 
                     <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10,-70]} arrow={false} placement="bottom">
-                        <button className="create-wrapper">
+                        <button className={`create-wrapper ${showCreateBtn ? 'createShown' : ''}`}>
 
                             <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
                                 <Plus className="icon-plus" />

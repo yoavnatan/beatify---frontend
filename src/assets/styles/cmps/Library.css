@@ -108,15 +108,17 @@
   fill: var(--sp-gray);
   transition: fill 0.2s ease;
 }
-
-.create-wrapper {
-  display: flex;
+.create-wrapper{
+    display: flex;
   align-items: center;
   justify-content: center; 
   cursor: pointer;
-  background-color: var(--sp-hover);
   border-radius: 40px;
   padding: 0 6px;
+}
+
+.create-wrapper.createShown{
+  background-color: var(--sp-hover);
 }
 
 
