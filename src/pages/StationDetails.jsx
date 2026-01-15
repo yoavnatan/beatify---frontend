@@ -1,20 +1,25 @@
 import { useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadStation, loadStations } from '../store/actions/station.actions.js'
+import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js'
 import Play from "../assets/svg/play.svg?react"
+import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
 import Duration from "../assets/svg/duration.svg?react"
 import { PLAY, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
+import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 
 export function StationDetails() {
 
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
   let { playing, nowPlaying } = useSelector(storeState => storeState.playerModule)
+  let { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
   const dispatch = useDispatch()
   const lastClickedSong = useRef()
+  let isStationPlaying = (stationId === nowPlayingStationId)
+
 
   useEffect(() => {
     loadStation(stationId)
@@ -25,6 +30,8 @@ export function StationDetails() {
   const stationImg = station._id === 'likedSongs'
     ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
     : station.songs[0]?.imgUrl
+
+  console.log(playing)
 
   return (
     <section className="station-details">
@@ -52,8 +59,9 @@ export function StationDetails() {
       </header>
 
       <div className="station-actions">
-        <button className="play-btn">
-          <Play className="icon large black" />
+        <button className="play-btn" onMouseUp={() => dispatch({ type: TOGGLE_PLAY })}>
+          {isStationPlaying && playing && <Play className="icon large black" />}
+          {isStationPlaying && !playing && <Pause className="icon large black" />}
         </button>
         <button className="shuffle-btn">
           <Shuffle className="icon large" />
@@ -71,14 +79,18 @@ export function StationDetails() {
       </div>
       <ul className="song-list">
         {station.songs.map((song, idx) => (
-        <li key={`${station._id}-${song.id}-${idx}`} className="song-row"
+          <li key={`${station._id}-${song.id}-${idx}`} className="song-row"
             onMouseDown={() => {
               lastClickedSong.current = nowPlaying
               setSong(song)
             }}
             onMouseUp={() => {
               if (lastClickedSong.current.id === song.id) dispatch({ type: TOGGLE_PLAY })
-              else dispatch({ type: PLAY })
+              else {
+                dispatch({ type: PLAY })
+                dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+              }
+
             }
             }>
             <div className="song-index">{idx + 1}</div>
