@@ -59,9 +59,18 @@ export function StationDetails() {
       </header>
 
       <div className="station-actions">
-        <button className="play-btn" onMouseUp={() => dispatch({ type: TOGGLE_PLAY })}>
-          {isStationPlaying && playing && <Play className="icon large black" />}
-          {isStationPlaying && !playing && <Pause className="icon large black" />}
+        <button className="play-btn"
+          onMouseDown={() => {
+            lastClickedSong.current = nowPlaying
+            setSong(station.songs[0])
+          }}
+          onMouseUp={() => {
+            dispatch({ type: TOGGLE_PLAY })
+            dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+          }
+          }>
+          {!playing && <Play className="icon large black" />}
+          {isStationPlaying && playing && <Pause className="icon large black" />}
         </button>
         <button className="shuffle-btn">
           <Shuffle className="icon large" />
