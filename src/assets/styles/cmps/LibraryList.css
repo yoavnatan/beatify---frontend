@@ -17,27 +17,58 @@
   overflow-y: auto;
   padding-right: 4px;
 }
+.sidebar-collapsed .library-list ul{
+  gap: 0;
+}
 
 .library-list li {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px;
+  padding: 3px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.1s ease;
+  position: relative;
+}
+.sidebar-collapsed .library-list li{
+  gap: 0;
 }
 
 .library-list li:hover {
   background-color: var(--sp-hover);
 }
 
+.icon-white-arrow {
+  position: absolute;
+  top: 50%;
+  left: 26px; 
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  fill: var(--sp-white);
+  pointer-events: none;
+  display: none;
+}
+.library-list li:hover .icon-white-arrow{
+  display: block;
+}
+
 .library-list img {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 4px;
   object-fit: cover;
   flex-shrink: 0;
+}
+.library-list li:hover img {
+  opacity: .6;
+}
+
+
+.sidebar-collapsed .library-list img{
+  width: 50px;
+  height: 50px;
 }
 
 .library-list .station-info {
@@ -56,7 +87,7 @@
 }
 
 .station-created-by {
-  font-size: var(--fs-tiny);
+  font-size: var(--fs-small);
   color: var(--sp-gray);
   margin-top: 2px;
   white-space: nowrap;
