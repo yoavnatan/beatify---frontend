@@ -171,7 +171,7 @@ h3,
   border-radius: 4px;
   height: 40px;
   width: 40px;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .song-title-wrapper {
@@ -276,19 +276,44 @@ h3,
 
 
 .station-details .search.container {
-  margin-inline-start: 1em;
+  margin-inline-start: 2em;
   margin-block-end: 3em;
   margin-block-start: 2em;
   min-height: 300px;
+
+  .wrapper {
+    position: relative;
+
+    .tooltip-wrapper {
+      position: absolute;
+      left: 10px;
+      bottom: 11px;
+      width: 18px
+    }
+  }
 }
 
 .station-details .search-input {
   width: 380px;
+  height: 40px;
   border: none;
-  padding: 1em;
+  padding: 1em 2.5em;
   background-color: var(--sp-hover);
   border-radius: 6px;
   font-size: var(--fs-small);
   font-family: var(--font-primary);
   outline: none;
+  color: var(--sp-white)
+}
+
+.station-details .result-item {
+  display: grid;
+  grid-template-columns: 56px 2fr 2fr;
+  height: 54px;
+  align-items: center;
+}
+
+.station-details hr {
+
+  margin: 1em;
 }

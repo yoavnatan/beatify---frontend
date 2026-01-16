@@ -92,3 +92,9 @@ object {
     display: flex;
     align-items: center;
 }
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: var(--sp-gray);
+}

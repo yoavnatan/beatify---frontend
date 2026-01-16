@@ -12,6 +12,7 @@ import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import Tippy from "@tippyjs/react"
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
+import Search from "../assets/svg/search.svg?react"
 
 import { debounce } from '../services/util.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
@@ -45,10 +46,14 @@ export function StationDetails() {
   }
 
   async function onSearchMusic(search) {
-    console.log('searching')
     const searchResults = await searchMusicService.searchMusic(search)
     console.log(searchResults)
     setSearchResults(searchResults)
+  }
+
+  function onSearch(ev) {
+    ev.preventDefault()
+    onSearchMusic(search)
   }
 
   if (!station) return <div>Loading...</div>
@@ -192,23 +197,35 @@ export function StationDetails() {
       <hr />
       <div className='search container'>
         <h1>Let's find something for your playlist</h1>
-        <form onSubmit={onSearchMusic}>
-          <input className='search-input open'
-            value={search}
-            onChange={handleChange}
-            type="text"
-          />
+        <form onSubmit={onSearch}>
+          <div className="wrapper">
+            <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+              <span className="tooltip-wrapper">
+                <Search className="icon" />
+              </span>
+            </Tippy>
+            <input className='search-input open'
+              value={search}
+              onChange={handleChange}
+              type="text"
+              placeholder='Search for songs'
+            />
+          </div>
         </form>
         <ul className='search-results'>
-          {searchResults.length > 0 && searchResults.map(res => (
-            <li key={res.id}>
-              <h2>{res.title}</h2>
-              <h3>{res.artist.name}</h3>
+          {search && searchResults.length > 0 && searchResults.map(res => (
+            <li key={res.id} className="result-item">
+              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} />
+              <div>
+                <div className="song-title">{res.title}</div>
+                <div className="song-artist">{res.artist.name}</div>
+              </div>
+
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </div >
+    </section >
 
 
   )
