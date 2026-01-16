@@ -12,6 +12,7 @@ export const SET_SCORE = 'SET_SCORE'
 const initialState = {
     user: userService.getLoggedinUser(),
     users: [],
+    // likedSongs,
 }
 
 export function userReducer(state = initialState, action) {

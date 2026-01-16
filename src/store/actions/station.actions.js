@@ -9,6 +9,7 @@ export async function loadStations(filterBy) {
     try {
         const stations = await stationService.query(filterBy)
         store.dispatch(getCmdSetStations(stations))
+        console.log(stations)
     } catch (err) {
         console.log('Cannot load stations', err)
         throw err
@@ -19,6 +20,16 @@ export async function loadStations(filterBy) {
         }, 300)
     }
 
+}
+
+export async function loadLikedSongsStation() {
+    try {
+        const station = await stationService.getLikedSongsStation()
+        store.dispatch(getCmdSetStation(station))
+    } catch (err) {
+        console.log('Cannot load station', err)
+        throw err
+    }
 }
 
 export async function loadStation(stationId) {
@@ -55,6 +66,7 @@ export async function addStation(station) {
 
 export async function updateStation(station) {
     try {
+
         const savedStation = await stationService.save(station)
         store.dispatch(getCmdUpdateStation(savedStation))
         return savedStation

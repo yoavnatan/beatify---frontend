@@ -22,6 +22,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { setSong } from '../store/actions/player.actions.js';
 import { updateUser } from '../store/actions/user.actions.js';
+import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js';
 
 
 export function Player() {
@@ -95,10 +96,18 @@ export function Player() {
         dispatch({ type: SET_PLAYED, played: player.currentTime / player.duration })
     }
 
-    function likeSong(songId) {
+    async function likeSong(songId) {
         const likedSongs = user.likedSongs
-        const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
-        updateUser(userToUpdate)
+        if (user.likedSongs.includes(songId)) {
+            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+            await updateUser(userToUpdate)
+
+        } else {
+            const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+            await updateUser(userToUpdate)
+
+
+        }
     }
 
     function Duration({ className, seconds }) {
@@ -109,7 +118,6 @@ export function Player() {
         );
     }
 
-    console.log(user)
 
     function format(seconds) {
         const date = new Date(seconds * 1000);
@@ -136,6 +144,8 @@ export function Player() {
 
     if (muted) volume = 0;
 
+    const isSongLiked = (user.likedSongs.includes(nowPlaying.id))
+
     return (
         <section className="player container flex ">
             <div className='now-playing'>
@@ -144,10 +154,11 @@ export function Player() {
                     <div className='song-title'>{nowPlaying.title}</div>
                     <div className='artist-name'>Artist name</div>
                 </div>}
-                {nowPlaying.src && <div className='like-button'>
-                    <Tippy content={'Add to Liked Songs'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                {nowPlaying.src && <div className={`like-button ${isSongLiked ? ' on' : ''}`}>
+                    <Tippy content={`${isSongLiked ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                         <span className="tooltip-wrapper">
-                            <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />
+                            {!isSongLiked && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                            {isSongLiked && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
                         </span>
                     </Tippy>
                 </div>}
