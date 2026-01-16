@@ -10,6 +10,9 @@ import { PLAY, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import Tippy from "@tippyjs/react"
+import WhiteArrow from "../assets/svg/white-arrow.svg?react"
+import Trash from "../assets/svg/trash.svg?react"
+
 
 export function StationDetails() {
 
@@ -31,6 +34,13 @@ export function StationDetails() {
   const stationImg = station._id === 'likedSongs'
     ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
     : station.songs[0]?.imgUrl
+
+
+  function deleteSong(ev) {
+    ev.stopPropagation()
+    console.log("delete song")
+  }
+
 
   return (
     <section className="station-details">
@@ -96,7 +106,7 @@ export function StationDetails() {
       
 
       <div className="table-header">
-        <div className="col index">#</div>
+        <div className="col-index">#</div>
         <div className="col title">Title</div>
         <div className="col album">Album</div>
         <div className="col date">Date Added</div>
@@ -124,19 +134,36 @@ export function StationDetails() {
               }
             }}
           >
-            <div className="song-index">{idx + 1}</div>
-
-            <div className="song-title-wrapper">
-              <img className="song-img" src={song.imgUrl} alt={song.title} />
-              <div className="song-info">
-                <div className="song-title">{song.title}</div>
-                <div className="song-artist">Artist Name</div>
+            <div className='song-row-inner'>
+                  <div className="song-index-wrapper">
+                <span className="song-index">{idx + 1}</span>
+                  <Tippy
+                    content={`Play ${song.title}`}
+                    delay={[800, 0]}
+                    offset={[0,-60]}
+                    arrow={false}
+                    placement="bottom"
+                  > 
+                    <span className="icon-white-arrow-details"><WhiteArrow /></span>
+                </Tippy>
               </div>
-            </div>
 
-            <div className="song-album">Album Name</div>
-            <div className="song-date">2 days ago</div>
-            <div className="song-duration">3:45</div>
+              <div className="song-title-wrapper">
+                <img className="song-img" src={song.imgUrl} alt={song.title} />
+                <div className="song-info">
+                  <div className="song-title">{song.title}</div>
+                  <div className="song-artist">Artist Name</div>
+                </div>
+              </div>
+
+              <div className="song-album">Album Name</div>
+              <div className="song-date">2 days ago</div>
+              <div className='song-duration-wrapper'>
+                <div className="song-duration">3:45</div>
+                <span className='icon-trash' onClick={()=>deleteSong(song)}><Trash/></span>
+              </div>
+
+            </div>   
           </li>
         ))}
       </ul>

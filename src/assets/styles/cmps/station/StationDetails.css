@@ -125,53 +125,49 @@ h3,
   color: var(--sp-gray);
   display: grid;
   font-size: var(--fs-small);
-  gap: 16px;
-grid-template-columns: 40px 4fr 3fr 2fr 40px;
+  grid-template-columns: 40px 4fr 3fr 2fr 40px;
   letter-spacing: var(--ls-normal);
-  padding: 12px 40px;
+  padding: 12px 32px;
 }
 .table-header .col:nth-child(5) {
   display: flex;
   justify-content: flex-end;
 }
 
-
-
-.table-header .col {
-  align-items: center;
-  display: flex;
-}
-
-.col-duration{
-  border: 1px solid var(--sp-gray);
-  border-radius: 50%;
-  height: 17px;
-  width: 17px;
+.col-index{
+  font-size: var(--fs-h2);
+  display: grid;
+  place-items: center;
 }
 .duration-icon{
   width: var(--fs-h1);
   fill:  var(--sp-gray);
 
 }
+.song-list{
+  padding: 0 2em;
+}
 
 
 
-.song-row {
-  align-items: center;
+.song-row-inner {
   display: grid;
-  gap: 16px;
   grid-template-columns: 40px 4fr 3fr 2fr 40px;
-  padding: 12px 40px;
+  height: 54px;
+  align-items: center;
 }
 
-.song-row:hover {
-  background: var(--sp-hover-transparent);
+.song-row:hover .song-row-inner {
+  background: var( --sp-hover-grey);
+  border-radius: 4px; 
 }
+
 
 .song-img {
   border-radius: 4px;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
+  border-radius: 12px;
 }
 
 .song-title-wrapper {
@@ -194,8 +190,11 @@ grid-template-columns: 40px 4fr 3fr 2fr 40px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 240px;
+  display: inline-block;  
+  max-width: 240px;        
+  vertical-align: bottom;  
 }
+
 
 
 .song-title:hover,
@@ -217,3 +216,49 @@ grid-template-columns: 40px 4fr 3fr 2fr 40px;
 .song-row:hover .song-album {
   color: var(--sp-white);
 }
+.song-index-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-white-arrow-details{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--fs-body);
+  fill: var(--sp-white);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.song-row:hover .icon-white-arrow-details {
+  opacity: 1;
+  pointer-events: auto; 
+}
+
+.song-row:hover .song-index,
+.song-row:hover .song-duration{
+  display: none;
+}
+.song-duration-wrapper{
+  position: relative;
+}
+.icon-trash{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--fs-h3);
+  fill: var(--sp-white);
+  cursor: pointer;
+  display: none;
+
+}
+.song-row:hover .icon-trash{
+  opacity: 1;
+  display: block;
+}
+
+
