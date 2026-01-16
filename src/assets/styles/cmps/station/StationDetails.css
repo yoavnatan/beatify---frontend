@@ -191,7 +191,7 @@ h3,
   cursor: pointer;
 }
 
-.song-title {
+.station-details .song-title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
