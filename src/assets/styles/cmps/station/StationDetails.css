@@ -202,3 +202,21 @@ h3,
 .song-row:hover .song-album {
   color: var(--sp-white);
 }
+
+.station-details .search.container {
+  margin-inline-start: 1em;
+  margin-block-end: 3em;
+  margin-block-start: 2em;
+  min-height: 300px;
+}
+
+.station-details .search-input {
+  width: 380px;
+  border: none;
+  padding: 1em;
+  background-color: var(--sp-hover);
+  border-radius: 6px;
+  font-size: var(--fs-small);
+  font-family: var(--font-primary);
+  outline: none;
+}

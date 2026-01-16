@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadLikedSongsStation, loadStation, loadStations, updateStation } from '../store/actions/station.actions.js'
@@ -9,6 +9,8 @@ import Duration from "../assets/svg/duration.svg?react"
 import { PLAY, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
+import { debounce } from '../services/util.service.js'
+import { searchMusicService } from '../services/searchMusic.service.js'
 
 export function StationDetails() {
 
@@ -19,20 +21,41 @@ export function StationDetails() {
   const dispatch = useDispatch()
   const lastClickedSong = useRef()
   let isStationPlaying = (stationId === nowPlayingStationId)
+  const { user } = useSelector(storeState => storeState.userModule)
+
+  const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
 
   useEffect(() => {
     if (stationId === 'likedSongs') loadLikedSongsStation()
     else loadStation(stationId)
-  }, [stationId, station])
+  }, [stationId, user])
+
+  useEffect(() => {
+    if (search) debouncedOnSearch(search)
+  }, [search])
+
+  function handleChange({ target }) {
+    setSearch(target.value)
+  }
+
+  async function onSearchMusic(search) {
+    console.log('searching')
+    const searchResults = await searchMusicService.searchMusic(search)
+    console.log(searchResults)
+    setSearchResults(searchResults)
+  }
 
   if (!station) return <div>Loading...</div>
 
   const stationImg = station._id === 'likedSongs'
     ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
     : station.songs[0]?.imgUrl
-
+  // console.log(searchResults)
+  console.log('renders')
   return (
-    <section className="station-details">
+    <section className="station-details container">
 
       <header className="station-header" style={{ "--avg-color": station.averageColor }} >
         <div className="image-wrapper">
@@ -116,7 +139,27 @@ export function StationDetails() {
           </li>
         ))}
       </ul>
-
+      <hr />
+      <div className='search container'>
+        <h1>Let's find something for your playlist</h1>
+        <form onSubmit={onSearchMusic}>
+          <input className='search-input open'
+            value={search}
+            onChange={handleChange}
+            type="text"
+          />
+        </form>
+        <ul className='search-results'>
+          {searchResults.length > 0 && searchResults.map(res => (
+            <li key={res.id}>
+              <h2>{res.title}</h2>
+              <h3>{res.artist.name}</h3>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
+
+
   )
 }
