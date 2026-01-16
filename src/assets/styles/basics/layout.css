@@ -92,4 +92,15 @@ main.sidebar-expend {
 .main-content::-webkit-scrollbar-track {
   background: transparent;
 }
+.station-index::-webkit-scrollbar {
+  width: 12px;
+}
+
+.station-index::-webkit-scrollbar-thumb {
+  background: var(--sp-grey2)
+}
+
+.station-index::-webkit-scrollbar-track {
+  background: transparent;
+}
 
