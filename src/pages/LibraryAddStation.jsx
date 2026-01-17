@@ -32,7 +32,6 @@ export function LibraryAddStation(){
         setStationDesc(station.description || "")
         setStationImg(station.imgUrl)
     }
-
         load()
     }, [stationId])
 
@@ -58,10 +57,12 @@ export function LibraryAddStation(){
     return(
     <div className="add-station">
         <header className="add-station-header" style={{ "--avg-color": "grey" }} >
-            <div className="add-image-wrapper" onClick={() => setIsModalOpen(true)}>
-            <img className="add-station-cover" src={stationImg} />
-            <div className="icon-pen"><Pen/></div>
-            </div>
+        <div className="add-image-wrapper" onClick={() => setIsModalOpen(true)}>
+        <img className="add-station-cover" src={stationImg} />
+        <div className="add-image-overlay"></div>
+        <div className="icon-pen"><Pen /></div>
+        </div>
+
 
             <div className="add-station-meta">
                 <span className="add-station-label">Playlist</span>
