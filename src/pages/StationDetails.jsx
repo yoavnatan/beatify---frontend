@@ -62,16 +62,15 @@ export function StationDetails() {
   }
 
   async function onPlaySearchedResult(search) {
-    // console.log(search)
     const song = await searchMusicService.getYoutubeURL(search)
-
+    console.log(song)
     const prev = lastClickedSong.current
     lastClickedSong.current = song
-    setSong(song)
 
     if (prev?.id === song.id) {
       dispatch({ type: TOGGLE_PLAY })
     } else {
+      setSong(song)
       dispatch({ type: PLAY })
       dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
     }
@@ -194,17 +193,17 @@ export function StationDetails() {
             key={`${station._id}-${song.id}-${idx}`}
             className="song-row"
             onClick={() => {
+              onPlaySearchedResult(song)
+              // const prev = lastClickedSong.current
+              // lastClickedSong.current = song
+              // setSong(song)
 
-              const prev = lastClickedSong.current
-              lastClickedSong.current = song
-              setSong(song)
-
-              if (prev?.id === song.id) {
-                dispatch({ type: TOGGLE_PLAY })
-              } else {
-                dispatch({ type: PLAY })
-                dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
-              }
+              // if (prev?.id === song.id) {
+              //   dispatch({ type: TOGGLE_PLAY })
+              // } else {
+              //   dispatch({ type: PLAY })
+              //   dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+              // }
             }}
           >
             <div className='song-row-inner'>

@@ -54,6 +54,7 @@ async function getYoutubeURL(query) {
     const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
     const URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${query.title}&key=${API_KEY}`
     const song = { id: query.id, imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${query.md5_image}/56x56.jpg`, title: query.title }
+    if (!query.md5_image) song.imgUrl = query.imgUrl
     let embedUrl
     if (srcFromCache) {
         embedUrl = srcFromCache.src

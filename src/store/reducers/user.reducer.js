@@ -8,6 +8,7 @@ export const SET_WATCHED_USER = 'SET_WATCHED_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_USERS = 'SET_USERS'
 export const SET_SCORE = 'SET_SCORE'
+export const USER_UNDO = 'USER_UNDO'
 
 const initialState = {
     user: userService.getLoggedinUser(),
@@ -19,7 +20,8 @@ export function userReducer(state = initialState, action) {
     var newState = state
     switch (action.type) {
         case SET_USER:
-            newState = { ...state, user: action.user }
+            const lastUser = { ...state.user }
+            newState = { ...state, user: action.user, lastUser }
             break
         case SET_WATCHED_USER:
             newState = { ...state, watchedUser: action.user }
@@ -32,6 +34,9 @@ export function userReducer(state = initialState, action) {
             break
         case SET_USERS:
             newState = { ...state, users: action.users }
+            break
+        case USER_UNDO:
+            newState = { ...state, user: state.lastUser }
             break
         case SET_SCORE:
             const user = { ...state.user, score: action.score }

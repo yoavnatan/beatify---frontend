@@ -21,7 +21,7 @@ import Tippy from '@tippyjs/react';
 
 import 'tippy.js/dist/tippy.css';
 import { setSong } from '../store/actions/player.actions.js';
-import { updateUser } from '../store/actions/user.actions.js';
+import { updateUser, updateUserOptimistic } from '../store/actions/user.actions.js';
 import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js';
 
 
@@ -100,12 +100,12 @@ export function Player() {
         const likedSongs = user.likedSongs
         if (user.likedSongs.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
-            await updateUser(userToUpdate)
+            await updateUserOptimistic(userToUpdate)
 
         } else {
             console.log(songId)
             const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
-            await updateUser(userToUpdate)
+            await updateUserOptimistic(userToUpdate)
 
 
         }
