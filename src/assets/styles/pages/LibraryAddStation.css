@@ -163,6 +163,8 @@
 
 
 
+
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -180,18 +182,22 @@
   background-color: var(--sp-card);
   border-radius: 8px;
   width: 524px;
+  height: 380px;
   max-height: 90vh;
   overflow-y: auto;
   color: var(--sp-grey);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  overflow: hidden;
 }
 
 .modal-hedaer {
   display: flex;
   justify-content: space-between;
   padding: 24px;
+}
+.modal-hedaer h1{
+  margin: 0;
 }
 
 .modal-icon-x {
@@ -203,16 +209,16 @@
   display: grid;
   grid-template: 32px 132px 32px auto / 180px 1fr;
   grid-template-areas:
-    "modal-image modal-name"
-    "modal-image modal-description"
-    "modal-save"
-    "modal-disclaimer";
+    "modal-image-wrapper modal-name"
+    "modal-image-wrapper modal-description"
+    "modal-save modal-save"
+    "modal-disclaimer modal-disclaimer";
   gap: 16px;
   padding: 0 24px 24px;
 }
 
 .modal-name {
-  grid-column: 2;
+  grid-area: modal-name;
   background-color: var(--sp-card-transparent);
   border: 1px solid transparent;
   border-radius: 4px;
@@ -221,17 +227,83 @@
   height: 40px;
   padding: 0 12px;
   width: 100%;
+  font-family: var(--font-primary);
+}
+
+.modal-image-wrapper {
+  grid-area: modal-image-wrapper;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-image {
-  grid-column: 1;
-  grid-row: 1 / span 2;
   width: 100%;
+  height: 100%;
+  object-fit: cover;  
   border-radius: 4px;
-  object-fit: cover;
+  transition: opacity 0.3s ease;
 }
 
+.modal-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--sp-black);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.modal-image-wrapper:hover .modal-image-overlay {
+  opacity: 1;
+}
+
+.modal-icon-pen {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--fs-extra-large);
+  fill: var(--sp-white);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.modal-image-wrapper:hover .modal-icon-pen {
+  opacity: 1;
+}
+
+.modal-image-wrapper::after {
+  content: "Choose photo";
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--sp-white);
+  font-size: var(--fs-small);
+  font-family: var(--font-primary);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.modal-image-wrapper:hover::after {
+  opacity: 1;
+}
+
+
 .modal-description {
+  grid-area: modal-description;
   background: var(--sp-card-transparent);
   border: 1px solid transparent;
   border-radius: 4px;
@@ -244,7 +316,7 @@
 }
 
 .modal-save {
-  grid-column: 2;
+  grid-area: modal-save;
   display: flex;
   justify-content: center;
   place-self: end;
@@ -255,8 +327,7 @@
   cursor: pointer;
   background-color: var(--sp-white);
   color: var(--sp-black);
-  margin: 8px;
-  padding: 8px 32px;
+  padding: 11px 32px;
   transition: 0.2s ease;
 }
 
@@ -266,7 +337,8 @@
 }
 
 .modal-disclaimer {
-  grid-column: 1 / span 2;
-  font-size: var(--fs-small);
-  opacity: 0.7;
+  grid-area: modal-disclaimer ;
+  font-size: var(--fs-tiny);
+  color: var(--sp-white);
+  font-weight: 700;
 }

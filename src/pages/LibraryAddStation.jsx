@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 import Pen from "../assets/svg/pen.svg?react"
 import Search from "../assets/svg/search.svg?react"
 import X from "../assets/svg/x.svg?react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { updateStation } from "../store/actions/station.actions"
 import { useParams } from "react-router-dom"
 import { stationService } from "../services/station/station.service"
@@ -18,6 +18,8 @@ export function LibraryAddStation(){
     const [stationDesc, setStationDesc] = useState("")
     const [stationImg, setStationImg] = useState(null)
     const [station, setStation] = useState(null)
+    const fileInputRef = useRef()
+
     
     
 
@@ -39,17 +41,40 @@ export function LibraryAddStation(){
 
 
    async function saveStationUpdates() {
-    const updatedStation = {
-        ...station,
-        name: stationName,
-        description: stationDesc,
-        imgUrl: stationImg
-    }
-        await updateStation(updatedStation)
-        setIsModalOpen(false)
+        const updatedStation = {
+            ...station,
+            name: stationName,
+            description: stationDesc,
+            imgUrl: stationImg
+        }
+            await updateStation(updatedStation)
+            setIsModalOpen(false)
+        }
+    async function handleImageUpload(ev) {
+        const file = ev.target.files[0]
+        if (!file) return
+
+        const formData = new FormData()
+        formData.append("file", file)
+        formData.append("upload_preset", "spotify_uploads")
+        formData.append("cloud_name", "dklscvc2o")
+
+        const res = await fetch(
+            "https://api.cloudinary.com/v1_1/dklscvc2o/image/upload",
+            {
+                method: "POST",
+                body: formData
+            }
+        )
+
+        const data = await res.json()
+        setStationImg(data.secure_url)
     }
 
-    
+    function handleImageClick() {
+        setIsModalOpen(true)
+        fileInputRef.current.click()
+    }
 
 
 
@@ -57,11 +82,24 @@ export function LibraryAddStation(){
     return(
     <div className="add-station">
         <header className="add-station-header" style={{ "--avg-color": "grey" }} >
-        <div className="add-image-wrapper" onClick={() => setIsModalOpen(true)}>
-        <img className="add-station-cover" src={stationImg} />
-        <div className="add-image-overlay"></div>
-        <div className="icon-pen"><Pen /></div>
+        <div
+            className="add-image-wrapper"
+            onClick={handleImageClick}
+        >
+            <img className="add-station-cover" src={stationImg} />
+            <div className="add-image-overlay"></div>
+            <div className="icon-pen"><Pen /></div>
         </div>
+
+
+        <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleImageUpload}
+        />
+
 
 
             <div className="add-station-meta">
@@ -96,7 +134,7 @@ export function LibraryAddStation(){
     <div className="modal-content" onClick={(ev) => ev.stopPropagation()}>
       
       <div className="modal-hedaer"> 
-        <h2>Edit details</h2>
+        <h1>Edit details</h1>
         <X className="modal-icon-x" onClick={() => setIsModalOpen(false)} />
       </div>
 
@@ -115,7 +153,11 @@ export function LibraryAddStation(){
             required
         />
 
-        <img className="modal-image" src={stationImg} />
+        <div className="modal-image-wrapper">
+            <img className="modal-image" src={stationImg} />
+            <div className="modal-image-overlay"></div>
+            <div className="modal-icon-pen"><Pen /></div>
+        </div>
 
         <textarea
             className="modal-description"
@@ -123,13 +165,17 @@ export function LibraryAddStation(){
             onChange={(ev) => setStationDesc(ev.target.value)}
             placeholder="Add an optional description"
         />
-
-        <button type="submit" className="modal-save">
+        <span
+            className="modal-save"
+            onClick={saveStationUpdates}
+        >
             Save
-        </button>
+        </span>
 
         <p className="modal-disclaimer">
-            By proceeding, you agree to give Spotify access to the image you upload.
+            By proceeding, you agree to give Spotify access to the image
+            you choose to upload. Please make sure you 
+            have the right to upload the image. 
         </p>
     </form>
 
