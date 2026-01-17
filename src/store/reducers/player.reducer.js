@@ -31,7 +31,6 @@ export function playerReducer(state = initialState, action) {
     var newState = state
     switch (action.type) {
         case SET_NOW_PLAYING:
-            console.log(action.nowPlaying)
             newState = { ...state, nowPlaying: action.nowPlaying }
             break
         case TOGGLE_PLAY:

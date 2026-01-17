@@ -33,14 +33,14 @@ export function StationDetails() {
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
 
   useEffect(() => {
-      if (!stationId) return
+    if (!stationId) return
 
-      if (stationId === 'likedSongs') {
-          loadLikedSongsStation()
-      } else {
-          loadStation(stationId)
-      }
-  }, [stationId])
+    if (stationId === 'likedSongs') {
+      loadLikedSongsStation()
+    } else {
+      loadStation(stationId)
+    }
+  }, [stationId, user])
 
 
   useEffect(() => {
@@ -61,6 +61,22 @@ export function StationDetails() {
     onSearchMusic(search)
   }
 
+  async function onPlaySearchedResult(search) {
+    // console.log(search)
+    const song = await searchMusicService.getYoutubeURL(search)
+
+    const prev = lastClickedSong.current
+    lastClickedSong.current = song
+    setSong(song)
+
+    if (prev?.id === song.id) {
+      dispatch({ type: TOGGLE_PLAY })
+    } else {
+      dispatch({ type: PLAY })
+      dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+    }
+  }
+
   if (!station) return <div>Loading...</div>
 
   const stationImg = station._id === 'likedSongs'
@@ -71,23 +87,22 @@ export function StationDetails() {
 
   async function deleteStation(ev, stationId) {
     ev.stopPropagation()
-    await removeStation(stationId)   
+    await removeStation(stationId)
     navigate("/")
   }
 
 
-  async function deleteSong(ev,songId,stationId) {
+  async function deleteSong(ev, songId, stationId) {
     ev.stopPropagation()
-    await removeSong(songId,stationId)   
+    await removeSong(songId, stationId)
   }
 
   const coverImg =
-  station._id === 'likedSongs'
+    station._id === 'likedSongs'
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
       : station.songs?.[0]?.imgUrl ||
       station.imgUrl ||
       "/img/blank-screen.jpg"
-
 
 
   return (
@@ -119,44 +134,44 @@ export function StationDetails() {
       <div className="station-actions">
 
         <div className='station-actions-wrapper'>
-              <Tippy
-              content={`Play ${station.name}`}
-              delay={[1200, 0]}
-              offset={[0, -100]}
-              arrow={false}
-              placement="bottom"
+          <Tippy
+            content={`Play ${station.name}`}
+            delay={[1200, 0]}
+            offset={[0, -100]}
+            arrow={false}
+            placement="bottom"
+          >
+            <button
+              className="play-btn"
+              onClick={() => {
+                lastClickedSong.current = nowPlaying
+
+                if (isStationPlaying) {
+                  dispatch({ type: TOGGLE_PLAY })
+                } else {
+                  setSong(station.songs[0])
+                  dispatch({ type: PLAY })
+                }
+
+                dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+              }}
             >
-              <button
-                className="play-btn"
-                onClick={() => {
-                  lastClickedSong.current = nowPlaying
-
-                  if (isStationPlaying) {
-                    dispatch({ type: TOGGLE_PLAY })
-                  } else {
-                    setSong(station.songs[0])
-                    dispatch({ type: PLAY })
-                  }
-
-                  dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
-                }}
-              >
-                {(!isStationPlaying || !playing) && <Play className="icon-large-black" />}
-                {isStationPlaying && playing && <Pause className="icon-large-black" />}
-              </button>
-
-            </Tippy>
-
-            <button className="shuffle-btn">
-              <Shuffle className="icon large" />
+              {(!isStationPlaying || !playing) && <Play className="icon-large-black" />}
+              {isStationPlaying && playing && <Pause className="icon-large-black" />}
             </button>
+
+          </Tippy>
+
+          <button className="shuffle-btn">
+            <Shuffle className="icon large" />
+          </button>
 
 
         </div>
-        
-        
+
+
         <span className='big-icon-trash' onClick={(ev) => deleteStation(ev, station._id)}>
-            <Trash />
+          <Trash />
         </span>
 
 
@@ -179,9 +194,9 @@ export function StationDetails() {
             key={`${station._id}-${song.id}-${idx}`}
             className="song-row"
             onClick={() => {
-              const prev = lastClickedSong.current
-              lastClickedSong.current = nowPlaying
 
+              const prev = lastClickedSong.current
+              lastClickedSong.current = song
               setSong(song)
 
               if (prev?.id === song.id) {
@@ -219,7 +234,7 @@ export function StationDetails() {
               <div className='song-duration-wrapper'>
                 <div className="song-duration">3:45</div>
                 <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
-                    <Trash />
+                  <Trash />
                 </span>
               </div>
 
@@ -248,7 +263,7 @@ export function StationDetails() {
         <ul className='search-results'>
           {search && searchResults.length > 0 && searchResults.map(res => (
             <li key={res.id} className="result-item">
-              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} />
+              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
               <div>
                 <div className="song-title">{res.title}</div>
                 <div className="song-artist">{res.artist.name}</div>

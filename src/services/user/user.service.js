@@ -104,16 +104,7 @@ async function _createDefaultUser() {
             fullname: 'Default User',
             password: '123',
             imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-            likedSongs: ["song003",
-                "song042",
-                "song117",
-                "song189",
-                "song221",
-                "song234",
-                "song050",
-                "song178",
-                "song207",
-                "song230"]
+            likedSongs: []
         }
         const savedUser = await storageService.post('user', user)
         saveLoggedinUser(user)

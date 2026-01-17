@@ -3,6 +3,7 @@ import { storageService } from '../async-storage.service.js'
 import { makeId, saveToStorage } from '../util.service.js'
 import { userService } from '../user'
 import { FastAverageColor } from 'fast-average-color';
+import { searchMusicService } from '../searchMusic.service.js';
 
 
 const STORAGE_KEY = 'station'
@@ -59,7 +60,7 @@ async function removeSong(songId, stationId) {
     if (idx === -1) throw new Error('Station not found')
     stations[idx].songs = stations[idx].songs.filter(song => song.id !== songId)
     saveToStorage(STORAGE_KEY, stations)
-    return stations[idx] 
+    return stations[idx]
 }
 
 
@@ -102,7 +103,7 @@ async function _getStations() {
         {
             _id: 'st001',
             name: 'Indie Chill',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Indie', 'Chill', 'Alternative'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -127,7 +128,7 @@ async function _getStations() {
         {
             _id: 'st002',
             name: 'Global Pop',
-            description:"This playlist made with a lot of thinking",            
+            description: "This playlist made with a lot of thinking",
             tags: ['Pop', 'Hits'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -152,7 +153,7 @@ async function _getStations() {
         {
             _id: 'st003',
             name: 'Rock Classics',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Rock', 'Classic'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -177,7 +178,7 @@ async function _getStations() {
         {
             _id: 'st004',
             name: 'Hip Hop Vibes',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Hip Hop', 'Rap'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -202,7 +203,7 @@ async function _getStations() {
         {
             _id: 'st005',
             name: 'EDM Party',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['EDM', 'Dance', 'Electronic'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -228,7 +229,7 @@ async function _getStations() {
         {
             _id: 'st006',
             name: 'Classic Hip Hop',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Hip Hop', 'Old School'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -253,7 +254,7 @@ async function _getStations() {
         {
             _id: 'st007',
             name: 'Chill Beats',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Lo-Fi', 'Chill', 'Study'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -278,7 +279,7 @@ async function _getStations() {
         {
             _id: 'st008',
             name: 'Pop Hits',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Pop', 'Hits', 'Chart'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -303,7 +304,7 @@ async function _getStations() {
         {
             _id: 'st009',
             name: 'Rock Anthems',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Rock', 'Anthem', 'Classic'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -328,7 +329,7 @@ async function _getStations() {
         {
             _id: 'st010',
             name: 'Relaxing Acoustic',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Acoustic', 'Chill', 'Indie'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -353,7 +354,7 @@ async function _getStations() {
         {
             _id: 'st011',
             name: 'Electronic Chill',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Electronic', 'Chill', 'Ambient'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -381,7 +382,7 @@ async function _getStations() {
         {
             _id: 'st012',
             name: 'Indie Vibes',
-            description:"This playlist made with a lot of thinking",            
+            description: "This playlist made with a lot of thinking",
             tags: ['Indie', 'Alternative', 'Chill'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -406,7 +407,7 @@ async function _getStations() {
         {
             _id: 'st013',
             name: 'R&B Essentials',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['R&B', 'Soul', 'Smooth'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -431,7 +432,7 @@ async function _getStations() {
         {
             _id: 'st014',
             name: 'Dance Floor',
-            description:"This playlist made with a lot of thinking",            
+            description: "This playlist made with a lot of thinking",
             tags: ['Dance', 'Electronic', 'Party'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -456,7 +457,7 @@ async function _getStations() {
         {
             _id: 'st015',
             name: 'Rap Legends',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Hip Hop', 'Rap', 'Classic'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -482,7 +483,7 @@ async function _getStations() {
         {
             _id: 'st016',
             name: 'Israeli Hits',
-            description:"This playlist made with a lot of thinking",
+            description: "This playlist made with a lot of thinking",
             tags: ['Israeli', 'Pop', 'Rock', 'Indie'],
             createdBy: { _id: 'u101', fullname: 'Yoav' },
             likedByUsers: [],
@@ -514,11 +515,13 @@ async function _getStations() {
 }
 
 async function getLikedSongsStation() {
+    let likedSongs
     const user = userService.getLoggedinUser()
     if (!user.likedSongs) user.likedSongs = []
-    const stations = await storageService.query(STORAGE_KEY)
-    const allSongs = stations.flatMap(st => st.songs || [])
-    const likedSongs = allSongs.filter(song => user.likedSongs.includes(song.id))
+
+    likedSongs = await Promise.all(user.likedSongs.map(songId => (
+        searchMusicService.getSongById(songId)
+    )))
     return {
         _id: 'likedSongs',
         name: 'Liked Songs',

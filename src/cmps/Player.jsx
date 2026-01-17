@@ -103,6 +103,7 @@ export function Player() {
             await updateUser(userToUpdate)
 
         } else {
+            console.log(songId)
             const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
             await updateUser(userToUpdate)
 

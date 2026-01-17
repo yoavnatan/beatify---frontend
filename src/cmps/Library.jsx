@@ -13,7 +13,7 @@ import Tippy from "@tippyjs/react"
 import { useNavigate } from "react-router"
 import { useDispatch } from "react-redux"
 import { addStation } from "../store/actions/station.actions"
-import { getBlankStation } from "../services/library.service.js"
+import { getBlankStation } from "../services/library/library.service.js"
 
 
 
@@ -97,19 +97,19 @@ export function Library() {
 
 
                 <div className="header-actions">
-                        <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
-                            <button className={`create-wrapper ${showCreateBtn ? 'createShown' : ''}`} onClick={createStation}>
+                    <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
+                        <button className={`create-wrapper ${showCreateBtn ? 'createShown' : ''}`} onClick={createStation}>
 
-                                <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
-                                    <Plus className="icon-plus" />
-                                </div>
+                            <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
+                                <Plus className="icon-plus" />
+                            </div>
 
-                                {showCreateBtn && (
-                                    <span className="create-btn">Create</span>
-                                )}
-                            </button>
-                        </Tippy>         
-                    
+                            {showCreateBtn && (
+                                <span className="create-btn">Create</span>
+                            )}
+                        </button>
+                    </Tippy>
+
                     <Tippy content="Expand / Minimize Your Library" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
                         <div className="icon-circle-expend-wrapper" onClick={expandLibrary}>
                             <Expend className="expend-side-bar" />
@@ -156,7 +156,7 @@ export function Library() {
                                 })
                             }}
                         >
-                            <Search className={`icon-medium ${isSearchOpen ? "open" : ""}`}/>
+                            <Search className={`icon-medium ${isSearchOpen ? "open" : ""}`} />
                         </span>
                     </Tippy>
 
