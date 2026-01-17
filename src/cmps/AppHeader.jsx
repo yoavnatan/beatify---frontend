@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 
@@ -13,12 +13,29 @@ import Search from "../assets/svg/search.svg?react"
 import logoImg from '../assets/img/logo_symbol.png'
 import profileImg from '../assets/img/profile-pic.jpg'
 import { userService } from '../services/user/user.service'
+import { searchMusicService } from '../services/searchMusic.service'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
+    const [search, setSearch] = useState('')
     const navigate = useNavigate()
     const location = useLocation();
 
+    useEffect(() => {
+        if (search) {
+            onSearchMusic()
+        }
+    }, [search])
+
+
+    async function onSearchMusic() {
+        const searchResults = await searchMusicService.searchMusic(search)
+        console.log(searchResults)
+    }
+
+    function handleChange({ target }) {
+        setSearch(target.value)
+    }
 
     async function onLogout() {
         try {
@@ -49,7 +66,7 @@ export function AppHeader() {
                     </NavLink>
                     <div className="search-wrapper">
                         <Search className="icon medium icon-search" />
-                        <input
+                        <input value={search} onChange={handleChange}
                             type="text"
                             className="main-search-input"
                             placeholder="What do you want to play?"

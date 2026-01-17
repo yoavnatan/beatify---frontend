@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadLikedSongsStation, loadStation, loadStations, updateStation } from '../store/actions/station.actions.js'
@@ -12,7 +12,10 @@ import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import Tippy from "@tippyjs/react"
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
+import Search from "../assets/svg/search.svg?react"
 
+import { debounce } from '../services/util.service.js'
+import { searchMusicService } from '../services/searchMusic.service.js'
 
 export function StationDetails() {
 
@@ -23,11 +26,35 @@ export function StationDetails() {
   const dispatch = useDispatch()
   const lastClickedSong = useRef()
   let isStationPlaying = (stationId === nowPlayingStationId)
+  const { user } = useSelector(storeState => storeState.userModule)
+
+  const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
 
   useEffect(() => {
     if (stationId === 'likedSongs') loadLikedSongsStation()
     else loadStation(stationId)
-  }, [stationId, station])
+  }, [stationId, user])
+
+  useEffect(() => {
+    if (search) debouncedOnSearch(search)
+  }, [search])
+
+  function handleChange({ target }) {
+    setSearch(target.value)
+  }
+
+  async function onSearchMusic(search) {
+    const searchResults = await searchMusicService.searchMusic(search)
+    console.log(searchResults)
+    setSearchResults(searchResults)
+  }
+
+  function onSearch(ev) {
+    ev.preventDefault()
+    onSearchMusic(search)
+  }
 
   if (!station) return <div>Loading...</div>
 
@@ -43,7 +70,7 @@ export function StationDetails() {
 
 
   return (
-    <section className="station-details">
+    <section className="station-details container">
 
       <header className="station-header" style={{ "--avg-color": station.averageColor }} >
         <div className="image-wrapper">
@@ -68,15 +95,15 @@ export function StationDetails() {
       </header>
 
 
-        <div className="station-actions">
+      <div className="station-actions">
 
         <Tippy
-        content={`Play ${station.name}`}
-        delay={[1200, 0]}
-        offset={[0, -100]}
-        arrow={false}
-        placement="bottom"
-      >
+          content={`Play ${station.name}`}
+          delay={[1200, 0]}
+          offset={[0, -100]}
+          arrow={false}
+          placement="bottom"
+        >
           <button
             className="play-btn"
             onClick={() => {
@@ -95,15 +122,15 @@ export function StationDetails() {
             {(!isStationPlaying || !playing) && <Play className="icon-large-black" />}
             {isStationPlaying && playing && <Pause className="icon-large-black" />}
           </button>
-          
+
         </Tippy>
 
-          <button className="shuffle-btn">
-            <Shuffle className="icon large" />
-          </button>
+        <button className="shuffle-btn">
+          <Shuffle className="icon large" />
+        </button>
 
-        </div>
-      
+      </div>
+
 
       <div className="table-header">
         <div className="col-index">#</div>
@@ -135,16 +162,16 @@ export function StationDetails() {
             }}
           >
             <div className='song-row-inner'>
-                  <div className="song-index-wrapper">
+              <div className="song-index-wrapper">
                 <span className="song-index">{idx + 1}</span>
-                  <Tippy
-                    content={`Play ${song.title}`}
-                    delay={[800, 0]}
-                    offset={[0,-60]}
-                    arrow={false}
-                    placement="bottom"
-                  > 
-                    <span className="icon-white-arrow-details"><WhiteArrow /></span>
+                <Tippy
+                  content={`Play ${song.title}`}
+                  delay={[800, 0]}
+                  offset={[0, -60]}
+                  arrow={false}
+                  placement="bottom"
+                >
+                  <span className="icon-white-arrow-details"><WhiteArrow /></span>
                 </Tippy>
               </div>
 
@@ -160,14 +187,46 @@ export function StationDetails() {
               <div className="song-date">2 days ago</div>
               <div className='song-duration-wrapper'>
                 <div className="song-duration">3:45</div>
-                <span className='icon-trash' onClick={()=>deleteSong(song)}><Trash/></span>
+                <span className='icon-trash' onClick={() => deleteSong(song)}><Trash /></span>
               </div>
 
-            </div>   
+            </div>
           </li>
         ))}
       </ul>
+      <hr />
+      <div className='search container'>
+        <h1>Let's find something for your playlist</h1>
+        <form onSubmit={onSearch}>
+          <div className="wrapper">
+            <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+              <span className="tooltip-wrapper">
+                <Search className="icon" />
+              </span>
+            </Tippy>
+            <input className='search-input open'
+              value={search}
+              onChange={handleChange}
+              type="text"
+              placeholder='Search for songs'
+            />
+          </div>
+        </form>
+        <ul className='search-results'>
+          {search && searchResults.length > 0 && searchResults.map(res => (
+            <li key={res.id} className="result-item">
+              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} />
+              <div>
+                <div className="song-title">{res.title}</div>
+                <div className="song-artist">{res.artist.name}</div>
+              </div>
 
-    </section>
+            </li>
+          ))}
+        </ul>
+      </div >
+    </section >
+
+
   )
 }
