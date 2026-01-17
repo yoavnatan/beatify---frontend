@@ -56,27 +56,33 @@ export function StationCarousel({ stations }) {
                 <Arrow className="icon small arrow-right" />
             </div>}
             <ul ref={listRef} className="list" onScroll={onScrollEvent}>
-                {stations.map(station =>
-                    <li key={station._id} className="item">
-                        <div className="img-container">
-                            <img
-                                src={
-                                    station._id === 'likedSongs'
-                                        ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-                                        : station.songs[0]?.imgUrl
-                                }
-                                alt={station.name}
-                            />
-                            <div className="btn-play">
-                                <Play className="icon small-medium black" />
+                {stations.map(station => {
+
+                    const coverImg =
+                        station._id === 'likedSongs'
+                            ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+                            : station.songs?.[0]?.imgUrl ||
+                            station.imgUrl ||
+                            "../public/img/blank-screen.jpg"
+
+                    return (
+                        <li key={station._id} className="item">
+                            <div className="img-container">
+                                <img
+                                    src={coverImg}
+                                    alt={station.name}
+                                />
+                                <div className="btn-play">
+                                    <Play className="icon small-medium black" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="description ">{station.name}</div>
-
-                    </li>
-                )}
+                            <div className="description">{station.name}</div>
+                        </li>
+                    )
+                })}
             </ul>
+
         </section >
     )
 }

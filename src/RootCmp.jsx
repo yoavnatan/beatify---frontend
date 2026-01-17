@@ -9,6 +9,8 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { Library } from './cmps/Library.jsx'
 import { useEffect } from 'react'
 import { loadStations } from './store/actions/station.actions.js'
+import { LibraryAddStation } from './pages/LibraryAddStation.jsx'
+
 
 export function MainLayout() {
 
@@ -122,6 +124,8 @@ export function RootCmp() {
                 <Route path="station" element={<StationIndex />} />
                 <Route path="station/:stationId" element={<StationDetails />} />
                 <Route path="chat" element={<ChatApp />} />
+                <Route path="library/add" element={<LibraryAddStation />} />
+
             </Route>
 
         </Routes>

@@ -287,6 +287,10 @@
 .search-row.open .search-library-wrapper:hover {
   background-color: transparent;
 }
+.search-input{
+  caret-color: var(--sp-white);
+  color: var(--sp-white);
+}
 
 
 

@@ -21,17 +21,25 @@ window.cs = stationService
 
 async function query(filterBy = { txt: '' }) {
     let stations = await storageService.query(STORAGE_KEY)
-    if (!stations || stations.length <= 0) stations = await _getStations()
 
+    if (!stations || stations.length === 0) {
+        stations = await _getStations()
+        saveToStorage(STORAGE_KEY, stations) 
+    }
     const likedStation = await getLikedSongsStation()
-
     const idx = stations.findIndex(st => st._id === 'likedSongs')
-    if (idx === -1) stations.unshift(likedStation)
-    else stations[idx] = likedStation
 
-    saveToStorage(STORAGE_KEY, stations)
+    if (idx === -1) stations.unshift(likedStation)
+    else 
+        {stations[idx] = { 
+        ...stations[idx], 
+        ...likedStation 
+        }
+}
+
     return stations
 }
+
 
 
 
@@ -44,28 +52,22 @@ async function remove(stationId) {
 }
 
 async function save(station) {
-    var savedStation
+    const stations = await storageService.query(STORAGE_KEY)
+    let savedStation
     if (station._id) {
-        const stationToSave = {
-            _id: station._id,
-            name: station.name,
-            tags: station.tags,
-            createdBy: station.createdBy,
-            likedByUsers: station.likedByUsers,
-            songs: station.songs
-        }
-        savedStation = await storageService.put(STORAGE_KEY, stationToSave)
+        const idx = stations.findIndex(s => s._id === station._id)
+        if (idx === -1) throw new Error('Station not found')
+        stations[idx] = { ...stations[idx], ...station }
+        savedStation = stations[idx]
     } else {
-        const stationToSave = {
-            // vendor: station.vendor,
-            // speed: station.speed,
-            // Later, owner is set by the backend
-            owner: userService.getLoggedinUser(),
-        }
-        savedStation = await storageService.post(STORAGE_KEY, stationToSave)
+        station._id = 's' + Date.now()
+        stations.unshift(station)
+        savedStation = station
     }
+    saveToStorage(STORAGE_KEY, stations)
     return savedStation
 }
+
 
 async function addStationMsg(stationId, txt) {
     // Later, this is all done by the backend
@@ -488,8 +490,8 @@ async function _getStations() {
 async function getLikedSongsStation() {
     const user = userService.getLoggedinUser()
     if (!user.likedSongs) user.likedSongs = []
-    const stations = await _getStations()
-    const allSongs = stations.flatMap(st => st.songs)
+    const stations = await storageService.query(STORAGE_KEY)
+    const allSongs = stations.flatMap(st => st.songs || [])
     const likedSongs = allSongs.filter(song => user.likedSongs.includes(song.id))
     return {
         _id: 'likedSongs',
@@ -499,8 +501,8 @@ async function getLikedSongsStation() {
         imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
         averageColor: 'rgba(47, 38, 89, 0.9)'
     }
-
 }
+
 
 
 

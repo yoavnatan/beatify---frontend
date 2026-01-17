@@ -10,12 +10,23 @@ import MinimizeLibrary from "../assets/svg/minimize-library.svg?react"
 import { useSelector } from "react-redux"
 import { LibraryList } from "./LibraryList.jsx"
 import Tippy from "@tippyjs/react"
+import { useNavigate } from "react-router"
+import { useDispatch } from "react-redux"
+import { addStation } from "../store/actions/station.actions"
+import { getBlankStation } from "../services/library.service.js"
+
+
+
+
 
 
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const stations = useSelector(storeState => storeState.stationModule.stations)
     const { user } = useSelector(storeState => storeState.userModule)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
 
     const inputRef = useRef(null)
     const searchWrapperRef = useRef(null)
@@ -35,7 +46,7 @@ export function Library() {
 
         document.addEventListener("mousedown", handleClickOutside)
         return () => document.removeEventListener("mousedown", handleClickOutside)
-    }, [])
+    }, [stations])
 
     useEffect(() => {
         const observer = new ResizeObserver(entries => {
@@ -63,6 +74,13 @@ export function Library() {
     function collapseLibrary() {
         window.dispatchEvent(new CustomEvent("sidebar-collapsed"))
     }
+    async function createStation() {
+        const newStation = await getBlankStation(user)
+        await addStation(newStation)
+
+        navigate("library/add")
+    }
+
 
     return (
         <div className="library" ref={libraryRef}>
@@ -79,20 +97,19 @@ export function Library() {
 
 
                 <div className="header-actions">
+                        <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
+                            <button className={`create-wrapper ${showCreateBtn ? 'createShown' : ''}`} onClick={createStation}>
 
-                    <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
-                        <button className={`create-wrapper ${showCreateBtn ? 'createShown' : ''}`}>
+                                <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
+                                    <Plus className="icon-plus" />
+                                </div>
 
-                            <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
-                                <Plus className="icon-plus" />
-                            </div>
-
-                            {showCreateBtn && (
-                                <span className="create-btn">Create</span>
-                            )}
-                        </button>
-                    </Tippy>
-
+                                {showCreateBtn && (
+                                    <span className="create-btn">Create</span>
+                                )}
+                            </button>
+                        </Tippy>         
+                    
                     <Tippy content="Expand / Minimize Your Library" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
                         <div className="icon-circle-expend-wrapper" onClick={expandLibrary}>
                             <Expend className="expend-side-bar" />
@@ -139,10 +156,7 @@ export function Library() {
                                 })
                             }}
                         >
-                            <Search
-                                className={`icon-medium ${isSearchOpen ? "open" : ""}`}
-
-                            />
+                            <Search className={`icon-medium ${isSearchOpen ? "open" : ""}`}/>
                         </span>
                     </Tippy>
 

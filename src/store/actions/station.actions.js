@@ -9,7 +9,6 @@ export async function loadStations(filterBy) {
     try {
         const stations = await stationService.query(filterBy)
         store.dispatch(getCmdSetStations(stations))
-        console.log(stations)
     } catch (err) {
         console.log('Cannot load stations', err)
         throw err
@@ -56,6 +55,7 @@ export async function removeStation(stationId) {
 export async function addStation(station) {
     try {
         const savedStation = await stationService.save(station)
+        console.log(savedStation)
         store.dispatch(getCmdAddStation(savedStation))
         return savedStation
     } catch (err) {
