@@ -124,7 +124,7 @@ export function RootCmp() {
                 <Route path="station" element={<StationIndex />} />
                 <Route path="station/:stationId" element={<StationDetails />} />
                 <Route path="chat" element={<ChatApp />} />
-                <Route path="library/add" element={<LibraryAddStation />} />
+                <Route path="library/add/:stationId" element={<LibraryAddStation />} />
 
             </Route>
 

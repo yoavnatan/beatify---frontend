@@ -24,7 +24,7 @@ export function LibraryList() {
                         ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
                         : station.songs?.[0]?.imgUrl ||
                         station.imgUrl ||
-                        "../public/img/blank-screen.jpg"
+                        "/img/blank-screen.jpg"
 
                     return (
                     <li key={station._id} onClick={() => displayStationDetails(station._id)}>

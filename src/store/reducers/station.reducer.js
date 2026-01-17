@@ -35,7 +35,10 @@ export function stationReducer(state = initialState, action) {
             newState = { ...state, stations: [action.station, ...state.stations] }
             break
         case UPDATE_STATION:
-            newState = { ...state, station: action.station }
+            stations = state.stations.map(st =>
+                st._id === action.station._id ? action.station : st
+            )
+            newState = { ...state, station: action.station, stations }
             break
         case ADD_STATION_MSG:
             if (action.msg && state.station) {

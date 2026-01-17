@@ -14,14 +14,8 @@ import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
 import Search from "../assets/svg/search.svg?react"
 import { useNavigate } from 'react-router'
-
-
-
-
-
 import { debounce } from '../services/util.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
-import { stationService } from '../services/station/station.service.js'
 
 export function StationDetails() {
   const navigate = useNavigate()
@@ -59,7 +53,6 @@ export function StationDetails() {
 
   async function onSearchMusic(search) {
     const searchResults = await searchMusicService.searchMusic(search)
-    console.log(searchResults)
     setSearchResults(searchResults)
   }
 
@@ -88,6 +81,13 @@ export function StationDetails() {
     await removeSong(songId,stationId)   
   }
 
+  const coverImg =
+  station._id === 'likedSongs'
+      ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+      : station.songs?.[0]?.imgUrl ||
+      station.imgUrl ||
+      "/img/blank-screen.jpg"
+
 
 
   return (
@@ -95,7 +95,7 @@ export function StationDetails() {
 
       <header className="station-header" style={{ "--avg-color": station.averageColor }} >
         <div className="image-wrapper">
-          <img className="station-cover" src={stationImg} alt={station.name} />
+          <img className="station-cover" src={coverImg} alt={station.name} />
         </div>
 
         <div className="station-meta">

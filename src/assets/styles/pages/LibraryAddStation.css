@@ -252,7 +252,7 @@
 }
 .modal-save:hover{
   transform: scale(1.07);
-
+  background-color: var(--sp-white);
 }
 
 .modal-disclaimer {

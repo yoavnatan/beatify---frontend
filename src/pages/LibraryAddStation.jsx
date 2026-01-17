@@ -2,31 +2,56 @@ import { useSelector } from "react-redux"
 import Pen from "../assets/svg/pen.svg?react"
 import Search from "../assets/svg/search.svg?react"
 import X from "../assets/svg/x.svg?react"
-import { useState } from "react"
-
+import { useEffect, useState } from "react"
+import { updateStation } from "../store/actions/station.actions"
+import { useParams } from "react-router-dom"
+import { stationService } from "../services/station/station.service"
 
 
 
 
 export function LibraryAddStation(){
     const { user } = useSelector(storeState => storeState.userModule)
+    const { stationId } = useParams()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [stationName, setStationName] = useState("My Playlist")
+    const [stationName, setStationName] = useState(null)
     const [stationDesc, setStationDesc] = useState("")
-    const [stationImg, setStationImg] = useState("../public/img/blank-screen.jpg")
+    const [stationImg, setStationImg] = useState(null)
+    const [station, setStation] = useState(null)
+    
+    
 
 
-    function saveStation() {
-        const updatedStation = {
-            name: stationName,
-            description: stationDesc,
-            imgUrl: stationImg,
-            createdBy: user.fullname
-        }
-        
-        setIsModalOpen(false)
-        console.log('saving',updatedStation)
+
+    useEffect(() => {
+    async function load() {
+        if (!stationId) return
+        const station = await stationService.getById(stationId)
+        setStation(station)
+        setStationName(station.name)
+        setStationDesc(station.description || "")
+        setStationImg(station.imgUrl)
     }
+
+        load()
+    }, [stationId])
+
+
+
+
+   async function saveStationUpdates() {
+    const updatedStation = {
+        ...station,
+        name: stationName,
+        description: stationDesc,
+        imgUrl: stationImg
+    }
+        await updateStation(updatedStation)
+        setIsModalOpen(false)
+    }
+
+    
+
 
 
 
@@ -34,7 +59,7 @@ export function LibraryAddStation(){
     <div className="add-station">
         <header className="add-station-header" style={{ "--avg-color": "grey" }} >
             <div className="add-image-wrapper" onClick={() => setIsModalOpen(true)}>
-            <img className="add-station-cover" src="../public/img/blank-screen.jpg" alt="station cover" />
+            <img className="add-station-cover" src={stationImg} />
             <div className="icon-pen"><Pen/></div>
             </div>
 
@@ -42,7 +67,7 @@ export function LibraryAddStation(){
                 <span className="add-station-label">Playlist</span>
 
                 <h1 className="add-station-title-wrapper">
-                    <span className="add-station-title">My Playlist</span>
+                <span className="add-station-title">{stationName}</span>
                 </h1>
 
                 <div className="add-station-subinfo">
@@ -78,7 +103,7 @@ export function LibraryAddStation(){
         className="modal-info-layout"
         onSubmit={(ev) => {
             ev.preventDefault()
-            saveStation()
+            saveStationUpdates()
         }}
         >
         <input
