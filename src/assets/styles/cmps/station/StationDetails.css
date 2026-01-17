@@ -88,7 +88,8 @@ h3,
   align-items: center;
 
 }
-.station-actions-wrapper{
+
+.station-actions-wrapper {
   display: flex;
   padding: 20px 40px;
 }
@@ -273,7 +274,8 @@ h3,
   display: none;
 
 }
-.big-icon-trash{
+
+.big-icon-trash {
   width: var(--fs-extra-large);
   fill: var(--sp-white);
   cursor: pointer;
@@ -318,7 +320,7 @@ h3,
   color: var(--sp-white)
 }
 
-.station-details .result-item {
+.result-item {
   display: grid;
   grid-template-columns: 56px 2fr 2fr;
   height: 54px;

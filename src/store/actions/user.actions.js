@@ -42,6 +42,7 @@ export async function updateUser(user) {
 
 export async function updateUserOptimistic(user) {
     store.dispatch({ type: SET_USER, user: user })
+    console.log(user.likedSongs)
     try {
         const savedUser = await userService.update(user)
         console.log(savedUser)

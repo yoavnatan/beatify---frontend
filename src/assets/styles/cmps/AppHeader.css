@@ -4,6 +4,10 @@
   color: var(--sp-white);
   background-color: var(--app-background);
   font-family: var(--font-primary);
+
+  .result-item {
+    height: 80px;
+  }
 }
 
 .header-nav {
@@ -255,15 +259,17 @@
   display: none;
 }
 
-.search-wrapper:focus-within .search-result.container {
+.search-wrapper:focus-within .search-result.container,
+.search-result.container:focus {
   display: block;
   position: absolute;
   top: 53px;
   right: 0;
   width: inherit;
-  height: min-content;
+  height: 50vh;
+  overflow: auto;
   border-radius: 10px;
-  padding: 1em;
+  padding-inline: 1em;
   background-color: var(--sp-card);
   z-index: 1;
 }

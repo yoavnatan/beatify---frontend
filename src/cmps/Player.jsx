@@ -100,12 +100,12 @@ export function Player() {
         const likedSongs = user.likedSongs
         if (user.likedSongs.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
-            await updateUserOptimistic(userToUpdate)
+            await updateUser(userToUpdate)
 
         } else {
             console.log(songId)
             const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
-            await updateUserOptimistic(userToUpdate)
+            await updateUser(userToUpdate)
 
 
         }

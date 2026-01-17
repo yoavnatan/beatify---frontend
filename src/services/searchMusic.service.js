@@ -26,12 +26,13 @@ async function searchMusic(query) {
 }
 
 async function getSongById(songId) {
-    const API_URL = `https://corsproxy.io/?https://api.deezer.com/track/${songId}`
 
+    const API_URL = `https://corsproxy.io/?https://api.deezer.com/track/${songId}`
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data
         console.log(searchData)
+
         const songToPlay = await getYoutubeURL(searchData)
         let song = {
             id: searchData.id,
