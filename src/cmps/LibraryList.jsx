@@ -4,6 +4,7 @@ import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 
 
 
+
 export function LibraryList() {
     const stations = useSelector(storeState => storeState.stationModule.stations)
     const navigate = useNavigate()
@@ -32,6 +33,7 @@ export function LibraryList() {
                         <div className="icon-white-arrow">
                         <WhiteArrow />
                         </div>
+                        
 
                         <div className="station-info">
                         <div className="station-name">{station.name}</div>

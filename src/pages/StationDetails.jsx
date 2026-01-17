@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadLikedSongsStation, loadStation, loadStations, updateStation } from '../store/actions/station.actions.js'
+import { loadLikedSongsStation, loadStation, loadStations, removeSong, removeStation, updateStation } from '../store/actions/station.actions.js'
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
@@ -13,12 +13,18 @@ import Tippy from "@tippyjs/react"
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
 import Search from "../assets/svg/search.svg?react"
+import { useNavigate } from 'react-router'
+
+
+
+
 
 import { debounce } from '../services/util.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
+import { stationService } from '../services/station/station.service.js'
 
 export function StationDetails() {
-
+  const navigate = useNavigate()
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
   const { playing, nowPlaying } = useSelector(storeState => storeState.playerModule)
@@ -33,9 +39,15 @@ export function StationDetails() {
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
 
   useEffect(() => {
-    if (stationId === 'likedSongs') loadLikedSongsStation()
-    else loadStation(stationId)
-  }, [stationId, user])
+      if (!stationId) return
+
+      if (stationId === 'likedSongs') {
+          loadLikedSongsStation()
+      } else {
+          loadStation(stationId)
+      }
+  }, [stationId])
+
 
   useEffect(() => {
     if (search) debouncedOnSearch(search)
@@ -63,10 +75,19 @@ export function StationDetails() {
     : station.songs[0]?.imgUrl
 
 
-  function deleteSong(ev) {
+
+  async function deleteStation(ev, stationId) {
     ev.stopPropagation()
-    console.log("delete song")
+    await removeStation(stationId)   
+    navigate("/")
   }
+
+
+  async function deleteSong(ev,songId,stationId) {
+    ev.stopPropagation()
+    await removeSong(songId,stationId)   
+  }
+
 
 
   return (
@@ -97,37 +118,47 @@ export function StationDetails() {
 
       <div className="station-actions">
 
-        <Tippy
-          content={`Play ${station.name}`}
-          delay={[1200, 0]}
-          offset={[0, -100]}
-          arrow={false}
-          placement="bottom"
-        >
-          <button
-            className="play-btn"
-            onClick={() => {
-              lastClickedSong.current = nowPlaying
+        <div className='station-actions-wrapper'>
+              <Tippy
+              content={`Play ${station.name}`}
+              delay={[1200, 0]}
+              offset={[0, -100]}
+              arrow={false}
+              placement="bottom"
+            >
+              <button
+                className="play-btn"
+                onClick={() => {
+                  lastClickedSong.current = nowPlaying
 
-              if (isStationPlaying) {
-                dispatch({ type: TOGGLE_PLAY })
-              } else {
-                setSong(station.songs[0])
-                dispatch({ type: PLAY })
-              }
+                  if (isStationPlaying) {
+                    dispatch({ type: TOGGLE_PLAY })
+                  } else {
+                    setSong(station.songs[0])
+                    dispatch({ type: PLAY })
+                  }
 
-              dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
-            }}
-          >
-            {(!isStationPlaying || !playing) && <Play className="icon-large-black" />}
-            {isStationPlaying && playing && <Pause className="icon-large-black" />}
-          </button>
+                  dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+                }}
+              >
+                {(!isStationPlaying || !playing) && <Play className="icon-large-black" />}
+                {isStationPlaying && playing && <Pause className="icon-large-black" />}
+              </button>
 
-        </Tippy>
+            </Tippy>
 
-        <button className="shuffle-btn">
-          <Shuffle className="icon large" />
-        </button>
+            <button className="shuffle-btn">
+              <Shuffle className="icon large" />
+            </button>
+
+
+        </div>
+        
+        
+        <span className='big-icon-trash' onClick={(ev) => deleteStation(ev, station._id)}>
+            <Trash />
+        </span>
+
 
       </div>
 
@@ -187,7 +218,9 @@ export function StationDetails() {
               <div className="song-date">2 days ago</div>
               <div className='song-duration-wrapper'>
                 <div className="song-duration">3:45</div>
-                <span className='icon-trash' onClick={() => deleteSong(song)}><Trash /></span>
+                <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
+                    <Trash />
+                </span>
               </div>
 
             </div>

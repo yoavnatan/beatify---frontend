@@ -83,6 +83,13 @@ h3,
 
 .station-actions {
   display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  align-items: center;
+
+}
+.station-actions-wrapper{
+  display: flex;
   padding: 20px 40px;
 }
 
@@ -265,6 +272,11 @@ h3,
   cursor: pointer;
   display: none;
 
+}
+.big-icon-trash{
+  width: var(--fs-extra-large);
+  fill: var(--sp-white);
+  cursor: pointer;
 }
 
 .song-row:hover .icon-trash {
