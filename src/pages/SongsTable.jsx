@@ -149,7 +149,10 @@ function DropDown({ onAdd, onDelete, song, stationId, stations }) {
               content={
                 <div className="options-menu submenu" onMouseLeave={() => setIsSubMenuOpen(false)}>
                   {stations.slice(1, 5).map(station => (
-                    <div key={station._id} className="option" onClick={(ev) => onAdd(ev, song, station._id)}>
+                    <div key={station._id} className="option" onClick={(ev) => {
+                      onAdd(ev, song, station._id); setIsOpen(false)
+                      setIsSubMenuOpen(false)
+                    }}>
                       <button >{station.name}</button>
                     </div>
                   ))}

@@ -1,5 +1,5 @@
 import { stationService } from '../../services/station/station.service.js'
-import { store } from '../store'
+import { store } from '../store.js'
 import { ADD_STATION, REMOVE_STATION, SET_STATIONS, SET_STATION, UPDATE_STATION, ADD_STATION_MSG } from '../reducers/station.reducer'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer.js'
 
@@ -53,11 +53,16 @@ export async function removeStation(stationId) {
 }
 
 export async function addSongToStation(song, stationId) {
+
+    const stations = store.getState().stationModule.stations
+    const stationToUpdate = stations.find(station => station._id === stationId)
+    if (stationToUpdate.songs.find(s => s.id === song.id)) return
     const songToAdd = {
         id: song.id,
         title: song.title,
-        imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${song.md5_image}/56x56.jpg`,
+        imgUrl: song.imgUrl ? song.imgUrl : `https://e-cdns-images.dzcdn.net/images/cover/${song.md5_image}/56x56.jpg`,
     }
+    console.log(songToAdd)
     try {
         const updatedStation = await stationService.addSong(songToAdd, stationId)
         store.dispatch(getCmdUpdateStation(updatedStation))
