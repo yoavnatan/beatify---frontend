@@ -5,19 +5,20 @@ import { addSongToStation, loadLikedSongsStation, loadStation, loadStations, rem
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
-import Duration from "../assets/svg/duration.svg?react"
 import { PLAY, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import Tippy from "@tippyjs/react"
-import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
 import Delete from "../assets/svg/delete.svg?react"
-import Search from "../assets/svg/search.svg?react"
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 import { useNavigate } from 'react-router'
 import { debounce } from '../services/util.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { SongsTable } from './SongsTable.jsx'
+
+
 
 export function StationDetails() {
   const navigate = useNavigate()
@@ -31,6 +32,7 @@ export function StationDetails() {
   const { user } = useSelector(storeState => storeState.userModule)
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [headerOpacity, setHeaderOpacity] = useState(.1)
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
 
   useEffect(() => {
@@ -51,6 +53,19 @@ export function StationDetails() {
   function handleChange({ target }) {
     setSearch(target.value)
   }
+  useEffect(() => {
+    function handleScroll() {
+      const scrollY = window.scrollY
+      const max = 200
+      const opacity = Math.min(scrollY / max, 1)
+      setHeaderOpacity(opacity)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+
 
   async function onSearchMusic(search) {
     const searchResults = await searchMusicService.searchMusic(search)
@@ -64,7 +79,6 @@ export function StationDetails() {
 
   async function onPlaySearchedResult(search) {
     const song = await searchMusicService.getYoutubeURL(search)
-    console.log(song)
     const prev = lastClickedSong.current
     lastClickedSong.current = song
 
@@ -113,6 +127,13 @@ export function StationDetails() {
   console.log(station.songs)
   return (
     <section className="station-details container">
+      <div
+        className='ent-spacing'
+        style={{
+          "--avg-color": station.averageColor,
+          "--header-opacity": headerOpacity
+        }}
+      ></div>
 
       <header className="station-header" style={{ "--avg-color": station.averageColor }} >
         <div className="image-wrapper">
@@ -171,7 +192,6 @@ export function StationDetails() {
           <button className="shuffle-btn">
             <Shuffle className="icon medium" />
           </button>
-
           <Tippy content={'Delete'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
             <span className="tooltip-wrapper">
               <Delete className="icon medium" onClick={(ev) => deleteStation(ev, station._id)} />
@@ -179,107 +199,107 @@ export function StationDetails() {
           </Tippy>
         </div>
 
+
+        <span className='big-icon-trash' onClick={(ev) => deleteStation(ev, station._id)}>
+          <Trash />
+        </span>
+
+
       </div>
+      <SongsTable
+        deleteSong={deleteSong}
+        station={station}
+        onSearch={onSearch}
+        onPlaySearchedResult={onPlaySearchedResult}
+        search={search}
+        handleChange={handleChange}
+        searchResults={searchResults}
+      />
 
 
-      <div className="table-header">
-        <div className="col-index">#</div>
-        <div className="col title">Title</div>
-        <div className="col album">Album</div>
-        <div className="col date">Date Added</div>
-        <div className="col duration">
-          <Duration className="duration-icon" />
-        </div>
-      </div>
 
-      <ul className="song-list">
-        {station.songs.map((song, idx) => (
-          <li
-            key={`${station._id}-${song.id}-${idx}`}
-            className="song-row"
-            onClick={() => {
-              onPlaySearchedResult(song)
-            }}
-          >
-            <div className='song-row-inner' data-song={song.id}>
-              <div className="song-index-wrapper">
-                <span className="song-index">{idx + 1}</span>
-                <Tippy
-                  content={`Play ${song.title}`}
-                  delay={[800, 0]}
-                  offset={[0, -60]}
-                  arrow={false}
-                  placement="bottom"
-                >
-                  <span className="icon-white-arrow-details"><WhiteArrow /></span>
-                </Tippy>
-              </div>
-
-              <div className="song-title-wrapper">
-                <img className="song-img" src={song.imgUrl} alt={song.title} />
-                <div className="song-info">
-                  <div className="song-title">{song.title}</div>
-                  <div className="song-artist">Artist Name</div>
-                </div>
-              </div>
-
-              <div className="song-album">Album Name</div>
-              <div className="song-date">2 days ago</div>
-              <div className='song-duration-wrapper'>
-                <div className="song-duration">3:45</div>
-
-                <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
-                  <Delete className="icon small" />
-                </span>
-              </div>
-              <div className="btn-drop-down-menu" data-song={song.id}>
-                <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                  <span className="tooltip-wrapper">
-                    <DropDownMenu className="icon small" />
-                  </span>
-                </Tippy>
-              </div>
-              <div className='drop-down-menu' data-index={song.id}>
-                <li>1</li>
-                <li>2</li>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <hr />
-      <div className='search container'>
-        <h1>Let's find something for your playlist</h1>
-        <form onSubmit={onSearch}>
-          <div className="wrapper">
-            <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-              <span className="tooltip-wrapper">
-                <Search className="icon" />
-              </span>
-            </Tippy>
-            <input className='search-input open'
-              value={search}
-              onChange={handleChange}
-              type="text"
-              placeholder='Search for songs'
-            />
-          </div>
-        </form>
-        <ul className='search-results'>
-          {search && searchResults.length > 0 && searchResults.map(res => (
-            <li key={res.id} className="result-item">
-              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
-              <div>
-                <div className="song-title">{res.title}</div>
-                <div className="song-artist">{res.artist.name}</div>
-              </div>
-              <button className="btn-add-song" onClick={(ev) => onAddSong(ev, res, station._id)}>Add</button>
-            </li>
-          ))}
-        </ul>
-      </div >
     </section >
 
 
   )
 }
+
+
+
+{/* <div className='song-row-inner' data-song={song.id}>
+<div className="song-index-wrapper">
+  <span className="song-index">{idx + 1}</span>
+  <Tippy
+    content={`Play ${song.title}`}
+    delay={[800, 0]}
+    offset={[0, -60]}
+    arrow={false}
+    placement="bottom"
+  >
+    <span className="icon-white-arrow-details"><WhiteArrow /></span>
+  </Tippy>
+</div>
+
+<div className="song-title-wrapper">
+  <img className="song-img" src={song.imgUrl} alt={song.title} />
+  <div className="song-info">
+    <div className="song-title">{song.title}</div>
+    <div className="song-artist">Artist Name</div>
+  </div>
+</div>
+
+<div className="song-album">Album Name</div>
+<div className="song-date">2 days ago</div>
+<div className='song-duration-wrapper'>
+  <div className="song-duration">3:45</div>
+
+  <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
+    <Delete className="icon small" />
+  </span>
+</div>
+<div className="btn-drop-down-menu" data-song={song.id}>
+  <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+    <span className="tooltip-wrapper">
+      <DropDownMenu className="icon small" />
+    </span>
+  </Tippy>
+</div>
+<div className='drop-down-menu' data-index={song.id}>
+  <li>1</li>
+  <li>2</li>
+</div>
+</div>
+</li>
+))}
+</ul>
+<hr />
+<div className='search container'>
+<h1>Let's find something for your playlist</h1>
+<form onSubmit={onSearch}>
+<div className="wrapper">
+<Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+<span className="tooltip-wrapper">
+  <Search className="icon" />
+</span>
+</Tippy>
+<input className='search-input open'
+value={search}
+onChange={handleChange}
+type="text"
+placeholder='Search for songs'
+/>
+</div>
+</form>
+<ul className='search-results'>
+{search && searchResults.length > 0 && searchResults.map(res => (
+<li key={res.id} className="result-item">
+<img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
+<div>
+  <div className="song-title">{res.title}</div>
+  <div className="song-artist">{res.artist.name}</div>
+</div>
+<button className="btn-add-song" onClick={(ev) => onAddSong(ev, res, station._id)}>Add</button>
+</li>
+))}
+</ul>
+</div > */}
