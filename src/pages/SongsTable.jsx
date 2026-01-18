@@ -10,6 +10,7 @@ import ArrowInMenu from "../assets/svg/arrow-in-menu.svg?react"
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 import { Popover } from 'react-tiny-popover';
 import { useState } from "react"
+import { useSelector } from "react-redux"
 
 export function SongsTable({
   deleteSong,
@@ -21,6 +22,9 @@ export function SongsTable({
   searchResults,
   onAddSong
 }) {
+
+  const stations = useSelector(storeState => storeState.stationModule.stations)
+
   return (
     <>
       <div className="table-header">
@@ -69,6 +73,7 @@ export function SongsTable({
                 onDelete={deleteSong}
                 song={song}
                 stationId={station._id}
+                stations={stations}
               />
 
             </div>
@@ -113,45 +118,75 @@ export function SongsTable({
 }
 
 
-function DropDown({ onAdd, onDelete, song, stationId }) {
+function DropDown({ onAdd, onDelete, song, stationId, stations }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
   return (
-    <Popover
-      isOpen={isOpen}
-      positions={['bottom', 'top', 'right', 'left']}
-      boundaryInset={30}
-      onClickOutside={() => setIsOpen(false)}
-      content={
+    <div onClick={(ev) => ev.stopPropagation()}>
 
-        <div className="options-menu">
-          <div className="option flex " onClick={(ev) => { onAdd(ev, song, stationId); setIsOpen(false); }}>
-            <Plus className="icon small" />
-            <button>
-              Add to playlist
-            </button>
-            <ArrowInMenu className="icon small" style={{ rotate: '90deg', marginInlineStart: 'auto' }} />
+      <Popover
+        isOpen={isOpen}
+        positions={['bottom', 'top', 'right', 'left']}
+        boundaryInset={30}
+        onClickOutside={() => {
+          setIsOpen(false);
+          setIsSubMenuOpen(false);
+        }}
+        content={
+          <div className="options-menu">
+
+            <Popover
+              isOpen={isSubMenuOpen}
+              positions={['right', 'left', 'top']}
+              padding={5}
+              align="start"
+              alignOffset={10}
+              onClickOutside={() => {
+                setIsOpen(false)
+                setIsSubMenuOpen(false)
+              }}
+              content={
+                <div className="options-menu submenu" onMouseLeave={() => setIsSubMenuOpen(false)}>
+                  {stations.slice(1, 5).map(station => (
+                    <div key={station._id} className="option" onClick={(ev) => onAdd(ev, song, station._id)}>
+                      <button >{station.name}</button>
+                    </div>
+                  ))}
+                </div>
+              }
+            >
+              <div
+                className="option flex first"
+                onMouseEnter={() => setIsSubMenuOpen(true)}
+                data-state={isSubMenuOpen ? 'open' : 'closed'}>
+                <Plus className="icon small" />
+                <button >Add to playlist</button>
+                <ArrowInMenu className="icon small" style={{ transform: 'rotate(90deg)', marginInlineStart: 'auto' }} />
+              </div>
+            </Popover>
+
+            <div className="option flex justify-between" onClick={(ev) => { onDelete(ev, song.id, stationId); setIsOpen(false); }}>
+              <Remove className="icon small" />
+              <button>Delete from this playlist</button>
+            </div>
           </div>
-          <div className="option flex justify-between" onClick={(ev) => { onDelete(ev, song.id, stationId); setIsOpen(false); }}>
-            <Remove className="icon small" />
-            <button>
-              Delete from this playlist
-            </button>
-          </div>
+        }
+      >
+        <div
+          data-state={isOpen ? 'open' : 'closed'}
+          onClick={(ev) => {
+            ev.stopPropagation();
+            setIsOpen(!isOpen);
+          }}
+        >
+          <Tippy content={'Options'} delay={[500, 0]} offset={[0, 15]} arrow={false}>
+            <span className="tooltip-wrapper">
+              <DropDownMenu className="icon-options icon small" />
+            </span>
+          </Tippy>
         </div>
-      }
-    >
-      <div data-state={isOpen ? 'open' : 'closed'}
-        onClick={(ev) => {
-          ev.stopPropagation()
-          setIsOpen(!isOpen)
-        }}>
-        <Tippy content={'Options'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-          <span className="tooltip-wrapper">
-            <DropDownMenu className="icon-options icon small" />
-          </span>
-        </Tippy>
-      </div>
-    </Popover>
+      </Popover>
+    </div>
   );
-};
+}

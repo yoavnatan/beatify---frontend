@@ -16,7 +16,7 @@ export function MainLayout() {
 
     useEffect(() => {
 
-        // loadStations()
+        loadStations()
         const handle = document.querySelector(".resize-handle")
         const main = document.querySelector("main")
 

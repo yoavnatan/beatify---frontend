@@ -238,10 +238,6 @@ h3,
 }
 
 
-.song-row:hover .song-artist,
-.song-row:hover .song-album {
-  /* color: var(--sp-white); */
-}
 
 .song-index-wrapper {
   position: relative;
@@ -349,7 +345,3 @@ h3,
   justify-self: end;
   border: 1px var(--sp-white) solid;
 }
-
-.station-details .drop-down-menu-wrapper {}
-
-.station-details .drop-down-menu {}

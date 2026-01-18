@@ -140,6 +140,11 @@
 
 }
 
+.options-menu:has([data-state="open"]) .first {
+  background: var(--sp-hover);
+
+}
+
 
 /* .song-row:hover .song-index,
 .song-row:hover .song-duration {
