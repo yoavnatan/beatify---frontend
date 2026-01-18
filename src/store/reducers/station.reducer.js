@@ -5,6 +5,9 @@ export const ADD_STATION = 'ADD_STATION'
 export const UPDATE_STATION = 'UPDATE_STATION'
 export const ADD_STATION_MSG = 'ADD_STATION_MSG'
 export const SET_NOW_PLAYING_STATION = 'SET_NOW_PLAYING_STATION'
+export const ADD_SONG = 'ADD_SONG'
+export const RMOVE_SONG = 'RMOVE_SONG'
+
 
 const initialState = {
     stations: [],
@@ -22,6 +25,9 @@ export function stationReducer(state = initialState, action) {
             break
         case SET_STATION:
             newState = { ...state, station: action.station }
+            break
+        case ADD_SONG:
+            newState = { ...state, station: [action.song, ...state.station.songs] }
             break
         case SET_NOW_PLAYING_STATION:
             newState = { ...state, nowPlaying: action.nowPlaying }

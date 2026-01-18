@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadLikedSongsStation, loadStation, loadStations, removeSong, removeStation, updateStation } from '../store/actions/station.actions.js'
+import { addSongToStation, loadLikedSongsStation, loadStation, loadStations, removeSong, removeStation, updateStation } from '../store/actions/station.actions.js'
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
@@ -96,6 +96,11 @@ export function StationDetails() {
     await removeSong(songId, stationId)
   }
 
+  async function onAddSong(ev, song, stationId) {
+    ev.stopPropagation()
+    await addSongToStation(song, stationId)
+  }
+
   const coverImg =
     station._id === 'likedSongs'
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
@@ -103,7 +108,7 @@ export function StationDetails() {
       station.imgUrl ||
       "/img/blank-screen.jpg"
 
-
+  console.log(station.songs)
   return (
     <section className="station-details container">
 
@@ -267,7 +272,7 @@ export function StationDetails() {
                 <div className="song-title">{res.title}</div>
                 <div className="song-artist">{res.artist.name}</div>
               </div>
-
+              <button className="btn-add-song" onClick={(ev) => onAddSong(ev, res, station._id)}>Add</button>
             </li>
           ))}
         </ul>

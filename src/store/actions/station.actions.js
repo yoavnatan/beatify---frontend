@@ -49,8 +49,25 @@ export async function removeStation(stationId) {
     } catch (err) {
         console.log('Cannot remove station', err)
         throw err
-    }   
+    }
 }
+
+export async function addSongToStation(song, stationId) {
+    const songToAdd = {
+        id: song.id,
+        title: song.title,
+        imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${song.md5_image}/56x56.jpg`,
+    }
+    try {
+        const updatedStation = await stationService.addSong(songToAdd, stationId)
+        store.dispatch(getCmdUpdateStation(updatedStation))
+    } catch (err) {
+        console.log('Cnnout add song', err)
+        throw err
+    }
+}
+
+
 export async function removeSong(songId, stationId) {
     try {
         const updatedStation = await stationService.removeSong(songId, stationId)
@@ -72,6 +89,8 @@ export async function addStation(station) {
         throw err
     }
 }
+
+
 
 export async function updateStation(station) {
     try {
@@ -132,6 +151,7 @@ function getCmdAddStationMsg(msg) {
         msg
     }
 }
+
 
 // unitTestActions()
 async function unitTestActions() {

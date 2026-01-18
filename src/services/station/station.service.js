@@ -14,6 +14,7 @@ export const stationService = {
     save,
     removeStation,
     removeSong,
+    addSong,
     addStationMsg,
     _getStations,
     getLikedSongsStation
@@ -59,6 +60,15 @@ async function removeSong(songId, stationId) {
     const idx = stations.findIndex(st => st._id === stationId)
     if (idx === -1) throw new Error('Station not found')
     stations[idx].songs = stations[idx].songs.filter(song => song.id !== songId)
+    saveToStorage(STORAGE_KEY, stations)
+    return stations[idx]
+}
+
+async function addSong(song, stationId) {
+    const stations = await storageService.query(STORAGE_KEY)
+    const idx = stations.findIndex(st => st._id === stationId)
+    if (idx === -1) throw new Error('Station not found')
+    stations[idx].songs = [song, ...stations[idx].songs]
     saveToStorage(STORAGE_KEY, stations)
     return stations[idx]
 }
