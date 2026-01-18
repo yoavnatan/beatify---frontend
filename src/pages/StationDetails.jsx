@@ -14,6 +14,7 @@ import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
 import Delete from "../assets/svg/delete.svg?react"
 import Search from "../assets/svg/search.svg?react"
+import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 import { useNavigate } from 'react-router'
 import { debounce } from '../services/util.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
@@ -28,7 +29,6 @@ export function StationDetails() {
   const lastClickedSong = useRef()
   let isStationPlaying = (stationId === nowPlayingStationId)
   const { user } = useSelector(storeState => storeState.userModule)
-
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
@@ -101,6 +101,7 @@ export function StationDetails() {
     ev.stopPropagation()
     await addSongToStation(song, stationId)
   }
+
 
   const coverImg =
     station._id === 'likedSongs'
@@ -198,19 +199,9 @@ export function StationDetails() {
             className="song-row"
             onClick={() => {
               onPlaySearchedResult(song)
-              // const prev = lastClickedSong.current
-              // lastClickedSong.current = song
-              // setSong(song)
-
-              // if (prev?.id === song.id) {
-              //   dispatch({ type: TOGGLE_PLAY })
-              // } else {
-              //   dispatch({ type: PLAY })
-              //   dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
-              // }
             }}
           >
-            <div className='song-row-inner'>
+            <div className='song-row-inner' data-song={song.id}>
               <div className="song-index-wrapper">
                 <span className="song-index">{idx + 1}</span>
                 <Tippy
@@ -236,11 +227,22 @@ export function StationDetails() {
               <div className="song-date">2 days ago</div>
               <div className='song-duration-wrapper'>
                 <div className="song-duration">3:45</div>
+
                 <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
                   <Delete className="icon small" />
                 </span>
               </div>
-
+              <div className="btn-drop-down-menu" data-song={song.id}>
+                <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                  <span className="tooltip-wrapper">
+                    <DropDownMenu className="icon small" />
+                  </span>
+                </Tippy>
+              </div>
+              <div className='drop-down-menu' data-index={song.id}>
+                <li>1</li>
+                <li>2</li>
+              </div>
             </div>
           </li>
         ))}

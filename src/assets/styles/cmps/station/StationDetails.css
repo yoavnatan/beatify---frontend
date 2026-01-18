@@ -136,7 +136,7 @@ h3,
   color: var(--sp-gray);
   display: grid;
   font-size: var(--fs-small);
-  grid-template-columns: 40px 4fr 3fr 2fr 40px;
+  grid-template-columns: 40px 4fr 3fr 2fr 40px 40px;
   letter-spacing: var(--ls-normal);
   padding: 12px 32px;
 }
@@ -166,7 +166,7 @@ h3,
 
 .song-row-inner {
   display: grid;
-  grid-template-columns: 40px 4fr 3fr 2fr 40px;
+  grid-template-columns: 40px 4fr 3fr 2fr 40px 40px;
   height: 54px;
   align-items: center;
 }
@@ -343,3 +343,7 @@ h3,
   justify-self: end;
   border: 1px var(--sp-white) solid;
 }
+
+.station-details .drop-down-menu-wrapper {}
+
+.station-details .drop-down-menu {}
