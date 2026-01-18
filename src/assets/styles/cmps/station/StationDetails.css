@@ -3,6 +3,7 @@
   color: var(--sp-white);
   min-height: 100vh;
 }
+
 .ent-spacing {
   height: 48px;
   position: sticky;
@@ -139,7 +140,7 @@ h3,
   width: 54px;
 }
 
-<<<<<<< HEAD
+
 .table-header {
   align-items: center;
   border-bottom: 1px solid var(--sp-border);
@@ -357,5 +358,3 @@ h3,
 .station-details .drop-down-menu-wrapper {}
 
 .station-details .drop-down-menu {}
-=======
->>>>>>> main

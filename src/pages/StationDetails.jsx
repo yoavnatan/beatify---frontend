@@ -200,9 +200,7 @@ export function StationDetails() {
         </div>
 
 
-        <span className='big-icon-trash' onClick={(ev) => deleteStation(ev, station._id)}>
-          <Trash />
-        </span>
+
 
 
       </div>
@@ -214,6 +212,7 @@ export function StationDetails() {
         search={search}
         handleChange={handleChange}
         searchResults={searchResults}
+        onAddSong={onAddSong}
       />
 
 
@@ -226,80 +225,3 @@ export function StationDetails() {
 
 
 
-{/* <div className='song-row-inner' data-song={song.id}>
-<div className="song-index-wrapper">
-  <span className="song-index">{idx + 1}</span>
-  <Tippy
-    content={`Play ${song.title}`}
-    delay={[800, 0]}
-    offset={[0, -60]}
-    arrow={false}
-    placement="bottom"
-  >
-    <span className="icon-white-arrow-details"><WhiteArrow /></span>
-  </Tippy>
-</div>
-
-<div className="song-title-wrapper">
-  <img className="song-img" src={song.imgUrl} alt={song.title} />
-  <div className="song-info">
-    <div className="song-title">{song.title}</div>
-    <div className="song-artist">Artist Name</div>
-  </div>
-</div>
-
-<div className="song-album">Album Name</div>
-<div className="song-date">2 days ago</div>
-<div className='song-duration-wrapper'>
-  <div className="song-duration">3:45</div>
-
-  <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
-    <Delete className="icon small" />
-  </span>
-</div>
-<div className="btn-drop-down-menu" data-song={song.id}>
-  <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-    <span className="tooltip-wrapper">
-      <DropDownMenu className="icon small" />
-    </span>
-  </Tippy>
-</div>
-<div className='drop-down-menu' data-index={song.id}>
-  <li>1</li>
-  <li>2</li>
-</div>
-</div>
-</li>
-))}
-</ul>
-<hr />
-<div className='search container'>
-<h1>Let's find something for your playlist</h1>
-<form onSubmit={onSearch}>
-<div className="wrapper">
-<Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-<span className="tooltip-wrapper">
-  <Search className="icon" />
-</span>
-</Tippy>
-<input className='search-input open'
-value={search}
-onChange={handleChange}
-type="text"
-placeholder='Search for songs'
-/>
-</div>
-</form>
-<ul className='search-results'>
-{search && searchResults.length > 0 && searchResults.map(res => (
-<li key={res.id} className="result-item">
-<img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
-<div>
-  <div className="song-title">{res.title}</div>
-  <div className="song-artist">{res.artist.name}</div>
-</div>
-<button className="btn-add-song" onClick={(ev) => onAddSong(ev, res, station._id)}>Add</button>
-</li>
-))}
-</ul>
-</div > */}

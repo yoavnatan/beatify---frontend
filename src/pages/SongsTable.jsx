@@ -3,6 +3,8 @@ import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Search from "../assets/svg/search.svg?react"
 import Tippy from "@tippyjs/react"
 import Trash from "../assets/svg/trash.svg?react"
+import Delete from "../assets/svg/delete.svg?react"
+import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 
 
 export function SongsTable({
@@ -12,7 +14,8 @@ export function SongsTable({
   onPlaySearchedResult,
   search,
   handleChange,
-  searchResults
+  searchResults,
+  onAddSong
 }) {
   return (
     <>
@@ -55,8 +58,15 @@ export function SongsTable({
               <div className='song-duration-wrapper'>
                 <div className="song-duration">3:45</div>
                 <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
-                  <Trash />
+                  <Delete className="icon small" />
                 </span>
+              </div>
+              <div className="btn-drop-down-menu" data-song={song.id}>
+                <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                  <span className="tooltip-wrapper">
+                    <DropDownMenu className="icon small" />
+                  </span>
+                </Tippy>
               </div>
             </div>
           </li>
@@ -67,17 +77,14 @@ export function SongsTable({
 
       <div className='search container'>
         <h1>Let's find something for your playlist</h1>
-
         <form onSubmit={onSearch}>
           <div className="wrapper">
-            <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false}>
+            <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
               <span className="tooltip-wrapper">
                 <Search className="icon" />
               </span>
             </Tippy>
-
-            <input
-              className='search-input open'
+            <input className='search-input open'
               value={search}
               onChange={handleChange}
               type="text"
@@ -85,23 +92,19 @@ export function SongsTable({
             />
           </div>
         </form>
-
         <ul className='search-results'>
           {search && searchResults.length > 0 && searchResults.map(res => (
             <li key={res.id} className="result-item">
-              <img
-                className="song-img"
-                src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`}
-                onClick={() => onPlaySearchedResult(res)}
-              />
+              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
               <div>
                 <div className="song-title">{res.title}</div>
                 <div className="song-artist">{res.artist.name}</div>
               </div>
+              <button className="btn-add-song" onClick={(ev) => onAddSong(ev, res, station._id)}>Add</button>
             </li>
           ))}
         </ul>
-      </div>
+      </div >
     </>
   )
 }
