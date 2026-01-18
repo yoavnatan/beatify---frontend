@@ -20,6 +20,7 @@ import { SongsTable } from './SongsTable.jsx'
 
 
 
+
 export function StationDetails() {
   const navigate = useNavigate()
   const { stationId } = useParams()
@@ -124,7 +125,6 @@ export function StationDetails() {
       station.imgUrl ||
       "/img/blank-screen.jpg"
 
-  console.log(station.songs)
   return (
     <section className="station-details container">
       <div
@@ -198,10 +198,6 @@ export function StationDetails() {
             </span>
           </Tippy>
         </div>
-
-
-
-
 
       </div>
       <SongsTable

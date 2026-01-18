@@ -14,6 +14,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@tippyjs/react": "^4.2.6",
     "axios": "^1.5.0",
     "fast-average-color": "^9.5.0",
@@ -23,6 +24,7 @@
     "react-redux": "^8.1.2",
     "react-router": "^6.16.0",
     "react-router-dom": "^6.16.0",
+    "react-tiny-popover": "^8.1.6",
     "redux": "^4.2.1",
     "socket.io-client": "^4.7.2"
   },

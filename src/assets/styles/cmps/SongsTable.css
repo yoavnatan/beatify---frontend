@@ -40,7 +40,7 @@
 }
 
 .song-row:hover .song-row-inner {
-  background: var(--sp-hover-grey);
+  background: var(--sp-hover);
   border-radius: 4px;
 }
 
@@ -124,10 +124,27 @@
   pointer-events: auto;
 }
 
-.song-row:hover .song-index,
+.song-row:has([data-state="open"]) {
+  /* color: var(--sp-white); */
+
+  .song-row-inner {
+    background-color: var(--sp-hover-grey);
+    border-radius: 4px;
+    color: var(--sp-white);
+
+
+    .icon-options {
+      opacity: 1;
+    }
+  }
+
+}
+
+
+/* .song-row:hover .song-index,
 .song-row:hover .song-duration {
   display: none;
-}
+} */
 
 .song-duration-wrapper {
   position: relative;
@@ -154,6 +171,15 @@
 .song-row:hover .icon-trash {
   opacity: 1;
   display: block;
+}
+
+.icon-options {
+  opacity: 0;
+
+}
+
+.song-row:hover .icon-options {
+  opacity: 1;
 }
 
 
@@ -200,4 +226,23 @@
 .station-details hr {
 
   margin: 1em;
+}
+
+.options-menu {
+  background: var(--sp-card);
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  /* margin-right: 2em; */
+  padding: .4em .4em;
+}
+
+.option {
+  padding: .3em .5em;
+}
+
+
+.options-menu .option:hover {
+  background: var(--sp-hover);
 }

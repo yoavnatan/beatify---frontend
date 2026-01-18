@@ -4,8 +4,12 @@ import Search from "../assets/svg/search.svg?react"
 import Tippy from "@tippyjs/react"
 import Trash from "../assets/svg/trash.svg?react"
 import Delete from "../assets/svg/delete.svg?react"
+import Plus from "../assets/svg/plus.svg?react"
+import Remove from "../assets/svg/remove.svg?react"
+import ArrowInMenu from "../assets/svg/arrow-in-menu.svg?react"
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
-
+import { Popover } from 'react-tiny-popover';
+import { useState } from "react"
 
 export function SongsTable({
   deleteSong,
@@ -57,17 +61,16 @@ export function SongsTable({
 
               <div className='song-duration-wrapper'>
                 <div className="song-duration">3:45</div>
-                <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
+                {/* <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
                   <Delete className="icon small" />
-                </span>
+                </span> */}
               </div>
-              <div className="btn-drop-down-menu" data-song={song.id}>
-                <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                  <span className="tooltip-wrapper">
-                    <DropDownMenu className="icon small" />
-                  </span>
-                </Tippy>
-              </div>
+              <DropDown onAdd={onAddSong}
+                onDelete={deleteSong}
+                song={song}
+                stationId={station._id}
+              />
+
             </div>
           </li>
         ))}
@@ -108,3 +111,47 @@ export function SongsTable({
     </>
   )
 }
+
+
+function DropDown({ onAdd, onDelete, song, stationId }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Popover
+      isOpen={isOpen}
+      positions={['bottom', 'top', 'right', 'left']}
+      boundaryInset={30}
+      onClickOutside={() => setIsOpen(false)}
+      content={
+
+        <div className="options-menu">
+          <div className="option flex " onClick={(ev) => { onAdd(ev, song, stationId); setIsOpen(false); }}>
+            <Plus className="icon small" />
+            <button>
+              Add to playlist
+            </button>
+            <ArrowInMenu className="icon small" style={{ rotate: '90deg', marginInlineStart: 'auto' }} />
+          </div>
+          <div className="option flex justify-between" onClick={(ev) => { onDelete(ev, song.id, stationId); setIsOpen(false); }}>
+            <Remove className="icon small" />
+            <button>
+              Delete from this playlist
+            </button>
+          </div>
+        </div>
+      }
+    >
+      <div data-state={isOpen ? 'open' : 'closed'}
+        onClick={(ev) => {
+          ev.stopPropagation()
+          setIsOpen(!isOpen)
+        }}>
+        <Tippy content={'Options'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+          <span className="tooltip-wrapper">
+            <DropDownMenu className="icon-options icon small" />
+          </span>
+        </Tippy>
+      </div>
+    </Popover>
+  );
+};
