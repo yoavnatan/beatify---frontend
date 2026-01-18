@@ -91,7 +91,9 @@ h3,
 
 .station-actions-wrapper {
   display: flex;
-  padding: 20px 40px;
+  align-items: center;
+  padding: 20px 0;
+  gap: .1em;
 }
 
 .play-btn {
@@ -101,14 +103,14 @@ h3,
   border-radius: 50%;
   cursor: pointer;
   display: flex;
-  height: 54px;
+  height: 48px;
   justify-content: center;
   transition: transform .1s ease;
-  width: 54px;
+  width: 48px;
 }
 
 .icon-large-black {
-  width: var(--fs-h3);
+  width: var(--fs-h2);
 }
 
 .play-btn:hover {
@@ -291,6 +293,7 @@ h3,
 
 .station-details .search.container {
   margin-inline-start: 2em;
+  margin-inline-end: 2.3em;
   margin-block-end: 3em;
   margin-block-start: 2em;
   min-height: 300px;
@@ -330,4 +333,13 @@ h3,
 .station-details hr {
 
   margin: 1em;
+}
+
+.station-details .btn-add-song {
+  width: min-content;
+  height: min-content;
+  padding: .5em 1em;
+  border-radius: 2em;
+  justify-self: end;
+  border: 1px var(--sp-white) solid;
 }

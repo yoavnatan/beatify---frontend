@@ -12,6 +12,7 @@ import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import Tippy from "@tippyjs/react"
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
+import Delete from "../assets/svg/delete.svg?react"
 import Search from "../assets/svg/search.svg?react"
 import { useNavigate } from 'react-router'
 import { debounce } from '../services/util.service.js'
@@ -167,17 +168,15 @@ export function StationDetails() {
           </Tippy>
 
           <button className="shuffle-btn">
-            <Shuffle className="icon large" />
+            <Shuffle className="icon medium" />
           </button>
 
-
+          <Tippy content={'Delete'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+            <span className="tooltip-wrapper">
+              <Delete className="icon medium" onClick={(ev) => deleteStation(ev, station._id)} />
+            </span>
+          </Tippy>
         </div>
-
-
-        <span className='big-icon-trash' onClick={(ev) => deleteStation(ev, station._id)}>
-          <Trash />
-        </span>
-
 
       </div>
 
@@ -238,7 +237,7 @@ export function StationDetails() {
               <div className='song-duration-wrapper'>
                 <div className="song-duration">3:45</div>
                 <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
-                  <Trash />
+                  <Delete className="icon small" />
                 </span>
               </div>
 
