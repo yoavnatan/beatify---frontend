@@ -3,6 +3,15 @@
   color: var(--sp-white);
   min-height: 100vh;
 }
+.ent-spacing {
+  height: 48px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--avg-color);
+  opacity: var(--header-opacity);
+  transition: opacity 0.1s linear;
+}
 
 .station-header {
   align-items: end;

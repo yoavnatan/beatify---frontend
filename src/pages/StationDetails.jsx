@@ -31,6 +31,7 @@ export function StationDetails() {
 
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [headerOpacity, setHeaderOpacity] = useState(.1)
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
 
   useEffect(() => {
@@ -51,6 +52,19 @@ export function StationDetails() {
   function handleChange({ target }) {
     setSearch(target.value)
   }
+  useEffect(() => {
+    function handleScroll() {
+      const scrollY = window.scrollY
+      const max = 200
+      const opacity = Math.min(scrollY / max, 1)
+      setHeaderOpacity(opacity)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+
 
   async function onSearchMusic(search) {
     const searchResults = await searchMusicService.searchMusic(search)
@@ -106,6 +120,13 @@ export function StationDetails() {
 
   return (
     <section className="station-details container">
+      <div
+        className='ent-spacing'
+        style={{
+          "--avg-color": station.averageColor,
+          "--header-opacity": headerOpacity
+        }}
+      ></div>
 
       <header className="station-header" style={{ "--avg-color": station.averageColor }} >
         <div className="image-wrapper">
