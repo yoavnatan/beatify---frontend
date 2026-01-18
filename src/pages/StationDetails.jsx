@@ -5,17 +5,18 @@ import { loadLikedSongsStation, loadStation, loadStations, removeSong, removeSta
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
-import Duration from "../assets/svg/duration.svg?react"
 import { PLAY, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import Tippy from "@tippyjs/react"
-import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Trash from "../assets/svg/trash.svg?react"
-import Search from "../assets/svg/search.svg?react"
 import { useNavigate } from 'react-router'
 import { debounce } from '../services/util.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { SongsTable } from './SongsTable.jsx'
+
+
 
 export function StationDetails() {
   const navigate = useNavigate()
@@ -63,7 +64,6 @@ export function StationDetails() {
 
   async function onPlaySearchedResult(search) {
     const song = await searchMusicService.getYoutubeURL(search)
-    console.log(song)
     const prev = lastClickedSong.current
     lastClickedSong.current = song
 
@@ -174,104 +174,18 @@ export function StationDetails() {
         </span>
 
 
-      </div>
-
-
-      <div className="table-header">
-        <div className="col-index">#</div>
-        <div className="col title">Title</div>
-        <div className="col album">Album</div>
-        <div className="col date">Date Added</div>
-        <div className="col duration">
-          <Duration className="duration-icon" />
         </div>
-      </div>
+        <SongsTable
+          deleteSong={deleteSong}
+          station={station}
+          onSearch={onSearch}
+          onPlaySearchedResult={onPlaySearchedResult}
+          search={search}
+          handleChange={handleChange}
+          searchResults={searchResults}
+        />
 
-      <ul className="song-list">
-        {station.songs.map((song, idx) => (
-          <li
-            key={`${station._id}-${song.id}-${idx}`}
-            className="song-row"
-            onClick={() => {
-              onPlaySearchedResult(song)
-              // const prev = lastClickedSong.current
-              // lastClickedSong.current = song
-              // setSong(song)
 
-              // if (prev?.id === song.id) {
-              //   dispatch({ type: TOGGLE_PLAY })
-              // } else {
-              //   dispatch({ type: PLAY })
-              //   dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
-              // }
-            }}
-          >
-            <div className='song-row-inner'>
-              <div className="song-index-wrapper">
-                <span className="song-index">{idx + 1}</span>
-                <Tippy
-                  content={`Play ${song.title}`}
-                  delay={[800, 0]}
-                  offset={[0, -60]}
-                  arrow={false}
-                  placement="bottom"
-                >
-                  <span className="icon-white-arrow-details"><WhiteArrow /></span>
-                </Tippy>
-              </div>
-
-              <div className="song-title-wrapper">
-                <img className="song-img" src={song.imgUrl} alt={song.title} />
-                <div className="song-info">
-                  <div className="song-title">{song.title}</div>
-                  <div className="song-artist">Artist Name</div>
-                </div>
-              </div>
-
-              <div className="song-album">Album Name</div>
-              <div className="song-date">2 days ago</div>
-              <div className='song-duration-wrapper'>
-                <div className="song-duration">3:45</div>
-                <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
-                  <Trash />
-                </span>
-              </div>
-
-            </div>
-          </li>
-        ))}
-      </ul>
-      <hr />
-      <div className='search container'>
-        <h1>Let's find something for your playlist</h1>
-        <form onSubmit={onSearch}>
-          <div className="wrapper">
-            <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-              <span className="tooltip-wrapper">
-                <Search className="icon" />
-              </span>
-            </Tippy>
-            <input className='search-input open'
-              value={search}
-              onChange={handleChange}
-              type="text"
-              placeholder='Search for songs'
-            />
-          </div>
-        </form>
-        <ul className='search-results'>
-          {search && searchResults.length > 0 && searchResults.map(res => (
-            <li key={res.id} className="result-item">
-              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
-              <div>
-                <div className="song-title">{res.title}</div>
-                <div className="song-artist">{res.artist.name}</div>
-              </div>
-
-            </li>
-          ))}
-        </ul>
-      </div >
     </section >
 
 
