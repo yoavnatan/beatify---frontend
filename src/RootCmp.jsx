@@ -10,6 +10,7 @@ import { Library } from './cmps/Library.jsx'
 import { useEffect } from 'react'
 import { loadStations } from './store/actions/station.actions.js'
 import { LibraryAddStation } from './pages/LibraryAddStation.jsx'
+import { Search } from './pages/Search.jsx'
 
 
 export function MainLayout() {
@@ -124,6 +125,7 @@ export function RootCmp() {
                 <Route path="station" element={<StationIndex />} />
                 <Route path="station/:stationId" element={<StationDetails />} />
                 <Route path="chat" element={<ChatApp />} />
+                <Route path="search" element={<Search />} />
                 <Route path="library/add/:stationId" element={<LibraryAddStation />} />
 
             </Route>

@@ -16,7 +16,6 @@ export function LibraryList() {
     function displayStationDetails(id) {
         navigate(`/station/${id}`)
     }
-    console.log(nowPlayingStationId)
     return (
         <section className="library-list">
             <ul>

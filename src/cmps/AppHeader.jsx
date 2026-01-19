@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
@@ -15,20 +15,30 @@ import profileImg from '../assets/img/profile-pic.jpg'
 import { userService } from '../services/user/user.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
 import { debounce } from '../services/util.service.js'
+import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
+import { setSong } from '../store/actions/player.actions.js'
+import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
+import { SET_RESULTS } from '../store/reducers/search.reducer.js'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const [search, setSearch] = useState('')
     const [searchResults, setSearchResults] = useState([])
+    const [isResultsOpen, setIsResultsOpen] = useState(false)
+    const { lastClickedSong } = useSelector(storeState => storeState.playerModule)
 
     const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
     const navigate = useNavigate()
-    const location = useLocation();
+    const location = useLocation()
+    const dispatch = useDispatch()
+
+    const resRef = useRef()
 
     useEffect(() => {
         // console.log(search)
         if (search) debouncedOnSearch(search)
     }, [search])
+
 
     async function onSearchMusic(search) {
         const searchResults = await searchMusicService.searchMusic(search)
@@ -48,20 +58,38 @@ export function AppHeader() {
             showErrorMsg('Cannot logout')
         }
     }
-
     async function onPlaySearchedResult(search) {
         const song = await searchMusicService.getYoutubeURL(search)
-        console.log(song)
-        const prev = lastClickedSong.current
-        lastClickedSong.current = song
+        dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+        setSong(song)
+        dispatch({ type: PLAY })
+        // dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+        setIsResultsOpen(false)
+    }
 
-        if (prev?.id === song.id) {
-            dispatch({ type: TOGGLE_PLAY })
-        } else {
-            setSong(song)
-            dispatch({ type: PLAY })
-            dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+    function handleFocus() {
+        setIsResultsOpen(true)
+        document.addEventListener('mousedown', handleClickOutside);
+
+    }
+
+    function handleBlear() {
+        document.removeEventListener('mousdown', handleClickOutside)
+
+    }
+
+    function handleClickOutside(ev) {
+        if (resRef.current && !resRef.current.contains(ev.target)) {
+            setIsResultsOpen(false)
+            document.removeEventListener('mousedown', handleClickOutside);
         }
+    }
+
+    function onSubmitSearch(ev) {
+        ev.preventDefault()
+        setIsResultsOpen(false)
+        dispatch({ type: SET_RESULTS, searchResults: searchResults })
+        navigate('/search')
     }
 
     return (
@@ -83,16 +111,22 @@ export function AppHeader() {
                     </NavLink>
                     <div className="search-wrapper">
                         <Search className="icon medium icon-search" />
-                        <input value={search} onChange={handleChange}
-                            type="text"
-                            className="main-search-input"
-                            placeholder="What do you want to play?"
-                        />
+                        <form onSubmit={onSubmitSearch} className="main-search-input"
+                        >
+                            <input value={search}
+                                onChange={handleChange}
+                                onFocus={handleFocus}
+                                onBlur={handleBlear}
+                                type="text"
+                                placeholder="What do you want to play?"
+
+                            />
+                        </form>
                         <div className="broswe-wrapper">
                             <Broswe className="icon medium" />
                         </div>
-                        <div className="search-result container">
-                            {!searchResults && <h3>Recent Search</h3>}
+                        <div ref={resRef} className={`search-result container ${isResultsOpen ? "open" : ''}`}>
+                            {searchResults.length <= 0 && <h3 style={{ marginBlockStart: '1em' }}>Recent Search</h3>}
                             <ul>
                                 {search && searchResults.length > 0 && searchResults.map(res => (
                                     <li key={res.id} className="result-item">
@@ -121,14 +155,7 @@ export function AppHeader() {
                             <Link to={`user/${user._id}`} className="user-link">
                                 {user.imgUrl && <img className='profile-pic' src={profileImg} alt="User" />}
                             </Link>
-                            {/* 
-                            <span className="score">
-                                {user.score?.toLocaleString()}
-                            </span>
 
-                            <button onClick={onLogout} className="logout-btn">
-                                Logout
-                            </button> */}
                         </div>
                     )}
                 </div>

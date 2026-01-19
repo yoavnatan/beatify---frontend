@@ -28,6 +28,7 @@ export function SongsTable({
 
   const stations = useSelector(storeState => storeState.stationModule.stations)
   const { user } = useSelector(storeState => storeState.userModule)
+  let { playing, nowPlaying } = useSelector(storeState => storeState.playerModule)
 
 
   async function likeSong(songId) {
@@ -67,7 +68,10 @@ export function SongsTable({
           >
             <div className='song-row-inner'>
               <div className="song-index-wrapper">
-                <span className="song-index">{idx + 1}</span>
+                <span className="song-index">
+                  {playing && song.id === nowPlaying.id && <img style={{ width: '14px', heigth: '14px' }} src="https://open.spotifycdn.com/cdn/images/equaliser-animated-green.f5eb96f2.gif" />}
+                  {(!playing || song.id !== nowPlaying.id) && idx + 1}</span>
+
                 <Tippy content={`Play ${song.title}`} delay={[800, 0]} offset={[0, -60]} arrow={false} placement="bottom">
                   <span className="icon-white-arrow-details"><WhiteArrow /></span>
                 </Tippy>
