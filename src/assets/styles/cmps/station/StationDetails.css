@@ -3,16 +3,23 @@
   color: var(--sp-white);
   min-height: 100vh;
 }
+.sticky-actions {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 
 .ent-spacing {
-  height: 48px;
+  height: 62px;
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: var(--avg-color);
-  opacity: var(--header-opacity);
-  transition: opacity 0.1s linear;
+  background-color: rgba(var(--avg-color-rgb), var(--header-opacity));
+  transition: opacity 0.3s linear;
 }
+
+
+
 
 .station-header {
   align-items: end;
@@ -22,6 +29,8 @@
   grid-template-columns: 220px 1fr;
   height: 286px;
   padding: 24px;
+  opacity: var(--header-fade);
+  transition: opacity 0.15s linear;
 }
 
 .image-wrapper {
