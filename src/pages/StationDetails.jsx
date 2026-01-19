@@ -5,7 +5,7 @@ import { addSongToStation, loadLikedSongsStation, loadStation, loadStations, rem
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import Shuffle from "../assets/svg/shuffle.svg?react"
-import { PLAY, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
+import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import Tippy from "@tippyjs/react"
@@ -25,10 +25,9 @@ export function StationDetails() {
   const navigate = useNavigate()
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
-  const { playing, nowPlaying } = useSelector(storeState => storeState.playerModule)
+  const { playing, nowPlaying, lastClickedSong } = useSelector(storeState => storeState.playerModule)
   const { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
   const dispatch = useDispatch()
-  const lastClickedSong = useRef()
   let isStationPlaying = (stationId === nowPlayingStationId)
   const { user } = useSelector(storeState => storeState.userModule)
   const [search, setSearch] = useState('')
@@ -80,8 +79,8 @@ export function StationDetails() {
 
   async function onPlaySearchedResult(search) {
     const song = await searchMusicService.getYoutubeURL(search)
-    const prev = lastClickedSong.current
-    lastClickedSong.current = song
+    const prev = lastClickedSong
+    dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
     if (prev?.id === song.id) {
       dispatch({ type: TOGGLE_PLAY })

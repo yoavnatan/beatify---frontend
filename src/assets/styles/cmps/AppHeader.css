@@ -259,7 +259,7 @@
   display: none;
 }
 
-.search-wrapper:focus-within .search-result.container,
+.search-result.container.open,
 .search-result.container:focus {
   display: block;
   position: absolute;
