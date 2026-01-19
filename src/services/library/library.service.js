@@ -4,7 +4,7 @@ export function getBlankStation(user) {
         imgUrl: '/img/blank-screen.jpg',
         description: "bla bla bla",
         description: "",
-        averageColor: 'rgba(47, 38, 89, 0.9)',
+        averageColor: 'rgba(52, 52, 52, 0.5)',
         createdBy:
         {
             fullname: user.fullname,

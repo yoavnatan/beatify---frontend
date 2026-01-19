@@ -10,7 +10,7 @@ import { stationService } from "../services/station/station.service"
 
 
 
-export function LibraryAddStation(){
+export function LibraryEditStation({ coverImg }) {
     const { user } = useSelector(storeState => storeState.userModule)
     const { stationId } = useParams()
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -20,36 +20,31 @@ export function LibraryAddStation(){
     const [station, setStation] = useState(null)
     const fileInputRef = useRef()
 
-    
-    
-
-
-
     useEffect(() => {
+
+        load()
+    }, [stationId])
+
+
     async function load() {
         if (!stationId) return
         const station = await stationService.getById(stationId)
         setStation(station)
         setStationName(station.name)
         setStationDesc(station.description || "")
-        setStationImg(station.imgUrl)
+        setStationImg(station.imgUrl || coverImg)
     }
-        load()
-    }, [stationId])
 
-
-
-
-   async function saveStationUpdates() {
+    async function saveStationUpdates() {
         const updatedStation = {
             ...station,
             name: stationName,
             description: stationDesc,
             imgUrl: stationImg
         }
-            await updateStation(updatedStation)
-            setIsModalOpen(false)
-        }
+        await updateStation(updatedStation)
+        setIsModalOpen(false)
+    }
     async function handleImageUpload(ev) {
         const file = ev.target.files[0]
         if (!file) return
@@ -78,115 +73,90 @@ export function LibraryAddStation(){
 
 
 
+    return (
+        <div>
+            <header
+                className="add-station-header"
+            //  style={{ "--avg-color": "grey" }} 
+            >
+                <div
+                    className="add-image-wrapper"
+                    onClick={handleImageClick}
+                >
+                    <img className="add-station-cover station-cover" src={stationImg} />
+                    <div className="add-image-overlay"></div>
+                    <div className="icon-pen"><Pen /></div>
+                </div>
+                <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleImageUpload}
+                />
 
-    return(
-    <div className="add-station">
-        <header className="add-station-header" style={{ "--avg-color": "grey" }} >
-        <div
-            className="add-image-wrapper"
-            onClick={handleImageClick}
-        >
-            <img className="add-station-cover" src={stationImg} />
-            <div className="add-image-overlay"></div>
-            <div className="icon-pen"><Pen /></div>
-        </div>
+            </header>
 
+            {
+                isModalOpen && (
+                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+                        <div className="modal-content" onClick={(ev) => ev.stopPropagation()}>
 
-        <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleImageUpload}
-        />
+                            <div className="modal-hedaer">
+                                <h1>Edit details</h1>
+                                <X className="modal-icon-x" onClick={() => setIsModalOpen(false)} />
+                            </div>
 
+                            <form
+                                className="modal-info-layout"
+                                onSubmit={(ev) => {
+                                    ev.preventDefault()
+                                    saveStationUpdates()
+                                }}
+                            >
+                                <input
+                                    type="text"
+                                    className="modal-name"
+                                    value={stationName}
+                                    onChange={(ev) => setStationName(ev.target.value)}
+                                    required
+                                />
 
+                                <div className="modal-image-wrapper">
+                                    <img className="modal-image" src={stationImg} />
+                                    <div className="modal-image-overlay"></div>
+                                    <div className="modal-icon-pen"><Pen /></div>
+                                </div>
 
-            <div className="add-station-meta">
-                <span className="add-station-label">Playlist</span>
+                                <textarea
+                                    className="modal-description"
+                                    value={stationDesc}
+                                    onChange={(ev) => setStationDesc(ev.target.value)}
+                                    placeholder="Add an optional description"
+                                />
+                                <span
+                                    className="modal-save"
+                                    onClick={saveStationUpdates}
+                                >
+                                    Save
+                                </span>
 
-                <h1 className="add-station-title-wrapper">
-                <span className="add-station-title">{stationName}</span>
-                </h1>
-
-                <div className="add-station-subinfo">
-
-                    <span className="creator">
-                        {user.fullname}
-                    </span>
-               </div>
-            </div>
-      </header>
-
-      <div className="add-songs">
-        <div className="search-songs-wrapper">
-            <h1 className="add-songs-title">Let's find something for your playlist</h1>
-            <div className="add-search-row">
-                <input className="search-songs" type="text" placeholder="Search for songs or episodes" />
-                <Search className="add-icon-search"/>
-            </div>
-        </div>
-            <X  className="icon-x"/>
-        </div>
-
-      {isModalOpen && (
-  <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-    <div className="modal-content" onClick={(ev) => ev.stopPropagation()}>
-      
-      <div className="modal-hedaer"> 
-        <h1>Edit details</h1>
-        <X className="modal-icon-x" onClick={() => setIsModalOpen(false)} />
-      </div>
-
-      <form
-        className="modal-info-layout"
-        onSubmit={(ev) => {
-            ev.preventDefault()
-            saveStationUpdates()
-        }}
-        >
-        <input
-            type="text"
-            className="modal-name"
-            value={stationName}
-            onChange={(ev) => setStationName(ev.target.value)}
-            required
-        />
-
-        <div className="modal-image-wrapper">
-            <img className="modal-image" src={stationImg} />
-            <div className="modal-image-overlay"></div>
-            <div className="modal-icon-pen"><Pen /></div>
-        </div>
-
-        <textarea
-            className="modal-description"
-            value={stationDesc}
-            onChange={(ev) => setStationDesc(ev.target.value)}
-            placeholder="Add an optional description"
-        />
-        <span
-            className="modal-save"
-            onClick={saveStationUpdates}
-        >
-            Save
-        </span>
-
-        <p className="modal-disclaimer">
-            By proceeding, you agree to give Spotify access to the image
-            you choose to upload. Please make sure you 
-            have the right to upload the image. 
-        </p>
-    </form>
+                                <p className="modal-disclaimer">
+                                    By proceeding, you agree to give Spotify access to the image
+                                    you choose to upload. Please make sure you
+                                    have the right to upload the image.
+                                </p>
+                            </form>
 
 
-    </div>
-  </div>
-)}
+                        </div>
+                    </div>
+                )
+            }
 
 
 
-    </div>
-    
+        </div >
+
     )
 }

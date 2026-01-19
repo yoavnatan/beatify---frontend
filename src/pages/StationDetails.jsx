@@ -25,6 +25,7 @@ import { debounce, toRgbString } from "../services/util.service.js";
 import { searchMusicService } from "../services/searchMusic.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
+import { LibraryEditStation } from "./LibraryAddStation.jsx";
 
 export function StationDetails() {
   const navigate = useNavigate();
@@ -206,11 +207,14 @@ export function StationDetails() {
           "--header-fade": headerOpacity,
         }}
       >
+
         <div className="image-wrapper">
-          <img className="station-cover" src={coverImg} alt={station.name} />
+          <LibraryEditStation coverImg={coverImg} />
+          {/* <img className="station-cover" src={coverImg} alt={station.name} /> */}
         </div>
 
         <div className="station-meta">
+
           <span className="playlist-label">Playlist</span>
 
           <h1 className="station-title">{station.name}</h1>

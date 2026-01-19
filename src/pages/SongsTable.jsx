@@ -47,7 +47,7 @@ export function SongsTable({
   }
 
   return (
-    <>
+    <section className="song-table container">
       <div className="table-header">
         <div className="col-index">#</div>
         <div className="col title">Title</div>
@@ -146,7 +146,7 @@ export function SongsTable({
           ))}
         </ul>
       </div >
-    </>
+    </section>
   )
 }
 

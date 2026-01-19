@@ -210,6 +210,7 @@
   opacity: 1;
 }
 
+.song-table .search.container,
 .station-details .search.container {
   margin-inline-start: 2em;
   margin-block-end: 3em;
@@ -228,6 +229,7 @@
   }
 }
 
+.song-table .search-input,
 .station-details .search-input {
   width: 380px;
   height: 40px;
@@ -255,6 +257,7 @@
 
 
 
+.song-table .btn-add-song,
 .station-details .btn-add-song {
   width: min-content;
   height: min-content;
