@@ -11,6 +11,7 @@ export function LibraryList() {
     const navigate = useNavigate()
     const { user } = useSelector(storeState => storeState.userModule)
     const { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
+    let { playing } = useSelector(storeState => storeState.playerModule)
 
     function displayStationDetails(id) {
         navigate(`/station/${id}`)
@@ -45,7 +46,7 @@ export function LibraryList() {
                                 </div>
                             </div>
                             <div className="playing-icon on">
-                                {nowPlayingStationId === station._id && <Playing className="icon small" />}
+                                {nowPlayingStationId === station._id && playing && <Playing className="icon small" />}
                             </div>
                         </li>
                     )

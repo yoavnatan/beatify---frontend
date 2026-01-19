@@ -438,11 +438,3 @@
 .sidebar-expend .tooltip-title {
   pointer-events: none;
 }
-
-.playing .station-name {
-  color: var(--sp-green)
-}
-
-.playing .playing-icon {
-  margin-inline-start: auto;
-}
