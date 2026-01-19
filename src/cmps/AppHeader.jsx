@@ -23,7 +23,9 @@ import { SET_RESULTS } from '../store/reducers/search.reducer.js'
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const [search, setSearch] = useState('')
-    const [searchResults, setSearchResults] = useState([])
+    // const [searchResults, setSearchResults] = useState([])
+    const { searchResults } = useSelector(storeState => storeState.searchModule)
+
     const [isResultsOpen, setIsResultsOpen] = useState(false)
     const { lastClickedSong } = useSelector(storeState => storeState.playerModule)
 
@@ -42,7 +44,7 @@ export function AppHeader() {
 
     async function onSearchMusic(search) {
         const searchResults = await searchMusicService.searchMusic(search)
-        setSearchResults(searchResults)
+        dispatch({ type: SET_RESULTS, searchResults: searchResults })
     }
 
     function handleChange({ target }) {
@@ -88,7 +90,7 @@ export function AppHeader() {
     function onSubmitSearch(ev) {
         ev.preventDefault()
         setIsResultsOpen(false)
-        dispatch({ type: SET_RESULTS, searchResults: searchResults })
+        // dispatch({ type: SET_RESULTS, searchResults: searchResults })
         navigate('/search')
     }
 

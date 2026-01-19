@@ -13,6 +13,7 @@ export function Search() {
                         <div>
                             <div className="song-title">{res.title}</div>
                             <div className="song-artist">{res.artist.name}</div>
+
                         </div>
 
                     </li>
