@@ -12,7 +12,7 @@ import { LibraryList } from "./LibraryList.jsx"
 import Tippy from "@tippyjs/react"
 import { useNavigate } from "react-router"
 import { useDispatch } from "react-redux"
-import { addStation } from "../store/actions/station.actions"
+import { addStation } from "../store/actions/station.actions.js"
 import { getBlankStation } from "../services/library/library.service.js"
 
 
