@@ -88,6 +88,10 @@ object {
     }
 }
 
+.on .icon {
+    fill: var(--sp-green);
+}
+
 .tooltip-wrapper {
     display: flex;
     align-items: center;

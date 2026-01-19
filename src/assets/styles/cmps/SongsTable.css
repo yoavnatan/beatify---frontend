@@ -4,7 +4,7 @@
   color: var(--sp-gray);
   display: grid;
   font-size: var(--fs-small);
-  grid-template-columns: 40px 2fr 1fr .5fr .1fr 40px;
+  grid-template-columns: 40px 2fr .7fr 40px .5fr .1fr 40px;
   letter-spacing: var(--ls-normal);
   padding: 12px 32px;
 }
@@ -34,7 +34,7 @@
 
 .song-row-inner {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr .5fr .1fr 40px;
+  grid-template-columns: 40px 2fr .7fr 40px .5fr .1fr 40px;
   height: 54px;
   align-items: center;
 }
@@ -86,6 +86,10 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.col.date {
+  margin-inline-end: auto;
 }
 
 .song-title:hover,
@@ -198,8 +202,13 @@
   opacity: 1;
 }
 
+.like-icon {
+  opacity: 0;
+}
 
-
+.song-row:hover .like-icon {
+  opacity: 1;
+}
 
 .station-details .search.container {
   margin-inline-start: 2em;

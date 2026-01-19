@@ -8,9 +8,12 @@ import Plus from "../assets/svg/plus.svg?react"
 import Remove from "../assets/svg/remove.svg?react"
 import ArrowInMenu from "../assets/svg/arrow-in-menu.svg?react"
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
+import Like from "../assets/svg/like.svg?react"
+import Liked from "../assets/svg/liked.svg?react"
 import { Popover } from 'react-tiny-popover';
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { updateUser } from "../store/actions/user.actions.js"
 
 export function SongsTable({
   deleteSong,
@@ -24,6 +27,23 @@ export function SongsTable({
 }) {
 
   const stations = useSelector(storeState => storeState.stationModule.stations)
+  const { user } = useSelector(storeState => storeState.userModule)
+
+
+  async function likeSong(songId) {
+    const likedSongs = user.likedSongs
+    if (user.likedSongs.includes(songId)) {
+      let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+      await updateUser(userToUpdate)
+
+    } else {
+      console.log(songId)
+      const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+      await updateUser(userToUpdate)
+
+
+    }
+  }
 
   return (
     <>
@@ -31,6 +51,7 @@ export function SongsTable({
         <div className="col-index">#</div>
         <div className="col title">Title</div>
         <div className="col album">Album</div>
+        <div></div>
         <div className="col date">Date Added</div>
         <div className="col duration">
           <Duration className="duration-icon" />
@@ -61,6 +82,14 @@ export function SongsTable({
               </div>
 
               <div className="song-album">Album Name</div>
+              <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
+                <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                  <span className="tooltip-wrapper">
+                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
+                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
+                  </span>
+                </Tippy>
+              </div>
               <div className="song-date">2 days ago</div>
 
               <div className='song-duration-wrapper'>
@@ -169,7 +198,9 @@ function DropDown({ onAdd, onDelete, song, stationId, stations }) {
               </div>
             </Popover>
 
-            <div className="option flex justify-between" onClick={(ev) => { onDelete(ev, song.id, stationId); setIsOpen(false); }}>
+            <div className="option flex justify-between"
+              onMouseEnter={() => setIsSubMenuOpen(false)}
+              onClick={(ev) => { onDelete(ev, song.id, stationId); setIsOpen(false); }}>
               <Remove className="icon small" />
               <button>Delete from this playlist</button>
             </div>
