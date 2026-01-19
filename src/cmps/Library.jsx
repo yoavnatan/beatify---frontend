@@ -77,7 +77,7 @@ export function Library() {
     async function createStation() {
         const newStation = await getBlankStation(user)
         const savedStation = await addStation(newStation)
-        navigate(`library/add/${savedStation._id}`)
+        navigate(`station/${savedStation._id}`)
     }
 
 

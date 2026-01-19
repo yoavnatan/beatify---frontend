@@ -21,18 +21,21 @@ export function LibraryEditStation({ coverImg }) {
     const fileInputRef = useRef()
 
     useEffect(() => {
-
         load()
     }, [stationId])
 
 
     async function load() {
         if (!stationId) return
+        if (stationId === "likedSongs") {
+            setStationImg("https://misc.scdn.co/liked-songs/liked-songs-300.png")
+            return
+        }
         const station = await stationService.getById(stationId)
         setStation(station)
         setStationName(station.name)
         setStationDesc(station.description || "")
-        setStationImg(station.imgUrl || coverImg)
+        setStationImg(station.songs[0]?.imgUrl || station.imgUrl)
     }
 
     async function saveStationUpdates() {
@@ -71,8 +74,7 @@ export function LibraryEditStation({ coverImg }) {
         fileInputRef.current.click()
     }
 
-
-
+    console.log(station)
     return (
         <div>
             <header
