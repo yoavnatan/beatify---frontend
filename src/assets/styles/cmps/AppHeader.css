@@ -118,13 +118,21 @@
 }
 
 .main-search-input {
+
   flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--sp-white);
-  font-family: var(--font-title);
-  font-size: var(--fs-small);
+
+
+  input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--sp-white);
+    font-family: var(--font-title);
+    font-size: var(--fs-small);
+
+  }
+
 
 }
 

@@ -18,6 +18,7 @@ import { debounce } from '../services/util.service.js'
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
+import { SET_RESULTS } from '../store/reducers/search.reducer.js'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -30,6 +31,7 @@ export function AppHeader() {
     const navigate = useNavigate()
     const location = useLocation()
     const dispatch = useDispatch()
+
     const resRef = useRef()
 
     useEffect(() => {
@@ -83,6 +85,13 @@ export function AppHeader() {
         }
     }
 
+    function onSubmitSearch(ev) {
+        ev.preventDefault()
+        setIsResultsOpen(false)
+        dispatch({ type: SET_RESULTS, searchResults: searchResults })
+        navigate('/search')
+    }
+
     return (
         <header className="app-header full">
             <nav className="header-nav">
@@ -102,20 +111,22 @@ export function AppHeader() {
                     </NavLink>
                     <div className="search-wrapper">
                         <Search className="icon medium icon-search" />
-                        <input value={search}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            onBlur={handleBlear}
-                            type="text"
-                            className="main-search-input"
-                            placeholder="What do you want to play?"
+                        <form onSubmit={onSubmitSearch} className="main-search-input"
+                        >
+                            <input value={search}
+                                onChange={handleChange}
+                                onFocus={handleFocus}
+                                onBlur={handleBlear}
+                                type="text"
+                                placeholder="What do you want to play?"
 
-                        />
+                            />
+                        </form>
                         <div className="broswe-wrapper">
                             <Broswe className="icon medium" />
                         </div>
                         <div ref={resRef} className={`search-result container ${isResultsOpen ? "open" : ''}`}>
-                            {searchResults.length <= 0 && <h3>Recent Search</h3>}
+                            {searchResults.length <= 0 && <h3 style={{ marginBlockStart: '1em' }}>Recent Search</h3>}
                             <ul>
                                 {search && searchResults.length > 0 && searchResults.map(res => (
                                     <li key={res.id} className="result-item">
