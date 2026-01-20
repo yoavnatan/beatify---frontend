@@ -7,6 +7,10 @@
   grid-template-columns: 40px 2fr .7fr 40px .5fr .1fr 40px;
   letter-spacing: var(--ls-normal);
   padding: 12px 32px;
+  position: sticky;
+  top: 60px;
+  background-color: var(--sp-black);
+  z-index: 999;
 }
 
 .table-header .col:nth-child(5) {
@@ -115,7 +119,6 @@
 }
 
 .song-index-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,7 +169,7 @@
 } */
 
 .song-duration-wrapper {
-  position: relative;
+  /* position: relative; */
 }
 
 .icon-trash {
@@ -215,7 +218,7 @@
   margin-inline-start: 2em;
   margin-block-end: 3em;
   margin-block-start: 2em;
-  min-height: 300px;
+  min-height: 200px;
 
   .wrapper {
     position: relative;

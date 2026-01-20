@@ -43,7 +43,7 @@ export function StationDetails() {
   const { user } = useSelector((storeState) => storeState.userModule);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [headerOpacity, setHeaderOpacity] = useState(0);
+  const [headerOpacity, setHeaderOpacity] = useState(1);
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current;
   const [showActions, setShowActions] = useState(false);
   const headerRef = useRef();
@@ -133,76 +133,85 @@ export function StationDetails() {
       : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.jpg";
 
   return (
-    <section className="station-details container">
-      <div
-        className="ent-spacing"
+    <section className="station-details container"
+
+    >
+      <div class="gradient-wrapper"
         style={{
-          backgroundColor: `rgba(${toRgbString(station.averageColor)}, ${1 - headerOpacity})`,
-        }}
-      >
-        {showActions && (
-          <div className="station-actions sticky-actions">
-            <div className="station-actions-wrapper">
-              <Tippy
-                content={`Play ${station.name}`}
-                delay={[1200, 0]}
-                offset={[0, -100]}
-                arrow={false}
-                placement="bottom"
-              >
-                <button
-                  className="play-btn"
-                  onClick={() => {
-                    lastClickedSong.current = nowPlaying;
 
-                    if (isStationPlaying) {
-                      dispatch({ type: TOGGLE_PLAY });
-                    } else {
-                      setSong(station.songs[0]);
-                      dispatch({ type: PLAY });
-                    }
-
-                    dispatch({
-                      type: SET_NOW_PLAYING_STATION,
-                      nowPlaying: station._id,
-                    });
-                  }}
+          backgroundColor: `rgba(${toRgbString(station.averageColor)})`
+        }}>
+        <div
+          className="ent-spacing"
+          style={{
+            backgroundColor: `rgba(${toRgbString(station.averageColor)}, ${1 - headerOpacity})`,
+          }}
+        >
+          {showActions && (
+            <div className="station-actions sticky-actions">
+              <div className="station-actions-wrapper">
+                <Tippy
+                  content={`Play ${station.name}`}
+                  delay={[1200, 0]}
+                  offset={[0, -100]}
+                  arrow={false}
+                  placement="bottom"
                 >
-                  {(!isStationPlaying || !playing) && (
-                    <Play className="icon-large-black" />
-                  )}
-                  {isStationPlaying && playing && (
-                    <Pause className="icon-large-black" />
-                  )}
+                  <button
+                    className="play-btn"
+                    onClick={() => {
+                      lastClickedSong.current = nowPlaying;
+
+                      if (isStationPlaying) {
+                        dispatch({ type: TOGGLE_PLAY });
+                      } else {
+                        setSong(station.songs[0]);
+                        dispatch({ type: PLAY });
+                      }
+
+                      dispatch({
+                        type: SET_NOW_PLAYING_STATION,
+                        nowPlaying: station._id,
+                      });
+                    }}
+                  >
+                    {(!isStationPlaying || !playing) && (
+                      <Play className="icon-large-black" />
+                    )}
+                    {isStationPlaying && playing && (
+                      <Pause className="icon-large-black" />
+                    )}
+                  </button>
+                </Tippy>
+
+                <button className="shuffle-btn">
+                  <Shuffle className="icon medium" />
                 </button>
-              </Tippy>
 
-              <button className="shuffle-btn">
-                <Shuffle className="icon medium" />
-              </button>
-
-              <Tippy
-                content={"Delete"}
-                delay={[500, 0]}
-                offset={[0, 15]}
-                arrow={false}
-              >
-                <span className="tooltip-wrapper">
-                  <Delete
-                    className="icon medium"
-                    onClick={(ev) => deleteStation(ev, station._id)}
-                  />
-                </span>
-              </Tippy>
+                <Tippy
+                  content={"Delete"}
+                  delay={[500, 0]}
+                  offset={[0, 15]}
+                  arrow={false}
+                >
+                  <span className="tooltip-wrapper">
+                    <Delete
+                      className="icon medium"
+                      onClick={(ev) => deleteStation(ev, station._id)}
+                    />
+                  </span>
+                </Tippy>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <header
-        ref={headerRef}
+        // ref={headerRef}
         className="station-header"
         style={{
+          backgroundColor: `rgba(${toRgbString(station.averageColor)})`,
           "--avg-color": station.averageColor,
           "--header-fade": headerOpacity,
         }}
@@ -293,7 +302,6 @@ export function StationDetails() {
         searchResults={searchResults}
         onAddSong={onAddSong}
       />
-
 
     </section>
   );

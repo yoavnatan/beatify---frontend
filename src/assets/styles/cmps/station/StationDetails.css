@@ -1,8 +1,13 @@
 .station-details {
   background: var(--sp-black);
   color: var(--sp-white);
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  position: relative;
+  /* background: linear-gradient(to bottom, var(--avg-color) 0%, var(--sp-black) 100%); */
+
 }
+
+
 .sticky-actions {
   display: flex;
   align-items: center;
@@ -13,13 +18,19 @@
   height: 62px;
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 520;
   background-color: rgba(var(--avg-color-rgb), var(--header-opacity));
   transition: opacity 0.3s linear;
 }
 
 
+.gradient-wrapper {
+  position: sticky;
+  top: 0;
+  /* inset: 0; */
+  /* height: 100%; */
 
+}
 
 .station-header {
   align-items: end;
@@ -154,6 +165,7 @@ h3,
 .table-header .col:nth-child(5) {
   display: flex;
   justify-content: flex-end;
+
 }
 
 .col-index {
