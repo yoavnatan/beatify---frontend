@@ -7,7 +7,16 @@
 
   .result-item {
     height: 80px;
+
+
+
+    &:hover {
+      background-color: var(--sp-hover);
+      border-radius: 4px;
+    }
   }
+
+
 }
 
 .header-nav {
@@ -279,5 +288,5 @@
   border-radius: 10px;
   padding-inline: 1em;
   background-color: var(--sp-card);
-  z-index: 1;
+  z-index: 1000;
 }

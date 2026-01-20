@@ -43,7 +43,7 @@ export function Search() {
                 {searchResults.length > 0 && searchResults.map(res => (
                     <li key={res.id} className="result-item">
                         <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
-                        <div>
+                        <div className="song-info">
                             <div className="song-title">{res.title}</div>
                             <div className="song-artist">{res.artist.name}</div>
                         </div>

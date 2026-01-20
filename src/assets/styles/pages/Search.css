@@ -8,9 +8,26 @@
 
     .result-item {
         display: grid;
-        grid-template-columns: 56px 2fr 2fr;
+        grid-template-columns: 56px minmax(0, 1fr) 40px 40px;
         height: 54px;
         align-items: center;
         margin: 1em;
+        min-width: 0%;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .song-title {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+
+        }
+
+        &:hover {
+            background-color: var(--sp-hover);
+            border-radius: 4px;
+        }
     }
 }
