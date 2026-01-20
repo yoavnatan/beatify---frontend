@@ -70,7 +70,7 @@ export function StationDetails() {
 
     function handleScroll() {
       const scrollY = el.scrollTop;
-      setShowActions(scrollY > 300);
+      setShowActions(scrollY > 280);
       const headerHeight = headerRef.current?.offsetHeight || 300;
       const fade = Math.max(0, 1 - scrollY / headerHeight);
       setHeaderOpacity(fade);
@@ -133,8 +133,10 @@ export function StationDetails() {
       : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.jpg";
 
   return (
-    <section className="station-details container"
-
+    <section className="station-details container " style={{
+      backgroundColor: `rgba(${toRgbString(station.averageColor)})`,
+      "--avg-color": station.averageColor,
+    }}
     >
       <div class="gradient-wrapper"
         style={{
@@ -238,7 +240,9 @@ export function StationDetails() {
         </div>
       </header>
 
-      <div className="station-actions">
+      <div className="station-actions"
+
+      >
         <div className="station-actions-wrapper">
           <Tippy
             content={`Play ${station.name}`}

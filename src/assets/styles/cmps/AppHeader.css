@@ -7,7 +7,7 @@
 
   .result-item {
     height: 80px;
-
+    padding-inline-start: 10px;
 
 
     &:hover {
@@ -283,7 +283,7 @@
   top: 53px;
   right: 0;
   width: inherit;
-  height: 50vh;
+  height: 40vh;
   overflow: auto;
   border-radius: 10px;
   padding-inline: 1em;
