@@ -14,17 +14,17 @@ import logoImg from '../assets/img/logo_symbol.png'
 import profileImg from '../assets/img/profile-pic.jpg'
 import { userService } from '../services/user/user.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
-import { debounce } from '../services/util.service.js'
+import { debounce, saveToStorage } from '../services/util.service.js'
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
-import { SET_ARTIST_RESULTS, SET_RESULTS } from '../store/reducers/search.reducer.js'
+import { CLEAR_RECENT_SEARCH, SET_ARTIST_RESULTS, SET_RESULTS, UPDATE_RECENT_SEARCH } from '../store/reducers/search.reducer.js'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const [search, setSearch] = useState('')
     // const [searchResults, setSearchResults] = useState([])
-    const { searchResults } = useSelector(storeState => storeState.searchModule)
+    const { searchResults, recentSearch } = useSelector(storeState => storeState.searchModule)
 
     const [isResultsOpen, setIsResultsOpen] = useState(false)
     const { lastClickedSong } = useSelector(storeState => storeState.playerModule)
@@ -89,15 +89,32 @@ export function AppHeader() {
         }
     }
 
+    async function onSearchRecent(recent) {
+        const artistResults = await searchMusicService.searchArtist(recent)
+        dispatch({ type: SET_ARTIST_RESULTS, artistResults: artistResults })
+        setIsResultsOpen(false)
+        navigate('/search')
+    }
+
+    function onClearRecentSearches() {
+        localStorage.removeItem('recent-search')
+        dispatch({ type: CLEAR_RECENT_SEARCH })
+    }
+
     async function onSubmitSearch(ev) {
         ev.preventDefault()
         const artistResults = await searchMusicService.searchArtist(search)
+        {
+            saveToStorage('recent-search', [search, ...recentSearch])
+            dispatch({ type: UPDATE_RECENT_SEARCH, search: search })
+        }
         dispatch({ type: SET_ARTIST_RESULTS, artistResults: artistResults })
         setIsResultsOpen(false)
         // dispatch({ type: SET_RESULTS, searchResults: searchResults })
         navigate('/search')
     }
 
+    console.log(recentSearch)
     return (
         <header className="app-header full">
             <nav className="header-nav">
@@ -132,7 +149,23 @@ export function AppHeader() {
                             <Broswe className="icon medium" />
                         </div>
                         <div ref={resRef} className={`search-result container ${isResultsOpen ? "open" : ''}`}>
-                            {searchResults.length <= 0 && <h3 style={{ marginBlockStart: '1em' }}>Recent Search</h3>}
+                            {!search && <div>
+                                <h3 style={{ marginBlockStart: '1em' }}>Recent Searches</h3>
+                                <ul>
+                                    {recentSearch.length > 0 && recentSearch.slice(0, 4).map((res, idx) => <li className="result-item"
+                                        key={idx}
+                                        onClick={() => {
+                                            setSearch(res)
+                                            onSearchRecent(res)
+                                        }}>
+                                        <Search className="icon medium" />
+                                        {res}
+                                    </li>)}
+                                </ul>
+                                {recentSearch.length <= 0 && 'No recent searches yet...'}
+                                {recentSearch.length > 0 && <button className="btn-clear-recents" onClick={() => onClearRecentSearches()}>Clear recent searchs</button>}
+                            </div>
+                            }
                             <ul>
                                 {search && searchResults.length > 0 && searchResults.map(res => (
                                     <li key={res.id} className="result-item">

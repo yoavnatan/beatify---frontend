@@ -1,3 +1,5 @@
+import { loadFromStorage } from "../../services/util.service.js"
+
 export const SET_RESULTS = 'SET_RESULTS'
 export const SET_ARTIST_RESULTS = 'SET_ARTIST_RESULTS'
 export const UPDATE_RECENT_SEARCH = 'UPDATE_RECENT_SEARCH'
@@ -6,7 +8,7 @@ export const CLEAR_RECENT_SEARCH = 'CLEAR_RECENT_SEARCH'
 const initialState = {
     searchResults: [],
     artistResults: [],
-    recentSearch: [],
+    recentSearch: loadFromStorage('recent-search') || [],
 }
 
 export function searchReducer(state = initialState, action) {
