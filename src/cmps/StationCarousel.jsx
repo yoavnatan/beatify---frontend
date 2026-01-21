@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import Arrow from "../assets/svg/nav-arrow.svg?react"
 import Play from "../assets/svg/play.svg?react"
+import { useNavigate } from "react-router"
 
 export function StationCarousel({ stations }) {
     const listRef = useRef()
+    const navigate = useNavigate()
 
     const [showLeftArrow, setShowLeftArrow] = useState(false)
     const [showRightArrow, setShowRightArrow] = useState(true)
@@ -39,6 +41,10 @@ export function StationCarousel({ stations }) {
 
 
     }
+
+    function onChooseStation(station) {
+        navigate(`station/${station._id}`)
+    }
     return (
 
         <section className="station-carousel" >
@@ -59,11 +65,11 @@ export function StationCarousel({ stations }) {
                 {stations.map(station => {
 
                     const coverImg =
-                    station._id === 'likedSongs'
-                        ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-                        : station.songs?.[0]?.imgUrl ||
-                        station.imgUrl ||
-                        "/img/blank-screen.jpg"
+                        station._id === 'likedSongs'
+                            ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
+                            : station.songs?.[0]?.imgUrl ||
+                            station.imgUrl ||
+                            "/img/blank-screen.jpg"
 
                     return (
                         <li key={station._id} className="item">
@@ -71,6 +77,7 @@ export function StationCarousel({ stations }) {
                                 <img
                                     src={coverImg}
                                     alt={station.name}
+                                    onClick={() => onChooseStation(station)}
                                 />
                                 <div className="btn-play">
                                     <Play className="icon small-medium black" />
