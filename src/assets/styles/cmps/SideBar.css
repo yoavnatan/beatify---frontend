@@ -1,0 +1,101 @@
+.sidebar.container {
+    position: relative;
+    height: 100%;
+    background-color: var(--sp-black);
+    color: var(--sp-white);
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: visible;
+    transition: none;
+    margin-left: 6px;
+}
+
+.resizer-handle {
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    cursor: grab;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+.resizer-line {
+    width: 2px;
+    height: 100%;
+    background-color: transparent;
+    transition: background-color 0.2s;
+}
+
+.resizer-handle:hover .resizer-line {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.resizer-handle:active .resizer-line {
+    background-color: var(--sp-white);
+}
+
+.resizer-handle:active {
+    cursor: grabbing;
+
+}
+
+.sidebar-content {
+    flex: 1;
+    padding: 15px;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.side-bar-item h1 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.sidebar .arrow-side-bar {
+    /* position: absolute; */
+    /* transform: translateY(50%); */
+    rotate: 180deg;
+    position: absolute;
+    top: 45%;
+    left: 28%;
+}
+
+.sidebar header {
+    h1 {
+        margin: 0;
+    }
+
+    align-items: center;
+    gap: 1em;
+
+
+}
+
+.collapse-side {
+    opacity: 0;
+    transform: translateX(10px);
+    transition: transform 0.05s ease, opacity 0.2s ease;
+    transition-delay: opacity .1s;
+}
+
+.sidebar header {
+    transform: translateX(-20px);
+    transition: transform 0.15s ease;
+}
+
+.sidebar:hover {
+    .collapse-side {
+        opacity: 1;
+        transform: translateX(0);
+        transition: transform 0.2s ease, opacity 0.3s ease;
+
+    }
+
+    header {
+        transform: translateX(10px)
+    }
+}

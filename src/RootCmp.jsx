@@ -11,6 +11,8 @@ import { useEffect } from 'react'
 import { loadStations } from './store/actions/station.actions.js'
 // import { LibraryAddStation } from './pages/LibraryAddStation.jsx'
 import { Search } from './pages/Search.jsx'
+import { useSelector } from 'react-redux'
+import { SideBar } from './cmps/SideBar.jsx'
 
 
 export function MainLayout() {
@@ -103,6 +105,7 @@ export function MainLayout() {
                 <section className="main-content">
                     <Outlet />
                 </section>
+                <SideBar />
             </main>
 
             <AppFooter />

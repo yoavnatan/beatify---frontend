@@ -416,7 +416,7 @@
 }
 
 .resize-handle {
-  width: 6px;
+  width: 4px;
   cursor: grab;
   background-color: transparent;
   transition: background-color 0.2s ease;

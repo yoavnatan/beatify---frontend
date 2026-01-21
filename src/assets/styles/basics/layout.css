@@ -21,7 +21,7 @@
 
 main {
   display: grid;
-  grid-template-columns: var(--sidebar-width) 6px 1fr;
+  grid-template-columns: var(--sidebar-width) 6px 1fr auto;
   gap: 4px;
   max-width: 100%;
   width: 100%;
