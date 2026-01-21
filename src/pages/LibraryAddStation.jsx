@@ -5,7 +5,7 @@ import X from "../assets/svg/x.svg?react"
 import { useEffect, useState, useRef } from "react"
 import { updateStation } from "../store/actions/station.actions"
 import { useParams } from "react-router-dom"
-import { stationService } from "../services/station/station.service"
+import { stationService } from "../services/station/station.service.remote.js"
 
 
 

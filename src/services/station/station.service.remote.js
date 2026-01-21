@@ -9,7 +9,12 @@ export const stationService = {
     addSong,
     removeSong,
     toggleLikeStation,
-    getLikedSongsStation
+    getLikedSongsStation,
+    likeSong,
+    removeLikeSong,
+    getAvgColor,
+    getArtistStation,
+    getDefaultFilter
 }
 
 const BASE_URL = 'station/'
@@ -55,3 +60,51 @@ async function toggleLikeStation(stationId) {
 async function getLikedSongsStation() {
     return httpService.get(`${BASE_URL}liked`)
 }
+
+async function likeSong(stationId, songId) {
+    return httpService.post(`${BASE_URL}${stationId}/song/${songId}/like`)
+}
+
+async function removeLikeSong(stationId, songId) {
+    return httpService.delete(`${BASE_URL}${stationId}/song/${songId}/like`)
+}   
+async function getAvgColor(station) {
+    const fac = new FastAverageColor()
+    try {
+        const color = await fac.getColorAsync(station.imgUrl)
+        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
+    } catch (err) {
+        console.error(err)
+        return 'rgba(0,0,0,1)'
+    }
+}
+
+
+async function getArtistStation(artist) {
+    const artistStation = {
+        name: artist.name,
+        imgUrl: artist.picture_medium,
+        description: "artist",
+        createdBy:
+        {
+            fullname: "",
+            _id: ""
+        },
+    }
+
+    const songs = await searchMusicService.getArtistSongs(artist.tracklist)
+    artistStation.songs = songs
+    const avgColor = await getAvgColor(artistStation)
+    artistStation.averageColor = avgColor
+    console.log(artistStation)
+    return artistStation
+}
+function getDefaultFilter() {
+    return {
+        txt: '',
+        minSpeed: '',
+        sortField: '',
+        sortDir: '',
+    }
+}
+

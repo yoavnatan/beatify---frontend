@@ -1,4 +1,4 @@
-import { stationService } from '../../services/station/station.service.js'
+import { stationService } from '../../services/station/station.service.remote.js'
 import { store } from '../store.js'
 import { ADD_STATION, REMOVE_STATION, SET_STATIONS, SET_STATION, UPDATE_STATION, ADD_STATION_MSG } from '../reducers/station.reducer'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer.js'
