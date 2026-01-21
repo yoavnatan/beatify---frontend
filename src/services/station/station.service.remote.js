@@ -4,32 +4,54 @@ export const stationService = {
     query,
     getById,
     save,
-    remove,
-    addCarMsg
+    removeStation,
+    addStationMsg,
+    addSong,
+    removeSong,
+    toggleLikeStation,
+    getLikedSongsStation
 }
 
-async function query(filterBy = { txt: '', minSpeed: 0 }) {
-    return httpService.get(`car`, filterBy)
+const BASE_URL = 'station/'
+
+async function query() {
+    return httpService.get(BASE_URL)
 }
 
-function getById(carId) {
-    return httpService.get(`car/${carId}`)
+function getById(stationId) {
+    return httpService.get(`${BASE_URL}${stationId}`)
 }
 
-async function remove(carId) {
-    return httpService.delete(`car/${carId}`)
+async function removeStation(stationId) {
+    return httpService.delete(`${BASE_URL}${stationId}`)
 }
-async function save(car) {
-    var savedCar
-    if (car._id) {
-        savedCar = await httpService.put(`car/${car._id}`, car)
+
+async function save(station) {
+    if (station._id) {
+        const stationToSave = { ...station }
+        delete stationToSave._id
+        return httpService.put(`${BASE_URL}${station._id}`, stationToSave)
     } else {
-        savedCar = await httpService.post('car', car)
+        return httpService.post(BASE_URL, station)
     }
-    return savedCar
 }
 
-async function addCarMsg(carId, txt) {
-    const savedMsg = await httpService.post(`car/${carId}/msg`, { txt })
-    return savedMsg
+async function addStationMsg(stationId, txt) {
+    return httpService.post(`${BASE_URL}${stationId}/msg`, { txt })
+}
+
+async function addSong(stationId, song) {
+    return httpService.post(`${BASE_URL}${stationId}/song`, song)
+}
+
+async function removeSong(stationId, songId) {
+    return httpService.delete(`${BASE_URL}${stationId}/song/${songId}`)
+}
+
+async function toggleLikeStation(stationId) {
+    return httpService.post(`${BASE_URL}${stationId}/like`)
+}
+
+async function getLikedSongsStation() {
+    return httpService.get(`${BASE_URL}liked`)
 }
