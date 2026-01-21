@@ -49,8 +49,10 @@ export function SideBar() {
     }
 
     function handleOpenBar() {
-        SetIsBarOpen(true)
-        sidebarRef.current.style.width = `${300}px`;
+        if (!isBarOpen) {
+            SetIsBarOpen(true)
+            sidebarRef.current.style.width = `${300}px`;
+        }
     }
 
     function handleCloseBar() {
@@ -59,7 +61,8 @@ export function SideBar() {
     }
     return (
         <>
-            <section className="sidebar container"
+            <section className={`sidebar container ${!isBarOpen ? "close" : "open"} `}
+                onClick={handleOpenBar}
                 ref={sidebarRef}
                 style={{ width: '50px' }}>
 
@@ -68,7 +71,7 @@ export function SideBar() {
                 </div>
 
                 {!isBarOpen && <div className="small arrow-side-bar"
-                    onClick={handleOpenBar}>
+                >
                     <Tippy content={'Expand sidebar'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                         <span className="tooltip-wrapper">
                             <Arrow className='icon medium' />
@@ -77,10 +80,10 @@ export function SideBar() {
                 </div>}
                 {isBarOpen && <div className='sidebar-content'>
 
-                    <header className="flex">
+                    <header className="flex" onClick={handleCloseBar}>
                         <Tippy content={'Collapse sidebar'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                             <span className="tooltip-wrapper">
-                                <Collapse className="icon small collapse-side" style={{ rotate: '180deg' }} onClick={handleCloseBar} />
+                                <Collapse className="icon small collapse-side" style={{ rotate: '180deg' }} />
                             </span>
                         </Tippy>
                         <h1>Now Playing</h1>

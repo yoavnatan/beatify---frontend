@@ -78,11 +78,10 @@ export function LibraryEditStation({ coverImg }) {
         <div>
             <header
                 className="add-station-header"
-            //  style={{ "--avg-color": "grey" }} 
-            >
+                //  style={{ "--avg-color": "grey" }} 
+                onClick={() => setIsModalOpen(true)}>
                 <div
                     className="add-image-wrapper"
-                    onClick={handleImageClick}
                 >
                     <img className="add-station-cover station-cover" src={stationImg} />
                     <div className="add-image-overlay"></div>
@@ -123,7 +122,8 @@ export function LibraryEditStation({ coverImg }) {
                                     required
                                 />
 
-                                <div className="modal-image-wrapper">
+                                <div className="modal-image-wrapper" onClick={handleImageClick}
+                                >
                                     <img className="modal-image" src={stationImg} />
                                     <div className="modal-image-overlay"></div>
                                     <div className="modal-icon-pen"><Pen /></div>
@@ -143,7 +143,7 @@ export function LibraryEditStation({ coverImg }) {
                                 </span>
 
                                 <p className="modal-disclaimer">
-                                    By proceeding, you agree to give Spotify access to the image
+                                    By proceeding, you agree to give Beatify access to the image
                                     you choose to upload. Please make sure you
                                     have the right to upload the image.
                                 </p>
