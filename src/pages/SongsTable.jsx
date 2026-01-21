@@ -10,6 +10,8 @@ import ArrowInMenu from "../assets/svg/arrow-in-menu.svg?react"
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
+import Pause from "../assets/svg/pause.svg?react";
+
 import { Popover } from 'react-tiny-popover';
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
@@ -102,6 +104,18 @@ export function SongsTable({
                 {/* <Tippy content={`Play ${song.title}`} delay={[800, 0]} offset={[0, -60]} arrow={false} placement="bottom">
                   <span className="icon-white-arrow-details"><WhiteArrow /></span>
                 </Tippy> */}
+                <span className="play-icon-row">
+                  {!playing && <Tippy content={'Play'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                    <span className="tooltip-wrapper">
+                      <WhiteArrow className="icon small white" />
+                    </span>
+                  </Tippy>}
+                  {playing && song.id === nowPlaying.id && <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                    <span className="tooltip-wrapper">
+                      <Pause className="icon small white" />
+                    </span>
+                  </Tippy>}
+                </span>
               </div>
 
               <div className="song-title-wrapper">
