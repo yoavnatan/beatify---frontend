@@ -18,7 +18,7 @@ import { debounce } from '../services/util.service.js'
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
-import { SET_RESULTS } from '../store/reducers/search.reducer.js'
+import { SET_ARTIST_RESULTS, SET_RESULTS } from '../store/reducers/search.reducer.js'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -45,6 +45,8 @@ export function AppHeader() {
     async function onSearchMusic(search) {
         const searchResults = await searchMusicService.searchMusic(search)
         dispatch({ type: SET_RESULTS, searchResults: searchResults })
+
+
     }
 
     function handleChange({ target }) {
@@ -87,8 +89,10 @@ export function AppHeader() {
         }
     }
 
-    function onSubmitSearch(ev) {
+    async function onSubmitSearch(ev) {
         ev.preventDefault()
+        const artistResults = await searchMusicService.searchArtist(search)
+        dispatch({ type: SET_ARTIST_RESULTS, artistResults: artistResults })
         setIsResultsOpen(false)
         // dispatch({ type: SET_RESULTS, searchResults: searchResults })
         navigate('/search')

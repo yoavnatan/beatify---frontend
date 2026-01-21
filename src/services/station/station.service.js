@@ -17,7 +17,9 @@ export const stationService = {
     addSong,
     addStationMsg,
     _getStations,
-    getLikedSongsStation
+    getLikedSongsStation,
+    getAvgColor,
+    getArtistStation,
 }
 window.cs = stationService
 
@@ -563,7 +565,37 @@ async function _getAvgColors(stations) {
     return stations
 }
 
+async function getAvgColor(station) {
+    const fac = new FastAverageColor()
+    try {
+        const color = await fac.getColorAsync(station.imgUrl)
+        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
+    } catch (err) {
+        console.error(err)
+        return 'rgba(0,0,0,1)'
+    }
+}
 
+
+async function getArtistStation(artist) {
+    const artistStation = {
+        name: artist.name,
+        imgUrl: artist.picture_medium,
+        description: "artist",
+        createdBy:
+        {
+            fullname: "",
+            _id: ""
+        },
+    }
+
+    const songs = await searchMusicService.getArtistSongs(artist.tracklist)
+    artistStation.songs = songs
+    const avgColor = await getAvgColor(artistStation)
+    artistStation.averageColor = avgColor
+    console.log(artistStation)
+    return artistStation
+}
 
 
 

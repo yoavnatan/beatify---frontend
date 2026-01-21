@@ -218,7 +218,8 @@
 
 }
 
-.song-row:hover .icon-options {
+.song-row:hover .icon-options,
+.result-item:hover .icon-options {
   opacity: 1;
 }
 

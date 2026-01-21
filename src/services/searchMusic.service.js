@@ -9,6 +9,8 @@ export const searchMusicService = {
     searchMusic,
     getYoutubeURL,
     getSongById,
+    searchArtist,
+    getArtistSongs
 }
 
 async function searchMusic(query) {
@@ -31,7 +33,6 @@ async function getSongById(songId) {
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data
-        console.log(searchData)
 
         const songToPlay = await getYoutubeURL(searchData)
         let song = {
@@ -47,6 +48,52 @@ async function getSongById(songId) {
     }
 }
 
+async function searchArtist(query) {
+    const API_URL = `https://corsproxy.io/?https://api.deezer.com/search/artist?q=${query}&limit=3`
+
+    try {
+        const res = await axios.get(API_URL)
+        const searchData = res.data.data
+        return searchData
+    } catch (err) {
+        console.error(err)
+        throw err
+    }
+}
+
+async function getArtistSongs(URL) {
+
+    const API_URL = `https://corsproxy.io/?${URL}`
+    try {
+        const res = await axios.get(API_URL)
+        const searchData = res.data.data
+        const songs = await Promise.all(searchData.map(res => getSong(res.id)))
+        console.log('songs:::', songs)
+        return songs
+    } catch (err) {
+        console.error(err)
+        throw err
+    }
+}
+
+async function getSong(id) {
+
+    const API_URL = `https://corsproxy.io/?https://api.deezer.com/track/${id}`
+    try {
+        const res = await axios.get(API_URL)
+        const searchData = res.data
+
+        let song = {
+            id: searchData.id,
+            imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/56x56.jpg`,
+            title: searchData.title,
+        }
+        return song
+    } catch (err) {
+        console.error(err)
+        throw err
+    }
+}
 
 async function getYoutubeURL(query) {
     let gVideosCache = loadFromStorage(STORAGE_KEY_VIDEOS) || []
@@ -86,4 +133,7 @@ async function getYoutubeURL(query) {
     }
 
 }
+
+
+
 

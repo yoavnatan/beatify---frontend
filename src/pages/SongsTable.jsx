@@ -131,6 +131,7 @@ export function SongsTable({
               </div>
               <DropDown onAdd={onAddSong}
                 onDelete={deleteSong}
+                canDelete={'true'}
                 song={song}
                 stationId={station._id}
                 stations={stations}
@@ -178,7 +179,7 @@ export function SongsTable({
 }
 
 
-function DropDown({ onAdd, onDelete, song, stationId, stations }) {
+export function DropDown({ onAdd, onDelete, canDelete, song, stationId, stations }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
@@ -229,12 +230,12 @@ function DropDown({ onAdd, onDelete, song, stationId, stations }) {
               </div>
             </Popover>
 
-            <div className="option flex justify-between"
+            {canDelete && <div className="option flex justify-between"
               onMouseEnter={() => setIsSubMenuOpen(false)}
               onClick={(ev) => { onDelete(ev, song.id, stationId); setIsOpen(false); }}>
               <Remove className="icon small" />
               <button>Delete from this playlist</button>
-            </div>
+            </div>}
           </div>
         }
       >
