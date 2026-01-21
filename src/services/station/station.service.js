@@ -532,7 +532,7 @@ async function getLikedSongsStation() {
     if (!user.likedSongs) user.likedSongs = []
 
     likedSongs = await Promise.all(user.likedSongs.map(songId => (
-        searchMusicService.getSongById(songId)
+        searchMusicService.getSong(songId)
     )))
     return {
         _id: 'likedSongs',

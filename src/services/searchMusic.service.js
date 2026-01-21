@@ -10,7 +10,8 @@ export const searchMusicService = {
     getYoutubeURL,
     getSongById,
     searchArtist,
-    getArtistSongs
+    getArtistSongs,
+    getSong,
 }
 
 async function searchMusic(query) {
@@ -39,7 +40,7 @@ async function getSongById(songId) {
             id: searchData.id,
             imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/56x56.jpg`,
             title: searchData.title,
-            src: songToPlay.src
+            src: songToPlay.src || ''
         }
         return song
     } catch (err) {
@@ -120,14 +121,14 @@ async function getYoutubeURL(query) {
             if (youtubeRes.items && youtubeRes.items.length > 0) {
                 const videoId = youtubeRes.items[0].id.videoId;
                 embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                song.src = embedUrl
+                song.src = embedUrl || ""
                 gVideosCache.push(song)
                 saveToStorage(STORAGE_KEY_VIDEOS, gVideosCache)
                 return song
             }
         } catch (err) {
             console.log(err)
-
+            throw err
         }
 
     }
