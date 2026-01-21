@@ -74,7 +74,6 @@ export function LibraryEditStation({ coverImg }) {
         fileInputRef.current.click()
     }
 
-    console.log(station)
     return (
         <div>
             <header

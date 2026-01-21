@@ -13,7 +13,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { PLAY, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
+import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -31,14 +31,14 @@ export function StationDetails() {
   const navigate = useNavigate();
   const { stationId } = useParams();
   const station = useSelector((storeState) => storeState.stationModule.station);
-  const { playing, nowPlaying } = useSelector(
+  const { playing, nowPlaying, lastClickedSong } = useSelector(
     (storeState) => storeState.playerModule,
   );
   const { nowPlaying: nowPlayingStationId } = useSelector(
     (storeState) => storeState.stationModule,
   );
   const dispatch = useDispatch();
-  const lastClickedSong = useRef();
+  // const lastClickedSong = useRef();
   let isStationPlaying = stationId === nowPlayingStationId;
   const { user } = useSelector((storeState) => storeState.userModule);
   const [search, setSearch] = useState("");
@@ -70,7 +70,7 @@ export function StationDetails() {
 
     function handleScroll() {
       const scrollY = el.scrollTop;
-      setShowActions(scrollY > 300);
+      setShowActions(scrollY > 280);
       const headerHeight = headerRef.current?.offsetHeight || 300;
       const fade = Math.max(0, 1 - scrollY / headerHeight);
       setHeaderOpacity(fade);
@@ -92,8 +92,9 @@ export function StationDetails() {
 
   async function onPlaySearchedResult(search) {
     const song = await searchMusicService.getYoutubeURL(search);
-    const prev = lastClickedSong.current;
-    lastClickedSong.current = song;
+    const prev = lastClickedSong;
+    // lastClickedSong.current = song;
+    dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
     if (prev?.id === song.id) {
       dispatch({ type: TOGGLE_PLAY });
@@ -133,8 +134,10 @@ export function StationDetails() {
       : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.jpg";
 
   return (
-    <section className="station-details container"
-
+    <section className="station-details container " style={{
+      backgroundColor: `rgba(${toRgbString(station.averageColor)})`,
+      "--avg-color": station.averageColor,
+    }}
     >
       <div class="gradient-wrapper"
         style={{
@@ -238,7 +241,9 @@ export function StationDetails() {
         </div>
       </header>
 
-      <div className="station-actions">
+      <div className="station-actions"
+
+      >
         <div className="station-actions-wrapper">
           <Tippy
             content={`Play ${station.name}`}

@@ -11,7 +11,7 @@ import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
 import { Popover } from 'react-tiny-popover';
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { updateUser } from "../store/actions/user.actions.js"
 
@@ -31,6 +31,32 @@ export function SongsTable({
   let { playing, nowPlaying } = useSelector(storeState => storeState.playerModule)
 
 
+  const [isSticky, setIsSticky] = useState(false);
+  const headerRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // אם האלמנט לא ב-100% נראות בתוך הטווח שהגדרנו, הוא נחשב סטיקי
+        setIsSticky(entry.intersectionRatio >= 1);
+      },
+      {
+        root: scrollContainerRef.current,
+        threshold: [1],
+        rootMargin: '-1px 0px 0px 0px',
+      }
+    );
+
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+
   async function likeSong(songId) {
     const likedSongs = user.likedSongs
     if (user.likedSongs.includes(songId)) {
@@ -47,8 +73,9 @@ export function SongsTable({
   }
 
   return (
-    <section className="song-table container">
-      <div className="table-header">
+    <section className="song-table container " ref={scrollContainerRef}>
+      <div className={`table-header ${isSticky ? 'is-sticky' : ''}`}
+        ref={headerRef}>
         <div className="col-index">#</div>
         <div className="col title">Title</div>
         <div className="col album">Album</div>
@@ -72,9 +99,9 @@ export function SongsTable({
                   {playing && song.id === nowPlaying.id && <img style={{ width: '14px', heigth: '14px' }} src="https://open.spotifycdn.com/cdn/images/equaliser-animated-green.f5eb96f2.gif" />}
                   {(!playing || song.id !== nowPlaying.id) && idx + 1}</span>
 
-                <Tippy content={`Play ${song.title}`} delay={[800, 0]} offset={[0, -60]} arrow={false} placement="bottom">
+                {/* <Tippy content={`Play ${song.title}`} delay={[800, 0]} offset={[0, -60]} arrow={false} placement="bottom">
                   <span className="icon-white-arrow-details"><WhiteArrow /></span>
-                </Tippy>
+                </Tippy> */}
               </div>
 
               <div className="song-title-wrapper">
@@ -104,6 +131,7 @@ export function SongsTable({
               </div>
               <DropDown onAdd={onAddSong}
                 onDelete={deleteSong}
+                canDelete={'true'}
                 song={song}
                 stationId={station._id}
                 stations={stations}
@@ -151,7 +179,7 @@ export function SongsTable({
 }
 
 
-function DropDown({ onAdd, onDelete, song, stationId, stations }) {
+export function DropDown({ onAdd, onDelete, canDelete, song, stationId, stations }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
@@ -202,12 +230,12 @@ function DropDown({ onAdd, onDelete, song, stationId, stations }) {
               </div>
             </Popover>
 
-            <div className="option flex justify-between"
+            {canDelete && <div className="option flex justify-between"
               onMouseEnter={() => setIsSubMenuOpen(false)}
               onClick={(ev) => { onDelete(ev, song.id, stationId); setIsOpen(false); }}>
               <Remove className="icon small" />
               <button>Delete from this playlist</button>
-            </div>
+            </div>}
           </div>
         }
       >
