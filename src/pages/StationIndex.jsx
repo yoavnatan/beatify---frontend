@@ -11,10 +11,12 @@ import { StationList } from '../cmps/StationList.jsx'
 import { StationFilter } from '../cmps/StationFilter.jsx'
 import { StationCarousel } from '../cmps/StationCarousel.jsx'
 import { Loader } from '../cmps/Loader.jsx'
+import { toRgbString } from '../services/util.service.js'
 
 export function StationIndex() {
 
     const [gradientColor, setGradientColor] = useState('rgba(52, 52, 52, 0.5)')
+    const [headerOpacity, setHeaderOpacity] = useState(0)
     const [filterBy, setFilterBy] = useState(stationService.getDefaultFilter())
     const stations = useSelector(storeState => storeState.stationModule.stations)
     const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
@@ -24,6 +26,11 @@ export function StationIndex() {
     useEffect(() => {
         loadStations(filterBy)
     }, [filterBy])
+
+    const handleScroll = (e) => {
+        const scrollTop = e.target.scrollTop;
+        setHeaderOpacity(Math.min(1, scrollTop / 100));
+    };
 
     async function onRemoveStation(stationId) {
         try {
@@ -60,7 +67,8 @@ export function StationIndex() {
 
     return (
 
-        <section className="station-index container ">
+        <section className="station-index container "
+            onScroll={handleScroll} >
             <Loader isLoading={isLoading}>
                 <div className="gradient" style={{
                     '--avg-color': gradientColor,
@@ -68,7 +76,10 @@ export function StationIndex() {
                     transition: '--avg-color 0.5s ease-in-out'
 
                 }}>
-                    <header>
+                    <header style={{
+                        '--avg-color': `rgba(${toRgbString(gradientColor)},${headerOpacity.toFixed(2)})`,
+                        background: 'var(--avg-color)',
+                    }}>
                         <div className="filter-btns">
                             <button>All</button>
                             <button>Music</button>
