@@ -10,17 +10,15 @@
     transition: none;
     margin-left: 6px;
     align-items: center;
-    overflow-y: auto;
-    overflow-x: hidden;
-
-
+    /* overflow-x: hidden; */
+    min-height: 0
 }
 
 .resizer-handle {
     position: absolute;
-    left: -15px;
+    left: -10px;
     top: 0;
-    width: 20px;
+    width: 10px;
     height: 100%;
     cursor: grab;
     z-index: 1000;
@@ -51,9 +49,13 @@
 .sidebar-content {
     flex: 1;
     padding: 15px;
-    white-space: nowrap;
+    white-space: normal;
     /* overflow-x: hidden; */
     width: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+
 }
 
 .side-bar-item h1 {
@@ -181,4 +183,5 @@
 .sidebar .artist-bio-header {
     font-size: large;
     margin-bottom: .5em;
+    margin-left: .5em;
 }

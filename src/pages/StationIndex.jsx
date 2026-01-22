@@ -83,7 +83,9 @@ export function StationIndex() {
                             onUpdateStation={onUpdateStation}
                             setGradientColor={setGradientColor}
                         />
-                        <StationCarousel stations={stations} />
+                        <StationCarousel stations={stations.slice(0, 7)} />
+                        <StationCarousel stations={stations.slice(7, 14)} />
+                        <StationCarousel stations={stations.slice(14)} />
                     </div>
                 </div>
             </Loader>
