@@ -111,7 +111,6 @@ export function SideBar() {
         navigate(`/station/${savedStation._id}`)
     }
 
-    console.log(nowPlaying)
 
     return (
         <>

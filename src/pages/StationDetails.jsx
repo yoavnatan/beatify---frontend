@@ -91,9 +91,16 @@ export function StationDetails() {
   }
 
   async function onPlaySearchedResult(search) {
-    const song = await searchMusicService.getYoutubeURL(search);
+    let song = search
+    if (!search.src) {
+      song = await searchMusicService.getYoutubeURL(search);
+      const songsToUpdate = station.songs.map(s => s.id === song.id ? { ...s, src: song.src } : s)
+      const stationToUpdate = { ...station, songs: songsToUpdate }
+      await updateStation(stationToUpdate)
+    }
     const prev = lastClickedSong;
-
+    // const song = await searchMusicService.getYoutubeURL(search);
+    console.log(song)
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
     if (prev?.id === song.id) {
