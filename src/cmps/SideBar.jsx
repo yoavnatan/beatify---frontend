@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import Arrow from "../assets/svg/nav-arrow.svg?react"
 import Collapse from "../assets/svg/collapse-library.svg?react"
@@ -6,6 +6,8 @@ import Tippy from '@tippyjs/react';
 import { updateUser } from "../store/actions/user.actions";
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
+import { searchMusicService } from "../services/searchMusic.service";
+import { LongTxt } from "../assets/styles/cmps/LongTxt";
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
@@ -18,8 +20,17 @@ export function SideBar() {
     )
     const { user } = useSelector(storeState => storeState.userModule)
 
-
+    const artistBio = useRef()
     const sidebarRef = useRef()
+
+    useEffect(() => {
+        console.log(nowPlaying)
+        if (nowPlaying.name) onGetArtistBio()
+    }, [nowPlaying])
+
+    async function onGetArtistBio() {
+        artistBio.current = await searchMusicService.getArtistBio(nowPlaying.artist.name)
+    }
 
     function onMouseDown(e) {
         e.preventDefault()
@@ -88,21 +99,6 @@ export function SideBar() {
         }
     }
 
-    async function likeSong(ev, songId) {
-        ev.stopPropagation()
-        const likedSongs = user.likedSongs
-        if (user.likedSongs.includes(songId)) {
-            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
-            await updateUser(userToUpdate)
-
-        } else {
-            console.log(songId)
-            const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
-            await updateUser(userToUpdate)
-
-
-        }
-    }
 
     return (
         <>
@@ -123,7 +119,7 @@ export function SideBar() {
                         </span>
                     </Tippy>
                 </div>}
-                {isBarOpen && <div className='sidebar-content'>
+                {isBarOpen && nowPlaying.artist && <div className='sidebar-content'>
 
                     <header className="flex" onClick={handleCloseBar}>
                         <Tippy content={'Collapse sidebar'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
@@ -135,19 +131,27 @@ export function SideBar() {
                     </header>
                     <article className="side-bar-item now-playing-song">
                         <img src={nowPlaying.imgUrl}></img>
-                        <h1>{nowPlaying.title}</h1>
-                        <h2>{nowPlaying.artist.name}</h2>
-                        <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
-                            <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                                <span className="tooltip-wrapper">
-                                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
-                                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
-                                </span>
-                            </Tippy>
+                        <div className="inner-container">
+                            <div className="song-info">
+                                <div className="song-title">{nowPlaying.title}</div>
+                                <div className="song-artist">{nowPlaying.artist.name}</div>
+                            </div>
+                            <div className={`like-icon ${user.likedSongs.includes(nowPlaying.id) ? 'on' : ''}`}>
+                                <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                    <span className="tooltip-wrapper">
+                                        {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={(ev) => likeSong(ev, nowPlaying.id)} />}
+                                        {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={(ev) => likeSong(ev, nowPlaying.id)} />}
+                                    </span>
+                                </Tippy>
+                            </div>
                         </div>
                     </article>
+                    <article className="artist-bio">
+                        <div>About the artist</div>
+                        <LongTxt txt={artistBio.current} />
+                    </article>
                 </div>}
-            </section>
+            </section >
         </>
 
 

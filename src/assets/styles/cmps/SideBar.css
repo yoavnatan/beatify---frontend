@@ -9,6 +9,7 @@
     overflow: visible;
     transition: none;
     margin-left: 6px;
+    align-items: center;
 }
 
 .resizer-handle {
@@ -48,6 +49,7 @@
     padding: 15px;
     white-space: nowrap;
     overflow-x: hidden;
+    width: 100%;
 }
 
 .side-bar-item h1 {
@@ -109,6 +111,41 @@
     }
 }
 
+
+
 .sidebar .now-playing-song img {
-    width: 220px;
+    width: 100%;
+
+    border-radius: 8px;
+}
+
+.now-playing-song {
+    margin-block: 1em;
+    width: 100%;
+
+
+    .song-title {
+        font-size: var(--fs-h1);
+        text-wrap: wrap;
+
+    }
+
+    .song-artist {
+        font-size: var(--fs-h3);
+    }
+
+    .inner-container {
+        margin-block-start: .5em;
+        display: flex;
+        align-items: center;
+        padding-inline-end: .5em;
+
+        .like-icon {
+            margin-inline-start: auto;
+        }
+    }
+}
+
+.bio {
+    text-wrap: wrap;
 }

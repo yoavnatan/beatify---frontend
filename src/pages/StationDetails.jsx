@@ -93,12 +93,13 @@ export function StationDetails() {
   async function onPlaySearchedResult(search) {
     const song = await searchMusicService.getYoutubeURL(search);
     const prev = lastClickedSong;
-    // lastClickedSong.current = song;
+
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
     if (prev?.id === song.id) {
       dispatch({ type: TOGGLE_PLAY });
     } else {
+
       setSong(song);
       dispatch({ type: PLAY });
       dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id });
