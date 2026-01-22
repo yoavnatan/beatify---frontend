@@ -106,7 +106,7 @@ export function SongsTable({
                   <span className="icon-white-arrow-details"><WhiteArrow /></span>
                 </Tippy> */}
                 <span className="play-icon-row">
-                  {!playing && <Tippy content={'Play'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                  {(!playing || playing && song.id !== nowPlaying.id) && <Tippy content={'Play'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                     <span className="tooltip-wrapper">
                       <WhiteArrow className="icon small white" />
                     </span>

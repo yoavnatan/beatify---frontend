@@ -8,10 +8,14 @@ import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
 import { searchMusicService } from "../services/searchMusic.service";
 import { LongTxt } from "../assets/styles/cmps/LongTxt";
+import { stationService } from "../services/station";
+import { addStation } from "../store/actions/station.actions";
+import { useNavigate } from "react-router";
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
     const [artistBio, setArtistBio] = useState('')
+    const navigate = useNavigate()
 
     const { playing, nowPlaying } = useSelector(
         (storeState) => storeState.playerModule,
@@ -100,6 +104,13 @@ export function SideBar() {
         }
     }
 
+    async function createArtistStation(ev, artist) {
+        ev.stopPropagation()
+        const artistStation = await stationService.getArtistStation(artist)
+        const savedStation = await addStation(artistStation)
+        navigate(`/station/${savedStation._id}`)
+    }
+
     console.log(nowPlaying)
 
     return (
@@ -136,7 +147,7 @@ export function SideBar() {
                         <div className="inner-container">
                             <div className="song-info">
                                 <div className="song-title">{nowPlaying.title}</div>
-                                <div className="song-artist">{nowPlaying.artist.name}</div>
+                                <div className="song-artist" onClick={(ev) => createArtistStation(ev, nowPlaying.artist)}>{nowPlaying.artist.name}</div>
                             </div>
                             <div className={`like-icon ${user.likedSongs.includes(nowPlaying.id) ? 'on' : ''}`}>
                                 <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
