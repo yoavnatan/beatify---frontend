@@ -132,7 +132,7 @@ export function StationDetails() {
   const coverImg =
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-      : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.jpg";
+      : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png";
 
   return (
     <section className="station-details container " style={{
@@ -140,7 +140,7 @@ export function StationDetails() {
       "--avg-color": station.averageColor,
     }}
     >
-      <div class="gradient-wrapper"
+      <div className="gradient-wrapper"
         style={{
 
           backgroundColor: `rgba(${toRgbString(station.averageColor)})`

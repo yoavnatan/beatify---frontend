@@ -11,6 +11,7 @@ import { LongTxt } from "../assets/styles/cmps/LongTxt";
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
+    const [artistBio, setArtistBio] = useState('')
 
     const { playing, nowPlaying } = useSelector(
         (storeState) => storeState.playerModule,
@@ -20,16 +21,16 @@ export function SideBar() {
     )
     const { user } = useSelector(storeState => storeState.userModule)
 
-    const artistBio = useRef()
     const sidebarRef = useRef()
 
     useEffect(() => {
         console.log(nowPlaying)
-        if (nowPlaying.name) onGetArtistBio()
+        if (nowPlaying.artist && nowPlaying.artist.name) onGetArtistBio()
     }, [nowPlaying])
 
     async function onGetArtistBio() {
-        artistBio.current = await searchMusicService.getArtistBio(nowPlaying.artist.name)
+        const bio = await searchMusicService.getArtistBio(nowPlaying.artist.name)
+        setArtistBio(bio)
     }
 
     function onMouseDown(e) {
@@ -99,6 +100,7 @@ export function SideBar() {
         }
     }
 
+    console.log(nowPlaying)
 
     return (
         <>
@@ -147,9 +149,11 @@ export function SideBar() {
                         </div>
                     </article>
                     <article className="artist-bio">
-                        <div>About the artist</div>
-                        <LongTxt txt={artistBio.current} />
+                        <img src={nowPlaying.artist.picture_medium} />
+                        <div className="artist-bio-header">About the artist</div>
+                        <LongTxt txt={artistBio} />
                     </article>
+
                 </div>}
             </section >
         </>

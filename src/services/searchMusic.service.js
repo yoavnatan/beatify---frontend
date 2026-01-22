@@ -103,8 +103,8 @@ async function getArtistBio(artist) {
     const API_URL = `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${API_KEY}&format=json`
     try {
         const res = await axios.get(API_URL)
+        console.log(res)
         const searchData = res.data.artist.bio.summary
-        console.log(searchData)
         return searchData
     } catch (err) {
         console.error(err)

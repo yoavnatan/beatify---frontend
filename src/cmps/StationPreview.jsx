@@ -9,12 +9,12 @@ export function StationPreview({ station, setGradientColor }) {
     function onRevertGradient() {
         setGradientColor('rgba(47, 38, 89, 0.9)')
     }
-        const coverImg =
+    const coverImg =
         station._id === 'likedSongs'
             ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
             : station.songs?.[0]?.imgUrl ||
             station.imgUrl ||
-            "/img/blank-screen.jpg"
+            "/img/blank-screen.png"
 
     return (
         <article

@@ -10,6 +10,10 @@
     transition: none;
     margin-left: 6px;
     align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+
 }
 
 .resizer-handle {
@@ -48,7 +52,7 @@
     flex: 1;
     padding: 15px;
     white-space: nowrap;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     width: 100%;
 }
 
@@ -146,6 +150,35 @@
     }
 }
 
-.bio {
+.artist-bio {
     text-wrap: wrap;
+    background-color: var(--sp-card);
+    border-radius: 0 0 8px 8px;
+
+
+
+    img {
+        width: 100%;
+        /* border-radius: 8px; */
+        margin-bottom: 10px;
+    }
+}
+
+.bio {
+    /* height: 500px; */
+    width: 100%;
+    background-color: var(--sp-card);
+    padding: .5em
+}
+
+.long-txt {
+    height: auto;
+    color: var(--sp-gray);
+    font-size: .9em;
+
+}
+
+.sidebar .artist-bio-header {
+    font-size: large;
+    margin-bottom: .5em;
 }
