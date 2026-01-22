@@ -58,9 +58,10 @@ export async function addSongToStation(song, stationId) {
     const stationToUpdate = stations.find(station => station._id === stationId)
     if (stationToUpdate.songs.find(s => s.id === song.id)) return
     const songToAdd = {
+        ...song,
         id: song.id,
         title: song.title,
-        imgUrl: song.imgUrl ? song.imgUrl : `https://e-cdns-images.dzcdn.net/images/cover/${song.md5_image}/56x56.jpg`,
+        imgUrl: song.imgUrl ? song.imgUrl : `https://e-cdns-images.dzcdn.net/images/cover/${song.md5_image}/220x220.jpg`,
     }
     console.log(songToAdd)
     try {

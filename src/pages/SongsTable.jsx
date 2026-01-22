@@ -59,7 +59,8 @@ export function SongsTable({
   }, []);
 
 
-  async function likeSong(songId) {
+  async function likeSong(ev, songId) {
+    ev.stopPropagation()
     const likedSongs = user.likedSongs
     if (user.likedSongs.includes(songId)) {
       let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
@@ -130,8 +131,8 @@ export function SongsTable({
               <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
                 <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                   <span className="tooltip-wrapper">
-                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
-                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
+                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
+                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
                   </span>
                 </Tippy>
               </div>
@@ -178,7 +179,7 @@ export function SongsTable({
         <ul className='search-results'>
           {search && searchResults.length > 0 && searchResults.map(res => (
             <li key={res.id} className="result-item">
-              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
+              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/220x220.jpg`} onClick={() => onPlaySearchedResult(res)} />
               <div>
                 <div className="song-title">{res.title}</div>
                 <div className="song-artist">{res.artist.name}</div>

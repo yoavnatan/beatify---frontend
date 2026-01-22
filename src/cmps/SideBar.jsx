@@ -1,11 +1,23 @@
 import { useRef, useState } from "react";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Arrow from "../assets/svg/nav-arrow.svg?react"
 import Collapse from "../assets/svg/collapse-library.svg?react"
 import Tippy from '@tippyjs/react';
+import { updateUser } from "../store/actions/user.actions";
+import Like from "../assets/svg/like.svg?react"
+import Liked from "../assets/svg/liked.svg?react"
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
+
+    const { playing, nowPlaying } = useSelector(
+        (storeState) => storeState.playerModule,
+    )
+    const { nowPlaying: nowPlayingStationId } = useSelector(
+        (storeState) => storeState.stationModule,
+    )
+    const { user } = useSelector(storeState => storeState.userModule)
+
 
     const sidebarRef = useRef()
 
@@ -59,6 +71,39 @@ export function SideBar() {
         SetIsBarOpen(false)
         sidebarRef.current.style.width = `${50}px`;
     }
+
+
+    async function likeSong(ev, songId) {
+        ev.stopPropagation()
+        const likedSongs = user.likedSongs
+        if (user.likedSongs.includes(songId)) {
+            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+            await updateUser(userToUpdate)
+
+        } else {
+            const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+            await updateUser(userToUpdate)
+
+
+        }
+    }
+
+    async function likeSong(ev, songId) {
+        ev.stopPropagation()
+        const likedSongs = user.likedSongs
+        if (user.likedSongs.includes(songId)) {
+            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+            await updateUser(userToUpdate)
+
+        } else {
+            console.log(songId)
+            const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+            await updateUser(userToUpdate)
+
+
+        }
+    }
+
     return (
         <>
             <section className={`sidebar container ${!isBarOpen ? "close" : "open"} `}
@@ -88,7 +133,18 @@ export function SideBar() {
                         </Tippy>
                         <h1>Now Playing</h1>
                     </header>
-                    <article className="side-bar-item">
+                    <article className="side-bar-item now-playing-song">
+                        <img src={nowPlaying.imgUrl}></img>
+                        <h1>{nowPlaying.title}</h1>
+                        <h2>{nowPlaying.artist.name}</h2>
+                        <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
+                            <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                <span className="tooltip-wrapper">
+                                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
+                                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
+                                </span>
+                            </Tippy>
+                        </div>
                     </article>
                 </div>}
             </section>
