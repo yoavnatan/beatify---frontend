@@ -111,6 +111,10 @@ export function AppHeader() {
         // dispatch({ type: SET_RESULTS, searchResults: searchResults })
         navigate('/search')
     }
+    function onLogOut() {
+        onLogout()
+    }
+    const randomUserImg = `https://robohash.org/${user?._id}?&set=set2`
 
     return (
         <header className="app-header full">
@@ -181,7 +185,7 @@ export function AppHeader() {
 
                 <div className="nav-right">
                     {!user && (
-                        <NavLink to="auth/login" className="login-link">
+                        <NavLink to="auth" className="login-link">
                             Login
                         </NavLink>
                     )}
@@ -189,8 +193,9 @@ export function AppHeader() {
                     {user && (
                         <div className="user-info">
                             <Link to={`user/${user._id}`} className="user-link">
-                                {user.imgUrl && <img className='profile-pic' src={profileImg} alt="User" />}
+                                {user.imgUrl && <img className='profile-pic' src={randomUserImg} alt="User" />}
                             </Link>
+                            <button className='logout' onClick={onLogOut}>Logout</button>
 
                         </div>
                     )}

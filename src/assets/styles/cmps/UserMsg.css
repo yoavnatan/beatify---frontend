@@ -1,0 +1,32 @@
+.user-msg {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--sp-dark);
+  color: var(--sp-white);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--sp-border);
+  font-size: 0.95rem;
+  font-weight: 500;
+  z-index: 9999;
+
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.user-msg.success {
+  border-left: 4px solid var(--success);
+}
+
+.user-msg.error {
+  border-left: 4px solid var(--error);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

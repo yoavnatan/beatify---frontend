@@ -5,7 +5,7 @@ import { ChatApp } from './pages/Chat.jsx'
 import { StationDetails } from './pages/StationDetails.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
-import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
+import { LoginSignUp } from './pages/LoginSignup.jsx'
 import { Library } from './cmps/Library.jsx'
 import { useEffect } from 'react'
 import { loadStations } from './store/actions/station.actions.js'
@@ -13,6 +13,7 @@ import { loadStations } from './store/actions/station.actions.js'
 import { Search } from './pages/Search.jsx'
 import { useSelector } from 'react-redux'
 import { SideBar } from './cmps/SideBar.jsx'
+import { UserMsg } from './cmps/UserMsg.jsx'
 
 
 export function MainLayout() {
@@ -40,8 +41,6 @@ export function MainLayout() {
             document.body.style.cursor = "grabbing";
 
         }
-
-
         function onMouseMove(e) {
             e.preventDefault()
             const newWidth = startWidth + (e.clientX - startX)
@@ -121,24 +120,21 @@ export function MainLayout() {
 
 export function RootCmp() {
     return (
+        <>
+            <UserMsg /> 
+            
+            <Routes>
+                <Route path="/auth" element={<LoginSignUp />} />
 
-        <Routes>
-            <Route path="auth" element={<LoginSignup />}>
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
-            </Route>
-
-            <Route element={<MainLayout />}>
-                <Route path="" element={<HomePage />} />
-                <Route path="station" element={<StationIndex />} />
-                <Route path="station/:stationId" element={<StationDetails />} />
-                <Route path="chat" element={<ChatApp />} />
-                <Route path="search" element={<Search />} />
-                {/* <Route path="library/add/:stationId" element={<LibraryAddStation />} /> */}
-
-            </Route>
-
-        </Routes>
-
+                <Route path="/*" element={<MainLayout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="station" element={<StationIndex />} />
+                    <Route path="station/:stationId" element={<StationDetails />} />
+                    <Route path="chat" element={<ChatApp />} />
+                    <Route path="search" element={<Search />} />
+                </Route>
+            </Routes>
+        </>
     )
 }
+

@@ -128,11 +128,21 @@ export function SongsTable({
               </div>
 
               <div className="song-album">Album Name</div>
-              <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
-                <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+              <div className={`like-icon ${(user?.likedSongs || []).includes(song.id) ? 'on' : ''}`}>
+                <Tippy
+                  content={`${(user?.likedSongs || []).includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`}
+                  delay={[500, 0]}
+                  offset={[0, 15]}
+                  arrow={false}
+                >
                   <span className="tooltip-wrapper">
-                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
-                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
+                    {!(user?.likedSongs || []).includes(song.id) && (
+                      <Like className="icon small" onClick={(ev) => likeSong(ev, song.id)} />
+                    )}
+
+                    {(user?.likedSongs || []).includes(song.id) && (
+                      <Liked className="icon small" onClick={(ev) => likeSong(ev, song.id)} />
+                    )}
                   </span>
                 </Tippy>
               </div>

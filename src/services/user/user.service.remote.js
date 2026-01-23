@@ -12,6 +12,7 @@ export const userService = {
     update,
     getLoggedinUser,
     saveLoggedinUser,
+    getEmptyCredentials
 }
 
 function getUsers() {
@@ -38,9 +39,14 @@ async function update(user) {
 }
 
 async function login(userCred) {
-    const user = await httpService.post('auth/login', userCred)
-    if (user) return saveLoggedinUser(user)
+    try {
+        const user = await httpService.post('auth/login', userCred)
+        return saveLoggedinUser(user)
+    } catch (err) {
+        throw new Error('Invalid credentials')
+    }
 }
+
 
 async function signup(userCred) {
     if (!userCred.imgUrl) {
@@ -71,4 +77,11 @@ function saveLoggedinUser(user) {
     }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToSave))
     return userToSave
+}
+function getEmptyCredentials() {
+    return {
+        username: '',
+        password: '',
+        fullname: ''
+    }
 }

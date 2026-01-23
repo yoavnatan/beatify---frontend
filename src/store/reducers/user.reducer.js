@@ -17,41 +17,43 @@ const initialState = {
 }
 
 export function userReducer(state = initialState, action) {
-    var newState = state
     switch (action.type) {
+
         case SET_USER:
-            const lastUser = { ...state.user }
-            newState = { ...state, user: action.user, lastUser }
-            break
+            return {
+                ...state,
+                user: action.user,
+                lastUser: state.user
+            }
+
         case SET_WATCHED_USER:
-            newState = { ...state, watchedUser: action.user }
-            break
+            return {
+                ...state,
+                watchedUser: action.user
+            }
+
         case REMOVE_USER:
-            newState = {
+            return {
                 ...state,
                 users: state.users.filter(user => user._id !== action.userId)
             }
-            break
-        case SET_USER:
-            if (!action.user) return { ...state, user: null }
+
+        case USER_UNDO:
             return {
                 ...state,
-                lastUser: state.user ? { ...state.user } : null,
-                user: action.user
+                user: state.lastUser
             }
-        case USER_UNDO:
-            newState = { ...state, user: state.lastUser }
-            break
-        case SET_SCORE:
-            const user = { ...state.user, score: action.score }
-            newState = { ...state, user }
-            userService.saveLoggedinUser(user)
-            break
-        default:
-    }
-    // For debug:
-    // window.userState = newState
-    // console.log('State:', newState)
-    return newState
 
+        case SET_SCORE:
+            const updatedUser = { ...state.user, score: action.score }
+            userService.saveLoggedinUser(updatedUser)
+            return {
+                ...state,
+                user: updatedUser
+            }
+
+        default:
+            return state
+    }
 }
+

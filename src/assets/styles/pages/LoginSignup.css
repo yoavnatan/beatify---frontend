@@ -1,50 +1,96 @@
-.login-form,
-.signup-form {
-	display: grid;
-	width: min(80%, 300px);
-	margin: auto;
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-	padding: 1em;
-	background-color: var(--clr4);
+    background-color: var(--sp-dark);
+    color: var(--sp-white);
+    padding: 2em;
 }
 
-.signup-form {
-	>input {
-		width: 100%;
-		margin: 0.4em 0;
-	}
+.login-page .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 
-	.admin-toggle {
-		display: flex;
-		align-items: center;
-		justify-self: start;
+    width: min(90%, 380px);
+    padding: 2em;
 
-		>span {
-			font-size: .8em;
-		}
-	}
+    background-color: var(--sp-card);
+    border: 1px solid var(--sp-border);
+    border-radius: 12px;
+
+    font-family: 'Edu VIC WA NT Beginner', cursive;
 }
 
-.login-page nav {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 2em;
+.login-form input {
+    width: 100%;
+    padding: 0.8em 1em;
 
-	margin-block: 100px 0.5em;
+    background-color: var(--sp-dark-2);
+    color: var(--sp-white);
 
+    border: 1px solid var(--sp-border);
+    border-radius: 6px;
 
-	> a {
-		font-size: 0.8em;
-		color: var(--clr4);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
 
-		&:hover {
-			color: var(--clr1);
-		}
+.login-form input:focus {
+    outline: none;
+    border-color: var(--sp-green);
+}
 
-		&.active {
-			text-decoration: underline;
-			color: var(--clr2);
-		}
-	}
+.login-form button {
+    padding: 0.8em;
+    background-color: var(--sp-green);
+    color: var(--sp-white);
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.login-form button:hover {
+    background-color: var(--sp-greenBrighter);
+}
+
+.btns {
+    margin-top: 1em;
+    font-size: 0.9rem;
+    color: var(--sp-gray);
+}
+
+.btns a {
+    cursor: pointer;
+    color: var(--sp-green);
+    transition: color 0.2s ease;
+}
+
+.btns a:hover {
+    color: var(--sp-greenBrighter);
+}
+.guest-btn {
+  margin-top: 16px;
+  background: transparent;
+  color: var(--sp-gray);
+  border: 1px solid var(--sp-gray);
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.guest-btn:hover {
+  color: var(--sp-white);
+  border-color: var(--sp-white);
+  background: var(--sp-hover-transparent);
 }

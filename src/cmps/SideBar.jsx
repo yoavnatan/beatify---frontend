@@ -28,7 +28,6 @@ export function SideBar() {
     const sidebarRef = useRef()
 
     useEffect(() => {
-        console.log(nowPlaying)
         if (nowPlaying.artist && nowPlaying.artist.name) onGetArtistBio()
     }, [nowPlaying])
 
