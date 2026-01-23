@@ -21,6 +21,7 @@ export const stationService = {
     getLikedSongsStation,
     getAvgColor,
     getArtistStation,
+    getGenreStation,
 }
 window.cs = stationService
 
@@ -192,4 +193,22 @@ async function getArtistStation(artist) {
     return artistStation
 }
 
+async function getGenreStation(genre) {
+    const genreStation = {
+        name: genre.name,
+        imgUrl: genre.picture_big,
+        description: "Genre",
+        createdBy:
+        {
+            fullname: "",
+            _id: ""
+        },
+    }
 
+    const songs = await searchMusicService.getGenreSongs(genre.id)
+    genreStation.songs = songs
+    const avgColor = await getAvgColor(genreStation)
+    genreStation.averageColor = avgColor
+    console.log(genreStation)
+    return genreStation
+}

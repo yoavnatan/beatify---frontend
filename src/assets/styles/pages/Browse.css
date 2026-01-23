@@ -1,0 +1,33 @@
+.browse.container {
+    color: var(--sp-white);
+    margin-top: 1em;
+    padding: 1.5em;
+
+    .main-browse {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+        grid-auto-rows: min-content;
+        gap: 1.5rem;
+    }
+
+    .genre-card {
+        border-radius: 8px;
+        display: grid;
+        overflow: hidden;
+        cursor: pointer;
+
+        span {
+            margin-top: 12px;
+            margin-left: 12px;
+            font-size: 1.3em;
+            font-family: var(--font-bold);
+        }
+
+        img {
+            width: 45%;
+            border-radius: 4px;
+            transform: rotate(25deg) translate(18%, -2%);
+            justify-self: end;
+        }
+    }
+}

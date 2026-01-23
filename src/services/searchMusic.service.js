@@ -13,6 +13,8 @@ export const searchMusicService = {
     getArtistSongs,
     getSong,
     getArtistBio,
+    getGenres,
+    getGenreSongs
 }
 
 async function searchMusic(query) {
@@ -87,6 +89,7 @@ async function getSong(id) {
         const searchData = res.data
 
         let song = {
+            ...searchData,
             id: searchData.id,
             imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/220x220.jpg`,
             title: searchData.title,
@@ -106,6 +109,33 @@ async function getArtistBio(artist) {
         console.log(res)
         const searchData = res.data.artist.bio.summary
         return searchData
+    } catch (err) {
+        console.error(err)
+        throw err
+    }
+
+}
+
+async function getGenres() {
+    const API_URL = `https://corsproxy.io/?https://api.deezer.com/genre`
+
+    try {
+        const res = await axios.get(API_URL)
+        const searchData = res.data.data
+        return searchData
+    } catch (err) {
+        console.error(err)
+        throw err
+    }
+}
+
+async function getGenreSongs(genreId) {
+    const API_URL = `https://corsproxy.io/?https://api.deezer.com/chart/${genreId}/tracks?limit=20`
+    try {
+        const res = await axios.get(API_URL)
+        const searchData = res.data.data
+        const songs = await Promise.all(searchData.map(res => getSong(res.id)))
+        return songs
     } catch (err) {
         console.error(err)
         throw err

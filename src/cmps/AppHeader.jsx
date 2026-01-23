@@ -142,9 +142,9 @@ export function AppHeader() {
 
                             />
                         </form>
-                        <div className="broswe-wrapper">
+                        <NavLink to="/browse" className="broswe-wrapper">
                             <Broswe className="icon medium" />
-                        </div>
+                        </NavLink>
                         <div ref={resRef} className={`search-result container ${isResultsOpen ? "open" : ''}`}>
                             {!search && <div>
                                 <h3 style={{ marginBlockStart: '1em' }}>Recent Searches</h3>

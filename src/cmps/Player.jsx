@@ -144,8 +144,7 @@ export function Player() {
 
 
     if (muted) volume = 0;
-
-    const isSongLiked = (user.likedSongs.includes(nowPlaying.id))
+    const isSongLiked = (user?.likedSongs?.includes(nowPlaying.id))
 
     return (
         <section className="player container flex ">
