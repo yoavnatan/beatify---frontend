@@ -47,6 +47,7 @@ export function StationDetails() {
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current;
   const [showActions, setShowActions] = useState(false);
   const headerRef = useRef();
+  console.log(user)
 
   useEffect(() => {
     if (!stationId) return;

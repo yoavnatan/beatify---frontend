@@ -61,7 +61,7 @@ export function SongsTable({
 
   async function likeSong(ev, songId) {
     ev.stopPropagation()
-    const likedSongs = user.likedSongs
+    const likedSongs = user?.likedSongsStations || []
     if (user.likedSongs.includes(songId)) {
       let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
       await updateUser(userToUpdate)

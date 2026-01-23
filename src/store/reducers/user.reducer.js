@@ -32,9 +32,13 @@ export function userReducer(state = initialState, action) {
                 users: state.users.filter(user => user._id !== action.userId)
             }
             break
-        case SET_USERS:
-            newState = { ...state, users: action.users }
-            break
+        case SET_USER:
+            if (!action.user) return { ...state, user: null }
+            return {
+                ...state,
+                lastUser: state.user ? { ...state.user } : null,
+                user: action.user
+            }
         case USER_UNDO:
             newState = { ...state, user: state.lastUser }
             break

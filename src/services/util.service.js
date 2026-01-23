@@ -52,15 +52,15 @@ export function loadFromStorage(key) {
     return (data) ? JSON.parse(data) : undefined
 }
 export function toRgbString(color) {
-  if (color.startsWith("rgb")) {
-    const nums = color.match(/\d+/g)
-    return `${nums[0]}, ${nums[1]}, ${nums[2]}`
-  }
+    if (!color || typeof color !== 'string') {
+        return 'rgba(0,0,0,0.5)'  
+    }
 
-  const bigint = parseInt(color.replace("#", ""), 16)
-  const r = (bigint >> 16) & 255
-  const g = (bigint >> 8) & 255
-  const b = bigint & 255
-  return `${r}, ${g}, ${b}`
+    if (color.startsWith('#')) {
+        return hexToRgba(color)
+    }
+
+    return color
 }
+
 
