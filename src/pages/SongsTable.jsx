@@ -11,6 +11,7 @@ import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
 import Pause from "../assets/svg/pause.svg?react";
+import { showErrorMsg } from "../services/event-bus.service.js"
 
 import { Popover } from 'react-tiny-popover';
 import { useEffect, useRef, useState } from "react"
@@ -60,20 +61,21 @@ export function SongsTable({
 
 
   async function likeSong(ev, songId) {
-    ev.stopPropagation()
-    const likedSongs = user?.likedSongsStations || []
-    if (user.likedSongs.includes(songId)) {
-      let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
-      await updateUser(userToUpdate)
-
-    } else {
-      console.log(songId)
-      const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
-      await updateUser(userToUpdate)
-
-
-    }
+  ev.stopPropagation()
+  if (!user) {
+    showErrorMsg("You must be logged in to like songs")
+    return
   }
+  const likedSongs = user?.likedSongs || []
+  if (likedSongs.includes(songId)) {
+    const userToUpdate = { ...user, likedSongs: likedSongs.filter(id => id !== songId) }
+    await updateUser(userToUpdate)
+  } else {
+    const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+    await updateUser(userToUpdate)
+  }
+}
+
 
   return (
     <section className="song-table container " ref={scrollContainerRef}>

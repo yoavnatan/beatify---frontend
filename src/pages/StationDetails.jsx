@@ -90,27 +90,40 @@ export function StationDetails() {
   }
 
   async function onPlaySearchedResult(search) {
-    let song = search
+  let song = search
+
+  if (!user) {
     if (!search.src) {
-      song = await searchMusicService.getYoutubeURL(search);
-      const songsToUpdate = station.songs.map(s => s.id === song.id ? { ...s, src: song.src } : s)
-      const stationToUpdate = { ...station, songs: songsToUpdate }
-      await updateStation(stationToUpdate)
+      song = await searchMusicService.getYoutubeURL(search)
     }
-    const prev = lastClickedSong;
-    // const song = await searchMusicService.getYoutubeURL(search);
-    console.log(song)
+
+    setSong(song)
+    dispatch({ type: PLAY })
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-
-    if (prev?.id === song.id) {
-      dispatch({ type: TOGGLE_PLAY });
-    } else {
-
-      setSong(song);
-      dispatch({ type: PLAY });
-      dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id });
-    }
+    return
   }
+
+  if (!search.src) {
+    song = await searchMusicService.getYoutubeURL(search)
+    const songsToUpdate = station.songs.map(s =>
+      s.id === song.id ? { ...s, src: song.src } : s
+    )
+    const stationToUpdate = { ...station, songs: songsToUpdate }
+    await updateStation(stationToUpdate)
+  }
+
+  const prev = lastClickedSong
+  dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+
+  if (prev?.id === song.id) {
+    dispatch({ type: TOGGLE_PLAY })
+  } else {
+    setSong(song)
+    dispatch({ type: PLAY })
+    dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+  }
+}
+
 
   if (!station) return <div>Loading...</div>;
 
@@ -119,21 +132,39 @@ export function StationDetails() {
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
       : station.songs[0]?.imgUrl;
 
-  async function deleteStation(ev, stationId) {
-    ev.stopPropagation();
-    await removeStation(stationId);
-    navigate("/");
+async function deleteStation(ev, stationId) {
+  ev.stopPropagation();
+  if (!user) {
+    showErrorMsg("You must be logged in to delete a playlist");
+    return;
   }
 
-  async function deleteSong(ev, songId, stationId) {
-    ev.stopPropagation();
-    await removeSong(songId, stationId);
+  await removeStation(stationId);
+  navigate("/");
+}
+
+async function deleteSong(ev, songId, stationId) {
+  ev.stopPropagation();
+
+  if (!user) {
+    showErrorMsg("You must be logged in to delete songs");
+    return;
   }
 
-  async function onAddSong(ev, song, stationId) {
-    ev.stopPropagation();
-    await addSongToStation(song, stationId);
+  await removeSong(songId, stationId);
+}
+
+
+async function onAddSong(ev, song, stationId) {
+  ev.stopPropagation();
+
+  if (!user) {
+    showErrorMsg("You must be logged in to add songs to a playlist");
+    return;
   }
+
+  await addSongToStation(song, stationId);
+}
 
   const coverImg =
     station._id === "likedSongs"
