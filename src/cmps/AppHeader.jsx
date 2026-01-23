@@ -45,8 +45,6 @@ export function AppHeader() {
     async function onSearchMusic(search) {
         const searchResults = await searchMusicService.searchMusic(search)
         dispatch({ type: SET_RESULTS, searchResults: searchResults })
-
-
     }
 
     function handleChange({ target }) {
@@ -114,7 +112,6 @@ export function AppHeader() {
         navigate('/search')
     }
 
-    console.log(recentSearch)
     return (
         <header className="app-header full">
             <nav className="header-nav">
@@ -169,7 +166,7 @@ export function AppHeader() {
                             <ul>
                                 {search && searchResults.length > 0 && searchResults.map(res => (
                                     <li key={res.id} className="result-item">
-                                        <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
+                                        <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/220x220.jpg`} onClick={() => onPlaySearchedResult(res)} />
                                         <div>
                                             <div className="song-title">{res.title}</div>
                                             <div className="song-artist">{res.artist.name}</div>

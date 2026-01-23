@@ -1,0 +1,188 @@
+.sidebar.container {
+    position: relative;
+    height: 100%;
+    background-color: var(--sp-black);
+    color: var(--sp-white);
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: visible;
+    transition: none;
+    margin-left: 6px;
+    align-items: center;
+    /* overflow-x: hidden; */
+    min-height: 0
+}
+
+.resizer-handle {
+    position: absolute;
+    left: -10px;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    cursor: grab;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+.resizer-line {
+    width: 2px;
+    height: 100%;
+    background-color: transparent;
+    transition: background-color 0.2s;
+}
+
+.resizer-handle:hover .resizer-line {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.resizer-handle:active .resizer-line {
+    background-color: var(--sp-white);
+}
+
+.resizer-handle:active {
+    cursor: grabbing;
+
+}
+
+.sidebar-content {
+    flex: 1;
+    padding: 15px;
+    white-space: normal;
+    /* overflow-x: hidden; */
+    width: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 1em;
+
+}
+
+.side-bar-item h1 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.sidebar.container.close {
+    cursor: pointer;
+}
+
+.sidebar .arrow-side-bar {
+    /* position: absolute; */
+    /* transform: translateY(50%); */
+    rotate: 180deg;
+    position: absolute;
+    top: 45%;
+    left: 28%;
+    transition: .4s;
+}
+
+.sidebar:hover .arrow-side-bar {
+    transform: translateX(5px);
+}
+
+.sidebar header {
+    h1 {
+        margin: 0;
+    }
+
+    align-items: center;
+    gap: 1em;
+
+
+}
+
+.collapse-side {
+    opacity: 0;
+    transform: translateX(10px);
+    transition: transform 0.05s ease, opacity 0.2s ease;
+    transition-delay: opacity .1s;
+}
+
+.sidebar header {
+    transform: translateX(-20px);
+    transition: transform 0.15s ease;
+}
+
+.sidebar:hover {
+    .collapse-side {
+        opacity: 1;
+        transform: translateX(0);
+        transition: transform 0.2s ease, opacity 0.3s ease;
+
+    }
+
+    header {
+        transform: translateX(10px)
+    }
+}
+
+
+
+.sidebar .now-playing-song img {
+    width: 100%;
+
+    border-radius: 8px;
+}
+
+.now-playing-song {
+    margin-block: 1em;
+    width: 100%;
+
+
+    .song-title {
+        font-size: var(--fs-h1);
+        text-wrap: wrap;
+
+    }
+
+    .song-artist {
+        font-size: var(--fs-h3);
+    }
+
+    .inner-container {
+        margin-block-start: .5em;
+        display: flex;
+        align-items: center;
+        padding-inline-end: .5em;
+
+        .like-icon {
+            margin-inline-start: auto;
+        }
+    }
+}
+
+.artist-bio {
+    text-wrap: wrap;
+    background-color: var(--sp-card);
+    border-radius: 0 0 8px 8px;
+
+
+
+    img {
+        width: 100%;
+        /* border-radius: 8px; */
+        margin-bottom: 10px;
+    }
+}
+
+.bio {
+    /* height: 500px; */
+    width: 100%;
+    background-color: var(--sp-card);
+    padding: .5em
+}
+
+.long-txt {
+    height: auto;
+    color: var(--sp-gray);
+    font-size: .9em;
+
+}
+
+.sidebar .artist-bio-header {
+    font-size: large;
+    margin-bottom: .5em;
+    margin-left: .5em;
+}

@@ -11,6 +11,8 @@ import { useEffect } from 'react'
 import { loadStations } from './store/actions/station.actions.js'
 // import { LibraryAddStation } from './pages/LibraryAddStation.jsx'
 import { Search } from './pages/Search.jsx'
+import { useSelector } from 'react-redux'
+import { SideBar } from './cmps/SideBar.jsx'
 
 
 export function MainLayout() {
@@ -34,6 +36,9 @@ export function MainLayout() {
 
             document.addEventListener("mousemove", onMouseMove)
             document.addEventListener("mouseup", onMouseUp)
+
+            document.body.style.cursor = "grabbing";
+
         }
 
 
@@ -41,7 +46,7 @@ export function MainLayout() {
             e.preventDefault()
             const newWidth = startWidth + (e.clientX - startX)
 
-            if (newWidth < 280) {
+            if (newWidth < 240) {
                 main.style.setProperty("--sidebar-width", "72px")
                 main.classList.add("sidebar-collapsed")
                 return
@@ -49,13 +54,15 @@ export function MainLayout() {
 
             main.classList.remove("sidebar-collapsed")
 
-            const clamped = Math.min(520, Math.max(280, newWidth))
+            const clamped = Math.min(520, Math.max(240, newWidth))
             main.style.setProperty("--sidebar-width", `${clamped}px`)
         }
 
         function onMouseUp() {
             document.removeEventListener("mousemove", onMouseMove)
             document.removeEventListener("mouseup", onMouseUp)
+            document.body.style.cursor = "default";
+
         }
 
         handle.addEventListener("mousedown", onMouseDown)
@@ -103,6 +110,7 @@ export function MainLayout() {
                 <section className="main-content">
                     <Outlet />
                 </section>
+                <SideBar />
             </main>
 
             <AppFooter />

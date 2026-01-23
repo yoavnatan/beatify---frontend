@@ -12,6 +12,7 @@ export const searchMusicService = {
     searchArtist,
     getArtistSongs,
     getSong,
+    getArtistBio,
 }
 
 async function searchMusic(query) {
@@ -21,6 +22,7 @@ async function searchMusic(query) {
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data.data
+        console.log(searchData)
         return searchData
     } catch (err) {
         console.error(err)
@@ -38,7 +40,7 @@ async function getSongById(songId) {
         const songToPlay = await getYoutubeURL(searchData)
         let song = {
             id: searchData.id,
-            imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/56x56.jpg`,
+            imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/220x220.jpg`,
             title: searchData.title,
             src: songToPlay.src || ''
         }
@@ -55,6 +57,7 @@ async function searchArtist(query) {
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data.data
+        console.log(searchData)
         return searchData
     } catch (err) {
         console.error(err)
@@ -69,7 +72,6 @@ async function getArtistSongs(URL) {
         const res = await axios.get(API_URL)
         const searchData = res.data.data
         const songs = await Promise.all(searchData.map(res => getSong(res.id)))
-        console.log('songs:::', songs)
         return songs
     } catch (err) {
         console.error(err)
@@ -86,7 +88,7 @@ async function getSong(id) {
 
         let song = {
             id: searchData.id,
-            imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/56x56.jpg`,
+            imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/220x220.jpg`,
             title: searchData.title,
         }
         return song
@@ -96,13 +98,28 @@ async function getSong(id) {
     }
 }
 
+async function getArtistBio(artist) {
+    const API_KEY = import.meta.env.VITE_LASTFM_API_KEY
+    const API_URL = `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${API_KEY}&format=json`
+    try {
+        const res = await axios.get(API_URL)
+        console.log(res)
+        const searchData = res.data.artist.bio.summary
+        return searchData
+    } catch (err) {
+        console.error(err)
+        throw err
+    }
+
+}
+
 async function getYoutubeURL(query) {
     let gVideosCache = loadFromStorage(STORAGE_KEY_VIDEOS) || []
-    const srcFromCache = (gVideosCache.find(video => video.title === query.title))
+    const srcFromCache = (gVideosCache.find(video => video.id === query.id))
 
     const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
-    const URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${query.title}&key=${API_KEY}`
-    const song = { id: query.id, imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${query.md5_image}/56x56.jpg`, title: query.title }
+    const URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${query.title} ${query.artist?.name}&key=${API_KEY}`
+    const song = { ...query, id: query.id, imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${query.md5_image}/220x220.jpg`, title: query.title }
     if (!query.md5_image) song.imgUrl = query.imgUrl
     let embedUrl
     if (srcFromCache) {
@@ -110,6 +127,7 @@ async function getYoutubeURL(query) {
         song.src = embedUrl
 
         console.log('from cache')
+        console.log(song)
         return song
     } else {
         try {
@@ -134,7 +152,6 @@ async function getYoutubeURL(query) {
     }
 
 }
-
 
 
 

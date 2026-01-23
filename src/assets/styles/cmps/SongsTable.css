@@ -231,6 +231,19 @@
   opacity: 1;
 }
 
+.song-index-wrapper .play-icon-row {
+  transform: translateX(-11px);
+  opacity: 0;
+}
+
+.song-row:hover .play-icon-row {
+  opacity: 1;
+}
+
+.song-row:hover .song-index {
+  opacity: 0;
+}
+
 .song-table.container {
   grid-area: 4 / 1 / 5 / 2;
   z-index: 2;

@@ -70,6 +70,10 @@ object {
         fill: black;
     }
 
+    &.white {
+        fill: var(--sp-white)
+    }
+
 
     &.small {
         width: 16px;

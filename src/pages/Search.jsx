@@ -104,7 +104,7 @@ export function Search() {
                     <li key={res.id} className="result-item"
                         onClick={() => onPlaySearchedResult(res)}
                     >
-                        <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
+                        <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/220x220.jpg`} onClick={() => onPlaySearchedResult(res)} />
                         <div className="song-info">
                             <div className="song-title">{res.title}</div>
                             <div className="song-artist">{res.artist.name}</div>
@@ -130,55 +130,3 @@ export function Search() {
         </section>
     )
 }
-
-{/* <ul className="song-list">
-    {station.songs.map((song, idx) => (
-        <li
-            key={`${station._id}-${song.id}-${idx}`}
-            className="song-row"
-            onClick={() => onPlaySearchedResult(song)}
-        >
-            <div className='song-row-inner'>
-                <div className="song-index-wrapper">
-                    <span className="song-index">
-                        {playing && song.id === nowPlaying.id && <img style={{ width: '14px', heigth: '14px' }} src="https://open.spotifycdn.com/cdn/images/equaliser-animated-green.f5eb96f2.gif" />}
-                        {(!playing || song.id !== nowPlaying.id) && idx + 1}</span>
-
-                    <Tippy content={`Play ${song.title}`} delay={[800, 0]} offset={[0, -60]} arrow={false} placement="bottom">
-                        <span className="icon-white-arrow-details"><WhiteArrow /></span>
-                    </Tippy>
-                </div>
-
-                <div className="song-title-wrapper">
-                    <img className="song-img" src={song.imgUrl} alt={song.title} />
-                    <div className="song-info">
-                        <div className="song-title">{song.title}</div>
-                        <div className="song-artist">Artist Name</div>
-                    </div>
-                </div>
-
-                <div className="song-album">Album Name</div>
-                <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
-                    <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                        <span className="tooltip-wrapper">
-                            {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
-                            {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
-                        </span>
-                    </Tippy>
-                </div>
-                <div className="song-date">2 days ago</div>
-
-                <div className='song-duration-wrapper'>
-                    <div className="song-duration">3:45</div>
-                </div>
-                <DropDown onAdd={onAddSong}
-                    onDelete={deleteSong}
-                    song={song}
-                    stationId={station._id}
-                    stations={stations}
-                />
-
-            </div>
-        </li>
-    ))}
-</ul> */}

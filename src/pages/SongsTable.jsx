@@ -10,6 +10,8 @@ import ArrowInMenu from "../assets/svg/arrow-in-menu.svg?react"
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
+import Pause from "../assets/svg/pause.svg?react";
+
 import { Popover } from 'react-tiny-popover';
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
@@ -57,7 +59,8 @@ export function SongsTable({
   }, []);
 
 
-  async function likeSong(songId) {
+  async function likeSong(ev, songId) {
+    ev.stopPropagation()
     const likedSongs = user.likedSongs
     if (user.likedSongs.includes(songId)) {
       let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
@@ -102,6 +105,18 @@ export function SongsTable({
                 {/* <Tippy content={`Play ${song.title}`} delay={[800, 0]} offset={[0, -60]} arrow={false} placement="bottom">
                   <span className="icon-white-arrow-details"><WhiteArrow /></span>
                 </Tippy> */}
+                <span className="play-icon-row">
+                  {(!playing || playing && song.id !== nowPlaying.id) && <Tippy content={'Play'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                    <span className="tooltip-wrapper">
+                      <WhiteArrow className="icon small white" />
+                    </span>
+                  </Tippy>}
+                  {playing && song.id === nowPlaying.id && <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                    <span className="tooltip-wrapper">
+                      <Pause className="icon small white" />
+                    </span>
+                  </Tippy>}
+                </span>
               </div>
 
               <div className="song-title-wrapper">
@@ -116,8 +131,8 @@ export function SongsTable({
               <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
                 <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                   <span className="tooltip-wrapper">
-                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
-                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
+                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
+                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={(ev) => likeSong(ev, song.id)} />}
                   </span>
                 </Tippy>
               </div>
@@ -164,7 +179,7 @@ export function SongsTable({
         <ul className='search-results'>
           {search && searchResults.length > 0 && searchResults.map(res => (
             <li key={res.id} className="result-item">
-              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/56x56.jpg`} onClick={() => onPlaySearchedResult(res)} />
+              <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/220x220.jpg`} onClick={() => onPlaySearchedResult(res)} />
               <div>
                 <div className="song-title">{res.title}</div>
                 <div className="song-artist">{res.artist.name}</div>

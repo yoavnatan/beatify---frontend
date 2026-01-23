@@ -91,14 +91,22 @@ export function StationDetails() {
   }
 
   async function onPlaySearchedResult(search) {
-    const song = await searchMusicService.getYoutubeURL(search);
+    let song = search
+    if (!search.src) {
+      song = await searchMusicService.getYoutubeURL(search);
+      const songsToUpdate = station.songs.map(s => s.id === song.id ? { ...s, src: song.src } : s)
+      const stationToUpdate = { ...station, songs: songsToUpdate }
+      await updateStation(stationToUpdate)
+    }
     const prev = lastClickedSong;
-    // lastClickedSong.current = song;
+    // const song = await searchMusicService.getYoutubeURL(search);
+    console.log(song)
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
     if (prev?.id === song.id) {
       dispatch({ type: TOGGLE_PLAY });
     } else {
+
       setSong(song);
       dispatch({ type: PLAY });
       dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id });
@@ -131,7 +139,7 @@ export function StationDetails() {
   const coverImg =
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-      : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.jpg";
+      : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png";
 
   return (
     <section className="station-details container " style={{
@@ -139,7 +147,7 @@ export function StationDetails() {
       "--avg-color": station.averageColor,
     }}
     >
-      <div class="gradient-wrapper"
+      <div className="gradient-wrapper"
         style={{
 
           backgroundColor: `rgba(${toRgbString(station.averageColor)})`
