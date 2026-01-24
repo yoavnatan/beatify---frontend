@@ -23,6 +23,7 @@ import 'tippy.js/dist/tippy.css';
 import { setSong } from '../store/actions/player.actions.js';
 import { updateUser, updateUserOptimistic } from '../store/actions/user.actions.js';
 import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js';
+import { showSuccessMsg } from '../services/event-bus.service.js';
 
 
 export function Player() {
@@ -101,13 +102,12 @@ export function Player() {
         if (user.likedSongs.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
             await updateUser(userToUpdate)
+            showSuccessMsg('Song removed from Liked Songs')
 
         } else {
-            console.log(songId)
             const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
             await updateUser(userToUpdate)
-
-
+            showSuccessMsg('Song added to Liked Songs')
         }
     }
 

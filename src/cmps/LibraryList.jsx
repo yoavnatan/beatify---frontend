@@ -13,8 +13,12 @@ export function LibraryList() {
     const { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
     let { playing } = useSelector(storeState => storeState.playerModule)
 
-    function displayStationDetails(id) {
-        navigate(`/station/${id}`)
+    if (!user) {
+        return (
+            <section className="library-list empty">
+                <p>Please log in to see your playlists</p>
+            </section>
+        )
     }
 
     const filteredStations = stations.filter(station => {
@@ -23,11 +27,14 @@ export function LibraryList() {
         return createdByUser || likedByUser
     })
 
+    function displayStationDetails(id) {
+        navigate(`/station/${id}`)
+    }
+
     return (
         <section className="library-list">
             <ul>
                 {filteredStations.slice(0, 7).map(station => {
-
                     const coverImg =
                         station._id === 'likedSongs'
                             ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
@@ -41,10 +48,6 @@ export function LibraryList() {
                             className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
 
                             <img src={coverImg} alt={station.name} />
-
-                            <div className="icon-white-arrow">
-                                <WhiteArrow />
-                            </div>
 
                             <div className="station-info flex justify-between">
                                 <div className="station-name">{station.name}</div>
