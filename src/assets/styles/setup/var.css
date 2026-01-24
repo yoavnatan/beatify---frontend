@@ -32,6 +32,39 @@
   --sp-green-light: color-mix(in lab, var(--sp-green), white 20%);
   --sp-gray-light: color-mix(in lab, var(--sp-gray), white 30%);
 
+
+  --browse-clr-0: #1b5e20;
+  --browse-clr-1: #27856a;
+  --browse-clr-2: #1e3264;
+  --browse-clr-3: #8d67ab;
+  --browse-clr-4: #e8115b;
+  --browse-clr-5: #8c1932;
+  --browse-clr-6: #7358ff;
+  --browse-clr-7: #148a08;
+  --browse-clr-8: #ba5d07;
+  --browse-clr-9: #e91429;
+  --browse-clr-10: #e1118c;
+  --browse-clr-11: #d84000;
+  --browse-clr-12: #503750;
+  --browse-clr-13: #1db954;
+  --browse-clr-14: #0d3b66;
+  --browse-clr-15: #1a432e;
+  --browse-clr-16: #4a192c;
+  --browse-clr-17: #522d0d;
+  --browse-clr-18: #2d1657;
+  --browse-clr-19: #631616;
+  --browse-clr-20: #0b4545;
+  --browse-clr-21: #3d3d3d;
+  --browse-clr-22: #45241c;
+  --browse-clr-23: #1c2b4d;
+  --browse-clr-24: #2e1f47;
+  --browse-clr-25: #004d40;
+  --browse-clr-26: #5d1010;
+  --browse-clr-27: #263238;
+  --browse-clr-28: #4e342e;
+  --browse-clr-29: #1a237e;
+  --browse-clr-30: #311b92;
+
 }
 
 @property --avg-color {
