@@ -13,6 +13,7 @@ import { loadStations } from './store/actions/station.actions.js'
 import { Search } from './pages/Search.jsx'
 import { useSelector } from 'react-redux'
 import { SideBar } from './cmps/SideBar.jsx'
+import { Browse } from './pages/Browse.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 
 
@@ -132,6 +133,7 @@ export function RootCmp() {
                     <Route path="station/:stationId" element={<StationDetails />} />
                     <Route path="chat" element={<ChatApp />} />
                     <Route path="search" element={<Search />} />
+                <Route path="browse" element={<Browse />} />
                 </Route>
             </Routes>
         </>

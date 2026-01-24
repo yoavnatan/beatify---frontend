@@ -144,7 +144,10 @@ export function Player() {
 
 
     if (muted) volume = 0;
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
     const isSongLiked = (user?.likedSongs?.includes(nowPlaying.id))
 
     return (
