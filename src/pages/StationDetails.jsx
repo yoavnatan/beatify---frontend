@@ -52,6 +52,7 @@ export function StationDetails() {
   const [avgColor, setAvgColor] = useState('rgba(18,18,18,1)')
 
   const headerRef = useRef();
+  
   useEffect(() => {
     if (!stationId) return;
     if (stationId === "likedSongs") {

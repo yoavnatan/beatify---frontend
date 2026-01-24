@@ -22,14 +22,14 @@ export async function loadStations(filterBy) {
 }
 
 export async function loadLikedSongsStation() {
-    try {
-        const station = await stationService.getLikedSongsStation()
-        store.dispatch(getCmdSetStation(station))
-    } catch (err) {
-        console.log('Cannot load station', err)
-        throw err
-    }
+  try {
+    const station = await stationService.getLikedSongsStation()
+    store.dispatch(getCmdSetStation(station))
+  } catch (err) {
+    console.log("Cannot load liked songs station", err)
+  }
 }
+
 
 export async function loadStation(stationId) {
     try {

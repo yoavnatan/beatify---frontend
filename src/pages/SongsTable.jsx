@@ -77,6 +77,7 @@ export function SongsTable({
       showSuccessMsg("Song added to Liked Songs")
     }
 }
+console.log('station:', station);
 
 
   return (

@@ -11,7 +11,7 @@ export function LibraryList() {
     const navigate = useNavigate()
     const { user } = useSelector(storeState => storeState.userModule)
     const { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
-    let { playing } = useSelector(storeState => storeState.playerModule)
+    const { playing } = useSelector(storeState => storeState.playerModule)
 
     if (!user) {
         return (
@@ -20,12 +20,20 @@ export function LibraryList() {
             </section>
         )
     }
-
-    const filteredStations = stations.filter(station => {
+    const likedSongsStation = {
+        _id: "likedSongs",
+        name: "Liked Songs",
+        createdBy: { fullname: user.fullname },
+        songs: user.likedSongsStations || [],
+        imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
+        likedByUsers: []
+    }
+    const userStations = stations.filter(station => {
         const createdByUser = station.createdBy?._id === user._id
         const likedByUser = station.likedByUsers?.some(u => u._id === user._id)
         return createdByUser || likedByUser
     })
+    const finalList = [likedSongsStation, ...userStations]
 
     function displayStationDetails(id) {
         navigate(`/station/${id}`)
@@ -34,9 +42,9 @@ export function LibraryList() {
     return (
         <section className="library-list">
             <ul>
-                {filteredStations.slice(0, 7).map(station => {
+                {finalList.slice(0, 7).map(station => {
                     const coverImg =
-                        station._id === 'likedSongs'
+                        station._id === "likedSongs"
                             ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
                             : station.songs?.[0]?.imgUrl ||
                               station.imgUrl ||
