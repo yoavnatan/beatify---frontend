@@ -47,7 +47,7 @@ async function addSong(stationId, song) {
 }
 
 async function removeSong(stationId, songId) {
-  return httpService.delete(`${BASE_URL}${stationId}/song/${songId}`)
+    return httpService.delete(`${BASE_URL}${stationId}/song/${songId}`)
 }
 
 
@@ -65,7 +65,21 @@ async function toggleLikeStation(stationId) {
 }
 
 async function getLikedSongsStation() {
-    return httpService.get(`${BASE_URL}liked`)
+    let likedSongs
+    const user = userService.getLoggedinUser()
+    if (!user.likedSongs) user.likedSongs = []
+
+    likedSongs = await Promise.all(user.likedSongs.map(songId => (
+        searchMusicService.getSong(songId)
+    )))
+    return {
+        _id: 'likedSongs',
+        name: 'Liked Songs',
+        createdBy: { fullname: user.fullname || "You" },
+        songs: likedSongs,
+        imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
+        averageColor: 'rgba(47, 38, 89, 0.9)'
+    }
 }
 
 
@@ -75,6 +89,7 @@ async function addStationMsg(stationId, txt) {
 
 
 async function getArtistStation(artist) {
+    console.log(artist)
     const artistStation = {
         name: artist.name,
         imgUrl: artist.picture_medium,
@@ -85,7 +100,7 @@ async function getArtistStation(artist) {
         },
         tags: ['Artist'],
         songs: [],
-        likedByUsers: []
+        likedByUsers: [],
     }
 
     const songs = await searchMusicService.getArtistSongs(artist.tracklist)
@@ -99,21 +114,21 @@ async function getArtistStation(artist) {
 
 
 export async function getAvgColor(station) {
-  const defaultColor = 'rgba(18,18,18,1)'
-  if (!station.songs || station.songs.length === 0) {
-    return defaultColor
-  }
-  const firstSong = station.songs[0]
-  const imgUrl = firstSong.imgUrl
-  if (!imgUrl) return defaultColor
-  const fac = new FastAverageColor()
-  try {
-    const color = await fac.getColorAsync(imgUrl)
-    return `rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.5)`
-  } catch (err) {
-    console.error('Failed to get average color:', err)
-    return defaultColor
-  }
+    const defaultColor = 'rgba(18,18,18,1)'
+    if (!station.songs || station.songs.length === 0) {
+        return defaultColor
+    }
+    const firstSong = station.songs[0]
+    const imgUrl = firstSong.imgUrl
+    if (!imgUrl) return defaultColor
+    const fac = new FastAverageColor()
+    try {
+        const color = await fac.getColorAsync(imgUrl)
+        return `rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.5)`
+    } catch (err) {
+        console.error('Failed to get average color:', err)
+        return defaultColor
+    }
 }
 
 

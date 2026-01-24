@@ -22,12 +22,12 @@ export async function loadStations(filterBy) {
 }
 
 export async function loadLikedSongsStation() {
-  try {
-    const station = await stationService.getLikedSongsStation()
-    store.dispatch(getCmdSetStation(station))
-  } catch (err) {
-    console.log("Cannot load liked songs station", err)
-  }
+    try {
+        const station = await stationService.getLikedSongsStation()
+        store.dispatch(getCmdSetStation(station))
+    } catch (err) {
+        console.log("Cannot load liked songs station", err)
+    }
 }
 
 
@@ -74,20 +74,22 @@ export async function addSongToStation(song, stationId) {
 
 
 export async function removeSong(stationId, songId) {
-  try {
-    const updatedStation = await stationService.removeSong(stationId, songId)
-    store.dispatch(getCmdUpdateStation(updatedStation))
-  } catch (err) {
-    console.log('Cannot remove song', err)
-    throw err
-  }
+    try {
+        const updatedStation = await stationService.removeSong(stationId, songId)
+        store.dispatch(getCmdUpdateStation(updatedStation))
+    } catch (err) {
+        console.log('Cannot remove song', err)
+        throw err
+    }
 }
 
 
 
 export async function addStation(station) {
     try {
+        console.log(station)
         const savedStation = await stationService.save(station)
+        console.log(savedStation)
         store.dispatch(getCmdAddStation(savedStation))
         return savedStation
     } catch (err) {

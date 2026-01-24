@@ -38,6 +38,7 @@ export function Search() {
         dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: '' })
     }, [])
 
+    console.log(user)
     async function likeSong(songId) {
         const likedSongs = user.likedSongs
         if (user.likedSongs.includes(songId)) {
