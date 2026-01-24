@@ -26,6 +26,8 @@ import { searchMusicService } from "../services/searchMusic.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
+import { stationService } from "../services/station/station.service.remote.js";
+
 
 export function StationDetails() {
   const navigate = useNavigate();
@@ -46,6 +48,8 @@ export function StationDetails() {
   const [headerOpacity, setHeaderOpacity] = useState(1);
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current;
   const [showActions, setShowActions] = useState(false);
+  const [avgColor, setAvgColor] = useState('rgba(18,18,18,1)')
+
   const headerRef = useRef();
   useEffect(() => {
     if (!stationId) return;
@@ -63,7 +67,6 @@ export function StationDetails() {
   function handleChange({ target }) {
     setSearch(target.value);
   }
-
   useEffect(() => {
     const el = document.querySelector(".main-content");
 
@@ -78,6 +81,26 @@ export function StationDetails() {
     el.addEventListener("scroll", handleScroll);
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
+
+useEffect(() => {
+  if (!station) return
+
+  async function calcColor() {
+    if (station.averageColor) {
+      setAvgColor(station.averageColor)
+      return
+    }
+    const avg = await stationService.getAvgColor(station)
+    setAvgColor(avg)
+    if (user) {
+      const updated = { ...station, averageColor: avg }
+      await updateStation(updated)
+    }
+  }
+  calcColor()
+}, [stationId])   
+
+
 
   async function onSearchMusic(search) {
     const searchResults = await searchMusicService.searchMusic(search);
@@ -185,7 +208,8 @@ async function onAddSong(ev, song, stationId) {
         <div
           className="ent-spacing"
           style={{
-            backgroundColor: `rgba(${toRgbString(station.averageColor)}, ${1 - headerOpacity})`,
+            backgroundColor: station.averageColor,
+            opacity: 1 - headerOpacity
           }}
         >
           {showActions && (

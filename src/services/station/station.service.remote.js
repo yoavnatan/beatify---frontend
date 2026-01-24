@@ -97,18 +97,24 @@ async function getArtistStation(artist) {
 
 
 
-async function getAvgColor(station) {
-    if (!station.imgUrl) return 'rgba(0,0,0,1)'
-
-    const fac = new FastAverageColor()
-    try {
-        const color = await fac.getColorAsync(station.imgUrl)
-        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
-    } catch (err) {
-        console.error('Failed to get average color:', err)
-        return 'rgba(0,0,0,1)'
-    }
+export async function getAvgColor(station) {
+  const defaultColor = 'rgba(18,18,18,1)'
+  if (!station.songs || station.songs.length === 0) {
+    return defaultColor
+  }
+  const firstSong = station.songs[0]
+  const imgUrl = firstSong.imgUrl
+  if (!imgUrl) return defaultColor
+  const fac = new FastAverageColor()
+  try {
+    const color = await fac.getColorAsync(imgUrl)
+    return `rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.5)`
+  } catch (err) {
+    console.error('Failed to get average color:', err)
+    return defaultColor
+  }
 }
+
 
 function getDefaultFilter() {
     return {
