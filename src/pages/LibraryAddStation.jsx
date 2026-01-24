@@ -20,6 +20,7 @@ export function LibraryEditStation({ coverImg }) {
     const [station, setStation] = useState(null)
     const fileInputRef = useRef()
 
+
     useEffect(() => {
         load()
     }, [stationId])
@@ -39,15 +40,19 @@ export function LibraryEditStation({ coverImg }) {
     }
 
     async function saveStationUpdates() {
+        if (!station) return // תחנה חדשה שלא נשמרה עדיין
+
         const updatedStation = {
             ...station,
             name: stationName,
             description: stationDesc,
             imgUrl: stationImg
         }
+
         await updateStation(updatedStation)
         setIsModalOpen(false)
     }
+
     async function handleImageUpload(ev) {
         const file = ev.target.files[0]
         if (!file) return

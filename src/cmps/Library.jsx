@@ -14,7 +14,8 @@ import { useNavigate } from "react-router"
 import { useDispatch } from "react-redux"
 import { addStation } from "../store/actions/station.actions.js"
 import { getBlankStation } from "../services/library/library.service.js"
-import { showErrorMsg } from "../services/event-bus.service.js"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
+import { use } from "react"
 
 
 
@@ -73,21 +74,20 @@ export function Library() {
         window.dispatchEvent(new CustomEvent("expand-library-to-normal"))
     }
 
-    function collapseLibrary() {
+    function collapseLibrary() {    
         window.dispatchEvent(new CustomEvent("sidebar-collapsed"))
     }
     async function createStation() {
-    if (!user) {
-        showErrorMsg("You must be logged in to create a playlist")
-        return
+        if (!user || !user._id) {
+            showErrorMsg("You must be logged in to create a playlist")
+            return
+        }
+
+        const newStation = getBlankStation(user)
+        const savedStation = await addStation(newStation)
+        showSuccessMsg("Playlist created")
+        navigate(`/station/${savedStation._id}`)
     }
-    const newStation = await getBlankStation(user)
-    const savedStation = await addStation(newStation)
-    navigate(`station/${savedStation._id}`)
-    }
-
-
-
 
     return (
         <div className="library" ref={libraryRef}>
