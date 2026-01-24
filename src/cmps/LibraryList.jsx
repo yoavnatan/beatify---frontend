@@ -16,27 +16,35 @@ export function LibraryList() {
     function displayStationDetails(id) {
         navigate(`/station/${id}`)
     }
+
+    const filteredStations = stations.filter(station => {
+        const createdByUser = station.createdBy?._id === user._id
+        const likedByUser = station.likedByUsers?.some(u => u._id === user._id)
+        return createdByUser || likedByUser
+    })
+
     return (
         <section className="library-list">
             <ul>
-                {stations.slice(0, 7).map(station => {
+                {filteredStations.slice(0, 7).map(station => {
 
                     const coverImg =
                         station._id === 'likedSongs'
                             ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
                             : station.songs?.[0]?.imgUrl ||
-                            station.imgUrl ||
-                            "/img/blank-screen.png"
+                              station.imgUrl ||
+                              "/img/blank-screen.png"
 
                     return (
-                        <li key={station._id} onClick={() => displayStationDetails(station._id)}
+                        <li key={station._id}
+                            onClick={() => displayStationDetails(station._id)}
                             className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
+
                             <img src={coverImg} alt={station.name} />
 
                             <div className="icon-white-arrow">
                                 <WhiteArrow />
                             </div>
-
 
                             <div className="station-info flex justify-between">
                                 <div className="station-name">{station.name}</div>
@@ -44,14 +52,16 @@ export function LibraryList() {
                                     by {station.createdBy.fullname}
                                 </div>
                             </div>
+
                             <div className="playing-icon on">
-                                {nowPlayingStationId === station._id && playing && <Playing className="icon small" />}
+                                {nowPlayingStationId === station._id && playing && (
+                                    <Playing className="icon small" />
+                                )}
                             </div>
                         </li>
                     )
                 })}
             </ul>
-
         </section>
     )
 }
