@@ -29,6 +29,7 @@ import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station/station.service.remote.js";
 
 
+
 export function StationDetails() {
   const navigate = useNavigate();
   const { stationId } = useParams();
@@ -174,8 +175,9 @@ async function deleteSong(ev, songId, stationId) {
     return;
   }
 
-  await removeSong(songId, stationId);
-}
+  await removeSong(stationId, songId);
+    showSuccessMsg("Song removed from playlist");
+  }
 
 async function onAddSong(ev, song, stationId) {
   ev.stopPropagation();
@@ -186,6 +188,7 @@ async function onAddSong(ev, song, stationId) {
   }
 
   await addSongToStation(song, stationId);
+    showSuccessMsg("Song added to playlist");
 }
 
   const coverImg =

@@ -47,8 +47,9 @@ async function addSong(stationId, song) {
 }
 
 async function removeSong(stationId, songId) {
-    return httpService.delete(`${BASE_URL}${stationId}/song/${songId}`)
+  return httpService.delete(`${BASE_URL}${stationId}/song/${songId}`)
 }
+
 
 async function likeSong(stationId, songId) {
     return httpService.post(`${BASE_URL}${stationId}/song/${songId}/like`)
