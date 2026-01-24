@@ -26,7 +26,7 @@ import { searchMusicService } from "../services/searchMusic.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
-import { stationService } from "../services/station/station.service.remote.js";
+import { stationService } from "../services/station";
 
 
 
@@ -207,8 +207,7 @@ export function StationDetails() {
     >
       <div className="gradient-wrapper"
         style={{
-
-          backgroundColor: `rgba(${toRgbString(station.averageColor)})`
+          backgroundColor: `${station.averageColor}, ${headerOpacity - 1})`,
         }}>
         <div
           className="ent-spacing"
@@ -218,6 +217,8 @@ export function StationDetails() {
           }}
 
         >
+
+
           {showActions && (
             <div className="station-actions sticky-actions">
               <div className="station-actions-wrapper">

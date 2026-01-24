@@ -5,7 +5,7 @@ import { loadStations, addStation, updateStation, removeStation, addStationMsg }
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user'
-import { stationService } from '../services/station/station.service.remote.js'
+import { stationService } from '../services/station'
 
 import { StationList } from '../cmps/StationList.jsx'
 import { StationFilter } from '../cmps/StationFilter.jsx'
@@ -64,6 +64,7 @@ export function StationIndex() {
             showErrorMsg('Cannot update station')
         }
     }
+
 
     return (
 

@@ -21,7 +21,7 @@ import { setSong } from "../store/actions/player.actions.js"
 import { searchMusicService } from "../services/searchMusic.service.js"
 import { addSongToStation, addStation } from "../store/actions/station.actions.js"
 import { SET_NOW_PLAYING_STATION } from "../store/reducers/station.reducer.js"
-import { stationService } from "../services/station/station.service.remote.js"
+import { stationService } from "../services/station"
 import { useNavigate } from "react-router"
 
 
