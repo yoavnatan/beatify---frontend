@@ -228,7 +228,7 @@ async function onAddSong(ev, song, stationId) {
                   <button
                     className="play-btn"
                     onClick={() => {
-                      lastClickedSong.current = nowPlaying;
+                      dispatch({ type: SET_LAST_CLICKED, lastClickedSong: nowPlaying });
 
                       if (isStationPlaying) {
                         dispatch({ type: TOGGLE_PLAY });
@@ -320,8 +320,7 @@ async function onAddSong(ev, song, stationId) {
             <button
               className="play-btn"
               onClick={() => {
-                lastClickedSong.current = nowPlaying;
-
+                dispatch({ type: SET_LAST_CLICKED, lastClickedSong: nowPlaying });
                 if (isStationPlaying) {
                   dispatch({ type: TOGGLE_PLAY });
                 } else {
