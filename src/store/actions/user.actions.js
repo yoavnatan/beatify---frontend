@@ -1,4 +1,4 @@
-import { userService } from '../../services/user'
+import { userService } from '../../services/user/user.service.remote'
 import { socketService } from '../../services/socket.service'
 import { store } from '../store'
 
@@ -28,11 +28,9 @@ export async function removeUser(userId) {
 }
 
 export async function updateUser(user) {
-    console.log(user)
     try {
         const savedUser = await userService.update(user)
         store.dispatch({ type: SET_USER, user: savedUser })
-        console.log(savedUser)
         return savedUser
     } catch (err) {
         console.log('Cannot update user', err)

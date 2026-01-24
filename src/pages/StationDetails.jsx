@@ -177,7 +177,6 @@ async function deleteSong(ev, songId, stationId) {
   await removeSong(songId, stationId);
 }
 
-
 async function onAddSong(ev, song, stationId) {
   ev.stopPropagation();
 
@@ -208,9 +207,10 @@ async function onAddSong(ev, song, stationId) {
         <div
           className="ent-spacing"
           style={{
-            backgroundColor: station.averageColor,
+            backgroundColor: station.averageColor || "rgba(18,18,18,1)",
             opacity: 1 - headerOpacity
           }}
+
         >
           {showActions && (
             <div className="station-actions sticky-actions">
@@ -276,10 +276,10 @@ async function onAddSong(ev, song, stationId) {
         // ref={headerRef}
         className="station-header"
         style={{
-          backgroundColor: `rgba(${toRgbString(station.averageColor)})`,
-          "--avg-color": station.averageColor,
-          "--header-fade": headerOpacity,
+          backgroundColor: station.averageColor || "rgba(18,18,18,1)",
+          opacity: headerOpacity
         }}
+
       >
 
         <div className="image-wrapper">
