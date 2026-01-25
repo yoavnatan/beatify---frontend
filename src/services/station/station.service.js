@@ -27,6 +27,7 @@ window.cs = stationService
 
 
 async function query(filterBy = { txt: '' }) {
+    console.loe('local')
     let stations = await storageService.query(STORAGE_KEY)
 
     if (!stations || stations.length === 0) {

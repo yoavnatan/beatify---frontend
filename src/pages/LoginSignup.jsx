@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { login, signup } from '../store/actions/user.actions.js'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
-import { userService } from '../services/user/user.service.remote.js'
+import { userService } from '../services/user'
 
 export function LoginSignUp() {
 
@@ -34,7 +34,7 @@ export function LoginSignUp() {
   }
 
   function continueAsGuest() {
-    navigate('/')   
+    navigate('/')
   }
 
   return (
