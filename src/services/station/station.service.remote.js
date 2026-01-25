@@ -153,13 +153,18 @@ async function getAvgColors(stations) {
 }
 
 async function getAvgColor(station) {
-    const fac = new FastAverageColor()
-    try {
-        const color = await fac.getColorAsync(station.songs[0].album.cover_big)
-        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
-    } catch (err) {
-        console.error(err)
-        return 'rgba(0,0,0,1)'
+    if (!station.songs || station.songs.length <= 0) {
+        Promise.resolve('rgba(0,0,0,1)')
+        return
+    } else {
+        const fac = new FastAverageColor()
+        try {
+            const color = await fac.getColorAsync(station.songs[0].album.cover_big)
+            return `rgba(${[...color.value.slice(0, 3), 0.5]})`
+        } catch (err) {
+            console.error(err)
+            return 'rgba(0,0,0,1)'
+        }
     }
 }
 

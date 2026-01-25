@@ -78,7 +78,6 @@ export function SongsTable({
       showSuccessMsg("Song added to Liked Songs")
     }
   }
-  if (!station.songs[0].artist) return
   return (
     <section className="song-table container " ref={scrollContainerRef}>
       <div className={`table-header ${isSticky ? 'is-sticky' : ''}`}
