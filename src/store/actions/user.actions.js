@@ -107,3 +107,13 @@ export async function loadUser(userId) {
         console.log('Cannot load user', err)
     }
 }
+export async function loginDefault() {
+    try {
+        const user = await userService.loginDefault()
+        store.dispatch({ type: SET_USER, user })
+        return user
+    } catch (err) {
+        console.log('Cannot login default user', err)
+        throw err
+    }
+}

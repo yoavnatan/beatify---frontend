@@ -12,7 +12,11 @@ export const userService = {
     update,
     getLoggedinUser,
     saveLoggedinUser,
-    getEmptyCredentials
+    getEmptyCredentials,
+    loginDefault
+}
+async function loginDefault() { 
+    return httpService.get('auth/default') 
 }
 
 function getUsers() {
