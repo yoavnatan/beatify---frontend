@@ -15,9 +15,9 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 40px 2fr .7fr 40px .5fr .1fr 40px;
+  grid-template-columns: 40px 2fr 1fr 40px .5fr .1fr 40px;
   align-items: center;
-  padding: 12px 32px;
+  padding: 12px 45px;
   position: sticky;
   top: 60px;
   z-index: 999;
@@ -57,9 +57,10 @@
 
 .song-row-inner {
   display: grid;
-  grid-template-columns: 40px 2fr .7fr 40px .5fr .1fr 40px;
+  grid-template-columns: 40px 2fr 1fr 40px .5fr .1fr 40px;
   height: 54px;
   align-items: center;
+  padding-inline: 1em;
 }
 
 .song-row:hover .song-row-inner {
@@ -93,6 +94,14 @@
 .song-artist,
 .song-album {
   cursor: pointer;
+}
+
+.song-album {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
 
 .station-details .song-title {

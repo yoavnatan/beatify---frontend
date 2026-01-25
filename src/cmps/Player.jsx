@@ -105,7 +105,7 @@ export function Player() {
             showSuccessMsg('Song removed from Liked Songs')
 
         } else {
-            const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+            const userToUpdate = { ...user, likedSongs: [songId, ...likedSongs] }
             await updateUser(userToUpdate)
             showSuccessMsg('Song added to Liked Songs')
         }

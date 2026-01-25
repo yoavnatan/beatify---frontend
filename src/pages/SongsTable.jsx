@@ -17,6 +17,7 @@ import { Popover } from 'react-tiny-popover';
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { updateUser } from "../store/actions/user.actions.js"
+import { formatTime } from "../services/util.service.js"
 
 export function SongsTable({
   deleteSong,
@@ -77,8 +78,7 @@ export function SongsTable({
       showSuccessMsg("Song added to Liked Songs")
     }
   }
-
-
+  if (!station.songs[0].artist) return
   return (
     <section className="song-table container " ref={scrollContainerRef}>
       <div className={`table-header ${isSticky ? 'is-sticky' : ''}`}
@@ -127,11 +127,11 @@ export function SongsTable({
                 <img className="song-img" src={song.imgUrl} alt={song.title} />
                 <div className="song-info">
                   <div className="song-title">{song.title}</div>
-                  <div className="song-artist">Artist Name</div>
+                  <div className="song-artist">Artist</div>
                 </div>
               </div>
 
-              <div className="song-album">Album Name</div>
+              <div className="song-album">Album</div>
               <div className={`like-icon ${(user?.likedSongs || []).includes(song.id) ? 'on' : ''}`}>
                 <Tippy
                   content={`${(user?.likedSongs || []).includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`}
@@ -153,7 +153,7 @@ export function SongsTable({
               <div className="song-date">2 days ago</div>
 
               <div className='song-duration-wrapper'>
-                <div className="song-duration">3:45</div>
+                <div className="song-duration">{formatTime(song.duration)}</div>
                 {/* <span className='icon-trash' onClick={(ev) => deleteSong(ev, song.id, station._id)}>
                   <Delete className="icon small" />
                 </span> */}

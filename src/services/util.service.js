@@ -65,4 +65,11 @@ export function toRgbString(color) {
     return `${r}, ${g}, ${b}`
 }
 
+export function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
 
+    const formattedSecs = secs.toString().padStart(2, '0');
+
+    return `${mins}:${formattedSecs}`;
+}

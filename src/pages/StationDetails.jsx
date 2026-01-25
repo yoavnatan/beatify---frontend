@@ -89,6 +89,7 @@ export function StationDetails() {
   useEffect(() => {
     if (!station) return
     console.log('hi')
+    if (stationId === 'likedSongs') return
     calcColor()
   }, [stationId])
 
@@ -146,7 +147,6 @@ export function StationDetails() {
   }
 
   if (!station) return <div>Loading...</div>;
-  console.log(station.avarageColor)
   const stationImg =
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
@@ -191,7 +191,6 @@ export function StationDetails() {
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
       : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png";
-  console.log(station.color)
 
   return (
     <section className="station-details container " style={{
