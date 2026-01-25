@@ -11,6 +11,7 @@ import { LongTxt } from "../assets/styles/cmps/LongTxt";
 import { stationService } from "../services/station";
 import { addStation } from "../store/actions/station.actions";
 import { useNavigate } from "react-router";
+import { showSuccessMsg } from "../services/event-bus.service";
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
@@ -28,6 +29,7 @@ export function SideBar() {
     const sidebarRef = useRef()
 
     useEffect(() => {
+        if (nowPlaying.id) handleOpenBar()
         if (nowPlaying.artist && nowPlaying.artist.name) onGetArtistBio()
     }, [nowPlaying])
 
@@ -35,6 +37,7 @@ export function SideBar() {
         const bio = await searchMusicService.getArtistBio(nowPlaying.artist.name)
         setArtistBio(bio)
     }
+    console.log(nowPlaying)
 
     function onMouseDown(e) {
         e.preventDefault()
@@ -94,14 +97,20 @@ export function SideBar() {
         if (user.likedSongs.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
             await updateUser(userToUpdate)
+            showSuccessMsg('Song removed from Liked Songs')
+
 
         } else {
             const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
             await updateUser(userToUpdate)
+            showSuccessMsg('Song added to Liked Songs')
+
 
 
         }
     }
+
+
 
     async function createArtistStation(ev, artist) {
         ev.stopPropagation()

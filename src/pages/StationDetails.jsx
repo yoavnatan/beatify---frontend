@@ -88,7 +88,6 @@ export function StationDetails() {
 
   useEffect(() => {
     if (!station) return
-    console.log('hi')
     if (stationId === 'likedSongs') return
     calcColor()
   }, [stationId])
@@ -145,7 +144,7 @@ export function StationDetails() {
       dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
     }
   }
-
+  console.log(station)
   if (!station) return <div>Loading...</div>;
   const stationImg =
     station._id === "likedSongs"

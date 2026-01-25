@@ -127,11 +127,11 @@ export function SongsTable({
                 <img className="song-img" src={song.imgUrl} alt={song.title} />
                 <div className="song-info">
                   <div className="song-title">{song.title}</div>
-                  <div className="song-artist">Artist</div>
+                  <div className="song-artist">{song.artist.name}</div>
                 </div>
               </div>
 
-              <div className="song-album">Album</div>
+              <div className="song-album">{song.album.title}</div>
               <div className={`like-icon ${(user?.likedSongs || []).includes(song.id) ? 'on' : ''}`}>
                 <Tippy
                   content={`${(user?.likedSongs || []).includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`}

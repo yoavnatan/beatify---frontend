@@ -19,7 +19,8 @@ export const stationService = {
     getAvgColor,
     getArtistStation,
     getDefaultFilter,
-    getAvgColors
+    getAvgColors,
+    getGenreStation
 }
 
 async function query() {
@@ -77,7 +78,7 @@ async function getLikedSongsStation() {
         _id: 'likedSongs',
         name: 'Liked Songs',
         createdBy: { fullname: user.fullname || "You" },
-        songs: likedSongs,
+        songs: likedSongs.slice(0, 4),
         imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
         color: 'rgba(47, 38, 89, 0.9)'
     }
@@ -107,11 +108,30 @@ async function getArtistStation(artist) {
     const songs = await searchMusicService.getArtistSongs(artist.tracklist)
     artistStation.songs = songs
 
-    artistStation.averageColor = await getAvgColor(artistStation)
+    // artistStation.averageColor = await getAvgColor(artistStation)
 
     return artistStation
 }
 
+async function getGenreStation(genre) {
+    const genreStation = {
+        name: genre.name,
+        imgUrl: genre.picture_big,
+        description: "Genre",
+        createdBy:
+        {
+            fullname: "",
+            _id: ""
+        },
+    }
+
+    const songs = await searchMusicService.getGenreSongs(genre.id)
+    genreStation.songs = songs
+    // const avgColor = await getAvgColor(genreStation)
+    // genreStation.averageColor = avgColor
+    // console.log(genreStation)
+    return genreStation
+}
 
 
 async function getAvgColors(stations) {

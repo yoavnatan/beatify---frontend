@@ -1,7 +1,8 @@
 .user-msg {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 100px;
+  right: 50%;
+  translate: 65%;
   background: var(--sp-dark);
   color: var(--sp-white);
   padding: 14px 20px;
