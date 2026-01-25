@@ -49,7 +49,7 @@ export function StationDetails() {
   const [headerOpacity, setHeaderOpacity] = useState(1);
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current;
   const [showActions, setShowActions] = useState(false);
-  const [avgColor, setAvgColor] = useState('rgba(18,18,18,1)')
+  const [avgColor, setAvgColor] = useState()
 
   const headerRef = useRef();
 
@@ -59,6 +59,7 @@ export function StationDetails() {
       loadLikedSongsStation();
     } else {
       loadStation(stationId);
+      stationService.getAvgColor(station)
     }
   }, [stationId, user]);
 
@@ -86,22 +87,13 @@ export function StationDetails() {
 
   useEffect(() => {
     if (!station) return
-
-    async function calcColor() {
-      if (station.averageColor) {
-        setAvgColor(station.averageColor)
-        return
-      }
-      const avg = await stationService.getAvgColor(station)
-      setAvgColor(avg)
-      if (user) {
-        const updated = { ...station, averageColor: avg }
-        await updateStation(updated)
-      }
-    }
     calcColor()
   }, [stationId])
 
+  async function calcColor() {
+    const color = await stationService.getAvgColor(station)
+    setAvgColor(color)
+  }
 
 
   async function onSearchMusic(search) {
@@ -151,7 +143,6 @@ export function StationDetails() {
     }
   }
 
-
   if (!station) return <div>Loading...</div>;
 
   const stationImg =
@@ -198,25 +189,24 @@ export function StationDetails() {
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
       : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png";
+  console.log(avgColor)
 
   return (
     <section className="station-details container " style={{
-      backgroundColor: `rgba(${toRgbString(station.averageColor)})`,
-      "--avg-color": station.averageColor,
+      backgroundColor: `rgba(${toRgbString(avgColor)})`,
+      "--avg-color": avgColor,
     }}
     >
       <div className="gradient-wrapper"
         style={{
 
-          backgroundColor: station.averageColor
+          backgroundColor: `rgba(${toRgbString(avgColor)})`
         }}>
         <div
           className="ent-spacing"
           style={{
-            backgroundColor: station.averageColor || "rgba(18,18,18,1)",
-            opacity: 1 - headerOpacity
+            backgroundColor: `rgba(${toRgbString(avgColor)}, ${1 - headerOpacity})`,
           }}
-
         >
           {showActions && (
             <div className="station-actions sticky-actions">
@@ -282,7 +272,7 @@ export function StationDetails() {
         // ref={headerRef}
         className="station-header"
         style={{
-          backgroundColor: station.averageColor || "rgba(18,18,18,1)",
+          backgroundColor: avgColor || "rgba(18,18,18,1)",
           opacity: headerOpacity
         }}
 

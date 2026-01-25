@@ -113,21 +113,31 @@ async function getArtistStation(artist) {
 
 
 
-export async function getAvgColor(station) {
-    const defaultColor = 'rgba(18,18,18,1)'
-    if (!station.songs || station.songs.length === 0) {
-        return defaultColor
-    }
-    const firstSong = station.songs[0]
-    const imgUrl = firstSong.imgUrl
-    if (!imgUrl) return defaultColor
+async function _getAvgColors(stations) {
+    await Promise.all(
+        stations.map(async station => {
+            const fac = new FastAverageColor()
+            try {
+                const color = await fac.getColorAsync(station.songs[0].imgUrl)
+                station.averageColor = `rgba(${[...color.value.slice(0, 3), 0.5]})`
+
+            } catch (err) {
+                console.error(err)
+                station.averageColor = 'rgba(0,0,0,1)'
+
+            }
+        })
+    )
+    return stations
+}
+async function getAvgColor(station) {
     const fac = new FastAverageColor()
     try {
-        const color = await fac.getColorAsync(imgUrl)
-        return `rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.5)`
+        const color = await fac.getColorAsync(station.songs[0].album.cover_big)
+        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
     } catch (err) {
-        console.error('Failed to get average color:', err)
-        return defaultColor
+        console.error(err)
+        return 'rgba(0,0,0,1)'
     }
 }
 
