@@ -116,40 +116,27 @@ export function StationDetails() {
 
   async function onPlaySearchedResult(search) {
     let song = search
-
-    if (!user) {
-      if (!search.src) {
-        song = await searchMusicService.getYoutubeURL(search)
-      }
-
-      setSong(song)
-      dispatch({ type: PLAY })
-      dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-      return
-    }
-
     if (!search.src) {
-      song = await searchMusicService.getYoutubeURL(search)
-      const songsToUpdate = station.songs.map(s =>
-        s.id === song.id ? { ...s, src: song.src } : s
-      )
-      if (station._id !== 'likedSongs') {
-        const stationToUpdate = { ...station, songs: songsToUpdate }
-        await updateStation(stationToUpdate)
-      }
+      song = await searchMusicService.getYoutubeURL(search);
+      const songsToUpdate = station.songs.map(s => s.id === song.id ? { ...s, src: song.src } : s)
+      const stationToUpdate = { ...station, songs: songsToUpdate }
+      await updateStation(stationToUpdate)
     }
-
-    const prev = lastClickedSong
+    const prev = lastClickedSong;
+    console.log(song)
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
     if (prev?.id === song.id) {
-      dispatch({ type: TOGGLE_PLAY })
+      dispatch({ type: TOGGLE_PLAY });
     } else {
-      setSong(song)
-      dispatch({ type: PLAY })
-      dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+
+      setSong(song);
+      dispatch({ type: PLAY });
+      dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id });
     }
   }
+
+
 
 
   if (!station) return <div>Loading...</div>;
