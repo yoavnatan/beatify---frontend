@@ -1,17 +1,46 @@
+import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import WhiteArrow from "../assets/svg/white-arrow.svg?react"
+import { useNavigate } from "react-router"
 import Playing from "../assets/svg/playing.svg?react"
+import { debounce } from "../services/util.service.js" 
 
-
-
-
-export function LibraryList() {
+export function LibraryList({ searchTerm }) {
     const stations = useSelector(storeState => storeState.stationModule.stations)
     const navigate = useNavigate()
     const { user } = useSelector(storeState => storeState.userModule)
     const { nowPlaying: nowPlayingStationId } = useSelector(storeState => storeState.stationModule)
     const { playing } = useSelector(storeState => storeState.playerModule)
+
+    const [filteredList, setFilteredList] = useState([])
+
+    const debouncedFilter = useRef(
+        debounce((term, stations, user) => {
+            const likedSongsStation = {
+                _id: "likedSongs",
+                name: "Liked Songs",
+                createdBy: { fullname: user.fullname },
+                songs: user.likedSongsStations || [],
+                imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
+                likedByUsers: []
+            }
+
+            const userStations = stations.filter(station => {
+                const createdByUser = station.createdBy?._id === user._id
+                const likedByUser = station.likedByUsers?.some(u => u._id === user._id)
+                return createdByUser || likedByUser
+            })
+
+            const finalList = [likedSongsStation, ...userStations].filter(station =>
+                station.name.toLowerCase().includes(term.toLowerCase())
+            )
+
+            setFilteredList(finalList)
+        }, 250)
+    ).current
+
+    useEffect(() => {
+        if (user) debouncedFilter(searchTerm, stations, user)
+    }, [searchTerm, stations, user])
 
     if (!user) {
         return (
@@ -20,20 +49,6 @@ export function LibraryList() {
             </section>
         )
     }
-    const likedSongsStation = {
-        _id: "likedSongs",
-        name: "Liked Songs",
-        createdBy: { fullname: user.fullname },
-        songs: user.likedSongsStations || [],
-        imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
-        likedByUsers: []
-    }
-    const userStations = stations.filter(station => {
-        const createdByUser = station.createdBy?._id === user._id
-        const likedByUser = station.likedByUsers?.some(u => u._id === user._id)
-        return createdByUser || likedByUser
-    })
-    const finalList = [likedSongsStation, ...userStations]
 
     function displayStationDetails(id) {
         navigate(`/station/${id}`)
@@ -42,7 +57,7 @@ export function LibraryList() {
     return (
         <section className="library-list">
             <ul>
-                {finalList.slice(0, 7).map(station => {
+                {filteredList.slice(0, 7).map(station => {
                     const coverImg =
                         station._id === "likedSongs"
                             ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"

@@ -36,6 +36,8 @@ export function Library() {
     const libraryRef = useRef(null)
 
     const [showCreateBtn, setShowCreateBtn] = useState(true)
+    const [searchTerm, setSearchTerm] = useState('')
+
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -172,7 +174,10 @@ export function Library() {
                         type="text"
                         placeholder="Search in Your Library"
                         className={`search-input ${isSearchOpen ? "open" : ""}`}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
+
                 </div>
 
                 <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
@@ -183,7 +188,7 @@ export function Library() {
                 </div>
             </div>
 
-            <LibraryList />
+            <LibraryList searchTerm={searchTerm} />
         </div>
     )
 }

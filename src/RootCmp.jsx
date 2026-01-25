@@ -15,12 +15,14 @@ import { useSelector } from 'react-redux'
 import { SideBar } from './cmps/SideBar.jsx'
 import { Browse } from './pages/Browse.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
+import { loginDefault } from './store/actions/user.actions.js'
+import { use } from 'react'
+
 
 
 export function MainLayout() {
 
     useEffect(() => {
-
         loadStations()
         const handle = document.querySelector(".resize-handle")
         const main = document.querySelector("main")
@@ -120,6 +122,10 @@ export function MainLayout() {
 
 
 export function RootCmp() {
+    useEffect(() => {
+        loginDefault()
+    }, [])
+
     return (
         <>
             <UserMsg /> 
