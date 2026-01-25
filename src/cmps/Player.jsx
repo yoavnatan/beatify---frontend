@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED } from '../store/reducers/player.reducer.js';
+import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED, TOGGLE_QUEUE_SHOW } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -161,6 +161,9 @@ export function Player() {
         dispatch({ type: PLAY })
     }
 
+    function onToggleQueueShow() {
+        dispatch({ type: TOGGLE_QUEUE_SHOW })
+    }
     function handleTimeUpdate() {
         const player = playerRef.current;
         // We only want to update time slider if we are not currently seeking
@@ -304,7 +307,7 @@ export function Player() {
             <div className="volume-controls flex align-center">
                 <Tippy content={'Queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                     <span className="tooltip-wrapper">
-                        <Queue className="icon small" />
+                        <Queue className="icon small" onClick={onToggleQueueShow} />
                     </span>
                 </Tippy>
 

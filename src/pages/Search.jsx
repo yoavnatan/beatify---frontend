@@ -44,10 +44,13 @@ export function Search() {
         if (user.likedSongs.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
             await updateUser(userToUpdate)
+            showSuccessMsg('Song removed from Liked Songs')
+
 
         } else {
             const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
             await updateUser(userToUpdate)
+            showSuccessMsg('Song added to Liked Songs')
 
 
         }

@@ -21,7 +21,7 @@ export function SideBar() {
     const { queue, queueShown, playing, nowPlaying } = useSelector(
         (storeState) => storeState.playerModule,
     )
-    const { nowPlaying: nowPlayingStationId } = useSelector(
+    const { stationSongs, nowPlaying: nowPlayingStationId } = useSelector(
         (storeState) => storeState.stationModule,
     )
     const { user } = useSelector(storeState => storeState.userModule)
@@ -32,6 +32,10 @@ export function SideBar() {
         if (nowPlaying.id) handleOpenBar()
         if (nowPlaying.artist && nowPlaying.artist.name) onGetArtistBio()
     }, [nowPlaying])
+
+    useEffect(() => {
+        if (queueShown) handleOpenBar()
+    }, [queueShown])
 
     async function onGetArtistBio() {
         const bio = await searchMusicService.getArtistBio(nowPlaying.artist.name)
@@ -119,6 +123,22 @@ export function SideBar() {
         navigate(`/station/${savedStation._id}`)
     }
 
+    async function likeSong(songId) {
+        const likedSongs = user.likedSongs
+        if (user.likedSongs.includes(songId)) {
+            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+            await updateUser(userToUpdate)
+            showSuccessMsg('Song removed from Liked Songs')
+
+        } else {
+            const userToUpdate = { ...user, likedSongs: [songId, ...likedSongs] }
+            await updateUser(userToUpdate)
+            showSuccessMsg('Song added to Liked Songs')
+        }
+    }
+
+    const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
+
 
     return (
         <>
@@ -139,6 +159,7 @@ export function SideBar() {
                         </span>
                     </Tippy>
                 </div>}
+
                 {isBarOpen && nowPlaying.artist && <div className='sidebar-content'>
 
                     <header className="flex" onClick={handleCloseBar}>
@@ -171,7 +192,61 @@ export function SideBar() {
                         <div className="artist-bio-header">About the artist</div>
                         <LongTxt txt={artistBio} />
                     </article>
+                    {queueShown && <div className="queue">
+                        <header className="flex" onClick={handleCloseBar}>
+                            <Tippy content={'Collapse sidebar'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                <span className="tooltip-wrapper">
+                                    <Collapse className="icon small collapse-side" style={{ rotate: '180deg' }} />
+                                </span>
+                            </Tippy>
+                            <h1>Queue</h1>
+                        </header>
+                        <h3>Now Playing</h3>
+                        <div className="result-item">
+                            <img className="song-img" src={nowPlaying.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                            <div className="song-info">
+                                <div className="song-title">{nowPlaying.title}</div>
+                                <div className="song-artist">{nowPlaying.artist.name}</div>
+                            </div>
+                            <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                <span className="tooltip-wrapper">
+                                    {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                    {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                </span>
+                            </Tippy>
+                        </div>
+                        <ul>
+                            {queue.map(song => (
+                                <li className="result-item">
+                                    <img className="song-img" src={song.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                                    <div className="song-info">
+                                        <div className="song-title">{song.title}</div>
+                                        <div className="song-artist">{song.artist.name}</div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                        <h3>From station</h3>
+                        <ul>
+                            {stationSongs.slice(currentIdx + 1, 7).map(song => (
+                                <li className="result-item">
+                                    <img className="song-img" src={song.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                                    <div className="song-info">
+                                        <div className="song-title">{song.title}</div>
+                                        <div className="song-artist">{song.artist.name}</div>
+                                    </div>
+                                    <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
+                                        <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                            <span className="tooltip-wrapper">
+                                                {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
+                                                {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
+                                            </span>
+                                        </Tippy>
+                                    </div>
+                                </li>))}
+                        </ul>
 
+                    </div>}
                 </div>}
             </section >
         </>
