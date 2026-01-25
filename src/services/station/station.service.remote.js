@@ -18,11 +18,13 @@ export const stationService = {
     removeLikeSong,
     getAvgColor,
     getArtistStation,
-    getDefaultFilter
+    getDefaultFilter,
+    _getAvgColors
 }
 
 async function query() {
-    return httpService.get(BASE_URL)
+    const stations = httpService.get(BASE_URL)
+    return stations
 }
 
 function getById(stationId) {
@@ -109,6 +111,24 @@ async function getArtistStation(artist) {
     artistStation.averageColor = await getAvgColor(artistStation)
 
     return artistStation
+}
+
+async function _getAvgColors(stations) {
+    await Promise.all(
+        stations.map(async station => {
+            const fac = new FastAverageColor()
+            try {
+                const color = await fac.getColorAsync(station.songs[0].imgUrl)
+                station.averageColor = `rgba(${[...color.value.slice(0, 3), 0.5]})`
+
+            } catch (err) {
+                console.error(err)
+                station.averageColor = 'rgba(0,0,0,1)'
+
+            }
+        })
+    )
+    return stations
 }
 
 
