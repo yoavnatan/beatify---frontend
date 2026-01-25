@@ -76,8 +76,7 @@ export function SongsTable({
       await updateUser(userToUpdate)
       showSuccessMsg("Song added to Liked Songs")
     }
-}
-console.log('station:', station);
+  }
 
 
   return (

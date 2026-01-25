@@ -236,7 +236,7 @@ export function StationDetails() {
                       if (isStationPlaying) {
                         dispatch({ type: TOGGLE_PLAY });
                       } else {
-                        setSong(station.songs[0]);
+                        onPlaySearchedResult(station.songs[0])
                         dispatch({ type: PLAY });
                       }
 
@@ -327,7 +327,7 @@ export function StationDetails() {
                 if (isStationPlaying) {
                   dispatch({ type: TOGGLE_PLAY });
                 } else {
-                  setSong(station.songs[0]);
+                  onPlaySearchedResult(station.songs[0])
                   dispatch({ type: PLAY });
                 }
 
