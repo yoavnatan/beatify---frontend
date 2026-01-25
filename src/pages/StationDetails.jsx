@@ -55,6 +55,7 @@ export function StationDetails() {
 
   useEffect(() => {
     if (!stationId) return;
+    setAvgColor(undefined)
     if (stationId === "likedSongs") {
       loadLikedSongsStation();
     } else {
@@ -87,6 +88,7 @@ export function StationDetails() {
 
   useEffect(() => {
     if (!station) return
+    console.log('hi')
     calcColor()
   }, [stationId])
 
@@ -144,7 +146,7 @@ export function StationDetails() {
   }
 
   if (!station) return <div>Loading...</div>;
-
+  console.log(station.avarageColor)
   const stationImg =
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
@@ -189,23 +191,23 @@ export function StationDetails() {
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
       : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png";
-  console.log(avgColor)
+  console.log(station.color)
 
   return (
     <section className="station-details container " style={{
-      backgroundColor: `rgba(${toRgbString(avgColor)})`,
-      "--avg-color": avgColor,
+      backgroundColor: `rgba(${toRgbString(station.color)})`,
+      "--avg-color": station.color,
     }}
     >
       <div className="gradient-wrapper"
         style={{
 
-          backgroundColor: `rgba(${toRgbString(avgColor)})`
+          backgroundColor: `rgba(${toRgbString(station.color)})`
         }}>
         <div
           className="ent-spacing"
           style={{
-            backgroundColor: `rgba(${toRgbString(avgColor)}, ${1 - headerOpacity})`,
+            backgroundColor: `rgba(${toRgbString(station.color)}, ${1 - headerOpacity})`,
           }}
         >
           {showActions && (
@@ -272,7 +274,7 @@ export function StationDetails() {
         // ref={headerRef}
         className="station-header"
         style={{
-          backgroundColor: avgColor || "rgba(18,18,18,1)",
+          backgroundColor: station.color || "rgba(18,18,18,1)",
           opacity: headerOpacity
         }}
 

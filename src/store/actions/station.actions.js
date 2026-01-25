@@ -34,6 +34,8 @@ export async function loadLikedSongsStation() {
 export async function loadStation(stationId) {
     try {
         const station = await stationService.getById(stationId)
+        station.color = await stationService.getAvgColor(station)
+        console.log(station)
         store.dispatch(getCmdSetStation(station))
     } catch (err) {
         console.log('Cannot load station', err)
