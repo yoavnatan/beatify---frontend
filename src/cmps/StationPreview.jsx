@@ -1,9 +1,10 @@
 import Play from "../assets/svg/play.svg?react"
 
-export function StationPreview({ station, setGradientColor }) {
+export function StationPreview({ station, gradient, setGradientColor }) {
 
     function onChangeGradient(s) {
-        setGradientColor(s.averageColor)
+
+        setGradientColor(gradient)
     }
 
     function onRevertGradient() {
