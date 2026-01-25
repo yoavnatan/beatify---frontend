@@ -15,7 +15,7 @@ import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
-import { SET_NOW_PLAYING_STATION } from "../store/reducers/station.reducer.js";
+import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
 import Trash from "../assets/svg/trash.svg?react";
 import Delete from "../assets/svg/delete.svg?react";
@@ -33,7 +33,7 @@ import { stationService } from "../services/station";
 export function StationDetails() {
   const navigate = useNavigate();
   const { stationId } = useParams();
-  const station = useSelector((storeState) => storeState.stationModule.station);
+  const { station, stations } = useSelector((storeState) => storeState.stationModule);
   const { playing, nowPlaying, lastClickedSong } = useSelector(
     (storeState) => storeState.playerModule,
   );
@@ -111,16 +111,16 @@ export function StationDetails() {
   async function onPlaySearchedResult(search) {
     let song = search
 
-    if (!user) {
-      if (!search.src) {
-        song = await searchMusicService.getYoutubeURL(search)
-      }
+    // if (!user) {
+    //   if (!search.src) {
+    //     song = await searchMusicService.getYoutubeURL(search)
+    //   }
 
-      setSong(song)
-      dispatch({ type: PLAY })
-      dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-      return
-    }
+    //   setSong(song)
+    //   dispatch({ type: PLAY })
+    //   dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+    //   return
+    // }
 
     if (!search.src) {
       song = await searchMusicService.getYoutubeURL(search)
@@ -142,6 +142,7 @@ export function StationDetails() {
       setSong(song)
       dispatch({ type: PLAY })
       dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+      dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
     }
   }
   console.log(station)

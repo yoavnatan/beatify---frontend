@@ -7,13 +7,15 @@ export const ADD_STATION_MSG = 'ADD_STATION_MSG'
 export const SET_NOW_PLAYING_STATION = 'SET_NOW_PLAYING_STATION'
 export const ADD_SONG = 'ADD_SONG'
 export const RMOVE_SONG = 'RMOVE_SONG'
+export const SET_STATION_SONGS = 'SET_STATION_SONGS'
 
 
 const initialState = {
     stations: [],
     station: null,
     nowPlaying: null,
-    queue: [],
+    stationSongs: [],
+
 }
 
 export function stationReducer(state = initialState, action) {
@@ -51,6 +53,9 @@ export function stationReducer(state = initialState, action) {
                 newState = { ...state, station: { ...state.station, msgs: [...state.station.msgs || [], action.msg] } }
                 break
             }
+        case SET_STATION_SONGS:
+            newState = { ...state, stationSongs: action.stationSongs }
+            break
         default:
     }
     return newState

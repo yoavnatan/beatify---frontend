@@ -11,6 +11,7 @@ export const TOGLLE_LOOP = 'TOGLLE_LOOP'
 export const SET_NOW_PLAYING = 'SET_NOW_PLAYING'
 export const PLAY = 'PLAY'
 export const SET_LAST_CLICKED = 'SET_LAST_CLICKED'
+export const TOGGLE_QUEUE_SHOW = 'TOGGLE_QUEUE_SHOW'
 
 const initialState = {
     playing: false,
@@ -24,6 +25,7 @@ const initialState = {
     volume: 1,
     playedSeconds: 0,
     queue: [],
+    queueShown: false,
     shuffle: false,
     lastVolume: 0,
     lastClickedSong: '',
@@ -68,7 +70,9 @@ export function playerReducer(state = initialState, action) {
         case TOGLLE_LOOP:
             newState = { ...state, loop: !state.loop }
             break
-
+        case TOGGLE_QUEUE_SHOW:
+            newState = { ...state, queueShown: !state.queueShown }
+            break
         default:
     }
     return newState

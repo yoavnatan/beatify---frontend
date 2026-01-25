@@ -18,7 +18,7 @@ export function SideBar() {
     const [artistBio, setArtistBio] = useState('')
     const navigate = useNavigate()
 
-    const { playing, nowPlaying } = useSelector(
+    const { queue, queueShown, playing, nowPlaying } = useSelector(
         (storeState) => storeState.playerModule,
     )
     const { nowPlaying: nowPlayingStationId } = useSelector(

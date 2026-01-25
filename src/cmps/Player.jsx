@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE } from '../store/reducers/player.reducer.js';
+import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -24,13 +24,19 @@ import { setSong } from '../store/actions/player.actions.js';
 import { updateUser, updateUserOptimistic } from '../store/actions/user.actions.js';
 import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js';
 import { showSuccessMsg } from '../services/event-bus.service.js';
+import { searchMusicService } from '../services/searchMusic.service.js';
+import { getRandomIntInclusive } from '../services/util.service.js';
 
 
 export function Player() {
 
     const playerRef = useRef(null);
     const { user } = useSelector(storeState => storeState.userModule)
-    let { playing, nowPlaying, src, seeking, played, volume, muted, shuffle, lastVolume, loop } = useSelector(storeState => storeState.playerModule)
+    let { playing, nowPlaying, src, seeking, played, volume, muted, shuffle, lastVolume, loop, queue, lastClickedSong } = useSelector(storeState => storeState.playerModule)
+    const { stationSongs, stations, nowPlaying: nowPlayingStationId } = useSelector(
+        (storeState) => storeState.stationModule,
+    );
+
     const dispatch = useDispatch()
     const min = 0;
     const max = 1;
@@ -87,6 +93,72 @@ export function Player() {
 
     function onToggleLoop() {
         dispatch({ type: TOGLLE_LOOP })
+    }
+
+    function onPlayNext() {
+        let nextSongIdx
+        const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
+
+        if (loop) {
+            onPlayLoop()
+            return
+        }
+        else if (shuffle) {
+            nextSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
+            while (nextSongIdx === currentIdx) {
+                nextSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
+            }
+        } else {
+            nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
+            if (stationSongs.length === nextSongIdx) nextSongIdx = 0
+        }
+        onPlaySearchedResult(stationSongs[nextSongIdx])
+    }
+
+    function onPlayPrev() {
+        let prevSongIdx
+        const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
+
+        if (shuffle) {
+            prevSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
+            while (prevSongIdx === currentIdx) {
+                prevSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
+            }
+        } else {
+            let prevSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) - 1
+            if (prevSongIdx === -1) prevSongIdx = stationSongs.length - 1
+        }
+        onPlaySearchedResult(stationSongs[prevSongIdx])
+    }
+
+    async function onPlaySearchedResult(search) {
+        let song = search
+
+        if (!search.src) {
+            song = await searchMusicService.getYoutubeURL(search)
+            const songsToUpdate = stationSongs.map(s =>
+                s.id === song.id ? { ...s, src: song.src } : s
+            )
+            if (nowPlayingStationId !== 'likedSongs') {
+                const stationToUpdate = { ...stations.find(station => station._id === nowPlayingStationId), songs: songsToUpdate }
+                await updateStation(stationToUpdate)
+            }
+        }
+
+        const prev = lastClickedSong
+        dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+
+        if (prev?.id === song.id) {
+            dispatch({ type: TOGGLE_PLAY })
+        } else {
+            setSong(song)
+            dispatch({ type: PLAY })
+            dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+        }
+    }
+
+    async function onPlayLoop() {
+        dispatch({ type: PLAY })
     }
 
     function handleTimeUpdate() {
@@ -176,7 +248,7 @@ export function Player() {
                     </div>
                     <Tippy content={'Previous'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                         <span className="tooltip-wrapper">
-                            <PlayPrev className="icon small" />
+                            <PlayPrev className="icon small" onClick={onPlayPrev} />
                         </span>
                     </Tippy>
                     <div className="btn-play"
@@ -195,7 +267,7 @@ export function Player() {
 
                     <Tippy content={'Next'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                         <span className="tooltip-wrapper">
-                            <PlayNext className="icon small" />
+                            <PlayNext className="icon small" onClick={onPlayNext} />
                         </span>
                     </Tippy>
 
@@ -289,7 +361,7 @@ export function Player() {
                     volume={volume}
                     muted={muted}
                     onTimeUpdate={handleTimeUpdate}
-
+                    onEnded={onPlayNext}
                     // onProgress={handleProgress}
                     config={{
                         youtube: {
