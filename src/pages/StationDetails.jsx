@@ -272,7 +272,7 @@ export function StationDetails() {
         // ref={headerRef}
         className="station-header"
         style={{
-          backgroundColor: station.color || "rgba(18,18,18,1)",
+          backgroundColor: `rgba(${toRgbString(station.color)},1)` || "rgba(18,18,18,1)",
           opacity: headerOpacity
         }}
 
