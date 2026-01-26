@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login, signup } from '../store/actions/user.actions.js'
+import { loginDefault } from '../store/actions/user.actions.js'
+
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user'
@@ -33,9 +35,17 @@ export function LoginSignUp() {
     }
   }
 
-  function continueAsGuest() {
-    navigate('/')
+  async function continueAsGuest() {
+    try {
+      await loginDefault()
+      navigate('/')
+      showSuccessMsg('Logged in as guest')
+    } catch (err) {
+      console.log('Guest login failed:', err)
+      showErrorMsg('Cannot login as guest')
+    }
   }
+
 
   return (
     <div className="login-page">

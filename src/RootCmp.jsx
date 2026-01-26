@@ -26,7 +26,6 @@ export function MainLayout() {
         loadStations()
         const handle = document.querySelector(".resize-handle")
         const main = document.querySelector("main")
-
         let startX = 0
         let startWidth = 0
 
@@ -122,10 +121,12 @@ export function MainLayout() {
 
 
 export function RootCmp() {
+    const user = useSelector((storeState) => storeState.userModule.user)
     useEffect(() => {
-        loginDefault()
+        if (!user) {
+            loginDefault()
+        }   
     }, [])
-
     return (
         <>
             <UserMsg /> 
