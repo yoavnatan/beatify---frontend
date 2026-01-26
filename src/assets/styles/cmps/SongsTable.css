@@ -53,6 +53,8 @@
 
 .song-list {
   padding: 2em;
+  border-bottom: 1px solid var(--sp-border);
+
 }
 
 .song-row-inner {

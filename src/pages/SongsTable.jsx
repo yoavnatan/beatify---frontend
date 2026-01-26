@@ -5,6 +5,7 @@ import Tippy from "@tippyjs/react"
 import Trash from "../assets/svg/trash.svg?react"
 import Delete from "../assets/svg/delete.svg?react"
 import Plus from "../assets/svg/plus.svg?react"
+import AddToQueue from "../assets/svg/queue-add.svg?react"
 import Remove from "../assets/svg/remove.svg?react"
 import ArrowInMenu from "../assets/svg/arrow-in-menu.svg?react"
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react"
@@ -15,9 +16,10 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 import { Popover } from 'react-tiny-popover';
 import { useEffect, useRef, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { updateUser } from "../store/actions/user.actions.js"
 import { formatTime } from "../services/util.service.js"
+import { ADD_TO_QUEUE } from "../store/reducers/player.reducer.js"
 
 export function SongsTable({
   deleteSong,
@@ -78,6 +80,8 @@ export function SongsTable({
       showSuccessMsg("Song added to Liked Songs")
     }
   }
+
+
   return (
     <section className="song-table container " ref={scrollContainerRef}>
       <div className={`table-header ${isSticky ? 'is-sticky' : ''}`}
@@ -170,7 +174,6 @@ export function SongsTable({
         ))}
       </ul>
 
-      <hr />
 
       <div className='search container'>
         <h1>Let's find something for your playlist</h1>
@@ -210,7 +213,12 @@ export function SongsTable({
 export function DropDown({ onAdd, onDelete, canDelete, song, stationId, stations }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const dispatch = useDispatch()
 
+  function onAddToQueue(ev, song) {
+    ev.stopPropagation()
+    dispatch({ type: ADD_TO_QUEUE, song: song })
+  }
   return (
     <div onClick={(ev) => ev.stopPropagation()}>
 
@@ -264,6 +272,12 @@ export function DropDown({ onAdd, onDelete, canDelete, song, stationId, stations
               <Remove className="icon small" />
               <button>Delete from this playlist</button>
             </div>}
+            <div className="option flex justify-between"
+              onMouseEnter={() => setIsSubMenuOpen(false)}
+              onClick={(ev) => { onAddToQueue(ev, song); setIsOpen(false); }}>
+              <AddToQueue className="icon small" />
+              <button style={{ marginInlineEnd: 'auto' }}>Add to queue</button>
+            </div>
           </div>
         }
       >

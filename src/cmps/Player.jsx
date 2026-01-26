@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED, TOGGLE_QUEUE_SHOW } from '../store/reducers/player.reducer.js';
+import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED, TOGGLE_QUEUE_SHOW, REMOVE_FROM_QUEUE } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -25,7 +25,8 @@ import { updateUser, updateUserOptimistic } from '../store/actions/user.actions.
 import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js';
 import { showSuccessMsg } from '../services/event-bus.service.js';
 import { searchMusicService } from '../services/searchMusic.service.js';
-import { getRandomIntInclusive } from '../services/util.service.js';
+import { getRandomIntInclusive, shuffleArray } from '../services/util.service.js';
+import { SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
 
 
 export function Player() {
@@ -37,6 +38,7 @@ export function Player() {
         (storeState) => storeState.stationModule,
     );
 
+    const lastIdx = useRef()
     const dispatch = useDispatch()
     const min = 0;
     const max = 1;
@@ -88,8 +90,15 @@ export function Player() {
     };
 
     function onToggleShuffle() {
+        if (nowPlayingStationId && !shuffle) {
+            const shuffledPlaylist = shuffleArray(stationSongs)
+            dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
+        } else if (nowPlayingStationId && shuffle) {
+            dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+        }
         dispatch({ type: TOGLLE_SHUFFLE })
     }
+
 
     function onToggleLoop() {
         dispatch({ type: TOGLLE_LOOP })
@@ -97,41 +106,40 @@ export function Player() {
 
     function onPlayNext() {
         let nextSongIdx
-        const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
-
+        if (queue.length > 0) {
+            onPlayFromQueue()
+            return
+        }
         if (loop) {
             onPlayLoop()
             return
-        }
-        else if (shuffle) {
-            nextSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            while (nextSongIdx === currentIdx) {
-                nextSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            }
         } else {
-            nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
+            if (lastIdx.current) nextSongIdx = lastIdx.current + 1
+            else nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
+            lastIdx.current = null
             if (stationSongs.length === nextSongIdx) nextSongIdx = 0
         }
         onPlaySearchedResult(stationSongs[nextSongIdx])
     }
 
+    function onPlayFromQueue() {
+        if (!lastIdx.current) lastIdx.current = stationSongs.findIndex(s => s.id === nowPlaying.id)
+        onPlaySearchedResult(queue[0])
+        dispatch({ type: REMOVE_FROM_QUEUE, song: queue[0] })
+    }
+
     function onPlayPrev() {
+        console.log(stationSongs)
         let prevSongIdx
         const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
+        prevSongIdx = currentIdx - 1
+        if (prevSongIdx === -1) prevSongIdx = stationSongs.length - 1
 
-        if (shuffle) {
-            prevSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            while (prevSongIdx === currentIdx) {
-                prevSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            }
-        } else {
-            let prevSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) - 1
-            if (prevSongIdx === -1) prevSongIdx = stationSongs.length - 1
-        }
         onPlaySearchedResult(stationSongs[prevSongIdx])
     }
 
     async function onPlaySearchedResult(search) {
+        console.log(search)
         let song = search
 
         if (!search.src) {
