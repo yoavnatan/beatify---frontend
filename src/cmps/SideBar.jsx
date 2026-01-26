@@ -205,13 +205,13 @@ export function SideBar() {
                         <LongTxt txt={artistBio} />
                     </article>
                     {queueShown && <div className="queue">
-                        <header className="flex" onClick={handleCloseBar}>
+                        <header style={{ marginBottom: '1em' }} className="flex" onClick={handleCloseBar}>
                             <Tippy content={'Collapse sidebar'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                 <span className="tooltip-wrapper">
                                     <Collapse className="icon small collapse-side" style={{ rotate: '180deg' }} />
                                 </span>
                             </Tippy>
-                            <h1>Queue</h1>
+                            <h1 >Queue</h1>
                         </header>
                         <h3>Now Playing</h3>
                         <div className="result-item">
@@ -230,7 +230,8 @@ export function SideBar() {
                             </div>
 
                         </div>
-                        <h3>From queue</h3>
+                        <h2 >Next</h2>
+                        {queue.length > 0 && <h3 >From queue</h3>}
                         <ul>
                             {queue.map(song => (
                                 <li key={song.id} className="result-item">

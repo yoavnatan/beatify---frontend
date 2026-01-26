@@ -2,15 +2,29 @@ import { useEffect, useRef, useState } from "react"
 import Arrow from "../assets/svg/nav-arrow.svg?react"
 import Play from "../assets/svg/play.svg?react"
 import { useNavigate } from "react-router"
+import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer"
+import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from "../store/reducers/station.reducer"
+import { useDispatch, useSelector } from "react-redux"
+import { searchMusicService } from "../services/searchMusic.service"
+import { updateStation } from "../store/actions/station.actions"
+import Pause from "../assets/svg/pause.svg?react";
+import { setSong } from "../store/actions/player.actions"
 
 export function StationCarousel({ stations }) {
     const listRef = useRef()
     const navigate = useNavigate()
+    const dispatch = useDispatch();
 
     const [showLeftArrow, setShowLeftArrow] = useState(false)
     const [showRightArrow, setShowRightArrow] = useState(true)
     const [fadeLeft, setFadeLeft] = useState(0)
     const [fadeRight, setFadeRight] = useState(1)
+    const { playing, nowPlaying, lastClickedSong } = useSelector(
+        (storeState) => storeState.playerModule,
+    );
+    const { nowPlaying: nowPlayingStationId } = useSelector(
+        (storeState) => storeState.stationModule,
+    );
 
     function onScrollEvent() {
         if ((listRef.current.scrollWidth - (listRef.current.scrollLeft + listRef.current.offsetWidth + 1)) / 100 <= 1) setFadeRight((listRef.current.scrollWidth - (listRef.current.scrollLeft + listRef.current.offsetWidth + 1)) / 100)
@@ -45,6 +59,34 @@ export function StationCarousel({ stations }) {
     function onChooseStation(station) {
         navigate(`station/${station._id}`)
     }
+
+    async function onPlaySearchedResult(search, station) {
+        let song = search
+
+        if (!search.src) {
+            song = await searchMusicService.getYoutubeURL(search)
+            const songsToUpdate = stations.find(s => s._id === station._id).songs.map(s =>
+                s.id === song.id ? { ...s, src: song.src } : s
+            )
+            if (station._id !== 'likedSongs') {
+                const stationToUpdate = { ...station, songs: songsToUpdate }
+                await updateStation(stationToUpdate)
+            }
+        }
+
+        const prev = lastClickedSong
+        dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+
+        if (prev?.id === song.id) {
+            dispatch({ type: TOGGLE_PLAY })
+        } else {
+            setSong(song)
+            dispatch({ type: PLAY })
+            dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+            dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
+        }
+    }
+
     return (
 
         <section className="station-carousel" >
@@ -79,8 +121,29 @@ export function StationCarousel({ stations }) {
                                     alt={station.name}
                                     onClick={() => onChooseStation(station)}
                                 />
-                                <div className="btn-play">
-                                    <Play className="icon small-medium black" />
+                                <div
+                                    className="btn-play"
+                                    onClick={() => {
+                                        dispatch({ type: SET_LAST_CLICKED, lastClickedSong: nowPlaying });
+                                        if (station._id === nowPlayingStationId) {
+                                            dispatch({ type: TOGGLE_PLAY });
+                                        } else {
+                                            onPlaySearchedResult(station.songs[0], station)
+                                            dispatch({ type: PLAY });
+                                        }
+
+                                        dispatch({
+                                            type: SET_NOW_PLAYING_STATION,
+                                            nowPlaying: station._id,
+                                        });
+                                    }}
+                                >
+                                    {(station._id !== nowPlayingStationId || !playing) && (
+                                        <Play className="icon small-medium black" />
+                                    )}
+                                    {station._id === nowPlayingStationId && playing && (
+                                        <Pause className="icon small-medium black" />
+                                    )}
                                 </div>
                             </div>
 

@@ -174,7 +174,6 @@ export function SongsTable({
         ))}
       </ul>
 
-      <hr />
 
       <div className='search container'>
         <h1>Let's find something for your playlist</h1>

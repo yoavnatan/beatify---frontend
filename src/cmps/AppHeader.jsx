@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
 import Broswe from "../assets/svg/browse.svg?react"
+import BrosweActive from "../assets/svg/browser-active.svg?react"
 import Home from "../assets/svg/home.svg?react"
 import HomeActive from "../assets/svg/home-active.svg?react"
 import Search from "../assets/svg/search.svg?react"
@@ -147,7 +148,8 @@ export function AppHeader() {
                             />
                         </form>
                         <NavLink to="/browse" className="broswe-wrapper">
-                            <Broswe className="icon medium" />
+                            {(location.pathname !== '/browse') && <Broswe className="icon medium" />}
+                            {(location.pathname === '/browse') && <BrosweActive className="icon medium active" />}
                         </NavLink>
                         <div ref={resRef} className={`search-result container ${isResultsOpen ? "open" : ''}`}>
                             {!search && <div>
