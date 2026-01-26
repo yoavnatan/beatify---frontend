@@ -239,8 +239,8 @@ export function SideBar() {
                             <div className={`like-icon ${user.likedSongs.includes(nowPlaying.id) ? 'on' : ''}`}>
                                 <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                     <span className="tooltip-wrapper">
-                                        {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={(ev) => likeSong(ev, nowPlaying.id)} />}
-                                        {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={(ev) => likeSong(ev, nowPlaying.id)} />}
+                                        {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
                                     </span>
                                 </Tippy>
                             </div>
