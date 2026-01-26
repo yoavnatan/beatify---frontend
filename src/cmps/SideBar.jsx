@@ -41,7 +41,6 @@ export function SideBar() {
         const bio = await searchMusicService.getArtistBio(nowPlaying.artist.name)
         setArtistBio(bio)
     }
-    console.log(nowPlaying)
 
     function onMouseDown(e) {
         e.preventDefault()
@@ -139,6 +138,10 @@ export function SideBar() {
 
     const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
 
+    const displayedSongs = [];
+    for (let i = 1; i <= 5; i++) {
+        displayedSongs.push(stationSongs[(currentIdx + i) % stationSongs.length]);
+    }
 
     return (
         <>
@@ -208,16 +211,19 @@ export function SideBar() {
                                 <div className="song-title">{nowPlaying.title}</div>
                                 <div className="song-artist">{nowPlaying.artist.name}</div>
                             </div>
-                            <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                                <span className="tooltip-wrapper">
-                                    {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
-                                    {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
-                                </span>
-                            </Tippy>
+                            <div className={`like-icon ${user.likedSongs.includes(nowPlaying.id) ? 'on' : ''}`}>
+                                <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                    <span className="tooltip-wrapper">
+                                        {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                    </span>
+                                </Tippy>
+                            </div>
+
                         </div>
                         <ul>
                             {queue.map(song => (
-                                <li className="result-item">
+                                <li key={song.id} className="result-item">
                                     <img className="song-img" src={song.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
                                     <div className="song-info">
                                         <div className="song-title">{song.title}</div>
@@ -228,22 +234,24 @@ export function SideBar() {
                         </ul>
                         <h3>From station</h3>
                         <ul>
-                            {stationSongs.slice(currentIdx + 1, 7).map(song => (
-                                <li className="result-item">
-                                    <img className="song-img" src={song.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
-                                    <div className="song-info">
-                                        <div className="song-title">{song.title}</div>
-                                        <div className="song-artist">{song.artist.name}</div>
-                                    </div>
-                                    <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
-                                        <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                                            <span className="tooltip-wrapper">
-                                                {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
-                                                {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
-                                            </span>
-                                        </Tippy>
-                                    </div>
-                                </li>))}
+                            {displayedSongs.map
+
+                                (song => (
+                                    <li key={song.id} className="result-item">
+                                        <img className="song-img" src={song.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                                        <div className="song-info">
+                                            <div className="song-title">{song.title}</div>
+                                            <div className="song-artist">{song.artist.name}</div>
+                                        </div>
+                                        <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
+                                            <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                                <span className="tooltip-wrapper">
+                                                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
+                                                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
+                                                </span>
+                                            </Tippy>
+                                        </div>
+                                    </li>))}
                         </ul>
 
                     </div>}

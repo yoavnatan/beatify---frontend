@@ -33,7 +33,7 @@ import { stationService } from "../services/station";
 export function StationDetails() {
   const navigate = useNavigate();
   const { stationId } = useParams();
-  const { station, stations } = useSelector((storeState) => storeState.stationModule);
+  const { station, stations, stationSongs } = useSelector((storeState) => storeState.stationModule);
   const { playing, nowPlaying, lastClickedSong } = useSelector(
     (storeState) => storeState.playerModule,
   );
@@ -145,7 +145,6 @@ export function StationDetails() {
       dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
     }
   }
-  console.log(station)
   if (!station) return <div>Loading...</div>;
   const stationImg =
     station._id === "likedSongs"
@@ -172,6 +171,7 @@ export function StationDetails() {
     }
 
     await removeSong(stationId, songId);
+    dispatch({ type: SET_STATION_SONGS, stationSongs: stationSongs.filter(song => song.id !== songId) })
     showSuccessMsg("Song removed from playlist");
   }
 

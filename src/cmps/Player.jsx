@@ -25,7 +25,8 @@ import { updateUser, updateUserOptimistic } from '../store/actions/user.actions.
 import { loadStation, loadStations, updateStation } from '../store/actions/station.actions.js';
 import { showSuccessMsg } from '../services/event-bus.service.js';
 import { searchMusicService } from '../services/searchMusic.service.js';
-import { getRandomIntInclusive } from '../services/util.service.js';
+import { getRandomIntInclusive, shuffleArray } from '../services/util.service.js';
+import { SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
 
 
 export function Player() {
@@ -88,8 +89,15 @@ export function Player() {
     };
 
     function onToggleShuffle() {
+        if (nowPlayingStationId && !shuffle) {
+            const shuffledPlaylist = shuffleArray(stationSongs)
+            dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
+        } else if (nowPlayingStationId && shuffle) {
+            dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+        }
         dispatch({ type: TOGLLE_SHUFFLE })
     }
+
 
     function onToggleLoop() {
         dispatch({ type: TOGLLE_LOOP })
@@ -102,12 +110,6 @@ export function Player() {
         if (loop) {
             onPlayLoop()
             return
-        }
-        else if (shuffle) {
-            nextSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            while (nextSongIdx === currentIdx) {
-                nextSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            }
         } else {
             nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
             if (stationSongs.length === nextSongIdx) nextSongIdx = 0
@@ -116,22 +118,17 @@ export function Player() {
     }
 
     function onPlayPrev() {
+        console.log(stationSongs)
         let prevSongIdx
         const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
+        prevSongIdx = currentIdx - 1
+        if (prevSongIdx === -1) prevSongIdx = stationSongs.length - 1
 
-        if (shuffle) {
-            prevSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            while (prevSongIdx === currentIdx) {
-                prevSongIdx = getRandomIntInclusive(0, stationSongs.length - 1)
-            }
-        } else {
-            let prevSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) - 1
-            if (prevSongIdx === -1) prevSongIdx = stationSongs.length - 1
-        }
         onPlaySearchedResult(stationSongs[prevSongIdx])
     }
 
     async function onPlaySearchedResult(search) {
+        console.log(search)
         let song = search
 
         if (!search.src) {
