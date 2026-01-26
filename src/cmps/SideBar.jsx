@@ -160,17 +160,17 @@ export function SideBar() {
         dispatch({ type: REMOVE_FROM_QUEUE, song: song })
     }
 
-    async function onPlayFromQueue(search, station) {
+    async function onPlayFromQueue(search, stationId) {
         let song = search
 
         if (!search.src) {
             song = await searchMusicService.getYoutubeURL(search)
-            if (station) {
-                const songsToUpdate = stations.find(s => s._id === station._id).songs.map(s =>
+            if (stationId) {
+                const songsToUpdate = stations.find(s => s._id === stationId).songs.map(s =>
                     s.id === song.id ? { ...s, src: song.src } : s
                 )
                 if (station._id !== 'likedSongs') {
-                    const stationToUpdate = { ...station, songs: songsToUpdate }
+                    const stationToUpdate = { ...stations.find(s => s._id === stationId), songs: songsToUpdate }
                     await updateStation(stationToUpdate)
                 }
             }
@@ -187,6 +187,8 @@ export function SideBar() {
             // dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
         }
     }
+
+
 
     const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
 
@@ -296,7 +298,7 @@ export function SideBar() {
                                     <div className={`delete-icon`}>
                                         <Tippy content={'Remove from queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                             <span className="tooltip-wrapper">
-                                                <Delete className="icon small" onClick={(ev) => onRemoveFromQueue(ev, song)} />
+                                                <Delete className="icon small" style={{ marginInlineStart: '1em' }} onClick={(ev) => onRemoveFromQueue(ev, song)} />
                                             </span>
                                         </Tippy>
                                     </div>
@@ -308,7 +310,7 @@ export function SideBar() {
                             {displayedSongs.map
 
                                 (song => (
-                                    <li key={song.id} className="result-item">
+                                    <li key={song.id} className="result-item" onClick={() => onPlayFromQueue(song, nowPlayingStationId)}>
                                         <img className="song-img" src={song.album.cover_big} />
                                         <div className="song-info">
                                             <div className="song-title">{song.title}</div>

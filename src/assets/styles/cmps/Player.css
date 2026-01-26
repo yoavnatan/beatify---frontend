@@ -29,6 +29,7 @@
             text-overflow: ellipsis;
             color: var(--sp-white);
             font-size: 13px;
+            width: 200px;
         }
 
         .artist-name {

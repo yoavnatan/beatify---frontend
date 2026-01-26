@@ -26,7 +26,7 @@ import { loadStation, loadStations, updateStation } from '../store/actions/stati
 import { showSuccessMsg } from '../services/event-bus.service.js';
 import { searchMusicService } from '../services/searchMusic.service.js';
 import { getRandomIntInclusive, shuffleArray } from '../services/util.service.js';
-import { SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
+import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
 
 
 export function Player() {
@@ -161,7 +161,7 @@ export function Player() {
         } else {
             setSong(song)
             dispatch({ type: PLAY })
-            dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+            // dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
         }
     }
 
