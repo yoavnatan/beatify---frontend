@@ -15,7 +15,7 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr 40px .5fr .1fr 40px;
+  grid-template-columns: 40px 2fr 1fr 40px .5fr 20px 40px;
   align-items: center;
   padding: 12px 45px;
   position: sticky;
@@ -27,6 +27,13 @@
 
   background-color: transparent;
   border-bottom: 1px solid var(--sp-border);
+
+  @media(max-width:900px) {
+
+    grid-template-columns: 40px 2fr 1fr 40px 40px;
+
+  }
+
 }
 
 .table-header.is-sticky {
@@ -34,10 +41,7 @@
   border-bottom: 1px solid var(--sp-border);
 }
 
-.table-header .col:nth-child(5) {
-  display: flex;
-  justify-content: flex-end;
-}
+
 
 .col-index {
   font-size: var(--fs-h2);
@@ -59,10 +63,31 @@
 
 .song-row-inner {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr 40px .5fr .1fr 40px;
+  grid-template-columns: 40px 2fr 1fr 40px .5fr 20px 40px;
   height: 54px;
   align-items: center;
   padding-inline: 1em;
+
+  @media(max-width:900px) {
+
+    grid-template-columns: 40px 2fr 1fr 40px 40px;
+
+  }
+
+
+}
+
+.song-date,
+.col.date {
+  margin-inline-end: 1em;
+}
+
+@media(max-width:900px) {
+
+  .song-date,
+  .col.date {
+    display: none;
+  }
 }
 
 .song-row:hover .song-row-inner {
@@ -122,9 +147,6 @@
   overflow: hidden;
 }
 
-.col.date {
-  margin-inline-end: auto;
-}
 
 .song-title:hover,
 .song-artist:hover,

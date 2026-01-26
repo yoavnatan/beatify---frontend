@@ -181,6 +181,10 @@
         background-color: var(--sp-green);
     }
 
+    .queue-icon.on::after {
+        bottom: -8px;
+    }
+
     .tooltip {
         position: relative;
         overflow: visible;

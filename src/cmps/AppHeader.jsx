@@ -102,6 +102,7 @@ export function AppHeader() {
 
     async function onSubmitSearch(ev) {
         ev.preventDefault()
+        if (!search) return
         const artistResults = await searchMusicService.searchArtist(search)
         {
             saveToStorage('recent-search', [search, ...recentSearch])
@@ -135,7 +136,7 @@ export function AppHeader() {
                         {(location.pathname !== '/') && <Home className="icon medium" />}
                     </NavLink>
                     <div className="search-wrapper">
-                        <Search className="icon medium icon-search" />
+                        <Search className="icon medium icon-search" onClick={onSubmitSearch} />
                         <form onSubmit={onSubmitSearch} className="main-search-input"
                         >
                             <input value={search}
@@ -174,8 +175,8 @@ export function AppHeader() {
                                     <li key={res.id} className="result-item">
                                         <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/220x220.jpg`} onClick={() => onPlaySearchedResult(res)} />
                                         <div>
-                                            <div className="song-title">{res.title}</div>
-                                            <div className="song-artist">{res.artist.name}</div>
+                                            <div className="song-title" onClick={() => onPlaySearchedResult(res)}>{res.title}</div>
+                                            <div className="song-artist" onClick={() => onPlaySearchedResult(res)}>{res.artist.name}</div>
                                         </div>
 
                                     </li>

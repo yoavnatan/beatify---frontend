@@ -33,7 +33,7 @@ export function Player() {
 
     const playerRef = useRef(null);
     const { user } = useSelector(storeState => storeState.userModule)
-    let { playing, nowPlaying, src, seeking, played, volume, muted, shuffle, lastVolume, loop, queue, lastClickedSong } = useSelector(storeState => storeState.playerModule)
+    let { playing, nowPlaying, src, seeking, played, volume, muted, shuffle, lastVolume, loop, queue, queueShown, lastClickedSong } = useSelector(storeState => storeState.playerModule)
     const { stationSongs, stations, nowPlaying: nowPlayingStationId } = useSelector(
         (storeState) => storeState.stationModule,
     );
@@ -313,12 +313,13 @@ export function Player() {
             </div>
 
             <div className="volume-controls flex align-center">
-                <Tippy content={'Queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                    <span className="tooltip-wrapper">
-                        <Queue className="icon small" onClick={onToggleQueueShow} />
-                    </span>
-                </Tippy>
-
+                <div className={`queue-icon ${queueShown ? ' on' : ''}`}>
+                    <Tippy content={'Queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                        <span className="tooltip-wrapper">
+                            <Queue className="icon small" onClick={onToggleQueueShow} />
+                        </span>
+                    </Tippy>
+                </div>
                 <div className="inner-container">
                     <div className="volume-icon" onClick={onToggleMute}>
                         {volume === 0 &&

@@ -141,6 +141,7 @@ h3,
 .station-actions-wrapper {
   display: flex;
   align-items: center;
+  margin-inline-start: 5px;
   padding: 20px 0;
   gap: .1em;
 }
@@ -180,12 +181,6 @@ h3,
 }
 
 
-
-.table-header .col:nth-child(5) {
-  display: flex;
-  justify-content: flex-end;
-
-}
 
 .col-index {
   font-size: var(--fs-h2);

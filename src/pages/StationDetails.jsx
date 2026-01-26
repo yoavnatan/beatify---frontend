@@ -247,7 +247,7 @@ export function StationDetails() {
                 </Tippy>
 
                 <button className="shuffle-btn">
-                  <Shuffle className="icon medium" />
+                  <Shuffle className="icon medium-large" />
                 </button>
 
                 <Tippy
@@ -258,7 +258,7 @@ export function StationDetails() {
                 >
                   <span className="tooltip-wrapper">
                     <Delete
-                      className="icon medium"
+                      className="icon medium-large"
                       onClick={(ev) => deleteStation(ev, station._id)}
                     />
                   </span>
@@ -338,7 +338,7 @@ export function StationDetails() {
           </Tippy>
 
           <button className="shuffle-btn">
-            <Shuffle className="icon medium" />
+            <Shuffle className="icon medium-large" />
           </button>
           <Tippy
             content={"Delete"}
@@ -348,7 +348,7 @@ export function StationDetails() {
           >
             <span className="tooltip-wrapper">
               <Delete
-                className="icon medium"
+                className="icon medium-large"
                 onClick={(ev) => deleteStation(ev, station._id)}
               />
             </span>

@@ -87,6 +87,10 @@ object {
         width: 24px;
     }
 
+    &.medium-large {
+        width: 26px;
+    }
+
     &.active {
         fill: white;
     }

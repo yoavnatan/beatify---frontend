@@ -83,6 +83,8 @@
 }
 
 .sidebar header {
+    width: 200px;
+
     h1 {
         margin: 0;
     }
@@ -227,4 +229,35 @@
             border-radius: 4px;
         }
     }
+}
+
+.queue h1 {
+    font-size: var(--fs-h2);
+}
+
+.queue h3,
+h2 {
+    font-size: 1em;
+}
+
+
+.playing .song-title {
+    color: var(--sp-green)
+}
+
+.bio button {
+    width: min-content;
+    height: min-content;
+    padding: .5em 1em;
+    border-radius: 2em;
+    justify-self: end;
+    border: 1px var(--sp-white) solid;
+}
+
+.exit-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    padding: 1em;
 }

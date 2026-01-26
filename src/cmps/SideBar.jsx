@@ -7,6 +7,7 @@ import Delete from "../assets/svg/delete.svg?react";
 import { updateUser } from "../store/actions/user.actions";
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
+import Exit from "../assets/svg/exit.svg?react"
 import { searchMusicService } from "../services/searchMusic.service";
 import { LongTxt } from "../assets/styles/cmps/LongTxt";
 import { stationService } from "../services/station";
@@ -14,7 +15,8 @@ import { addStation } from "../store/actions/station.actions";
 import { useNavigate } from "react-router";
 import { showSuccessMsg } from "../services/event-bus.service";
 import { DropDown } from "../pages/SongsTable";
-import { REMOVE_FROM_QUEUE } from "../store/reducers/player.reducer";
+import { PLAY, REMOVE_FROM_QUEUE, SET_LAST_CLICKED, TOGGLE_PLAY, TOGGLE_QUEUE_SHOW } from "../store/reducers/player.reducer";
+import { setSong } from "../store/actions/player.actions";
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
@@ -22,10 +24,10 @@ export function SideBar() {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
-    const { queue, queueShown, playing, nowPlaying } = useSelector(
+    const { queue, queueShown, playing, nowPlaying, lastClickedSong } = useSelector(
         (storeState) => storeState.playerModule,
     )
-    const { stationSongs, nowPlaying: nowPlayingStationId } = useSelector(
+    const { stations, stationSongs, nowPlaying: nowPlayingStationId } = useSelector(
         (storeState) => storeState.stationModule,
     )
     const { user } = useSelector(storeState => storeState.userModule)
@@ -145,6 +147,47 @@ export function SideBar() {
         dispatch({ type: REMOVE_FROM_QUEUE, song: song })
     }
 
+    function onToggleQueueShow() {
+        dispatch({ type: TOGGLE_QUEUE_SHOW })
+    }
+
+    function onTogglePlay() {
+        dispatch({ type: TOGGLE_PLAY })
+    }
+
+    function onPlayQueueItem(song) {
+        onPlayFromQueue(song)
+        dispatch({ type: REMOVE_FROM_QUEUE, song: song })
+    }
+
+    async function onPlayFromQueue(search, station) {
+        let song = search
+
+        if (!search.src) {
+            song = await searchMusicService.getYoutubeURL(search)
+            if (station) {
+                const songsToUpdate = stations.find(s => s._id === station._id).songs.map(s =>
+                    s.id === song.id ? { ...s, src: song.src } : s
+                )
+                if (station._id !== 'likedSongs') {
+                    const stationToUpdate = { ...station, songs: songsToUpdate }
+                    await updateStation(stationToUpdate)
+                }
+            }
+        }
+
+        const prev = lastClickedSong
+        dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+
+        if (prev?.id === song.id) {
+            dispatch({ type: TOGGLE_PLAY })
+        } else {
+            setSong(song)
+            dispatch({ type: PLAY })
+            // dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
+        }
+    }
+
     const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
 
     const displayedSongs = [];
@@ -205,6 +248,8 @@ export function SideBar() {
                         <LongTxt txt={artistBio} />
                     </article>
                     {queueShown && <div className="queue">
+                        <div className="exit-btn" onClick={onToggleQueueShow} ><Exit className="icon small" /></div>
+
                         <header style={{ marginBottom: '1em' }} className="flex" onClick={handleCloseBar}>
                             <Tippy content={'Collapse sidebar'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                 <span className="tooltip-wrapper">
@@ -214,8 +259,8 @@ export function SideBar() {
                             <h1 >Queue</h1>
                         </header>
                         <h3>Now Playing</h3>
-                        <div className="result-item">
-                            <img className="song-img" src={nowPlaying.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                        <div className="result-item playing" onClick={onTogglePlay}>
+                            <img className="song-img" src={nowPlaying.album.cover_big} />
                             <div className="song-info">
                                 <div className="song-title">{nowPlaying.title}</div>
                                 <div className="song-artist">{nowPlaying.artist.name}</div>
@@ -234,8 +279,8 @@ export function SideBar() {
                         {queue.length > 0 && <h3 >From queue</h3>}
                         <ul>
                             {queue.map(song => (
-                                <li key={song.id} className="result-item">
-                                    <img className="song-img" src={song.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                                <li key={song.id} className="result-item" onClick={() => onPlayQueueItem(song)}>
+                                    <img className="song-img" src={song.album.cover_big} />
                                     <div className="song-info">
                                         <div className="song-title">{song.title}</div>
                                         <div className="song-artist">{song.artist.name}</div>
@@ -264,7 +309,7 @@ export function SideBar() {
 
                                 (song => (
                                     <li key={song.id} className="result-item">
-                                        <img className="song-img" src={song.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                                        <img className="song-img" src={song.album.cover_big} />
                                         <div className="song-info">
                                             <div className="song-title">{song.title}</div>
                                             <div className="song-artist">{song.artist.name}</div>
