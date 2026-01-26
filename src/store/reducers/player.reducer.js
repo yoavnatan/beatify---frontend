@@ -12,6 +12,8 @@ export const SET_NOW_PLAYING = 'SET_NOW_PLAYING'
 export const PLAY = 'PLAY'
 export const SET_LAST_CLICKED = 'SET_LAST_CLICKED'
 export const TOGGLE_QUEUE_SHOW = 'TOGGLE_QUEUE_SHOW'
+export const ADD_TO_QUEUE = 'ADD_TO_QUEUE'
+export const REMOVE_FROM_QUEUE = 'REMOVE_FROM_QUEUE'
 
 const initialState = {
     playing: false,
@@ -72,6 +74,12 @@ export function playerReducer(state = initialState, action) {
             break
         case TOGGLE_QUEUE_SHOW:
             newState = { ...state, queueShown: !state.queueShown }
+            break
+        case ADD_TO_QUEUE:
+            newState = { ...state, queue: [...state.queue, action.song] }
+            break
+        case REMOVE_FROM_QUEUE:
+            newState = { ...state, queue: state.queue.filter(s => s.id !== action.song.id) }
             break
         default:
     }

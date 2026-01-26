@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Arrow from "../assets/svg/nav-arrow.svg?react"
 import Collapse from "../assets/svg/collapse-library.svg?react"
 import Tippy from '@tippyjs/react';
+import Delete from "../assets/svg/delete.svg?react";
 import { updateUser } from "../store/actions/user.actions";
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
@@ -12,11 +13,14 @@ import { stationService } from "../services/station";
 import { addStation } from "../store/actions/station.actions";
 import { useNavigate } from "react-router";
 import { showSuccessMsg } from "../services/event-bus.service";
+import { DropDown } from "../pages/SongsTable";
+import { REMOVE_FROM_QUEUE } from "../store/reducers/player.reducer";
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
     const [artistBio, setArtistBio] = useState('')
     const navigate = useNavigate()
+    const dispatch = useDispatch();
 
     const { queue, queueShown, playing, nowPlaying } = useSelector(
         (storeState) => storeState.playerModule,
@@ -136,6 +140,11 @@ export function SideBar() {
         }
     }
 
+    function onRemoveFromQueue(ev, song) {
+        ev.stopPropagation()
+        dispatch({ type: REMOVE_FROM_QUEUE, song: song })
+    }
+
     const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
 
     const displayedSongs = [];
@@ -221,6 +230,7 @@ export function SideBar() {
                             </div>
 
                         </div>
+                        <h3>From queue</h3>
                         <ul>
                             {queue.map(song => (
                                 <li key={song.id} className="result-item">
@@ -228,6 +238,21 @@ export function SideBar() {
                                     <div className="song-info">
                                         <div className="song-title">{song.title}</div>
                                         <div className="song-artist">{song.artist.name}</div>
+                                    </div>
+                                    <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
+                                        <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                            <span className="tooltip-wrapper">
+                                                {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
+                                                {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
+                                            </span>
+                                        </Tippy>
+                                    </div>
+                                    <div className={`delete-icon`}>
+                                        <Tippy content={'Remove from queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                            <span className="tooltip-wrapper">
+                                                <Delete className="icon small" onClick={(ev) => onRemoveFromQueue(ev, song)} />
+                                            </span>
+                                        </Tippy>
                                     </div>
                                 </li>
                             ))}

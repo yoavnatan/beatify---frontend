@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED, TOGGLE_QUEUE_SHOW } from '../store/reducers/player.reducer.js';
+import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED, TOGGLE_QUEUE_SHOW, REMOVE_FROM_QUEUE } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -38,6 +38,7 @@ export function Player() {
         (storeState) => storeState.stationModule,
     );
 
+    const lastIdx = useRef()
     const dispatch = useDispatch()
     const min = 0;
     const max = 1;
@@ -105,16 +106,26 @@ export function Player() {
 
     function onPlayNext() {
         let nextSongIdx
-        const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
-
+        if (queue.length > 0) {
+            onPlayFromQueue()
+            return
+        }
         if (loop) {
             onPlayLoop()
             return
         } else {
-            nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
+            if (lastIdx.current) nextSongIdx = lastIdx.current + 1
+            else nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
+            lastIdx.current = null
             if (stationSongs.length === nextSongIdx) nextSongIdx = 0
         }
         onPlaySearchedResult(stationSongs[nextSongIdx])
+    }
+
+    function onPlayFromQueue() {
+        if (!lastIdx.current) lastIdx.current = stationSongs.findIndex(s => s.id === nowPlaying.id)
+        onPlaySearchedResult(queue[0])
+        dispatch({ type: REMOVE_FROM_QUEUE, song: queue[0] })
     }
 
     function onPlayPrev() {
