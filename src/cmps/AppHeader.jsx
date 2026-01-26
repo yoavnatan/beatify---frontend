@@ -20,6 +20,8 @@ import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import { CLEAR_RECENT_SEARCH, SET_ARTIST_RESULTS, SET_RESULTS, UPDATE_RECENT_SEARCH } from '../store/reducers/search.reducer.js'
 
+
+
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
     const [search, setSearch] = useState('')
@@ -33,13 +35,26 @@ export function AppHeader() {
     const navigate = useNavigate()
     const location = useLocation()
     const dispatch = useDispatch()
-
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
     const resRef = useRef()
+    const menuRef = useRef()
 
     useEffect(() => {
         // console.log(search)
         if (search) debouncedOnSearch(search)
     }, [search])
+
+
+    useEffect(() => {
+        function handleClickOutside(ev) {
+            if (menuRef.current && !menuRef.current.contains(ev.target)) {
+                setIsMenuOpen(false)
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
+
 
 
     async function onSearchMusic(search) {
@@ -183,23 +198,33 @@ export function AppHeader() {
                     </div>
                 </div>
 
-                <div className="nav-right">
-                    {!user && (
-                        <NavLink to="auth" className="login-link">
-                            Login
-                        </NavLink>
-                    )}
+                <div className="nav-right" ref={menuRef}>
 
-                    {user && (
-                        <div className="user-info">
-                            <Link to={`user/${user._id}`} className="user-link">
-                                {user.imgUrl && <img className='profile-pic' src={randomUserImg} alt="User" />}
-                            </Link>
-                            <button className='logout' onClick={onLogOut}>Logout</button>
+    {!user && (
+            <NavLink to="auth" className="login-link">
+                Login
+            </NavLink>
+        )}      
+    {user && (
+        <div className="user-menu-wrapper">
+                <img
+                    className="profile-pic"
+                    src={randomUserImg}
+                    alt="User"
+                    onClick={() => setIsMenuOpen(prev => !prev)}
+                />
 
-                        </div>
-                    )}
-                </div>
+                {isMenuOpen && (
+                    <div className="user-dropdown">
+                        <button className="dropdown-item" onClick={onLogOut}>
+                            Logout
+                        </button>
+                    </div>
+                )}
+            </div>
+            )}
+        </div>
+
 
             </nav>
         </header>
