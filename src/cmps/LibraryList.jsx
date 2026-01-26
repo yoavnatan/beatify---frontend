@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 import Playing from "../assets/svg/playing.svg?react"
-import { debounce } from "../services/util.service.js" 
+import { debounce } from  "../services/util.service.js" 
+import WhiteArrow from "../assets/svg/white-arrow.svg?react"
+import Play from "../assets/svg/play.svg?react"
 
 export function LibraryList({ searchTerm }) {
     const stations = useSelector(storeState => storeState.stationModule.stations)
@@ -84,6 +86,12 @@ export function LibraryList({ searchTerm }) {
                                     <Playing className="icon small" />
                                 )}
                             </div>
+                            <div className="icon-white-arrow">
+                                <WhiteArrow/>
+                            </div>
+                                <div className="green-play-icon">
+                                    <Play className="icon small-medium black" />
+                                </div>                            
                         </li>
                     )
                 })}

@@ -67,6 +67,19 @@ export function Library() {
             if (libraryRef.current) observer.unobserve(libraryRef.current)
         }
     }, [])
+    useEffect(() => {
+    function onExpandLibrary() {
+        setIsSearchOpen(true)
+        setTimeout(() => inputRef.current?.focus(), 150)
+    }
+
+    window.addEventListener("expand-library", onExpandLibrary)
+
+    return () => {
+        window.removeEventListener("expand-library", onExpandLibrary)
+    }
+}, [])
+
 
     function expandLibrary() {
         window.dispatchEvent(new CustomEvent("expand-library"))
@@ -137,56 +150,62 @@ export function Library() {
 
             </div>
 
-            <div className="library-filter">
-                <button>Playlists</button>
-                <button>Artists</button>
-            </div>
+            <div className="filter-search-wrapper">
 
-            <div
-                ref={searchWrapperRef}
-                className={`search-row ${isSearchOpen ? "open" : ""}`}
-            >
-                <div className="search-input-wrapper">
+                <div className="library-filter">
+                    <button>Playlists</button>
+                    <button>Artists</button>
+                </div>
 
-                    <Tippy
-                        content="Search In Your Library"
-                        delay={[300, 0]}
-                        offset={[0, 10]}
-                        arrow={false}
-                    >
-                        <span className="search-library-wrapper"
-                            onClick={() => {
-                                setIsSearchOpen(prev => {
-                                    const next = !prev
-                                    if (!prev) {
-                                        setTimeout(() => inputRef.current?.focus(), 150)
-                                    }
-                                    return next
-                                })
-                            }}
+                <div
+                    ref={searchWrapperRef}
+                    className={`search-row ${isSearchOpen ? "open" : ""}`}
+                >
+                    <div className="search-input-wrapper">
+
+                        <Tippy
+                            content="Search In Your Library"
+                            delay={[300, 0]}
+                            offset={[0, 10]}
+                            arrow={false}
                         >
-                            <Search className={`icon-medium ${isSearchOpen ? "open" : ""}`} />
-                        </span>
-                    </Tippy>
+                            <span className="search-library-wrapper"
+                                onClick={() => {
+                                    setIsSearchOpen(prev => {
+                                        const next = !prev
+                                        if (!prev) {
+                                            setTimeout(() => inputRef.current?.focus(), 150)
+                                        }
+                                        return next
+                                    })
+                                }}
+                            >
+                                <Search className={`icon-medium ${isSearchOpen ? "open" : ""}`} />
+                            </span>
+                        </Tippy>
 
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        placeholder="Search in Your Library"
-                        className={`search-input ${isSearchOpen ? "open" : ""}`}
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            placeholder="Search in Your Library"
+                            className={`search-input ${isSearchOpen ? "open" : ""}`}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
 
+                    </div>
+
+                    <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
+                        <label className={`label-recents ${isSearchOpen ? "hide" : ""}`}>
+                            Recents
+                        </label>
+                        <List className="list-icon" />
+                    </div>
                 </div>
 
-                <div className={`sort-wrapper ${isSearchOpen ? "open" : ""}`}>
-                    <label className={`label-recents ${isSearchOpen ? "hide" : ""}`}>
-                        Recents
-                    </label>
-                    <List className="list-icon" />
-                </div>
             </div>
+
+            
 
             <LibraryList searchTerm={searchTerm} />
         </div>
