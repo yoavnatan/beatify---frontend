@@ -120,7 +120,48 @@
     }
 }
 
+.queue .img-overlay {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    z-index: 2;
 
+    img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        opacity: 0;
+    }
+
+    .icon {
+        position: absolute;
+        z-index: 3;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        opacity: 0;
+    }
+}
+
+.result-item:hover .img-overlay {
+    &::after {
+        opacity: 1;
+    }
+
+    .icon {
+        opacity: 1;
+    }
+}
 
 .sidebar .now-playing-song img {
     width: 100%;

@@ -17,6 +17,8 @@ import { showSuccessMsg } from "../services/event-bus.service";
 import { DropDown } from "../pages/SongsTable";
 import { PLAY, REMOVE_FROM_QUEUE, SET_LAST_CLICKED, TOGGLE_PLAY, TOGGLE_QUEUE_SHOW } from "../store/reducers/player.reducer";
 import { setSong } from "../store/actions/player.actions";
+import WhiteArrow from "../assets/svg/white-arrow.svg?react"
+import Pause from "../assets/svg/pause.svg?react";
 
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
@@ -262,7 +264,11 @@ export function SideBar() {
                         </header>
                         <h3>Now Playing</h3>
                         <div className="result-item playing" onClick={onTogglePlay}>
-                            <img className="song-img" src={nowPlaying.album.cover_big} />
+                            <div className="img-overlay">
+                                {!playing && <WhiteArrow className="icon medium white" />}
+                                {playing && <Pause className="icon medium white" />}
+                                <img className="song-img" src={nowPlaying.album.cover_big} />
+                            </div>
                             <div className="song-info">
                                 <div className="song-title">{nowPlaying.title}</div>
                                 <div className="song-artist">{nowPlaying.artist.name}</div>
@@ -282,7 +288,10 @@ export function SideBar() {
                         <ul>
                             {queue.map(song => (
                                 <li key={song.id} className="result-item" onClick={() => onPlayQueueItem(song)}>
-                                    <img className="song-img" src={song.album.cover_big} />
+                                    <div className="img-overlay">
+                                        <WhiteArrow className="icon medium white" />
+                                        <img className="song-img" src={song.album.cover_big} />
+                                    </div>
                                     <div className="song-info">
                                         <div className="song-title">{song.title}</div>
                                         <div className="song-artist">{song.artist.name}</div>
@@ -311,7 +320,10 @@ export function SideBar() {
 
                                 (song => (
                                     <li key={song.id} className="result-item" onClick={() => onPlayFromQueue(song, nowPlayingStationId)}>
-                                        <img className="song-img" src={song.album.cover_big} />
+                                        <div className="img-overlay">
+                                            <WhiteArrow className="icon medium white" />
+                                            <img className="song-img" src={song.album.cover_big} />
+                                        </div>
                                         <div className="song-info">
                                             <div className="song-title">{song.title}</div>
                                             <div className="song-artist">{song.artist.name}</div>
