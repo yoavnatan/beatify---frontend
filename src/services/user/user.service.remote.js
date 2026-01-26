@@ -15,9 +15,7 @@ export const userService = {
     getEmptyCredentials,
     loginDefault
 }
-async function loginDefault() { 
-    return httpService.get('auth/default') 
-}
+
 
 function getUsers() {
     return httpService.get('user')
@@ -50,7 +48,14 @@ async function login(userCred) {
         throw new Error('Invalid credentials')
     }
 }
-
+async function loginDefault() {
+    try {
+        const user = await httpService.get('auth/default')
+        return saveLoggedinUser(user)
+    } catch (err) {
+        throw new Error('Failed to login default user')
+    }
+}
 
 async function signup(userCred) {
     if (!userCred.imgUrl) {
