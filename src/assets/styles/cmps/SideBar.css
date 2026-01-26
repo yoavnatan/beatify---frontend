@@ -212,7 +212,8 @@
             justify-self: end;
         }
 
-        .song-title {
+        .song-title,
+        .song-artist {
             min-width: 0;
             overflow: hidden;
             text-overflow: ellipsis;
