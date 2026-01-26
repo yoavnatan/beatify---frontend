@@ -307,7 +307,7 @@ export function SideBar() {
                                     <div className={`delete-icon`}>
                                         <Tippy content={'Remove from queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                             <span className="tooltip-wrapper">
-                                                <Delete className="icon small" style={{ marginInlineStart: '1em' }} onClick={(ev) => onRemoveFromQueue(ev, song)} />
+                                                <Delete className="icon small" style={{ marginInlineStart: 'auto' }} onClick={(ev) => onRemoveFromQueue(ev, song)} />
                                             </span>
                                         </Tippy>
                                     </div>

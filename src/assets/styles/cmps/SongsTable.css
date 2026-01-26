@@ -15,7 +15,7 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr 40px .5fr 20px 40px;
+  grid-template-columns: 40px 2fr 1fr 40px .5fr 40px 40px;
   align-items: center;
   padding: 12px 45px;
   position: sticky;
@@ -63,7 +63,7 @@
 
 .song-row-inner {
   display: grid;
-  grid-template-columns: 40px 2fr 1fr 40px .5fr 20px 40px;
+  grid-template-columns: 40px 2fr 1fr 40px .5fr 40px 40px;
   height: 54px;
   align-items: center;
   padding-inline: 1em;
@@ -76,6 +76,8 @@
 
 
 }
+
+.icon-options {}
 
 .song-date,
 .col.date {
