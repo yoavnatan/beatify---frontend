@@ -1,4 +1,4 @@
-import io from 'socket.io-client'
+import { io } from 'socket.io-client'
 import { userService } from './user'
 const { VITE_LOCAL, DEV } = import.meta.env
 
@@ -13,6 +13,7 @@ export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you'
 
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
+
 
 
 const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
