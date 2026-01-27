@@ -15,11 +15,15 @@ import { addStation } from "../store/actions/station.actions";
 import { useNavigate } from "react-router";
 import { showSuccessMsg } from "../services/event-bus.service";
 import { DropDown } from "../pages/SongsTable";
-import { PLAY, REMOVE_FROM_QUEUE, SET_LAST_CLICKED, TOGGLE_PLAY, TOGGLE_QUEUE_SHOW } from "../store/reducers/player.reducer";
+import { PLAY, REMOVE_FROM_QUEUE, SET_LAST_CLICKED, SET_QUEUE, TOGGLE_PLAY, TOGGLE_QUEUE_SHOW } from "../store/reducers/player.reducer";
 import { setSong } from "../store/actions/player.actions";
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Pause from "../assets/svg/pause.svg?react";
-
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { SortableQueueItem } from "./SortableQueueItem.jsx";
+import { SortableStationItem } from "./SortableStationItem.jsx";
 export function SideBar() {
     const [isBarOpen, SetIsBarOpen] = useState(false)
     const [artistBio, setArtistBio] = useState('')
@@ -49,6 +53,42 @@ export function SideBar() {
         const bio = await searchMusicService.getArtistBio(nowPlaying.artist.name)
         setArtistBio(bio)
     }
+
+    // DND
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 8, // עוזר להבדיל בין לחיצה לנגינה לבין גרירה
+            },
+        })
+    );
+
+    function handleDragEnd(event) {
+        const { active, over } = event;
+
+        if (active && over && active.id !== over.id) {
+            const oldIndex = queue.findIndex((song) => song.queueId === active.id);
+            const newIndex = queue.findIndex((song) => song.queueId === over.id);
+
+            const newQueue = arrayMove(queue, oldIndex, newIndex);
+
+            // כאן אנחנו מעדכנים את Redux
+            dispatch({ type: SET_QUEUE, queue: newQueue });
+        }
+    }
+
+    function handleStationDragEnd(event) {
+        const { active, over } = event;
+        if (active && over && active.id !== over.id) {
+            const oldIndex = stationSongs.findIndex(s => s.id === active.id);
+            const newIndex = stationSongs.findIndex(s => s.id === over.id);
+
+            const newStationSongs = arrayMove(stationSongs, oldIndex, newIndex);
+            // Dispatch לעדכון המערך המלא ב-Redux
+            dispatch({ type: 'SET_STATION_SONGS', stationSongs: newStationSongs });
+        }
+    }
+    //
 
     function onMouseDown(e) {
         e.preventDefault()
@@ -264,6 +304,7 @@ export function SideBar() {
                         </header>
                         <h3>Now Playing</h3>
                         <div className="result-item playing" onClick={onTogglePlay}>
+                            <div className="drag-handle"></div>
                             <div className="img-overlay">
                                 {!playing && <WhiteArrow className="icon medium white" />}
                                 {playing && <Pause className="icon medium white" />}
@@ -285,59 +326,56 @@ export function SideBar() {
                         </div>
                         <h2 >Next</h2>
                         {queue.length > 0 && <h3 >From queue</h3>}
-                        <ul>
-                            {queue.map(song => (
-                                <li key={song.id} className="result-item" onClick={() => onPlayQueueItem(song)}>
-                                    <div className="img-overlay">
-                                        <WhiteArrow className="icon medium white" />
-                                        <img className="song-img" src={song.album.cover_big} />
-                                    </div>
-                                    <div className="song-info">
-                                        <div className="song-title">{song.title}</div>
-                                        <div className="song-artist">{song.artist.name}</div>
-                                    </div>
-                                    <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
-                                        <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                                            <span className="tooltip-wrapper">
-                                                {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
-                                                {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
-                                            </span>
-                                        </Tippy>
-                                    </div>
-                                    <div className={`delete-icon`}>
-                                        <Tippy content={'Remove from queue'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                                            <span className="tooltip-wrapper">
-                                                <Delete className="icon small" style={{ marginInlineStart: 'auto' }} onClick={(ev) => onRemoveFromQueue(ev, song)} />
-                                            </span>
-                                        </Tippy>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                        <h3>From station</h3>
-                        <ul>
-                            {displayedSongs.map
 
-                                (song => (
-                                    <li key={song.id} className="result-item" onClick={() => onPlayFromQueue(song, nowPlayingStationId)}>
-                                        <div className="img-overlay">
-                                            <WhiteArrow className="icon medium white" />
-                                            <img className="song-img" src={song.album.cover_big} />
-                                        </div>
-                                        <div className="song-info">
-                                            <div className="song-title">{song.title}</div>
-                                            <div className="song-artist">{song.artist.name}</div>
-                                        </div>
-                                        <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
-                                            <Tippy content={`${user.likedSongs.includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
-                                                <span className="tooltip-wrapper">
-                                                    {!user.likedSongs.includes(song.id) && <Like className="icon small" onClick={() => likeSong(song.id)} />}
-                                                    {user.likedSongs.includes(song.id) && <Liked className="icon small" onClick={() => likeSong(song.id)} />}
-                                                </span>
-                                            </Tippy>
-                                        </div>
-                                    </li>))}
-                        </ul>
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleDragEnd}
+                            modifiers={[restrictToVerticalAxis]}
+                        >
+                            <SortableContext className='queue-drag'
+                                items={queue.map((song) => song.queueId)}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                <ul className="queue-list-container">
+                                    {queue.map((song) => (
+                                        <SortableQueueItem
+                                            key={song.queueId}
+                                            song={song}
+                                            user={user}
+                                            onPlayQueueItem={onPlayQueueItem}
+                                            likeSong={likeSong}
+                                            onRemoveFromQueue={onRemoveFromQueue}
+                                        />
+                                    ))}
+                                </ul>
+                            </SortableContext>
+                        </DndContext>
+                        <h3>From station</h3>
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleStationDragEnd}
+                            modifiers={[restrictToVerticalAxis]}
+                        >
+                            <SortableContext
+                                items={displayedSongs.map(s => s.id)}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                <ul className="station-list-container">
+                                    {displayedSongs.map(song => (
+                                        <SortableStationItem
+                                            key={song.id}
+                                            song={song}
+                                            user={user}
+                                            likeSong={likeSong}
+                                            onPlayFromQueue={onPlayFromQueue}
+                                            nowPlayingStationId={nowPlayingStationId}
+                                        />
+                                    ))}
+                                </ul>
+                            </SortableContext>
+                        </DndContext>
 
                     </div>}
                 </div>}

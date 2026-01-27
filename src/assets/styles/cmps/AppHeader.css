@@ -16,6 +16,39 @@
     }
   }
 
+  .img-overlay {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    z-index: 2;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2;
+      opacity: 0;
+    }
+
+    .icon {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      opacity: 0;
+    }
+  }
+
 
 }
 
@@ -119,6 +152,11 @@
 .search-wrapper:focus-within .icon-search {
   fill: white;
 
+}
+
+.icon-clear {
+  position: absolute;
+  right: 4em;
 }
 
 .search-wrapper i {
@@ -274,6 +312,7 @@
 
 .search-result.container {
   display: none;
+  position: relative;
 }
 
 .search-result.container.open,
@@ -283,10 +322,12 @@
   top: 53px;
   right: 0;
   width: inherit;
-  height: 40vh;
+  min-height: auto;
+  max-height: 40vh;
   overflow: auto;
   border-radius: 10px;
   padding-inline: 1em;
+  padding-bottom: 2.3em;
   background-color: var(--sp-card);
   z-index: 1000;
 }
@@ -301,13 +342,13 @@
   position: absolute;
   top: 45px;
   right: 0;
-  background: var(--sp-dark);            
-  border: 1px solid var(--sp-border);    
+  background: var(--sp-dark);
+  border: 1px solid var(--sp-border);
   border-radius: 6px;
   padding: 8px 0;
   width: 160px;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .dropdown-item {
@@ -317,12 +358,23 @@
   width: 100%;
   display: block;
   text-decoration: none;
-  font-size: var(--fs-small);              
+  font-size: var(--fs-small);
   font-family: var(--font-primary);
   line-height: var(--lh-normal);
   transition: background 0.15s ease;
 }
 
 .dropdown-item:hover {
-  background: var(--sp-hover);            
+  background: var(--sp-hover);
+}
+
+.btn-clear-recents {
+  width: max-content;
+  height: min-content;
+  padding: .5em 1em;
+  border-radius: 2em;
+  justify-self: end;
+  border: 1px var(--sp-white) solid;
+  position: absolute;
+  bottom: 1em;
 }
