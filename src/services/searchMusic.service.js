@@ -103,7 +103,7 @@ async function getSong(id) {
 
 async function getArtistBio(artist) {
     const API_KEY = import.meta.env.VITE_LASTFM_API_KEY
-    const API_URL = `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${API_KEY}&format=json`
+    const API_URL = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${API_KEY}&format=json`
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data.artist.bio.summary
