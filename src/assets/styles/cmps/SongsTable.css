@@ -313,6 +313,7 @@
   border-radius: 6px;
   font-size: var(--fs-small);
   font-family: var(--font-primary);
+  font-weight: 600;
   outline: none;
   color: var(--sp-white)
 }
