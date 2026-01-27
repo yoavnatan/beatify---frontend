@@ -35,7 +35,6 @@ export async function loadStation(stationId) {
     try {
         const station = await stationService.getById(stationId)
         station.color = await stationService.getAvgColor(station)
-        console.log(station)
         store.dispatch(getCmdSetStation(station))
     } catch (err) {
         console.log('Cannot load station', err)
@@ -53,9 +52,19 @@ export async function removeStation(stationId) {
         throw err
     }
 }
+export async function addStationToLibrary(user, stationId) {
+    const stations = store.getState().stationModule.stations
+    const stationToUpdate = stations.find(station => station._id === stationId)
+    try {
+        const updatedStation = await stationService.addStationToLibrary(user, stationId)
+        store.dispatch(getCmdUpdateStation(updatedStation))
+    } catch (err) {
+        console.log('Cannot add station to library', err)
+        throw err
+    }
+}
 
 export async function addSongToStation(song, stationId) {
-
     const stations = store.getState().stationModule.stations
     const stationToUpdate = stations.find(station => station._id === stationId)
     if (stationToUpdate.songs.find(s => s.id === song.id)) return
@@ -89,9 +98,7 @@ export async function removeSong(stationId, songId) {
 
 export async function addStation(station) {
     try {
-        console.log(station)
         const savedStation = await stationService.save(station)
-        console.log(savedStation)
         store.dispatch(getCmdAddStation(savedStation))
         return savedStation
     } catch (err) {
