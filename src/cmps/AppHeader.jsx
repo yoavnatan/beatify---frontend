@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-
+import WhiteArrow from "../assets/svg/white-arrow.svg?react"
+import Pause from "../assets/svg/pause.svg?react";
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
 import Broswe from "../assets/svg/browse.svg?react"
@@ -20,8 +21,10 @@ import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.re
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import { CLEAR_RECENT_SEARCH, SET_ARTIST_RESULTS, SET_RESULTS, UPDATE_RECENT_SEARCH } from '../store/reducers/search.reducer.js'
-import Tippy from "@tippyjs/react"
-
+import { ADD_TO_QUEUE } from "../store/reducers/player.reducer.js"
+import AddToQueue from "../assets/svg/queue-add.svg?react"
+import Tippy from '@tippyjs/react';
+import Exit from "../assets/svg/exit.svg?react"
 
 
 
@@ -32,7 +35,7 @@ export function AppHeader() {
     const { searchResults, recentSearch } = useSelector(storeState => storeState.searchModule)
 
     const [isResultsOpen, setIsResultsOpen] = useState(false)
-    const { lastClickedSong } = useSelector(storeState => storeState.playerModule)
+    const { playing, nowPlaying, lastClickedSong } = useSelector(storeState => storeState.playerModule)
 
     const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current
     const navigate = useNavigate()
@@ -73,7 +76,7 @@ export function AppHeader() {
         try {
             await logout()
             navigate('/')
-            showSuccessMsg(`Bye now`)
+            showSuccessMsg(`Bye for now`)
         } catch (err) {
             showErrorMsg('Cannot logout')
         }
@@ -117,6 +120,11 @@ export function AppHeader() {
         dispatch({ type: CLEAR_RECENT_SEARCH })
     }
 
+    function onAddToQueue(ev, song) {
+        ev.stopPropagation()
+        dispatch({ type: ADD_TO_QUEUE, song: song })
+    }
+
     async function onSubmitSearch(ev) {
         ev.preventDefault()
         if (!search) return
@@ -153,7 +161,21 @@ export function AppHeader() {
                         {(location.pathname !== '/') && <Home className="icon medium" />}
                     </NavLink>
                     <div className="search-wrapper">
-                        <Search className="icon medium icon-search" onClick={onSubmitSearch} />
+                        <Tippy content={'Search'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                            <span className="tooltip-wrapper">
+                                <Search className="icon medium icon-search" onClick={onSubmitSearch} />
+                            </span>
+                        </Tippy>
+                        {search && <Tippy content={'Clear'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                            <span className="tooltip-wrapper">
+                                <Exit className="icon small icon-clear" onClick={(ev) => {
+                                    ev.stopPropagation()
+                                    setSearch('')
+                                }
+                                } />
+                            </span>
+                        </Tippy>}
+
                         <form onSubmit={onSubmitSearch} className="main-search-input"
                         >
                             <input value={search}
@@ -173,7 +195,7 @@ export function AppHeader() {
                             {!search && <div>
                                 <h3 style={{ marginBlockStart: '1em' }}>Recent Searches</h3>
                                 <ul>
-                                    {recentSearch.length > 0 && recentSearch.slice(0, 4).map((res, idx) => <li className="result-item"
+                                    {recentSearch.length > 0 && recentSearch.slice(0, 3).map((res, idx) => <li className="result-item"
                                         key={idx}
                                         onClick={() => {
                                             setSearch(res)
@@ -190,12 +212,33 @@ export function AppHeader() {
                             <ul>
                                 {search && searchResults.length > 0 && searchResults.map(res => (
                                     <li key={res.id} className="result-item">
-                                        <img className="song-img" src={`https://e-cdns-images.dzcdn.net/images/cover/${res.md5_image}/220x220.jpg`} onClick={() => onPlaySearchedResult(res)} />
+
+                                        <div className="img-overlay" onClick={() => onPlaySearchedResult(res)}>
+                                            {(!playing || nowPlaying.id === res.id) &&
+                                                <Tippy content={'Play'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                                    <span className="tooltip-wrapper">
+                                                        <WhiteArrow className="icon medium white" />
+                                                    </span>
+                                                </Tippy>
+                                            }
+                                            {playing && nowPlaying.id === res.id &&
+                                                <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                                                    <span className="tooltip-wrapper">
+                                                        <Pause className="icon medium white" />
+                                                    </span>
+                                                </Tippy>
+                                            }
+                                            <img className="song-img" src={res.album.cover_big} onClick={() => onPlaySearchedResult(res)} />
+                                        </div>
                                         <div>
                                             <div className="song-title" onClick={() => onPlaySearchedResult(res)}>{res.title}</div>
                                             <div className="song-artist" onClick={() => onPlaySearchedResult(res)}>{res.artist.name}</div>
                                         </div>
-
+                                        <Tippy content={'Add to queue'} delay={[500, 0]} offset={[0, 0]} arrow={false} >
+                                            <span className="tooltip-wrapper">
+                                                <AddToQueue className="icon small" onClick={(ev) => onAddToQueue(ev, res)} style={{ marginInlineStart: 'auto', marginInlineEnd: '1em' }} />
+                                            </span>
+                                        </Tippy>
                                     </li>
                                 ))}
                             </ul>
@@ -205,32 +248,30 @@ export function AppHeader() {
 
                 <div className="nav-right" ref={menuRef}>
 
-    {!user && (
-            <NavLink to="auth" className="login-link">
-                Login
-            </NavLink>
-        )}      
-    {user && (
-        <div className="user-menu-wrapper">
-            <Tippy content={user.fullname} delay={[300, 0]} offset={[0, 10]} arrow={false} placement="bottom">
-                    <img
-                        className="profile-pic"
-                        src={randomUserImg}
-                        alt="User"
-                        onClick={() => setIsMenuOpen(prev => !prev)}
-                    />
-            </Tippy>
+                    {!user && (
+                        <NavLink to="auth" className="login-link">
+                            Login
+                        </NavLink>
+                    )}
+                    {user && (
+                        <div className="user-menu-wrapper">
+                            <img
+                                className="profile-pic"
+                                src={randomUserImg}
+                                alt="User"
+                                onClick={() => setIsMenuOpen(prev => !prev)}
+                            />
 
-                {isMenuOpen && (
-                    <div className="user-dropdown">
-                        <button className="dropdown-item" onClick={onLogOut}>
-                            Logout
-                        </button>
-                    </div>
-                )}
-            </div>
-            )}
-        </div>
+                            {isMenuOpen && (
+                                <div className="user-dropdown">
+                                    <button className="dropdown-item" onClick={onLogOut}>
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
 
 
             </nav>

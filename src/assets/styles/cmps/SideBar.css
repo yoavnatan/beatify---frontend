@@ -268,13 +268,15 @@
 
     .result-item {
         display: grid;
-        grid-template-columns: 56px minmax(0, 1fr) 20px 30px;
+        grid-template-columns: 20px 56px minmax(0, 1fr) 20px 30px;
         height: 54px;
         align-items: center;
-        margin: 1em;
+        margin: 1em .3em;
         min-width: 0%;
         overflow: hidden;
         white-space: nowrap;
+
+
 
         .like-icon {
             justify-self: end;
