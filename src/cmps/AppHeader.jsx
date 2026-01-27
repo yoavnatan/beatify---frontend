@@ -10,9 +10,10 @@ import { logout } from '../store/actions/user.actions'
 import Broswe from "../assets/svg/browse.svg?react"
 import BrosweActive from "../assets/svg/browser-active.svg?react"
 import Home from "../assets/svg/home.svg?react"
+import Logo from "../assets/svg/home.svg?react"
 import HomeActive from "../assets/svg/home-active.svg?react"
 import Search from "../assets/svg/search.svg?react"
-import logoImg from '../assets/img/logo_symbol.png'
+import logoImg from '../assets/img/logo.svg'
 import profileImg from '../assets/img/profile-pic.jpg'
 import { userService } from '../services/user/user.service.js'
 import { searchMusicService } from '../services/searchMusic.service.js'
@@ -150,6 +151,7 @@ export function AppHeader() {
                 <div className="nav-left">
                     <NavLink to="/" className="logo">
                         <img src={logoImg} alt="Logo" />
+                        {/* <Logo classna/> */}
                     </NavLink>
 
                     {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
@@ -255,15 +257,15 @@ export function AppHeader() {
                     )}
                     {user && (
                         <div className="user-menu-wrapper">
-                            
-                        <Tippy content={user.fullname} delay={[300, 0]} offset={[0, 5]} arrow={false} >
-                            <img
-                                className="profile-pic"
-                                src={randomUserImg}
-                                alt="User"
-                                onClick={() => setIsMenuOpen(prev => !prev)}
-                            />
-                        </Tippy>
+
+                            <Tippy content={user.fullname} delay={[300, 0]} offset={[0, 5]} arrow={false} >
+                                <img
+                                    className="profile-pic"
+                                    src={randomUserImg}
+                                    alt="User"
+                                    onClick={() => setIsMenuOpen(prev => !prev)}
+                                />
+                            </Tippy>
                             {isMenuOpen && (
                                 <div className="user-dropdown">
                                     <button className="dropdown-item" onClick={onLogOut}>
