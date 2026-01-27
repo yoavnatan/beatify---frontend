@@ -17,7 +17,7 @@
   display: grid;
   grid-template-columns: 40px 2fr 1fr 40px .5fr 40px 40px;
   align-items: center;
-  padding: 12px 45px;
+  padding: 12px 28px;
   position: sticky;
   top: 60px;
   z-index: 999;
@@ -57,7 +57,7 @@
 }
 
 .song-list {
-  padding: 2em;
+  padding: 1em;
   border-bottom: 1px solid var(--sp-border);
 
 
