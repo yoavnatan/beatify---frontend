@@ -86,9 +86,13 @@
 
 .logo img {
   width: 40px;
-  /* filter: brightness(0) invert(1); */
+  transition: transform .5s ease-in-out;
 
+  &:hover {
+    transform: rotate(365deg);
+  }
 }
+
 
 .nav-left a {
   color: var(--sp-light-gray);
