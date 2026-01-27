@@ -139,7 +139,7 @@ export function Library() {
                         </div>
                     </Tippy>
 
-                    <Tippy content="Open Your Library" delay={[300, 0]} offset={[10, -60]} arrow={false} placement="bottom">
+                    <Tippy content="Open Your Library" delay={[300, 0]} offset={[90, -34]} arrow={false} placement="bottom">
                         <div className="library-books-wrapper" onClick={expandLibraryToNormal}>
                             <OpenLibrary className="open-library-icon" />
                             <LibraryBooksShelves className="library-books-icon" />

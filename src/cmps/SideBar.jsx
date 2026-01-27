@@ -144,8 +144,8 @@ export function SideBar() {
 
     async function likeSong(ev, songId) {
         ev.stopPropagation()
-        const likedSongs = user.likedSongs
-        if (user.likedSongs.includes(songId)) {
+        const likedSongs = user?.likedSongs
+        if (user?.likedSongs?.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
             await updateUser(userToUpdate)
             showSuccessMsg('Song removed from Liked Songs')
@@ -171,8 +171,8 @@ export function SideBar() {
     }
 
     async function likeSong(songId) {
-        const likedSongs = user.likedSongs
-        if (user.likedSongs.includes(songId)) {
+        const likedSongs = user?.likedSongs
+        if (user?.likedSongs?.includes(songId)) {
             let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
             await updateUser(userToUpdate)
             showSuccessMsg('Song removed from Liked Songs')
@@ -276,11 +276,11 @@ export function SideBar() {
                                 <div className="song-title">{nowPlaying.title}</div>
                                 <div className="song-artist" onClick={(ev) => createArtistStation(ev, nowPlaying.artist)}>{nowPlaying.artist.name}</div>
                             </div>
-                            <div className={`like-icon ${user.likedSongs.includes(nowPlaying.id) ? 'on' : ''}`}>
-                                <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                            <div className={`like-icon ${user?.likedSongs?.includes(nowPlaying.id) ? 'on' : ''}`}>
+                                <Tippy content={`${user?.likedSongs?.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                     <span className="tooltip-wrapper">
-                                        {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
-                                        {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {!user?.likedSongs?.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {user?.likedSongs?.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
                                     </span>
                                 </Tippy>
                             </div>
@@ -314,11 +314,11 @@ export function SideBar() {
                                 <div className="song-title">{nowPlaying.title}</div>
                                 <div className="song-artist">{nowPlaying.artist.name}</div>
                             </div>
-                            <div className={`like-icon ${user.likedSongs.includes(nowPlaying.id) ? 'on' : ''}`}>
-                                <Tippy content={`${user.likedSongs.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                            <div className={`like-icon ${user?.likedSongs?.includes(nowPlaying.id) ? 'on' : ''}`}>
+                                <Tippy content={`${user?.likedSongs?.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                     <span className="tooltip-wrapper">
-                                        {!user.likedSongs.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
-                                        {user.likedSongs.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {!user?.likedSongs?.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {user?.likedSongs?.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
                                     </span>
                                 </Tippy>
                             </div>

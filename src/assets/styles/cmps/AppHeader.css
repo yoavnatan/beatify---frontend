@@ -303,11 +303,13 @@
 }
 
 .app-header .profile-pic {
-  width: 55px;
-  height: 55px;
+  width: var(--fs-extra-2-large);
+  height: var(--fs-extra-2-large);
   border-radius: 50%;
-  object-fit: cover;
-  border: 9px solid var(--sp-dark-2);
+  border: 6px solid var(--sp-dark-2);
+}
+.app-header .profile-pic:hover {
+  transform: scale(1.05);
 }
 
 .search-result.container {
