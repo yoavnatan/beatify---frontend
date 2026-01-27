@@ -20,6 +20,8 @@ import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.re
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
 import { CLEAR_RECENT_SEARCH, SET_ARTIST_RESULTS, SET_RESULTS, UPDATE_RECENT_SEARCH } from '../store/reducers/search.reducer.js'
+import Tippy from "@tippyjs/react"
+
 
 
 
@@ -210,12 +212,14 @@ export function AppHeader() {
         )}      
     {user && (
         <div className="user-menu-wrapper">
-                <img
-                    className="profile-pic"
-                    src={randomUserImg}
-                    alt="User"
-                    onClick={() => setIsMenuOpen(prev => !prev)}
-                />
+            <Tippy content={user.fullname} delay={[300, 0]} offset={[0, 10]} arrow={false} placement="bottom">
+                    <img
+                        className="profile-pic"
+                        src={randomUserImg}
+                        alt="User"
+                        onClick={() => setIsMenuOpen(prev => !prev)}
+                    />
+            </Tippy>
 
                 {isMenuOpen && (
                     <div className="user-dropdown">
