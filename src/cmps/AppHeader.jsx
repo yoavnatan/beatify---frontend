@@ -255,13 +255,15 @@ export function AppHeader() {
                     )}
                     {user && (
                         <div className="user-menu-wrapper">
+                            
+                        <Tippy content={user.fullname} delay={[300, 0]} offset={[0, 5]} arrow={false} >
                             <img
                                 className="profile-pic"
                                 src={randomUserImg}
                                 alt="User"
                                 onClick={() => setIsMenuOpen(prev => !prev)}
                             />
-
+                        </Tippy>
                             {isMenuOpen && (
                                 <div className="user-dropdown">
                                     <button className="dropdown-item" onClick={onLogOut}>
