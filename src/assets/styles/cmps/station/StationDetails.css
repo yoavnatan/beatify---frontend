@@ -62,7 +62,7 @@
   transition: opacity 0.15s linear;
 
   @media (max-width:600px) {
-    grid-template-columns: none;
+    grid-template-columns: 100px 150px;
   }
 }
 
