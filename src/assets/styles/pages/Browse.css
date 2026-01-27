@@ -31,3 +31,9 @@
         }
     }
 }
+
+@media (max-width:600px) {
+    .browse.container .main-browse {
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+}
