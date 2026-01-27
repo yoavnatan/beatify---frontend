@@ -11,10 +11,10 @@ import Exit from "../assets/svg/exit.svg?react"
 import { searchMusicService } from "../services/searchMusic.service";
 import { LongTxt } from "../assets/styles/cmps/LongTxt";
 import { stationService } from "../services/station";
-import { addStation } from "../store/actions/station.actions";
+import { addSongToStation, addStation } from "../store/actions/station.actions";
 import { useLocation, useNavigate } from "react-router";
 import { showSuccessMsg } from "../services/event-bus.service";
-import { DropDown } from "../pages/SongsTable";
+import { DropDown } from "../pages/SongsTable.jsx";
 import { PLAY, REMOVE_FROM_QUEUE, SET_LAST_CLICKED, SET_QUEUE, SHOW_QUEUE, TOGGLE_PLAY, TOGGLE_QUEUE_SHOW } from "../store/reducers/player.reducer";
 import { setSong } from "../store/actions/player.actions";
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
@@ -207,6 +207,11 @@ export function SideBar() {
         dispatch({ type: REMOVE_FROM_QUEUE, song: song })
     }
 
+    async function onAddSong(ev, song, stationId) {
+        ev.stopPropagation();
+        await addSongToStation(song, stationId);
+    }
+
     async function onPlayFromQueue(search, stationId) {
         let song = search
 
@@ -289,6 +294,13 @@ export function SideBar() {
                                     </span>
                                 </Tippy>
                             </div>
+                            <DropDown onAdd={onAddSong}
+                                canDelete={false}
+                                song={nowPlaying}
+                                stationId={''}
+                                stations={stations}
+
+                            />
                         </div>
                     </article>
                     <article className="artist-bio">

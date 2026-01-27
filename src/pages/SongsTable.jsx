@@ -214,6 +214,7 @@ export function DropDown({ onAdd, onDelete, canDelete, song, stationId, stations
   const [isOpen, setIsOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const dispatch = useDispatch()
+  const { user } = useSelector(storeState => storeState.userModule)
 
   function onAddToQueue(ev, song) {
     ev.stopPropagation()
@@ -245,7 +246,11 @@ export function DropDown({ onAdd, onDelete, canDelete, song, stationId, stations
               }}
               content={
                 <div className="options-menu submenu" onMouseLeave={() => setIsSubMenuOpen(false)}>
-                  {stations.slice(1, 5).map(station => (
+                  {stations.filter(station => {
+                    const createdByUser = station.createdBy?._id === user._id
+                    const likedByUser = station.likedByUsers?.some(u => u._id === user._id)
+                    return createdByUser || likedByUser
+                  }).map(station => (
                     <div key={station._id} className="option" onClick={(ev) => {
                       onAdd(ev, song, station._id); setIsOpen(false)
                       setIsSubMenuOpen(false)

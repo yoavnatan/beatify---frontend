@@ -10,8 +10,13 @@
     transition: none;
     margin-left: 6px;
     align-items: center;
+
     /* overflow-x: hidden; */
-    min-height: 0
+    min-height: 0;
+
+    .icon-options {
+        opacity: 1;
+    }
 }
 
 .resizer-handle {
@@ -257,7 +262,6 @@
 }
 
 .queue {
-    margin-top: 1em;
     position: absolute;
     inset: 0;
     height: 100%;
@@ -292,6 +296,8 @@
             display: block;
 
         }
+
+
 
         &:hover {
             background-color: var(--sp-hover);
@@ -333,4 +339,9 @@ h2 {
     top: 5px;
     right: 10px;
     padding: 1em;
+}
+
+.sidebar .queue header {
+    margin-top: 1em;
+    ;
 }

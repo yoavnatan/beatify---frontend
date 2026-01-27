@@ -1,7 +1,13 @@
 import { stationService } from '../../services/station/station.service.remote.js'
 import { store } from '../store.js'
-import { ADD_STATION, REMOVE_STATION, SET_STATIONS, SET_STATION, UPDATE_STATION, ADD_STATION_MSG, SET_STATION_SONGS } from '../reducers/station.reducer'
+import { ADD_STATION, REMOVE_STATION, SET_STATIONS, SET_STATION, UPDATE_STATION, ADD_STATION_MSG, SET_STATION_SONGS, SET_NOW_PLAYING_STATION } from '../reducers/station.reducer'
 import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer.js'
+import { searchMusicService } from '../../services/searchMusic.service.js'
+import { setSong } from './player.actions.js'
+import { PLAY, SET_LAST_CLICKED } from '../reducers/player.reducer.js'
+
+
+
 
 export async function loadStations(filterBy) {
     store.dispatch({ type: LOADING_START })
@@ -9,6 +15,10 @@ export async function loadStations(filterBy) {
     try {
         const stations = await stationService.query(filterBy)
         store.dispatch(getCmdSetStations(stations))
+        if (!store.getState().playerModule.nowPlaying.id) {
+            onPlayDefaultSong()
+        }
+
     } catch (err) {
         console.log('Cannot load stations', err)
         throw err
@@ -122,6 +132,29 @@ export async function addStationMsg(stationId, txt) {
         console.log('Cannot add station msg', err)
         throw err
     }
+}
+
+async function onPlayDefaultSong() {
+    let song = store.getState().stationModule.stations[0].songs[0]
+    const station = store.getState().stationModule.stations[0]
+    if (!song.src) {
+        song = await searchMusicService.getYoutubeURL(search)
+        const songsToUpdate = station.songs.map(s =>
+            s.id === song.id ? { ...s, src: song.src } : s
+        )
+        if (station._id !== 'likedSongs') {
+            const stationToUpdate = { ...station, songs: songsToUpdate }
+            await updateStation(stationToUpdate)
+        }
+    }
+
+    store.dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+
+    setSong(song)
+    // store.dispatch({ type: PLAY })
+    store.dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+    store.dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
+
 }
 
 // Command Creators:

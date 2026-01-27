@@ -111,17 +111,6 @@ export function StationDetails() {
   async function onPlaySearchedResult(search) {
     let song = search
 
-    // if (!user) {
-    //   if (!search.src) {
-    //     song = await searchMusicService.getYoutubeURL(search)
-    //   }
-
-    //   setSong(song)
-    //   dispatch({ type: PLAY })
-    //   dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-    //   return
-    // }
-
     if (!search.src) {
       song = await searchMusicService.getYoutubeURL(search)
       const songsToUpdate = station.songs.map(s =>

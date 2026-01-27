@@ -376,9 +376,7 @@
     padding: 0;
   }
 
-  .song-table.container .song-album {
-    /* display: none; */
-  }
+
 
   .song-table.container .icon-options {
     opacity: 1;
