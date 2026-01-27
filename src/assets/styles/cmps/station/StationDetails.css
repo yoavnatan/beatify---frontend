@@ -188,6 +188,17 @@ h3,
   transition: transform .15s ease;
   width: 54px;
 }
+.add-song-btn{
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  height: 54px;
+  justify-content: center;
+  transition: transform .15s ease;
+  width: 54px;
+}
 
 
 

@@ -20,7 +20,11 @@ export const stationService = {
     getArtistStation,
     getDefaultFilter,
     getAvgColors,
-    getGenreStation
+    getGenreStation,
+    addStationToLibrary
+}
+async function addStationToLibrary(user, stationId) {
+    return httpService.post(`${BASE_URL}${stationId}/addToLibrary`, { user })
 }
 
 async function query() {
@@ -33,11 +37,13 @@ function getById(stationId) {
 
 async function save(station) {
     if (station._id) {
-        return httpService.put(`${BASE_URL}${station._id}`, station)
+        return httpService.put(`station/${station._id}`, station)
     } else {
-        return httpService.post(BASE_URL, station)
+        return httpService.post('station', station)
     }
 }
+
+
 
 async function removeStation(stationId) {
     return httpService.delete(`${BASE_URL}${stationId}`)
