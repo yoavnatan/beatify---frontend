@@ -5,6 +5,7 @@ import { searchMusicService } from "../services/searchMusic.service";
 import { updateStation } from "../store/actions/station.actions";
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer";
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from "../store/reducers/station.reducer";
+import { setSong } from "../store/actions/player.actions";
 
 export function StationPreview({ station, gradient, setGradientColor }) {
 
@@ -26,7 +27,7 @@ export function StationPreview({ station, gradient, setGradientColor }) {
         setGradientColor('rgba(47, 38, 89, 0.9)')
     }
 
-    async function onPlaySearchedResult(ev, search) {
+    async function onPlaySearchedResult(search) {
         let song = search
 
         if (!search.src) {
