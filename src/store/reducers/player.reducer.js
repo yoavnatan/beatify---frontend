@@ -17,6 +17,7 @@ export const TOGGLE_QUEUE_SHOW = 'TOGGLE_QUEUE_SHOW'
 export const ADD_TO_QUEUE = 'ADD_TO_QUEUE'
 export const REMOVE_FROM_QUEUE = 'REMOVE_FROM_QUEUE'
 export const SET_QUEUE = 'SET_QUEUE'
+export const SHOW_QUEUE = 'SHOW_QUEUE'
 
 const initialState = {
     playing: false,
@@ -87,6 +88,9 @@ export function playerReducer(state = initialState, action) {
             break
         case SET_QUEUE:
             newState = { ...state, queue: action.queue }
+            break
+        case SHOW_QUEUE:
+            newState = { ...state, queueShown: true }
             break
         default:
     }

@@ -33,7 +33,8 @@ main {
 
   @media (max-width:600px) {
     grid-template-columns: auto;
-    margin-top: 75px;
+    /* margin-top: 75px; */
+    display: block;
   }
 
 }

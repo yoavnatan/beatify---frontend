@@ -1,0 +1,16 @@
+@media (max-width:600px) {
+    .library-wrapper {
+        display: none;
+    }
+
+    main.side-bar-collapsed aside.library-wrapper {
+        height: 50px;
+    }
+
+    .station-index.container .station-list {
+        grid-template-columns: 1fr;
+
+    }
+
+
+}

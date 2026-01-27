@@ -7,7 +7,10 @@
     align-items: center;
     user-select: none;
 
+    @media (max-width:600px) {
+        grid-template-columns: minmax(130px, auto) minmax(100px, 200px) minmax(10px, auto);
 
+    }
 
     .now-playing {
         display: grid;
@@ -66,6 +69,10 @@
     .progress-bar {
         flex: 1;
         min-width: 195px;
+
+        @media (max-width:600px) {
+            min-width: 100px;
+        }
     }
 
     .volume-bar {
@@ -91,6 +98,10 @@
         .inner-container:hover input[type="range"] {
             background-image: linear-gradient(#4CAF50, #4CAF50);
 
+        }
+
+        @media (max-width:600px) {
+            display: none;
         }
     }
 
@@ -210,6 +221,9 @@
         .timer {
             width: 50px;
 
+            @media (max-width:600px) {
+                display: none;
+            }
         }
 
         .timer:first-child {
@@ -226,5 +240,21 @@
 
     .like-button {
         align-self: center;
+    }
+}
+
+@media (max-width:600px) {
+    .player .now-playing img {
+        width: 40px;
+    }
+
+    .player .now-playing {
+        grid-template-columns: 40px minmax(0, 120px) 20px;
+
+    }
+
+    .controls>*:nth-child(2),
+    .controls>*:nth-child(4) {
+        display: none;
     }
 }

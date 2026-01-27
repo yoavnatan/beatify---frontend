@@ -12,10 +12,10 @@ import { searchMusicService } from "../services/searchMusic.service";
 import { LongTxt } from "../assets/styles/cmps/LongTxt";
 import { stationService } from "../services/station";
 import { addStation } from "../store/actions/station.actions";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { showSuccessMsg } from "../services/event-bus.service";
 import { DropDown } from "../pages/SongsTable";
-import { PLAY, REMOVE_FROM_QUEUE, SET_LAST_CLICKED, SET_QUEUE, TOGGLE_PLAY, TOGGLE_QUEUE_SHOW } from "../store/reducers/player.reducer";
+import { PLAY, REMOVE_FROM_QUEUE, SET_LAST_CLICKED, SET_QUEUE, SHOW_QUEUE, TOGGLE_PLAY, TOGGLE_QUEUE_SHOW } from "../store/reducers/player.reducer";
 import { setSong } from "../store/actions/player.actions";
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Pause from "../assets/svg/pause.svg?react";
@@ -29,6 +29,7 @@ export function SideBar() {
     const [artistBio, setArtistBio] = useState('')
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const location = useLocation()
 
     const { queue, queueShown, playing, nowPlaying, lastClickedSong } = useSelector(
         (storeState) => storeState.playerModule,
@@ -41,6 +42,7 @@ export function SideBar() {
     const sidebarRef = useRef()
 
     useEffect(() => {
+        if (location.pathname === '/queueMobile') dispatch({ type: SHOW_QUEUE })
         if (nowPlaying.id) handleOpenBar()
         if (nowPlaying.artist && nowPlaying.artist.name) onGetArtistBio()
     }, [nowPlaying])
@@ -133,6 +135,9 @@ export function SideBar() {
         if (!isBarOpen) {
             SetIsBarOpen(true)
             sidebarRef.current.style.width = `${300}px`;
+            if (location.pathname === "/queueMobile") sidebarRef.current.style.width = `98%`;
+
+
         }
     }
 
@@ -292,7 +297,7 @@ export function SideBar() {
                         <LongTxt txt={artistBio} />
                     </article>
                     {queueShown && <div className="queue">
-                        <div className="exit-btn" onClick={onToggleQueueShow} ><Exit className="icon small" /></div>
+                        {(location.pathname !== '/queueMobile') && <div className="exit-btn" onClick={onToggleQueueShow} ><Exit className="icon small" /></div>}
 
                         <header style={{ marginBottom: '1em' }} className="flex" onClick={handleCloseBar}>
                             <Tippy content={'Collapse sidebar'} delay={[500, 0]} offset={[0, 15]} arrow={false} >

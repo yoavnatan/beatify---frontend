@@ -5,6 +5,11 @@
   background-color: var(--app-background);
   font-family: var(--font-primary);
 
+  @media (max-width: 600px) {
+    width: 100vw;
+    padding: 8px 8px;
+  }
+
   .result-item {
     height: 80px;
     padding-inline-start: 10px;
@@ -14,6 +19,8 @@
       background-color: var(--sp-hover);
       border-radius: 4px;
     }
+
+
   }
 
   .img-overlay {
@@ -63,10 +70,18 @@
   display: flex;
   align-items: center;
   gap: 18px;
+
+  @media (max-width: 600px) {
+    display: block;
+  }
 }
 
 .logo {
   margin-inline-end: 2em;
+
+  @media (max-width: 600px) {
+    margin-inline-end: 0;
+  }
 }
 
 .logo img {
@@ -141,12 +156,12 @@
   }
 
   @media (max-width: 600px) {
-    position: absolute;
-    top: 80px;
-    /* width: 90vw; */
+    width: 250px;
     background-color: white;
     border-radius: 3px;
   }
+
+
 }
 
 .search-wrapper:focus-within .icon-search {
@@ -258,7 +273,7 @@
   color: var(--sp-white);
 }
 
-.icon-home {
+.app-header .icon-home {
   display: flex;
   justify-content: center;
   background-color: var(--sp-card);
@@ -281,7 +296,7 @@
   }
 }
 
-.broswe-wrapper {
+.app-header .broswe-wrapper {
   position: relative;
   height: 24px;
 
@@ -308,6 +323,7 @@
   border-radius: 50%;
   border: 6px solid var(--sp-dark-2);
 }
+
 .app-header .profile-pic:hover {
   transform: scale(1.05);
 }

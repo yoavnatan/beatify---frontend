@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from 'react-router'
+import { Routes, Route, Outlet, useNavigate, useLocation } from 'react-router'
 import { HomePage } from './pages/HomePage'
 import { StationIndex } from './pages/StationIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
@@ -21,9 +21,29 @@ import { use } from 'react'
 
 
 export function MainLayout() {
+    const navigate = useNavigate();
+    const BREAKPOINT = 600;
+    const location = useLocation()
+
+    useEffect(() => {
+
+        function handleResize() {
+            if (window.innerWidth >= BREAKPOINT) {
+                if (location.pathname === '/libraryMobile' || location.pathname === '/queueMobile') {
+                    navigate('/')
+                }
+            }
+        }
+        window.addEventListener('resize', handleResize)
+        handleResize()
+        return () => { window.removeEventListener('resize', handleResize) }
+
+    }, [navigate])
 
     useEffect(() => {
         loadStations()
+
+
         const handle = document.querySelector(".resize-handle")
         const main = document.querySelector("main")
         let startX = 0
@@ -89,12 +109,16 @@ export function MainLayout() {
         window.addEventListener("expand-library", expandLibrary)
         window.addEventListener("expand-library-to-normal", expandLibraryToNormal)
 
+
+
         return () => {
             handle.removeEventListener("mousedown", onMouseDown)
             window.removeEventListener("sidebar-collapsed", collapseSidebar)
             window.removeEventListener("expand-library", expandLibrary)
             window.removeEventListener("expand-library-to-normal", expandLibraryToNormal)
         }
+
+
     }, [])
 
     return (
@@ -125,12 +149,12 @@ export function RootCmp() {
     useEffect(() => {
         if (!user) {
             loginDefault()
-        }   
+        }
     }, [])
     return (
         <>
-            <UserMsg /> 
-            
+            <UserMsg />
+
             <Routes>
                 <Route path="/auth" element={<LoginSignUp />} />
 
@@ -140,7 +164,9 @@ export function RootCmp() {
                     <Route path="station/:stationId" element={<StationDetails />} />
                     <Route path="chat" element={<ChatApp />} />
                     <Route path="search" element={<Search />} />
-                <Route path="browse" element={<Browse />} />
+                    <Route path="libraryMobile" element={<Library />} />
+                    <Route path="queueMobile" element={<SideBar />} />
+                    <Route path="browse" element={<Browse />} />
                 </Route>
             </Routes>
         </>

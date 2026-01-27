@@ -57,31 +57,32 @@
     overflow-x: hidden;
     margin-top: 1em;
 }
+
 .sidebar-content::-webkit-scrollbar {
-  width: 8px;
-  border-radius: 8px;
+    width: 8px;
+    border-radius: 8px;
 }
 
 .sidebar-content::-webkit-scrollbar-thumb {
-  background: var(--sp-grey2);
-  border-radius: 8px;
+    background: var(--sp-grey2);
+    border-radius: 8px;
 
 }
 
 ::-webkit-scrollbar-track {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .station-index::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 .station-index::-webkit-scrollbar-thumb {
-  background: var(--sp-grey2)
+    background: var(--sp-grey2)
 }
 
 ::-webkit-scrollbar-track {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .side-bar-item h1 {
@@ -296,6 +297,10 @@
             background-color: var(--sp-hover);
             border-radius: 4px;
         }
+    }
+
+    @media (max-width: 600px) {
+        width: 90vw;
     }
 }
 

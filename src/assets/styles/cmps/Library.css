@@ -13,6 +13,7 @@
   height: 100%;
   overflow: visible;
   border-radius: 8px;
+
 }
 
 .library:hover .collapse-library {
@@ -441,15 +442,18 @@
 .sidebar-expend .tooltip-title {
   pointer-events: none;
 }
+
 .sidebar-expend .filter-search-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .sidebar-expend .label-recents {
   display: block;
 }
-.sidebar-expend .search-row{
+
+.sidebar-expend .search-row {
   gap: 10px;
   margin: 0;
 }

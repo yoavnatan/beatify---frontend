@@ -22,6 +22,8 @@
   align-items: center;
   overflow: hidden;
   box-shadow: 0 4px 60px rgba(0, 0, 0, .5);
+
+
 }
 
 .add-station-cover {
@@ -343,4 +345,14 @@
   font-size: var(--fs-tiny);
   color: var(--sp-white);
   font-weight: 700;
+}
+
+@media (max-width: 600px) {
+
+  .add-image-wrapper,
+  .image-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
 }

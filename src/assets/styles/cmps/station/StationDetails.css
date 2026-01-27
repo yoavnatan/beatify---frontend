@@ -60,6 +60,10 @@
   padding-bottom: 24px;
   opacity: var(--header-fade);
   transition: opacity 0.15s linear;
+
+  @media (max-width:600px) {
+    grid-template-columns: none;
+  }
 }
 
 .image-wrapper {
@@ -68,6 +72,11 @@
   height: 220px;
   justify-content: center;
   width: 220px;
+
+  @media (max-width:600px) {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .station-cover {
