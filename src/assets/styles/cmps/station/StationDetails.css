@@ -152,7 +152,7 @@ h3,
   align-items: center;
   margin-inline-start: 5px;
   padding: 20px 0;
-  gap: .1em;
+  gap: 20px;
 }
 
 .play-btn {
@@ -176,6 +176,13 @@ h3,
   background-color: var(--sp-greenBrighter);
   transform: scale(1.06);
 }
+.like-remove-wrapper{
+  display: flex;
+  gap: 20px;
+}
+.liked-station-hide{
+  display: none;
+}
 
 .shuffle-btn {
   align-items: center;
@@ -198,6 +205,12 @@ h3,
   justify-content: center;
   transition: transform .15s ease;
   width: 54px;
+}
+.liked{
+  display: none;
+}
+.check{
+  fill: var(--sp-green);
 }
 
 
