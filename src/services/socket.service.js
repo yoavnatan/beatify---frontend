@@ -5,7 +5,10 @@ const { VITE_LOCAL, DEV } = import.meta.env
 
 
 export const SOCKET_EVENT_STATION_UPDATE = 'station-update'
-
+export const SOCKET_EVENT_PLAY = 'song-play'
+export const SOCKET_EMIT_PLAY = 'emit-song-play'
+export const SOCKET_EVENT_TOGGLE_PLAY = 'toggle-play'
+export const SOCKET_EMIT_TOGGLE_PLAY = 'emit-toggle-play'
 
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'

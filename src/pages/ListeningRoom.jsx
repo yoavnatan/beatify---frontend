@@ -30,7 +30,7 @@ import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
 import AddCircle from "../assets/svg/add-circle.svg?react";
-import { SOCKET_EVENT_STATION_UPDATE, socketService } from "../services/socket.service.js";
+import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
 
 
 
@@ -71,10 +71,48 @@ export function ListeningRoom() {
     socketService.on(SOCKET_EVENT_STATION_UPDATE, upate => {
       dispatch({ type: UPDATE_STATION, station: upate.updatedStation })
     })
+    socketService.on(SOCKET_EVENT_PLAY, playerInfo => {
+      onPlayFromSocket(playerInfo.songInfo)
+    })
+    socketService.on(SOCKET_EVENT_TOGGLE_PLAY, playerInfo => {
+      onToggleFromSocket(playerInfo.songInfo)
+    })
+
     return () => {
       socketService.off(SOCKET_EVENT_STATION_UPDATE)
+      socketService.off(SOCKET_EVENT_TOGGLE_PLAY)
+      socketService.off(SOCKET_EVENT_PLAY)
+      console.log('leaving')
     }
   }, [])
+
+
+  function onToggleFromSocket(song) {
+
+    const prev = lastClickedSong
+    dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+    console.log(prev)
+    console.log(song.id)
+
+    dispatch({ type: TOGGLE_PLAY })
+  }
+
+
+  async function onPlayFromSocket(song) {
+
+    // const prev = lastClickedSong
+    // dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
+    // console.log(prev)
+    // console.log(song.id)
+    // if (prev?.id === song.id) {
+    //   dispatch({ type: TOGGLE_PLAY })
+    // } else {
+    setSong(song)
+    dispatch({ type: PLAY })
+    dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+    dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
+    // }
+  }
 
 
   useEffect(() => {
@@ -134,14 +172,17 @@ export function ListeningRoom() {
 
     }
 
+    const data = { song: search, user }
     const prev = lastClickedSong
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
     if (prev?.id === song.id) {
       dispatch({ type: TOGGLE_PLAY })
+      socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, data)
     } else {
       setSong(song)
       dispatch({ type: PLAY })
+      socketService.emit(SOCKET_EMIT_PLAY, data)
       dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
       dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
     }
