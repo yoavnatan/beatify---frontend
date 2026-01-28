@@ -31,12 +31,10 @@ function remove(userId) {
 
 async function update(user) {
     const updatedUser = await httpService.put(`user/${user._id}`, user)
-
     const loggedinUser = getLoggedinUser()
     if (loggedinUser && loggedinUser._id === updatedUser._id) {
         saveLoggedinUser(updatedUser)
     }
-
     return updatedUser
 }
 

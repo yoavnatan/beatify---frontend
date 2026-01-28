@@ -73,6 +73,19 @@ export async function addStationToLibrary(user, stationId) {
         throw err
     }
 }
+    async function likeSong(songId) {
+        const likedSongs = user.likedSongs
+        if (user.likedSongs.includes(songId)) {
+            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+            await updateUser(userToUpdate)
+            showSuccessMsg('Song removed from Liked Songs')
+
+        } else {
+            const userToUpdate = { ...user, likedSongs: [songId, ...likedSongs] }
+            await updateUser(userToUpdate)
+            showSuccessMsg('Song added to Liked Songs')
+        }
+    }
 
 export async function addSongToStation(song, stationId) {
     const stations = store.getState().stationModule.stations

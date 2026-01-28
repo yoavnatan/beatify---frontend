@@ -9,8 +9,6 @@ import {
   removeSong,
   removeStation,
   updateStation,
-  addStationToLibrary,
-  addStation,
 } from "../store/actions/station.actions.js";
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
@@ -29,7 +27,10 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
+import { updateUser} from '../store/actions/user.actions.js';
 import AddCircle from "../assets/svg/add-circle.svg?react";
+import CheckCircle from "../assets/svg/check-circle.svg?react";
+
 
 
 
@@ -44,6 +45,8 @@ export function StationDetails() {
   const { nowPlaying: nowPlayingStationId } = useSelector(
     (storeState) => storeState.stationModule,
   );
+  const [addedToLibrary, setAddedToLibrary] = useState(false);
+  
   const dispatch = useDispatch();
   // const lastClickedSong = useRef();
   let isStationPlaying = stationId === nowPlayingStationId;
@@ -54,6 +57,7 @@ export function StationDetails() {
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current;
   const [showActions, setShowActions] = useState(false);
   const [avgColor, setAvgColor] = useState()
+  const [isLikedStation, setIsLikedStation] = useState(false)
   
 
   const headerRef = useRef();
@@ -63,8 +67,10 @@ export function StationDetails() {
     setAvgColor(undefined)
     if (stationId === "likedSongs") {
       loadLikedSongsStation();
+      setIsLikedStation(true)
     } else {
       loadStation(stationId);
+      setIsLikedStation(false)
       stationService.getAvgColor(station)
     }
   }, [stationId, user]);
@@ -156,15 +162,36 @@ export function StationDetails() {
     navigate("/");
   }
 
-  async function addToLibrary(ev, station) {
-    ev.stopPropagation();
-    if (!user) {
-      showErrorMsg("You must be logged in to add songs to a playlist");
-      return;
+
+  async function likeStation(stationId) {
+    const likedStations = user.likedSongsStations || [];
+    const isLiked = likedStations.includes(stationId)
+
+    const updatedStations = isLiked
+      ? likedStations.filter(id => id !== stationId)
+      : [stationId, ...likedStations]
+
+    const userToUpdate = { 
+      ...user, 
+      likedSongsStations: updatedStations 
     }
-    await addStationToLibrary(user, station._id);
-    showSuccessMsg("Playlist added to your library");
+    const stationToUpdate = {
+      ...station,
+      likedByUsers: isLiked
+        ? station.likedByUsers.filter(u => u._id !== user._id)
+        : [...(station.likedByUsers || []), { _id: user._id, fullname: user.fullname }]
+    }
+    await updateStation(stationToUpdate)
+    await updateUser(userToUpdate)
+    setAddedToLibrary(!isLiked)
+
+    showSuccessMsg(
+      isLiked 
+        ? 'Playlist removed from your library' 
+        : 'Playlist added to your library'
+    )
   }
+
 
   async function deleteSong(ev, songId, stationId) {
     ev.stopPropagation();
@@ -249,28 +276,37 @@ export function StationDetails() {
                     )}
                   </button>
                 </Tippy>
-
-                <button className="shuffle-btn">
-                  <Shuffle className="icon medium-large" />
-                </button>
-                
-                <button className="add-song-btn">
-                  <AddCircle className="icon medium-large" />
-                </button>
-
-                <Tippy
-                  content={"Delete"}
-                  delay={[500, 0]}
-                  offset={[0, 15]}
-                  arrow={false}
-                >
-                  <span className="tooltip-wrapper">
-                    <Delete
-                      className="icon medium-large"
-                      onClick={(ev) => deleteStation(ev, station._id)}
-                    />
+                  <span className="shuffle-btn">
+                    <Shuffle className="icon medium-large" />
                   </span>
-                </Tippy>
+          <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
+                    <Tippy
+                    content={`${addedToLibrary ? 'Remove from' : 'Add to'} Liked Stations`}
+                    delay={[500, 0]}
+                    offset={[0, 0]}
+                    arrow={false}
+                  >
+                  <span className={`like-station-btn tooltip-wrapper`}>
+                    <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
+                    <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
+                  </span>
+                  </Tippy>
+
+                  <Tippy
+                    content={"Delete"}
+                    delay={[500, 0]}
+                    offset={[0, 15]}
+                    arrow={false}
+                  >
+                    <span className="tooltip-wrapper">
+                      <Delete
+                        className="icon medium-large"
+                        onClick={(ev) => deleteStation(ev, station._id)}
+                      />
+                    </span>
+                  </Tippy>
+                </div>
+                
               </div>
             </div>
           )}
@@ -351,39 +387,39 @@ export function StationDetails() {
             offset={[0, 0]}
             arrow={false}
           >
-            <button className="shuffle-btn">
-              <Shuffle className="icon medium-large" />
-            </button>
-          </Tippy>
-
-
-          <Tippy
-            content={"Add to Library"}
-            delay={[500, 0]}
-            offset={[0, 0]}
-            arrow={false}
-          >
-            <button className="add-song-btn">
-              <AddCircle 
-                className="icon medium-large" 
-                onClick={(ev) => addToLibrary(ev, stationId)}
-              />
-            </button>
-          </Tippy>
-
-          <Tippy
-            content={"Delete"}
-            delay={[500, 0]}
-            offset={[0, 10]}
-            arrow={false}
-          >
-            <span className="tooltip-wrapper">
-              <Delete
-                className="icon medium-large"
-                onClick={(ev) => deleteStation(ev, station._id)}
-              />
+            <span className="shuffle-btn">
+              <Shuffle className="icon large" />
             </span>
           </Tippy>
+
+
+          <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
+              <Tippy
+              content={`${addedToLibrary ? 'Remove from' : 'Add to'} Liked Stations`}
+              delay={[500, 0]}
+              offset={[0, 0]}
+              arrow={false}
+            >
+            <span className={`like-station-btn tooltip-wrapper`}>
+              <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
+              <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
+            </span>
+            </Tippy>
+
+            <Tippy
+              content={"Delete"}
+              delay={[500, 0]}
+              offset={[0, 15]}
+              arrow={false}
+            >
+              <span className="tooltip-wrapper">
+                <Delete
+                  className="icon medium-large"
+                  onClick={(ev) => deleteStation(ev, station._id)}
+                />
+              </span>
+            </Tippy>
+          </div>
         </div>
       </div>
       <SongsTable
