@@ -31,6 +31,7 @@ import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
 import AddCircle from "../assets/svg/add-circle.svg?react";
 import { SOCKET_EVENT_STATION_UPDATE, socketService } from "../services/socket.service.js";
+import { use } from "react";
 
 
 
@@ -58,52 +59,75 @@ export function ListeningRoom() {
   const [avgColor, setAvgColor] = useState()
   const headerRef = useRef();
 
+  
+useEffect(() => {
+  if (!stationId) return
+  loadStation(stationId)
+  stationService.getAvgColor(station)
+}, [stationId])
+
+useEffect(() => {
+  if (!user) return
+  socketService.emit('join-listening-room', user)
+}, [])
+useEffect(() => {
+  return () => {
+    if (user) socketService.emit('leave-listening-room', user)
+  }
+}, [])
+
+useEffect(() => {
+  socketService.on(SOCKET_EVENT_STATION_UPDATE, update => {
+    dispatch({ type: UPDATE_STATION, station: update.updatedStation })
+  })
+
+  return () => socketService.off(SOCKET_EVENT_STATION_UPDATE)
+}, [])
+
+useEffect(() => {
+  socketService.on('user-joined-listening-room', (user) => {
+    showSuccessMsg(`${user.fullname} joined the listening room`)
+  })
+
+  return () => socketService.off('user-joined-listening-room')
+}, [])
+useEffect(() => {
+  socketService.on('user-left-listening-room', (user) => {
+    showSuccessMsg(`${user.fullname} left the listening room`)
+  })
+
+  return () => socketService.off('user-left-listening-room')
+}, [])
 
 
-  useEffect(() => {
-    if (!stationId) return;
-    loadStation(stationId);
-    stationService.getAvgColor(station)
+useEffect(() => {
+  if (search) debouncedOnSearch(search)
+}, [search])
 
-  }, [user]);
+useEffect(() => {
+  const el = document.querySelector(".main-content")
 
-  useEffect(() => {
-    socketService.on(SOCKET_EVENT_STATION_UPDATE, upate => {
-      dispatch({ type: UPDATE_STATION, station: upate.updatedStation })
-    })
-    return () => {
-      socketService.off(SOCKET_EVENT_STATION_UPDATE)
-    }
-  }, [])
+  function handleScroll() {
+    const scrollY = el.scrollTop
+    setShowActions(scrollY > 280)
+    const headerHeight = headerRef.current?.offsetHeight || 300
+    const fade = Math.max(0, 1 - scrollY / headerHeight)
+    setHeaderOpacity(fade)
+  }
 
+  el.addEventListener("scroll", handleScroll)
+  return () => el.removeEventListener("scroll", handleScroll)
+}, [])
 
-  useEffect(() => {
-    if (search) debouncedOnSearch(search);
-  }, [search]);
+useEffect(() => {
+  if (!station) return
+  if (stationId === 'likedSongs') return
+  calcColor()
+}, [station])
 
   function handleChange({ target }) {
     setSearch(target.value);
   }
-  useEffect(() => {
-    const el = document.querySelector(".main-content");
-
-    function handleScroll() {
-      const scrollY = el.scrollTop;
-      setShowActions(scrollY > 280);
-      const headerHeight = headerRef.current?.offsetHeight || 300;
-      const fade = Math.max(0, 1 - scrollY / headerHeight);
-      setHeaderOpacity(fade);
-    }
-
-    el.addEventListener("scroll", handleScroll);
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (!station) return
-    if (stationId === 'likedSongs') return
-    calcColor()
-  }, [stationId])
 
   async function calcColor() {
     const color = await stationService.getAvgColor(station)
