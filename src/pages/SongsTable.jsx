@@ -311,8 +311,8 @@ export function DropDown({ onAdd, onDelete, canDelete, song, stationId, stations
               content={
                 <div className="options-menu submenu" onMouseLeave={() => setIsSubMenuOpen(false)}>
                   {stations.filter(station => {
-                    const createdByUser = station.createdBy?._id === user._id
-                    const likedByUser = station.likedByUsers?.some(u => u._id === user._id)
+                    const createdByUser = station.createdBy?._id === user?._id
+                    const likedByUser = station.likedByUsers?.some(u => u._id === user?._id)
                     return createdByUser || likedByUser
                   }).map(station => (
                     <div key={station._id} className="option" onClick={(ev) => {
