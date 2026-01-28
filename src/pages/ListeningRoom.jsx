@@ -17,7 +17,7 @@ import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
-import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from "../store/reducers/station.reducer.js";
+import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
 import Trash from "../assets/svg/trash.svg?react";
 import Delete from "../assets/svg/delete.svg?react";
@@ -30,6 +30,7 @@ import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
 import AddCircle from "../assets/svg/add-circle.svg?react";
+import { SOCKET_EVENT_STATION_UPDATE, socketService } from "../services/socket.service.js";
 
 
 
@@ -65,6 +66,16 @@ export function ListeningRoom() {
     stationService.getAvgColor(station)
 
   }, [user]);
+
+  useEffect(() => {
+    socketService.on(SOCKET_EVENT_STATION_UPDATE, upate => {
+      dispatch({ type: UPDATE_STATION, station: upate.updatedStation })
+    })
+    return () => {
+      socketService.off(SOCKET_EVENT_STATION_UPDATE)
+    }
+  }, [])
+
 
   useEffect(() => {
     if (search) debouncedOnSearch(search);

@@ -1,7 +1,7 @@
 import { Routes, Route, Outlet, useNavigate, useLocation } from 'react-router'
 import { HomePage } from './pages/HomePage'
 import { StationIndex } from './pages/StationIndex.jsx'
-import { ChatApp } from './pages/Chat.jsx'
+// import { ChatApp } from './pages/Chat.jsx'
 import { StationDetails } from './pages/StationDetails.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
@@ -163,7 +163,7 @@ export function RootCmp() {
                     <Route index element={<HomePage />} />
                     <Route path="station" element={<StationIndex />} />
                     <Route path="station/:stationId" element={<StationDetails />} />
-                    <Route path="chat" element={<ChatApp />} />
+                    {/* <Route path="chat" element={<ChatApp />} /> */}
                     <Route path="search" element={<Search />} />
                     <Route path="libraryMobile" element={<Library />} />
                     <Route path="queueMobile" element={<SideBar />} />
