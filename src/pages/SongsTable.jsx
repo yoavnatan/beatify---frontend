@@ -21,6 +21,13 @@ import { updateUser } from "../store/actions/user.actions.js"
 import { formatTime } from "../services/util.service.js"
 import { ADD_TO_QUEUE } from "../store/reducers/player.reducer.js"
 
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { SortableSongRow } from "../cmps/sortableSongRow.jsx"
+import { updateStation } from "../store/actions/station.actions.js"
+import { UPDATE_STATION } from "../store/reducers/station.reducer.js"
+
 export function SongsTable({
   deleteSong,
   station,
@@ -29,8 +36,10 @@ export function SongsTable({
   search,
   handleChange,
   searchResults,
-  onAddSong
+  onAddSong,
+  onUpdateStation
 }) {
+  const dispatch = useDispatch();
 
   const stations = useSelector(storeState => storeState.stationModule.stations)
   const { user } = useSelector(storeState => storeState.userModule)
@@ -81,6 +90,28 @@ export function SongsTable({
     }
   }
 
+  // DND
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // עוזר להבדיל בין לחיצה לנגינה לבין גרירה
+      },
+    })
+  );
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (active && over && active.id !== over.id) {
+      const oldIndex = station.songs.findIndex(s => s.id === active.id);
+      const newIndex = station.songs.findIndex(s => s.id === over.id);
+      const reorderedSongs = arrayMove(station.songs, oldIndex, newIndex);
+      dispatch({ type: UPDATE_STATION, station: { ...station, songs: reorderedSongs } })
+      onUpdateStation({ ...station, songs: reorderedSongs });
+    }
+  }
+  //
+
 
   return (
     <section className="song-table container " ref={scrollContainerRef}>
@@ -95,8 +126,41 @@ export function SongsTable({
           <Duration className="duration-icon" />
         </div>
       </div>
+      {station.isShared &&
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToVerticalAxis]}
+        >
+          <SortableContext
+            items={station.songs.map(s => s.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <ul className="song-list">
+              {station.songs.map((song, idx) => (
+                <SortableSongRow
+                  key={song.id}
+                  song={song}
+                  idx={idx}
+                  station={station}
+                  playing={playing}
+                  nowPlaying={nowPlaying}
+                  user={user}
+                  onPlaySearchedResult={onPlaySearchedResult}
+                  likeSong={likeSong}
+                  formatTime={formatTime}
+                  deleteSong={deleteSong}
+                  onAddSong={onAddSong}
+                  stations={stations}
+                  DropDown={DropDown}
+                />
+              ))}
+            </ul>
+          </SortableContext>
+        </DndContext>}
 
-      <ul className="song-list">
+      {!station.isShared && <ul className="song-list">
         {station.songs.map((song, idx) => (
           <li
             key={`${station._id}-${song.id}-${idx}`}
@@ -172,7 +236,7 @@ export function SongsTable({
             </div>
           </li>
         ))}
-      </ul>
+      </ul>}
 
 
       <div className='search container'>

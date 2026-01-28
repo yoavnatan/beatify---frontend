@@ -15,7 +15,7 @@ import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
-import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from "../store/reducers/station.reducer.js";
+import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
 import Trash from "../assets/svg/trash.svg?react";
 import Delete from "../assets/svg/delete.svg?react";
@@ -27,7 +27,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
-import { updateUser} from '../store/actions/user.actions.js';
+import { updateUser } from '../store/actions/user.actions.js';
 import AddCircle from "../assets/svg/add-circle.svg?react";
 import CheckCircle from "../assets/svg/check-circle.svg?react";
 
@@ -46,7 +46,7 @@ export function StationDetails() {
     (storeState) => storeState.stationModule,
   );
   const [addedToLibrary, setAddedToLibrary] = useState(false);
-  
+
   const dispatch = useDispatch();
   // const lastClickedSong = useRef();
   let isStationPlaying = stationId === nowPlayingStationId;
@@ -58,7 +58,7 @@ export function StationDetails() {
   const [showActions, setShowActions] = useState(false);
   const [avgColor, setAvgColor] = useState()
   const [isLikedStation, setIsLikedStation] = useState(false)
-  
+
 
   const headerRef = useRef();
 
@@ -171,9 +171,9 @@ export function StationDetails() {
       ? likedStations.filter(id => id !== stationId)
       : [stationId, ...likedStations]
 
-    const userToUpdate = { 
-      ...user, 
-      likedSongsStations: updatedStations 
+    const userToUpdate = {
+      ...user,
+      likedSongsStations: updatedStations
     }
     const stationToUpdate = {
       ...station,
@@ -186,8 +186,8 @@ export function StationDetails() {
     setAddedToLibrary(!isLiked)
 
     showSuccessMsg(
-      isLiked 
-        ? 'Playlist removed from your library' 
+      isLiked
+        ? 'Playlist removed from your library'
         : 'Playlist added to your library'
     )
   }
@@ -216,6 +216,12 @@ export function StationDetails() {
 
     await addSongToStation(song, stationId);
     showSuccessMsg("Song added to playlist");
+  }
+
+
+  async function onUpdateStation(stationToUptade) {
+    const updatedStation = await stationService.save(stationToUptade)
+    dispatch({ type: UPDATE_STATION, station: updatedStation })
   }
 
   const coverImg =
@@ -276,20 +282,20 @@ export function StationDetails() {
                     )}
                   </button>
                 </Tippy>
-                  <span className="shuffle-btn">
-                    <Shuffle className="icon medium-large" />
-                  </span>
-          <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
-                    <Tippy
+                <span className="shuffle-btn">
+                  <Shuffle className="icon medium-large" />
+                </span>
+                <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
+                  <Tippy
                     content={`${addedToLibrary ? 'Remove from' : 'Add to'} Liked Stations`}
                     delay={[500, 0]}
                     offset={[0, 0]}
                     arrow={false}
                   >
-                  <span className={`like-station-btn tooltip-wrapper`}>
-                    <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
-                    <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
-                  </span>
+                    <span className={`like-station-btn tooltip-wrapper`}>
+                      <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
+                      <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
+                    </span>
                   </Tippy>
 
                   <Tippy
@@ -306,7 +312,7 @@ export function StationDetails() {
                     </span>
                   </Tippy>
                 </div>
-                
+
               </div>
             </div>
           )}
@@ -324,7 +330,7 @@ export function StationDetails() {
       >
 
         <div className="image-wrapper">
-          <LibraryEditStation coverImg={coverImg} />
+          <LibraryEditStation coverImg={coverImg} onUpdateStation={onUpdateStation} />
           {/* <img className="station-cover" src={coverImg} alt={station.name} /> */}
         </div>
 
@@ -394,16 +400,16 @@ export function StationDetails() {
 
 
           <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
-              <Tippy
+            <Tippy
               content={`${addedToLibrary ? 'Remove from' : 'Add to'} Liked Stations`}
               delay={[500, 0]}
               offset={[0, 0]}
               arrow={false}
             >
-            <span className={`like-station-btn tooltip-wrapper`}>
-              <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
-              <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
-            </span>
+              <span className={`like-station-btn tooltip-wrapper`}>
+                <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
+                <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
+              </span>
             </Tippy>
 
             <Tippy
@@ -431,6 +437,7 @@ export function StationDetails() {
         handleChange={handleChange}
         searchResults={searchResults}
         onAddSong={onAddSong}
+        onUpdateStation={onUpdateStation}
       />
 
     </section>

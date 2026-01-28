@@ -195,6 +195,12 @@ export function ListeningRoom() {
     showSuccessMsg("Song added to playlist");
   }
 
+
+  async function onUpdateStation(stationToUptade) {
+    const updatedStation = await stationService.save(stationToUptade)
+    dispatch({ type: UPDATE_STATION, station: updatedStation })
+  }
+
   const coverImg =
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
@@ -346,6 +352,7 @@ export function ListeningRoom() {
         </div>
       </div>
       <SongsTable
+
         deleteSong={deleteSong}
         station={station}
         onSearch={onSearch}
@@ -354,6 +361,7 @@ export function ListeningRoom() {
         handleChange={handleChange}
         searchResults={searchResults}
         onAddSong={onAddSong}
+        onUpdateStation={onUpdateStation}
       />
 
     </section>
