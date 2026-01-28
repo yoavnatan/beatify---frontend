@@ -56,15 +56,17 @@ export function ListeningRoom() {
   const [headerOpacity, setHeaderOpacity] = useState(1);
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current;
   const [showActions, setShowActions] = useState(false);
-  const [avgColor, setAvgColor] = useState()
+  // const [avgColor, setAvgColor] = useState()
   const headerRef = useRef();
-
+  if (station) getAvgclr(station)
 
   useEffect(() => {
-    if (!stationId) return
-    loadStation(stationId)
-    stationService.getAvgColor(station)
-  }, [stationId])
+    if (station) getAvgclr(station)
+  }, [station])
+
+  async function getAvgclr() {
+    station.color = await stationService.getAvgColor(station)
+  }
 
   useEffect(() => {
     if (!user) return
@@ -154,11 +156,11 @@ export function ListeningRoom() {
     return () => el.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    if (!station) return
-    if (stationId === 'likedSongs') return
-    calcColor()
-  }, [station])
+  // useEffect(() => {
+  //   if (!station) return
+  //   if (stationId === 'likedSongs') return
+  //   calcColor()
+  // }, [station])
 
   function handleChange({ target }) {
     setSearch(target.value);

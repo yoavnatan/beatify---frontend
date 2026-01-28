@@ -253,7 +253,7 @@ export function AppHeader() {
 
                 <div className="nav-right" ref={menuRef}>
 
-                    <NavLink to="listeningRoom/6979dd3d970b2696e485422d">
+                    <NavLink to="/listeningRoom">
                         <Tippy content={'Listening-room'} delay={[500, 0]} offset={[15, 15]} arrow={false} >
                             <span className="tooltip-wrapper">
                                 <People className="icon small" />

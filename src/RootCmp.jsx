@@ -168,7 +168,7 @@ export function RootCmp() {
                     <Route path="libraryMobile" element={<Library />} />
                     <Route path="queueMobile" element={<SideBar />} />
                     <Route path="browse" element={<Browse />} />
-                    <Route path="listeningRoom/:stationId" element={<ListeningRoom />} />
+                    <Route path="listeningRoom" element={<ListeningRoom />} />
                 </Route>
             </Routes>
         </>
