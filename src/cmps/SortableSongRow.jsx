@@ -1,5 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Popover } from 'react-tiny-popover';
 
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 
@@ -19,9 +20,9 @@ export function SortableSongRow({
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
-        zIndex: isDragging ? 10 : 1,
+        zIndex: isDragging ? 9999 : undefined,
         opacity: isDragging ? 0.7 : 1,
-        position: 'relative',
+        isolation: 'isolate'
     };
 
     return (
