@@ -267,10 +267,6 @@ export function AppHeader() {
                     )}
                     {user && (
                         <div className="user-menu-wrapper">
-                        <Tippy content="Friend Activity" delay={[300, 0]} offset={[0, 5]} arrow={false} >
-                            <UsersGroup className="icon small users-group"/>
-                        </Tippy>
-
                             <Tippy content={user.fullname} delay={[300, 0]} offset={[0, 5]} arrow={false} >
                                 <img
                                     className="profile-pic"
