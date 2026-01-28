@@ -26,6 +26,8 @@ import { ADD_TO_QUEUE } from "../store/reducers/player.reducer.js"
 import AddToQueue from "../assets/svg/queue-add.svg?react"
 import Tippy from '@tippyjs/react';
 import Exit from "../assets/svg/exit.svg?react"
+import UsersGroup from "../assets/svg/users-group.svg?react"
+
 
 
 
@@ -257,6 +259,9 @@ export function AppHeader() {
                     )}
                     {user && (
                         <div className="user-menu-wrapper">
+                        <Tippy content="Friend Activity" delay={[300, 0]} offset={[0, 5]} arrow={false} >
+                            <UsersGroup className="icon small users-group"/>
+                        </Tippy>
 
                             <Tippy content={user.fullname} delay={[300, 0]} offset={[0, 5]} arrow={false} >
                                 <img

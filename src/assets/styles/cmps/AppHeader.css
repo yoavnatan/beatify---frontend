@@ -221,6 +221,11 @@
   align-items: center;
   gap: 20px;
 }
+.users-group:hover{
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: transform 0.2s;
+} 
 
 .login-link {
   color: var(--sp-white);
@@ -358,6 +363,9 @@
 .user-menu-wrapper {
   position: relative;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
 
 .user-dropdown {
