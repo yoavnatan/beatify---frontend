@@ -1,7 +1,7 @@
 import { Routes, Route, Outlet, useNavigate, useLocation } from 'react-router'
 import { HomePage } from './pages/HomePage'
 import { StationIndex } from './pages/StationIndex.jsx'
-import { ChatApp } from './pages/Chat.jsx'
+// import { ChatApp } from './pages/Chat.jsx'
 import { StationDetails } from './pages/StationDetails.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
@@ -17,6 +17,7 @@ import { Browse } from './pages/Browse.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { loginDefault } from './store/actions/user.actions.js'
 import { use } from 'react'
+import { ListeningRoom } from './pages/ListeningRoom.jsx'
 
 
 
@@ -162,11 +163,12 @@ export function RootCmp() {
                     <Route index element={<HomePage />} />
                     <Route path="station" element={<StationIndex />} />
                     <Route path="station/:stationId" element={<StationDetails />} />
-                    <Route path="chat" element={<ChatApp />} />
+                    {/* <Route path="chat" element={<ChatApp />} /> */}
                     <Route path="search" element={<Search />} />
                     <Route path="libraryMobile" element={<Library />} />
                     <Route path="queueMobile" element={<SideBar />} />
                     <Route path="browse" element={<Browse />} />
+                    <Route path="listeningRoom" element={<ListeningRoom />} />
                 </Route>
             </Routes>
         </>

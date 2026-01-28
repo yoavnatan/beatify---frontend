@@ -12,7 +12,9 @@ import { stationService } from "../services/station"
 
 export function LibraryEditStation({ coverImg }) {
     const { user } = useSelector(storeState => storeState.userModule)
-    const { stationId } = useParams()
+    const { stations } = useSelector((storeState) => storeState.stationModule);
+    let { stationId } = useParams()
+
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [stationName, setStationName] = useState(null)
     const [stationDesc, setStationDesc] = useState("")

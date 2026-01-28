@@ -9,6 +9,8 @@ import {
   removeSong,
   removeStation,
   updateStation,
+  addStationToLibrary,
+  addStation,
 } from "../store/actions/station.actions.js";
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
@@ -27,26 +29,23 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
-import { updateUser } from '../store/actions/user.actions.js';
 import AddCircle from "../assets/svg/add-circle.svg?react";
-import CheckCircle from "../assets/svg/check-circle.svg?react";
+import { SOCKET_EVENT_STATION_UPDATE, socketService } from "../services/socket.service.js";
 
 
 
 
-
-export function StationDetails() {
+export function ListeningRoom() {
   const navigate = useNavigate();
-  const { stationId } = useParams();
-  const { station, stations, stationSongs } = useSelector((storeState) => storeState.stationModule);
+  const { stations, stationSongs } = useSelector((storeState) => storeState.stationModule);
+  const station = stations.find(station => station.isShared)
+  const stationId = station?._id
   const { playing, nowPlaying, lastClickedSong } = useSelector(
     (storeState) => storeState.playerModule,
   );
   const { nowPlaying: nowPlayingStationId } = useSelector(
     (storeState) => storeState.stationModule,
   );
-  const [addedToLibrary, setAddedToLibrary] = useState(false);
-
   const dispatch = useDispatch();
   // const lastClickedSong = useRef();
   let isStationPlaying = stationId === nowPlayingStationId;
@@ -57,23 +56,26 @@ export function StationDetails() {
   const debouncedOnSearch = useRef(debounce(onSearchMusic, 300)).current;
   const [showActions, setShowActions] = useState(false);
   const [avgColor, setAvgColor] = useState()
-  const [isLikedStation, setIsLikedStation] = useState(false)
-
-
   const headerRef = useRef();
+
+
 
   useEffect(() => {
     if (!stationId) return;
-    setAvgColor(undefined)
-    if (stationId === "likedSongs") {
-      loadLikedSongsStation();
-      setIsLikedStation(true)
-    } else {
-      loadStation(stationId);
-      setIsLikedStation(false)
-      stationService.getAvgColor(station)
+    loadStation(stationId);
+    stationService.getAvgColor(station)
+
+  }, [user]);
+
+  useEffect(() => {
+    socketService.on(SOCKET_EVENT_STATION_UPDATE, upate => {
+      dispatch({ type: UPDATE_STATION, station: upate.updatedStation })
+    })
+    return () => {
+      socketService.off(SOCKET_EVENT_STATION_UPDATE)
     }
-  }, [stationId, user]);
+  }, [])
+
 
   useEffect(() => {
     if (search) debouncedOnSearch(search);
@@ -127,10 +129,9 @@ export function StationDetails() {
       const songsToUpdate = station.songs.map(s =>
         s.id === song.id ? { ...s, src: song.src } : s
       )
-      if (station._id !== 'likedSongs') {
-        const stationToUpdate = { ...station, songs: songsToUpdate }
-        await updateStation(stationToUpdate)
-      }
+      const stationToUpdate = { ...station, songs: songsToUpdate }
+      await updateStation(stationToUpdate)
+
     }
 
     const prev = lastClickedSong
@@ -146,10 +147,7 @@ export function StationDetails() {
     }
   }
   if (!station) return <div>Loading...</div>;
-  const stationImg =
-    station._id === "likedSongs"
-      ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
-      : station.songs[0]?.imgUrl;
+  const stationImg = station.songs[0]?.imgUrl;
 
   async function deleteStation(ev, stationId) {
     ev.stopPropagation();
@@ -162,36 +160,15 @@ export function StationDetails() {
     navigate("/");
   }
 
-
-  async function likeStation(stationId) {
-    const likedStations = user.likedSongsStations || [];
-    const isLiked = likedStations.includes(stationId)
-
-    const updatedStations = isLiked
-      ? likedStations.filter(id => id !== stationId)
-      : [stationId, ...likedStations]
-
-    const userToUpdate = {
-      ...user,
-      likedSongsStations: updatedStations
+  async function addToLibrary(ev, station) {
+    ev.stopPropagation();
+    if (!user) {
+      showErrorMsg("You must be logged in to add songs to a playlist");
+      return;
     }
-    const stationToUpdate = {
-      ...station,
-      likedByUsers: isLiked
-        ? station.likedByUsers.filter(u => u._id !== user._id)
-        : [...(station.likedByUsers || []), { _id: user._id, fullname: user.fullname }]
-    }
-    await updateStation(stationToUpdate)
-    await updateUser(userToUpdate)
-    setAddedToLibrary(!isLiked)
-
-    showSuccessMsg(
-      isLiked
-        ? 'Playlist removed from your library'
-        : 'Playlist added to your library'
-    )
+    await addStationToLibrary(user, station._id);
+    showSuccessMsg("Playlist added to your library");
   }
-
 
   async function deleteSong(ev, songId, stationId) {
     ev.stopPropagation();
@@ -282,36 +259,10 @@ export function StationDetails() {
                     )}
                   </button>
                 </Tippy>
-                <span className="shuffle-btn">
-                  <Shuffle className="icon medium-large" />
-                </span>
-                <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
-                  <Tippy
-                    content={`${addedToLibrary ? 'Remove from' : 'Add to'} Liked Stations`}
-                    delay={[500, 0]}
-                    offset={[0, 0]}
-                    arrow={false}
-                  >
-                    <span className={`like-station-btn tooltip-wrapper`}>
-                      <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
-                      <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
-                    </span>
-                  </Tippy>
 
-                  <Tippy
-                    content={"Delete"}
-                    delay={[500, 0]}
-                    offset={[0, 15]}
-                    arrow={false}
-                  >
-                    <span className="tooltip-wrapper">
-                      <Delete
-                        className="icon medium-large"
-                        onClick={(ev) => deleteStation(ev, station._id)}
-                      />
-                    </span>
-                  </Tippy>
-                </div>
+                <button className="shuffle-btn">
+                  <Shuffle className="icon medium-large" />
+                </button>
 
               </div>
             </div>
@@ -330,20 +281,18 @@ export function StationDetails() {
       >
 
         <div className="image-wrapper">
-          <LibraryEditStation coverImg={coverImg} onUpdateStation={onUpdateStation} />
+          <LibraryEditStation coverImg={coverImg} />
           {/* <img className="station-cover" src={coverImg} alt={station.name} /> */}
         </div>
 
         <div className="station-meta">
 
-          <span className="playlist-label">Playlist</span>
+          <span className="playlist-label">Shared Playlist</span>
 
           <h1 className="station-title">{station.name}</h1>
 
           <div className="station-subinfo">
-            <span className="creator">
-              Created by {station.createdBy.fullname}
-            </span>
+
             <span className="dot">•</span>
             <span className="song-count">{station.songs.length} songs</span>
           </div>
@@ -393,42 +342,17 @@ export function StationDetails() {
             offset={[0, 0]}
             arrow={false}
           >
-            <span className="shuffle-btn">
-              <Shuffle className="icon large" />
-            </span>
+            <button className="shuffle-btn">
+              <Shuffle className="icon medium-large" />
+            </button>
           </Tippy>
 
 
-          <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
-            <Tippy
-              content={`${addedToLibrary ? 'Remove from' : 'Add to'} Liked Stations`}
-              delay={[500, 0]}
-              offset={[0, 0]}
-              arrow={false}
-            >
-              <span className={`like-station-btn tooltip-wrapper`}>
-                <AddCircle className={`icon large ${addedToLibrary ? 'liked' : ''}`} onClick={(ev) => likeStation(station._id)} />
-                <CheckCircle className={`icon large check ${addedToLibrary ? '' : 'liked'}`} onClick={(ev) => likeStation(station._id)} />
-              </span>
-            </Tippy>
 
-            <Tippy
-              content={"Delete"}
-              delay={[500, 0]}
-              offset={[0, 15]}
-              arrow={false}
-            >
-              <span className="tooltip-wrapper">
-                <Delete
-                  className="icon medium-large"
-                  onClick={(ev) => deleteStation(ev, station._id)}
-                />
-              </span>
-            </Tippy>
-          </div>
         </div>
       </div>
       <SongsTable
+
         deleteSong={deleteSong}
         station={station}
         onSearch={onSearch}
