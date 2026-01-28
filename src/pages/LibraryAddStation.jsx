@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Pen from "../assets/svg/pen.svg?react"
 import Search from "../assets/svg/search.svg?react"
 import X from "../assets/svg/x.svg?react"
@@ -10,39 +10,32 @@ import { stationService } from "../services/station"
 
 
 
-export function LibraryEditStation({ coverImg }) {
+
+export function LibraryEditStation({ coverImg}) {
     const { user } = useSelector(storeState => storeState.userModule)
     const { stations } = useSelector((storeState) => storeState.stationModule);
-    let { stationId } = useParams()
-
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [stationName, setStationName] = useState(null)
+    const [stationName, setStationName] = useState("")
     const [stationDesc, setStationDesc] = useState("")
-    const [stationImg, setStationImg] = useState(null)
-    const [station, setStation] = useState(null)
+    const { stationId } = useParams()
+    const [stationImg, setStationImg] = useState(coverImg || "/img/blank-screen.png")
+    const station = useSelector(storeState => storeState.stationModule.station)
     const fileInputRef = useRef()
-
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        load()
-    }, [stationId])
+        if (!station) return
 
-
-    async function load() {
-        if (!stationId) return
-        if (stationId === "likedSongs") {
-            setStationImg("https://misc.scdn.co/liked-songs/liked-songs-300.png")
-            return
-        }
-        const station = await stationService.getById(stationId)
-        setStation(station)
-        setStationName(station.name)
+        setStationName(station.name || "")
         setStationDesc(station.description || "")
-        setStationImg(station.songs[0]?.imgUrl || station.imgUrl)
-    }
+        setStationImg(station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png")
+
+    }, [station])
+
 
     async function saveStationUpdates() {
-        if (!station) return // תחנה חדשה שלא נשמרה עדיין
+
+        if (!station) return 
 
         const updatedStation = {
             ...station,
