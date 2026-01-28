@@ -244,9 +244,14 @@ export function SideBar() {
 
     const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
 
-    const displayedSongs = [];
-    for (let i = 1; i <= 5; i++) {
-        displayedSongs.push(stationSongs[(currentIdx + i) % stationSongs.length]);
+    let displayedSongs = [];
+
+    if (stationSongs.length >= 5) {
+        for (let i = 1; i <= 5; i++) {
+            displayedSongs.push(stationSongs[(currentIdx + i) % stationSongs.length]);
+        }
+    } else {
+        displayedSongs = stationSongs
     }
 
     return (
