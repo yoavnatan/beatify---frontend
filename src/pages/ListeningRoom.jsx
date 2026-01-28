@@ -82,7 +82,6 @@ export function ListeningRoom() {
       socketService.off(SOCKET_EVENT_STATION_UPDATE)
       socketService.off(SOCKET_EVENT_TOGGLE_PLAY)
       socketService.off(SOCKET_EVENT_PLAY)
-      console.log('leaving')
     }
   }, [])
 
@@ -91,9 +90,6 @@ export function ListeningRoom() {
 
     const prev = lastClickedSong
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-    console.log(prev)
-    console.log(song.id)
-
     dispatch({ type: TOGGLE_PLAY })
   }
 
@@ -109,7 +105,8 @@ export function ListeningRoom() {
     // } else {
     setSong(song)
     dispatch({ type: PLAY })
-    dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
+    console.log(station)
+    dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: stationId })
     dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
     // }
   }
