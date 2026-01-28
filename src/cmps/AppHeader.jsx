@@ -13,6 +13,7 @@ import Home from "../assets/svg/home.svg?react"
 import Logo from "../assets/svg/home.svg?react"
 import HomeActive from "../assets/svg/home-active.svg?react"
 import Search from "../assets/svg/search.svg?react"
+import People from "../assets/svg/people.svg?react"
 import logoImg from '../assets/img/logo.svg'
 import profileImg from '../assets/img/profile-pic.jpg'
 import { userService } from '../services/user/user.service.js'
@@ -250,6 +251,13 @@ export function AppHeader() {
 
                 <div className="nav-right" ref={menuRef}>
 
+                    <NavLink to="/listeningRoom">
+                        <Tippy content={'Listening-room'} delay={[500, 0]} offset={[15, 15]} arrow={false} >
+                            <span className="tooltip-wrapper">
+                                <People className="icon small" />
+                            </span>
+                        </Tippy>
+                    </NavLink>
                     {!user && (
                         <NavLink to="auth" className="login-link">
                             Login

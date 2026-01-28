@@ -160,7 +160,6 @@ async function getAvgColors(stations) {
 
 async function getAvgColor(station) {
     if (!station.songs || station.songs.length <= 0) {
-        console.log('hi')
         return Promise.resolve('rgba(52, 52, 52, 0.5)')
     } else {
         const fac = new FastAverageColor()

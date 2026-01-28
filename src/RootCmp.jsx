@@ -17,6 +17,7 @@ import { Browse } from './pages/Browse.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { loginDefault } from './store/actions/user.actions.js'
 import { use } from 'react'
+import { ListeningRoom } from './pages/ListeningRoom.jsx'
 
 
 
@@ -167,6 +168,7 @@ export function RootCmp() {
                     <Route path="libraryMobile" element={<Library />} />
                     <Route path="queueMobile" element={<SideBar />} />
                     <Route path="browse" element={<Browse />} />
+                    <Route path="listeningRoom" element={<ListeningRoom />} />
                 </Route>
             </Routes>
         </>
