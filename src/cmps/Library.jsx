@@ -15,29 +15,28 @@ import { useDispatch } from "react-redux"
 import { addStation } from "../store/actions/station.actions.js"
 import { getBlankStation } from "../services/library/library.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { use } from "react"
-
-
-
-
-
+import { useLocation } from 'react-router-dom'
+import { Chat } from "../pages/Chat.jsx"
 
 export function Library() {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const [showCreateBtn, setShowCreateBtn] = useState(true)
+    const [searchTerm, setSearchTerm] = useState('')
+
     const stations = useSelector(storeState => storeState.stationModule.stations)
     const { user } = useSelector(storeState => storeState.userModule)
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
-
+    const location = useLocation()
 
     const inputRef = useRef(null)
     const searchWrapperRef = useRef(null)
     const libraryRef = useRef(null)
 
-    const [showCreateBtn, setShowCreateBtn] = useState(true)
-    const [searchTerm, setSearchTerm] = useState('')
-
+    // -----------------------------
+    //   ALL HOOKS MUST RUN ALWAYS
+    // -----------------------------
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -67,19 +66,20 @@ export function Library() {
             if (libraryRef.current) observer.unobserve(libraryRef.current)
         }
     }, [])
+
     useEffect(() => {
-    function onExpandLibrary() {
-        setIsSearchOpen(true)
-        setTimeout(() => inputRef.current?.focus(), 150)
-    }
+        function onExpandLibrary() {
+            setIsSearchOpen(true)
+            setTimeout(() => inputRef.current?.focus(), 150)
+        }
 
-    window.addEventListener("expand-library", onExpandLibrary)
+        window.addEventListener("expand-library", onExpandLibrary)
+        return () => window.removeEventListener("expand-library", onExpandLibrary)
+    }, [])
 
-    return () => {
-        window.removeEventListener("expand-library", onExpandLibrary)
-    }
-}, [])
-
+    // -----------------------------
+    //   ACTIONS
+    // -----------------------------
 
     function expandLibrary() {
         window.dispatchEvent(new CustomEvent("expand-library"))
@@ -89,9 +89,10 @@ export function Library() {
         window.dispatchEvent(new CustomEvent("expand-library-to-normal"))
     }
 
-    function collapseLibrary() {    
+    function collapseLibrary() {
         window.dispatchEvent(new CustomEvent("sidebar-collapsed"))
     }
+
     async function createStation() {
         if (!user || !user._id) {
             showErrorMsg("You must be logged in to create a playlist")
@@ -103,6 +104,18 @@ export function Library() {
         showSuccessMsg("Playlist created")
         navigate(`/station/${savedStation._id}`)
     }
+
+    // -----------------------------
+    //   CONDITIONAL RENDER
+    // -----------------------------
+
+    if (location.pathname === '/listeningRoom') {
+        return <Chat />
+    }
+
+    // -----------------------------
+    //   LIBRARY UI
+    // -----------------------------
 
     return (
         <div className="library" ref={libraryRef}>
@@ -116,19 +129,14 @@ export function Library() {
                     </div>
                 </Tippy>
 
-
-
                 <div className="header-actions">
+
                     <Tippy content="Create a Playlist, folder or jam" delay={[300, 0]} offset={[10, -70]} arrow={false} placement="bottom">
                         <button className={`create-wrapper ${showCreateBtn ? 'createShown' : ''}`} onClick={createStation}>
-
                             <div className={`icon-circle ${showCreateBtn ? 'createShown' : ''}`}>
                                 <Plus className="icon-plus" />
                             </div>
-
-                            {showCreateBtn && (
-                                <span className="create-btn">Create</span>
-                            )}
+                            {showCreateBtn && <span className="create-btn">Create</span>}
                         </button>
                     </Tippy>
 
@@ -147,7 +155,6 @@ export function Library() {
                     </Tippy>
 
                 </div>
-
             </div>
 
             <div className="filter-search-wrapper">
@@ -163,13 +170,9 @@ export function Library() {
                 >
                     <div className="search-input-wrapper">
 
-                        <Tippy
-                            content="Search In Your Library"
-                            delay={[300, 0]}
-                            offset={[0, 10]}
-                            arrow={false}
-                        >
-                            <span className="search-library-wrapper"
+                        <Tippy content="Search In Your Library" delay={[300, 0]} offset={[0, 10]} arrow={false}>
+                            <span
+                                className="search-library-wrapper"
                                 onClick={() => {
                                     setIsSearchOpen(prev => {
                                         const next = !prev
@@ -204,8 +207,6 @@ export function Library() {
                 </div>
 
             </div>
-
-            
 
             <LibraryList searchTerm={searchTerm} />
         </div>

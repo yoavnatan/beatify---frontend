@@ -40,7 +40,6 @@ export function SongsTable({
   onUpdateStation
 }) {
   const dispatch = useDispatch();
-  console.log('station in SongsTable:', station);
 
   const stations = useSelector(storeState => storeState.stationModule.stations)
   const { user } = useSelector(storeState => storeState.userModule)

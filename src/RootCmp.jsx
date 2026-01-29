@@ -190,7 +190,6 @@ export function RootCmp() {
                     <Route index element={<HomePage />} />
                     <Route path="station" element={<StationIndex />} />
                     <Route path="station/:stationId" element={<StationDetails />} />
-                    {/* <Route path="chat" element={<ChatApp />} /> */}
                     <Route path="search" element={<Search />} />
                     <Route path="libraryMobile" element={<Library />} />
                     <Route path="queueMobile" element={<SideBar />} />
