@@ -27,7 +27,7 @@ import { showSuccessMsg } from '../services/event-bus.service.js';
 import { searchMusicService } from '../services/searchMusic.service.js';
 import { getRandomIntInclusive, shuffleArray } from '../services/util.service.js';
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
-import { SOCKET_EMIT_PLAY, socketService } from '../services/socket.service.js';
+import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, socketService } from '../services/socket.service.js';
 
 
 export function Player() {
@@ -158,9 +158,12 @@ export function Player() {
         const data = { song, user }
         const prev = lastClickedSong
         dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-
+        console.log(nowPlayingStationId)
         if (prev?.id === song.id) {
             dispatch({ type: TOGGLE_PLAY })
+            if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+                socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, data)
+            }
         } else {
             setSong(song)
             dispatch({ type: PLAY })
@@ -269,7 +272,14 @@ export function Player() {
                         </span>
                     </Tippy>
                     <div className="btn-play"
-                        onClick={() => dispatch({ type: TOGGLE_PLAY })
+                        onClick={() => {
+                            dispatch({ type: TOGGLE_PLAY })
+                            console.log(nowPlayingStationId)
+                            if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+                                console.log(nowPlaying)
+                                socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, { song: nowPlaying })
+                            }
+                        }
                         }>{(playing)
                             ?
                             <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} key="pause-tip">

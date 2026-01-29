@@ -70,9 +70,7 @@ export function ListeningRoom() {
 
   useEffect(() => {
     if (!user) return
-    socketService.on('toggle-play', () => {
-      console.count('toggle-play received')
-    })
+
     socketService.emit('join-listening-room', user)
   }, [])
   useEffect(() => {
@@ -80,7 +78,6 @@ export function ListeningRoom() {
       onPlayFromSocket(playerInfo.songInfo)
     })
     socketService.on(SOCKET_EVENT_TOGGLE_PLAY, playerInfo => {
-      console.log('no!!!')
       onToggleFromSocket(playerInfo.songInfo)
     })
 
@@ -94,10 +91,15 @@ export function ListeningRoom() {
 
 
   function onToggleFromSocket(song) {
-
+    console.log(playing)
     const prev = lastClickedSong
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
     dispatch({ type: TOGGLE_PLAY })
+    // if (playing) {
+    //   dispatch({ type: PAUSE })
+    // } else {
+    //   dispatch({ type: PLAY })
+    // }
   }
 
 
