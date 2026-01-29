@@ -90,12 +90,18 @@ object {
     &.medium-large {
         width: 30px;
     }
+
     &.large {
         width: 32px;
     }
 
     &.active {
         fill: white;
+    }
+
+    &.on {
+
+        fill: var(--sp-green);
     }
 }
 

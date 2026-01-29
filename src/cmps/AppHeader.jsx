@@ -28,6 +28,7 @@ import AddToQueue from "../assets/svg/queue-add.svg?react"
 import Tippy from '@tippyjs/react';
 import Exit from "../assets/svg/exit.svg?react"
 import UsersGroup from "../assets/svg/users-group.svg?react"
+import userImg from '../assets/img/defaultuser.png'
 
 
 
@@ -145,7 +146,7 @@ export function AppHeader() {
     function onLogOut() {
         onLogout()
     }
-    const randomUserImg = `https://robohash.org/${user?._id}?&set=set2`
+    const randomUserImg = `https://thispersondoesnotexist.com/`
 
     return (
         <header className="app-header full">
@@ -256,7 +257,7 @@ export function AppHeader() {
                     <NavLink to="/listeningRoom">
                         <Tippy content={'Listening-room'} delay={[500, 0]} offset={[15, 15]} arrow={false} >
                             <span className="tooltip-wrapper">
-                                <People className="icon small" />
+                                {<People className={`icon small ${(location.pathname === '/listeningRoom') ? 'on' : ''}`} />}
                             </span>
                         </Tippy>
                     </NavLink>
@@ -272,6 +273,7 @@ export function AppHeader() {
                                     className="profile-pic"
                                     src={randomUserImg}
                                     alt="User"
+
                                     onClick={() => setIsMenuOpen(prev => !prev)}
                                 />
                             </Tippy>
