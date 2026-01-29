@@ -49,7 +49,6 @@ export function Browse() {
 
             <div className="main-browse">
                 {isLoading ? (
-                    // סקלטונים צבעוניים
                     [...Array(15)].map((_, idx) => (
                         <div
                             key={idx}
@@ -58,7 +57,6 @@ export function Browse() {
                         ></div>
                     ))
                 ) : (
-                    // כרטיסים אמיתיים
                     genres.slice(1).map((genre, idx) => (
                         <article key={genre.id}
                             onClick={(ev) => createGenreStation(ev, genre)}

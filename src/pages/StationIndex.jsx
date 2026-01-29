@@ -84,7 +84,6 @@ export function StationIndex() {
                         <button>All</button>
                         <button>Music</button>
                     </div>
-                    {/* {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>} */}
                 </header>
                 <div className="body">
                     {isLoading ? (
@@ -95,14 +94,11 @@ export function StationIndex() {
                                 ))}
                             </div>
 
-                            {/* שלוש קרוסלות סקלטון */}
                             <div className="station-carusels-skeleton-loader">
                                 {[...Array(3)].map((_, i) => (
                                     <div key={i} className="skeleton-carousel-row">
-                                        {/* כותרת הקרוסלה */}
                                         <div className="skeleton-title skeleton-shimmer"></div>
 
-                                        {/* שורת הכרטיסים */}
                                         <div className="skeleton-items-row">
                                             {[...Array(7)].map((_, j) => (
                                                 <div key={j} className="skeleton-carousel-card">

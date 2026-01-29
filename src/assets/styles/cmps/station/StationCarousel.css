@@ -242,7 +242,6 @@
 .skeleton-carousel-card {
     min-width: 153px;
     height: 220px;
-    /* background-color: #181818; */
     padding: .7em;
     border-radius: 8px;
     display: flex;
@@ -253,7 +252,6 @@
         width: 153px;
         height: 153px;
         border-radius: 5px;
-        /* הוספת האנימציה לתמונה */
         background: linear-gradient(90deg, #181818 25%, #282828 50%, #181818 75%);
         background-size: 200% 100%;
         animation: skeleton-shimmer 3s infinite linear;
@@ -263,7 +261,6 @@
         width: 80%;
         height: 14px;
         border-radius: 2px;
-        /* הוספת האנימציה לטקסט */
         background: linear-gradient(90deg, #181818 25%, #282828 50%, #181818 75%);
         background-size: 200% 100%;
         animation: skeleton-shimmer 3s infinite linear;
