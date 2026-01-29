@@ -94,8 +94,11 @@ export function StationIndex() {
                             onUpdateStation={onUpdateStation}
                             setGradientColor={setGradientColor}
                         />
+                        <h2 className="carusel-title">More of your taste</h2>
                         <StationCarousel stations={stations.slice(0, 7)} />
+                        <h2 className="carusel-title">Picks of the day</h2>
                         <StationCarousel stations={stations.slice(7, 14)} />
+                        <h2 className="carusel-title">Discover new releases</h2>
                         <StationCarousel stations={stations.slice(14)} />
                     </div>
                 </div>

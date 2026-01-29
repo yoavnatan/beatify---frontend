@@ -235,7 +235,7 @@ export function Player() {
                 <img src={nowPlaying.imgUrl} />
                 {nowPlaying.src && <div>
                     <div className='song-title'>{nowPlaying.title}</div>
-                    <div className='artist-name'>Artist name</div>
+                    <div className='artist-name'>{nowPlaying.artist.name}</div>
                 </div>}
                 {nowPlaying.src && <div className={`like-button ${isSongLiked ? ' on' : ''}`}>
                     <Tippy content={`${isSongLiked ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >

@@ -11,13 +11,14 @@ import { useEffect } from 'react'
 import { loadStations } from './store/actions/station.actions.js'
 // import { LibraryAddStation } from './pages/LibraryAddStation.jsx'
 import { Search } from './pages/Search.jsx'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SideBar } from './cmps/SideBar.jsx'
 import { Browse } from './pages/Browse.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { loginDefault } from './store/actions/user.actions.js'
 import { use } from 'react'
 import { ListeningRoom } from './pages/ListeningRoom.jsx'
+import { TOGGLE_PLAY } from './store/reducers/player.reducer.js'
 
 
 
@@ -25,6 +26,8 @@ export function MainLayout() {
     const navigate = useNavigate();
     const BREAKPOINT = 600;
     const location = useLocation()
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
 
@@ -40,6 +43,27 @@ export function MainLayout() {
         return () => { window.removeEventListener('resize', handleResize) }
 
     }, [navigate])
+
+
+    useEffect(() => {
+        function handleKeyDown(ev) {
+            const tag = ev.target.tagName
+
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || ev.target.isContentEditable) {
+                return
+            }
+            if (ev.code === 'Space') {
+                ev.preventDefault()
+                dispatch({ type: TOGGLE_PLAY })
+            }
+        }
+
+        window.addEventListener('keydown', handleKeyDown)
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [dispatch])
 
     useEffect(() => {
         loadStations()
@@ -118,6 +142,9 @@ export function MainLayout() {
             window.removeEventListener("expand-library", expandLibrary)
             window.removeEventListener("expand-library-to-normal", expandLibraryToNormal)
         }
+
+
+
 
 
     }, [])

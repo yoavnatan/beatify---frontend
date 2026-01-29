@@ -23,11 +23,12 @@ import { addSongToStation, addStation } from "../store/actions/station.actions.j
 import { SET_NOW_PLAYING_STATION } from "../store/reducers/station.reducer.js"
 import { stationService } from "../services/station"
 import { useNavigate } from "react-router"
+import { StationCarousel } from "../cmps/StationCarousel.jsx"
 import { showSuccessMsg } from "../services/event-bus.service.js"
 
 
 export function Search() {
-    const { searchResults, artistResults } = useSelector(storeState => storeState.searchModule)
+    const { searchInput, searchResults, artistResults } = useSelector(storeState => storeState.searchModule)
     const { user } = useSelector(storeState => storeState.userModule)
     let { playing, nowPlaying, lastClickedSong } = useSelector(storeState => storeState.playerModule)
     const stations = useSelector(storeState => storeState.stationModule.stations)
@@ -82,9 +83,15 @@ export function Search() {
         navigate(`/station/${savedStation._id}`)
     }
 
-
+    const regExp = new RegExp(searchInput, 'i')
+    console.log(searchInput)
     return (
         <section className="search-index container">
+            {searchInput && stations.filter(s => regExp.test(s.name)).length > 0 && <>
+                <h1 className="header">Playlists</h1>
+                <StationCarousel stations={stations.filter(s => regExp.test(s.name))} />
+            </>
+            }
             <h1 className="header">Artists</h1>
             <div className="artist-search-results container flex">
                 {artistResults.length > 0 && artistResults.map(res => (

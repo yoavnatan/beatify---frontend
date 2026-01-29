@@ -22,7 +22,7 @@ import { debounce, saveToStorage } from '../services/util.service.js'
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from '../store/reducers/player.reducer.js'
 import { setSong } from '../store/actions/player.actions.js'
 import { SET_NOW_PLAYING_STATION } from '../store/reducers/station.reducer.js'
-import { CLEAR_RECENT_SEARCH, SET_ARTIST_RESULTS, SET_RESULTS, UPDATE_RECENT_SEARCH } from '../store/reducers/search.reducer.js'
+import { CLEAR_RECENT_SEARCH, SET_ARTIST_RESULTS, SET_RESULTS, SET_SEARCH_INPUT, UPDATE_RECENT_SEARCH } from '../store/reducers/search.reducer.js'
 import { ADD_TO_QUEUE } from "../store/reducers/player.reducer.js"
 import AddToQueue from "../assets/svg/queue-add.svg?react"
 import Tippy from '@tippyjs/react';
@@ -55,6 +55,10 @@ export function AppHeader() {
         if (search) debouncedOnSearch(search)
     }, [search])
 
+
+    useEffect(() => {
+        dispatch({ type: SET_SEARCH_INPUT, searchInput: search })
+    }, [search])
 
     useEffect(() => {
         function handleClickOutside(ev) {
