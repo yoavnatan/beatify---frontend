@@ -8,6 +8,7 @@ import { stationService } from '../services/station'
 export function StationList({ stations, onRemoveStation, onUpdateStation, setGradientColor }) {
     const user = useSelector(storeState => storeState.userModule.user)
     const [gradients, setGreadients] = useState([])
+    const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
 
     useEffect(() => {
         calcColors()

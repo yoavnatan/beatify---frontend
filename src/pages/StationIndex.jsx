@@ -69,40 +69,71 @@ export function StationIndex() {
 
         <section className="station-index container "
             onScroll={handleScroll} >
-            <Loader isLoading={isLoading}>
-                <div className="gradient" style={{
-                    '--avg-color': gradientColor,
-                    background: `linear-gradient(var(--avg-color)0%, rgba(0, 0, 0, 0) 50%)`,
-                    transition: '--avg-color 0.5s ease-in-out'
+            {/* <Loader isLoading={isLoading}> */}
+            <div className="gradient" style={{
+                '--avg-color': gradientColor,
+                background: `linear-gradient(var(--avg-color)0%, rgba(0, 0, 0, 0) 50%)`,
+                transition: '--avg-color 0.5s ease-in-out'
 
+            }}>
+                <header style={{
+                    '--avg-color': `rgba(${toRgbString(gradientColor)},${headerOpacity.toFixed(2)})`,
+                    background: 'var(--avg-color)',
                 }}>
-                    <header style={{
-                        '--avg-color': `rgba(${toRgbString(gradientColor)},${headerOpacity.toFixed(2)})`,
-                        background: 'var(--avg-color)',
-                    }}>
-                        <div className="filter-btns">
-                            <button>All</button>
-                            <button>Music</button>
-                        </div>
-                        {/* {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>} */}
-                    </header>
-                    <div className="body">
-                        {/* <StationFilter filterBy={filterBy} setFilterBy={setFilterBy} /> */}
-                        <StationList
-                            stations={stations}
-                            onRemoveStation={onRemoveStation}
-                            onUpdateStation={onUpdateStation}
-                            setGradientColor={setGradientColor}
-                        />
-                        <h2 className="carusel-title">More of your taste</h2>
-                        <StationCarousel stations={stations.slice(0, 7)} />
-                        <h2 className="carusel-title">Picks of the day</h2>
-                        <StationCarousel stations={stations.slice(7, 14)} />
-                        <h2 className="carusel-title">Discover new releases</h2>
-                        <StationCarousel stations={stations.slice(14)} />
+                    <div className="filter-btns">
+                        <button>All</button>
+                        <button>Music</button>
                     </div>
+                    {/* {userService.getLoggedinUser() && <button onClick={onAddStation}>Add a Station</button>} */}
+                </header>
+                <div className="body">
+                    {isLoading ? (
+                        <>
+                            <div className="station-list-skeleton-loader">
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className="skeleton-card-loading"></div>
+                                ))}
+                            </div>
+
+                            {/* שלוש קרוסלות סקלטון */}
+                            <div className="station-carusels-skeleton-loader">
+                                {[...Array(3)].map((_, i) => (
+                                    <div key={i} className="skeleton-carousel-row">
+                                        {/* כותרת הקרוסלה */}
+                                        <div className="skeleton-title skeleton-shimmer"></div>
+
+                                        {/* שורת הכרטיסים */}
+                                        <div className="skeleton-items-row">
+                                            {[...Array(7)].map((_, j) => (
+                                                <div key={j} className="skeleton-carousel-card">
+                                                    <div className="skeleton-img skeleton-shimmer"></div>
+                                                    <div className="skeleton-text skeleton-shimmer"></div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <StationList
+                                stations={stations}
+                                onRemoveStation={onRemoveStation}
+                                onUpdateStation={onUpdateStation}
+                                setGradientColor={setGradientColor}
+                            />
+                            <h2 className="carusel-title">More of your taste</h2>
+                            <StationCarousel stations={stations.slice(0, 7)} />
+                            <h2 className="carusel-title">Picks of the day</h2>
+                            <StationCarousel stations={stations.slice(7, 14)} />
+                            <h2 className="carusel-title">Discover new releases</h2>
+                            <StationCarousel stations={stations.slice(14)} />
+                        </>
+                    )}
                 </div>
-            </Loader>
+            </div>
+            {/* </Loader> */}
         </section>
 
     )

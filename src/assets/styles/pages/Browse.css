@@ -37,3 +37,27 @@
         grid-template-columns: repeat(2, minmax(100px, 1fr));
     }
 }
+
+
+.genre-card-skeleton {
+    height: 180px;
+    border-radius: 8px;
+    background: linear-gradient(90deg,
+            var(--skeleton-bg) 25%,
+            rgba(255, 255, 255, 0.1) 50%,
+            var(--skeleton-bg) 75%);
+    background-color: var(--skeleton-bg);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 2s infinite linear;
+    opacity: 0.7;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
