@@ -39,7 +39,7 @@ export function Browse() {
         navigate(`/station/${savedStation._id}`)
     }
 
-    if (!genres.length) return <div>Loading...</div>
+    // if (!genres.length) return <div>Loading...</div>
 
     return (
         <section className="browse container">
