@@ -18,6 +18,7 @@ export const ADD_TO_QUEUE = 'ADD_TO_QUEUE'
 export const REMOVE_FROM_QUEUE = 'REMOVE_FROM_QUEUE'
 export const SET_QUEUE = 'SET_QUEUE'
 export const SHOW_QUEUE = 'SHOW_QUEUE'
+export const PAUSE = 'PAUSE'
 
 const initialState = {
     playing: false,
@@ -44,10 +45,14 @@ export function playerReducer(state = initialState, action) {
             newState = { ...state, nowPlaying: action.nowPlaying }
             break
         case TOGGLE_PLAY:
+            console.log(state.playing)
             newState = { ...state, playing: !state.playing }
             break
         case PLAY:
             newState = { ...state, playing: true }
+            break
+        case PAUSE:
+            newState = { ...state, playing: false }
             break
         case SET_SRC:
             newState = { ...state, src: action.src }

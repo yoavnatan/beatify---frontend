@@ -15,7 +15,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
+import { PAUSE, PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -70,6 +70,9 @@ export function ListeningRoom() {
 
   useEffect(() => {
     if (!user) return
+    socketService.on('toggle-play', () => {
+      console.count('toggle-play received')
+    })
     socketService.emit('join-listening-room', user)
   }, [])
   useEffect(() => {
@@ -77,6 +80,7 @@ export function ListeningRoom() {
       onPlayFromSocket(playerInfo.songInfo)
     })
     socketService.on(SOCKET_EVENT_TOGGLE_PLAY, playerInfo => {
+      console.log('no!!!')
       onToggleFromSocket(playerInfo.songInfo)
     })
 
@@ -86,6 +90,7 @@ export function ListeningRoom() {
       socketService.off(SOCKET_EVENT_PLAY)
     }
   }, [])
+
 
 
   function onToggleFromSocket(song) {
@@ -198,8 +203,9 @@ export function ListeningRoom() {
     const data = { song: search, user }
     const prev = lastClickedSong
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-
+    console.log(data)
     if (prev?.id === song.id) {
+      console.log(playing)
       dispatch({ type: TOGGLE_PLAY })
       socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, data)
     } else {
