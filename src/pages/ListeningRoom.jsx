@@ -312,9 +312,11 @@ export function ListeningRoom() {
 
                       if (isStationPlaying) {
                         dispatch({ type: TOGGLE_PLAY });
+                        socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, { song: nowPlaying })
                       } else {
                         onPlaySearchedResult(station.songs[0])
                         dispatch({ type: PLAY });
+
                       }
 
                       dispatch({
@@ -388,6 +390,8 @@ export function ListeningRoom() {
                 dispatch({ type: SET_LAST_CLICKED, lastClickedSong: nowPlaying });
                 if (isStationPlaying) {
                   dispatch({ type: TOGGLE_PLAY });
+                  socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, { song: nowPlaying })
+
                 } else {
                   onPlaySearchedResult(station.songs[0])
                   dispatch({ type: PLAY });
