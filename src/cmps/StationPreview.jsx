@@ -8,6 +8,7 @@ import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from "../store/reducers/st
 import { setSong } from "../store/actions/player.actions";
 
 export function StationPreview({ station, gradient, setGradientColor }) {
+    const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
 
     const { playing, nowPlaying, lastClickedSong } = useSelector(
         (storeState) => storeState.playerModule,
@@ -64,43 +65,45 @@ export function StationPreview({ station, gradient, setGradientColor }) {
 
 
     return (
-        <article
-            className="station-preview"
-            onMouseOver={() => onChangeGradient(station)}
-            onMouseOut={onRevertGradient}
-        >
-            <img
-                src={coverImg}
-                alt={station.name}
-            />
-
-            <h3 className="station-name-preview">{station.name}</h3>
-
-            <div
-                className="btn-play"
-                onClick={(ev) => {
-                    ev.stopPropagation()
-                    dispatch({ type: SET_LAST_CLICKED, lastClickedSong: nowPlaying });
-                    if (station._id === nowPlayingStationId) {
-                        dispatch({ type: TOGGLE_PLAY });
-                    } else {
-                        onPlaySearchedResult(station.songs[0])
-                        dispatch({ type: PLAY });
-                    }
-
-                    dispatch({
-                        type: SET_NOW_PLAYING_STATION,
-                        nowPlaying: station._id,
-                    });
-                }}
+        <>
+            <article
+                className="station-preview"
+                onMouseOver={() => onChangeGradient(station)}
+                onMouseOut={onRevertGradient}
             >
-                {(station._id !== nowPlayingStationId || !playing) && (
-                    <Play className="icon small black" />
-                )}
-                {station._id === nowPlayingStationId && playing && (
-                    <Pause className="icon small black" />
-                )}
-            </div>
-        </article>
+                <img
+                    src={coverImg}
+                    alt={station.name}
+                />
+
+                <h3 className="station-name-preview">{station.name}</h3>
+
+                <div
+                    className="btn-play"
+                    onClick={(ev) => {
+                        ev.stopPropagation()
+                        dispatch({ type: SET_LAST_CLICKED, lastClickedSong: nowPlaying });
+                        if (station._id === nowPlayingStationId) {
+                            dispatch({ type: TOGGLE_PLAY });
+                        } else {
+                            onPlaySearchedResult(station.songs[0])
+                            dispatch({ type: PLAY });
+                        }
+
+                        dispatch({
+                            type: SET_NOW_PLAYING_STATION,
+                            nowPlaying: station._id,
+                        });
+                    }}
+                >
+                    {(station._id !== nowPlayingStationId || !playing) && (
+                        <Play className="icon small black" />
+                    )}
+                    {station._id === nowPlayingStationId && playing && (
+                        <Pause className="icon small black" />
+                    )}
+                </div>
+            </article>
+        </>
     )
 }

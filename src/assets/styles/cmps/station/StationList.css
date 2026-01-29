@@ -23,3 +23,47 @@
         display: block;
     }
 }
+
+.station-list-skeleton-loader {
+
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(173px, 1fr));
+    gap: .5em;
+
+    margin: 0;
+
+    @media (min-width: 1300px) {
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+    }
+
+    @media (max-width:600px) {
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+.skeleton-card-loading {
+
+    background-color: var(--sp-card-transparent);
+    height: 48px;
+    border-radius: 5px;
+    min-width: 173px;
+    width: 100%;
+
+    background: linear-gradient(90deg, #6b6b6b 25%, #282828 50%, #181818 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}

@@ -178,3 +178,90 @@
     margin-top: 1em;
     font-size: 1.1em;
 }
+
+
+.station-carusels-skeleton-loader {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding-bottom: 2em;
+}
+
+/* //Skeleton//  */
+/* אנימציית השמר (Shimmer) */
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ה-List העליון */
+.skeleton-card-loading {
+    aspect-ratio: 1 / 1.35;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #181818 25%, #282828 50%, #181818 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite linear;
+}
+
+/* הסקלטון של הקרוסלות */
+.station-carusels-skeleton-loader {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding-bottom: 2em;
+}
+
+.skeleton-carousel-row {
+    display: flex;
+    flex-direction: column;
+
+    .skeleton-title {
+        width: 200px;
+        height: 24px;
+        margin-bottom: 1em;
+        border-radius: 4px;
+        /* הוספת האנימציה לכותרת */
+        background: linear-gradient(90deg, #181818 25%, #282828 50%, #181818 75%);
+        background-size: 200% 100%;
+        animation: skeleton-shimmer 1.5s infinite linear;
+    }
+
+    .skeleton-items-row {
+        display: flex;
+        gap: 1.2em;
+        overflow: hidden;
+    }
+}
+
+.skeleton-carousel-card {
+    min-width: 153px;
+    height: 220px;
+    padding: .7em;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .skeleton-img {
+        width: 153px;
+        height: 153px;
+        border-radius: 5px;
+        background: linear-gradient(90deg, #181818 25%, #282828 50%, #181818 75%);
+        background-size: 200% 100%;
+        animation: skeleton-shimmer 3s infinite linear;
+    }
+
+    .skeleton-text {
+        width: 80%;
+        height: 14px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #181818 25%, #282828 50%, #181818 75%);
+        background-size: 200% 100%;
+        animation: skeleton-shimmer 3s infinite linear;
+    }
+}

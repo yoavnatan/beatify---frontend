@@ -9,12 +9,24 @@
     padding: .8rem 1rem;
     height: 90px;
 
+    .song-details {
+        display: grid;
+        grid-template-rows: 18px 15px;
+        align-content: center;
+    }
+
+    .song-title {
+        justify-self: end;
+        height: min-content
+    }
+
     .mobile-nav-bar {
         display: none;
     }
 
     div {
-        font-weight: 500;
+        /* font-weight: 500; */
+
     }
 
     & p {

@@ -2,15 +2,17 @@
     width: 100%;
     display: grid;
     /* gap: .5em; */
-    grid-template-columns: minmax(130px, auto) minmax(280px, 700px) minmax(50px, auto);
+    grid-template-columns: 280px minmax(280px, 700px) minmax(50px, auto);
     justify-content: space-between;
     align-items: center;
     user-select: none;
 
     @media (max-width:600px) {
-        grid-template-columns: minmax(130px, auto) minmax(100px, 200px) minmax(10px, auto);
+        grid-template-columns: 180px minmax(100px, 200px) minmax(10px, auto);
 
     }
+
+
 
     .now-playing {
         display: grid;
@@ -18,7 +20,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         gap: .8em;
-        grid-template-columns: 56px minmax(0, 150px) 18px;
+        grid-template-columns: 56px minmax(0, 1fr) 18px;
 
         img {
             width: 56px;
@@ -32,7 +34,7 @@
             text-overflow: ellipsis;
             color: var(--sp-white);
             font-size: 13px;
-            width: 200px;
+            width: 100%;
         }
 
         .artist-name {
@@ -249,8 +251,8 @@
     }
 
     .player .now-playing {
-        grid-template-columns: 40px minmax(0, 120px) 20px;
-
+        grid-template-columns: 40px minmax(0, 1fr) 18px;
+        gap: .5em;
     }
 
     .controls>*:nth-child(2),

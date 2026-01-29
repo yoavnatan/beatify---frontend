@@ -7,15 +7,27 @@ import { useNavigate } from "react-router"
 export function Browse() {
     const [genres, setGenres] = useState([])
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
+    const browseColors = [
+        '#1b5e20', '#27856a', '#1e3264', '#8d67ab', '#e8115b',
+        '#8c1932', '#7358ff', '#148a08', '#ba5d07', '#e91429',
+        '#e1118c', '#d84000', '#503750', '#1db954', '#0d3b66'
+    ]
 
     useEffect(() => {
         loadGenres()
     }, [])
 
     async function loadGenres() {
-        console.log('hi')
-        const genresToLoad = await searchMusicService.getGenres()
-        setGenres(genresToLoad)
+        try {
+            setIsLoading(true)
+            const genresToLoad = await searchMusicService.getGenres()
+            setGenres(genresToLoad)
+        } catch (err) {
+            console.error('Failed to load genres', err)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     async function createGenreStation(ev, genre) {
@@ -27,7 +39,7 @@ export function Browse() {
         navigate(`/station/${savedStation._id}`)
     }
 
-    if (!genres.length) return <div>Loading...</div>
+    // if (!genres.length) return <div>Loading...</div>
 
     return (
         <section className="browse container">
@@ -36,17 +48,27 @@ export function Browse() {
             </header>
 
             <div className="main-browse">
-                {genres.slice(1).map((genre, idx) => (
-                    <article key={genre.id}
-                        onClick={(ev) => createGenreStation(ev, genre)}
-                        className="genre-card" style={{
-                            backgroundColor: `var(--browse-clr-${idx})`
-                        }}>
-                        <span>{genre.name}</span>
-                        <img src={genre.picture_big} />
-                    </article>
-                ))}
+                {isLoading ? (
+                    [...Array(15)].map((_, idx) => (
+                        <div
+                            key={idx}
+                            className="genre-card-skeleton"
+                            style={{ '--skeleton-bg': browseColors[idx % browseColors.length] }}
+                        ></div>
+                    ))
+                ) : (
+                    genres.slice(1).map((genre, idx) => (
+                        <article key={genre.id}
+                            onClick={(ev) => createGenreStation(ev, genre)}
+                            className="genre-card"
+                            style={{ backgroundColor: browseColors[idx % browseColors.length] }}>
+                            <span>{genre.name}</span>
+                            <img src={genre.picture_big} />
+                        </article>
+                    ))
+                )}
             </div>
         </section>
     )
+
 }
