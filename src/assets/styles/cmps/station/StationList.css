@@ -45,6 +45,7 @@
     height: 48px;
     border-radius: 5px;
     min-width: 173px;
+    width: 100%;
 
     background: linear-gradient(90deg, #6b6b6b 25%, #282828 50%, #181818 75%);
     background-size: 200% 100%;
