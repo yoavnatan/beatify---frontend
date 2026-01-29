@@ -40,6 +40,7 @@ export function SongsTable({
   onUpdateStation
 }) {
   const dispatch = useDispatch();
+  console.log('station in SongsTable:', station);
 
   const stations = useSelector(storeState => storeState.stationModule.stations)
   const { user } = useSelector(storeState => storeState.userModule)
@@ -239,7 +240,7 @@ export function SongsTable({
       </ul>}
 
 
-      <div className='search container'>
+      {(station._id !== 'likedSongs') && <div className='search container'>
         <h1>Let's find something for your playlist</h1>
         <form onSubmit={onSearch}>
           <div className="wrapper">
@@ -269,6 +270,7 @@ export function SongsTable({
           ))}
         </ul>
       </div >
+      }
     </section>
   )
 }

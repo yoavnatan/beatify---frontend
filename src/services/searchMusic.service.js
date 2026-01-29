@@ -24,7 +24,6 @@ async function searchMusic(query) {
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data.data
-        console.log(searchData)
         return searchData
     } catch (err) {
         console.error(err)

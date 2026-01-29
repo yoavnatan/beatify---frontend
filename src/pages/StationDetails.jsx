@@ -208,12 +208,10 @@ export function StationDetails() {
 
   async function onAddSong(ev, song, stationId) {
     ev.stopPropagation();
-
     if (!user) {
       showErrorMsg("You must be logged in to add songs to a playlist");
       return;
     }
-
     await addSongToStation(song, stationId);
     showSuccessMsg("Song added to playlist");
   }
