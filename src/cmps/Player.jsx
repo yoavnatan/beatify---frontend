@@ -27,6 +27,7 @@ import { showSuccessMsg } from '../services/event-bus.service.js';
 import { searchMusicService } from '../services/searchMusic.service.js';
 import { getRandomIntInclusive, shuffleArray } from '../services/util.service.js';
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
+import { SOCKET_EMIT_PLAY, socketService } from '../services/socket.service.js';
 
 
 export function Player() {
@@ -105,8 +106,10 @@ export function Player() {
     }
 
     function onPlayNext() {
+        console.log(stations.find(s => s.isShared))
+
         let nextSongIdx
-        if (queue.length > 0) {
+        if (queue.length > 0 && stations.find(s => s.isShared)._id !== nowPlayingStationId) {
             onPlayFromQueue()
             return
         }
@@ -152,7 +155,7 @@ export function Player() {
                 await updateStation(stationToUpdate)
             }
         }
-
+        const data = { song, user }
         const prev = lastClickedSong
         dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
 
@@ -161,6 +164,9 @@ export function Player() {
         } else {
             setSong(song)
             dispatch({ type: PLAY })
+            if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+                socketService.emit(SOCKET_EMIT_PLAY, data)
+            }
             // dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: station._id })
         }
     }
