@@ -87,6 +87,7 @@
   @media (max-width: 600px) {
     display: block;
     grid-row: 1;
+    margin-top: 20px;
   }
 }
 
@@ -95,6 +96,7 @@
 
   @media (max-width: 600px) {
     margin-inline-end: 0;
+
   }
 }
 

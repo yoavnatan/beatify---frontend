@@ -219,7 +219,6 @@
 .skeleton-carousel-row {
     display: flex;
     flex-direction: column;
-    padding-left: 2em;
 
     .skeleton-title {
         width: 200px;
