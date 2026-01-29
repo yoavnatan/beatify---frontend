@@ -11,7 +11,7 @@ export const SOCKET_EVENT_TOGGLE_PLAY = 'toggle-play'
 export const SOCKET_EMIT_TOGGLE_PLAY = 'emit-toggle-play'
 export const SOCKET_EMIT_SEND_MSG = 'send-msg'
 export const SOCKET_EVENT_ADD_MSG = 'add-msg'
-export const SOCKET_EMIT_SET_TOPIC = 'set-topic'
+
 
 
 const SOCKET_EMIT_LOGIN = 'set-user-socket'

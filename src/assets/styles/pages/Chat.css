@@ -1,19 +1,101 @@
 .chat {
-    position: fixed;
-    bottom: 10%;
-    left: 0;
-    background: #111;
     padding: 20px;
-    height: 83%;
-    border-top: 1px solid #333;
-    color: var(--sp-white);
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: var(--sp-white);
 }
 .chat-header {
-    margin-bottom: 10px;
-    font-size: 24px;
+    font-size: var(--fs-h1);
+    font-weight: 600;
     text-align: center;
+    margin-bottom: 12px;
+
+    color: var(--sp-greenBrighter);
+    letter-spacing: var(--ls-tight);
+}
+.chat ul {
+    flex: 1;
+    overflow-y: auto;
+
+    padding-right: 6px;
+    margin-bottom: 15px;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--sp-green) var(--sp-dark-2);
+}
+
+.chat ul::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat ul::-webkit-scrollbar-thumb {
+    background: var(--sp-green);
+    border-radius: 10px;
+}
+
+.chat ul li {
+    background: var(--sp-dark-2);
+    border: 1px solid var(--sp-border-hover);
+
+    padding: 10px 12px;
+    margin-bottom: 10px;
+
+    border-radius: 10px;
+    font-size: var(--fs-small);
+    line-height: var(--lh-normal);
+}
+
+.chat form {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.chat input {
+    flex: 1;
+
+    padding: 12px;
+    border-radius: 10px;
+
+    border: 1px solid var(--sp-border);
+    background: var(--sp-dark-2);
+    color: var(--sp-white);
+
+    outline: none;
+    font-size: var(--fs-small);
+    transition: 0.2s;
+}
+
+.chat input:focus {
+    border-color: var(--sp-greenBrighter);
+    background: var(--sp-dark);
+}
+
+.chat button {
+    padding: 12px 18px;
+
+    background: var(--sp-green);
+    border: none;
+    border-radius: 10px;
+
+    color: var(--sp-white);
+    font-weight: 600;
+    font-size: var(--fs-small);
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.chat button:hover {
+    background: var(--sp-greenBrighter);
+}
+.chat button:disabled {
+    background: var(--sp-border);
+    cursor: not-allowed;
+}
+.sidebar-collapsed .library-wrapper .chat {
+    display: none;
 }
 

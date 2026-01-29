@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG, SOCKET_EMIT_SET_TOPIC } from '../services/socket.service'
+import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG } from '../services/socket.service'
 
 export function Chat() {
     const [msg, setMsg] = useState({ txt: '' })
@@ -19,16 +19,19 @@ export function Chat() {
 
     function sendMsg(ev) {
         ev.preventDefault()
+        if (!msg.txt.trim()) return
+
         const from = loggedInUser?.fullname || 'Me'
         const newMsg = { from, txt: msg.txt }
+
         socketService.emit(SOCKET_EMIT_SEND_MSG, newMsg)
         setMsg({ txt: '' })
     }
 
+
     function handleFormChange(ev) {
-        const { name, value } = ev.target
-        console.log(name, value);
-        setMsg(prevMsg => ({ ...prevMsg, [name]: value }))
+        const { value } = ev.target
+        setMsg(prevMsg => ({ ...prevMsg, txt: value }))
     }
 
     return (
@@ -43,7 +46,7 @@ export function Chat() {
                 <input
                     type="text" value={msg.txt} onChange={handleFormChange}
                     name="txt" autoComplete="off" />
-                <button>Send</button>
+                <button disabled={!msg.txt.trim()}>Send</button>
             </form>
 
 

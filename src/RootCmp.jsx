@@ -19,6 +19,8 @@ import { loginDefault } from './store/actions/user.actions.js'
 import { use } from 'react'
 import { ListeningRoom } from './pages/ListeningRoom.jsx'
 import { TOGGLE_PLAY } from './store/reducers/player.reducer.js'
+import { Chat } from './pages/Chat.jsx'
+
 
 
 
@@ -76,6 +78,7 @@ export function MainLayout() {
 
         function onMouseDown(e) {
             if (main.classList.contains("sidebar-expend")) return
+
             e.preventDefault()
             startX = e.clientX
             startWidth = parseInt(
@@ -155,7 +158,7 @@ export function MainLayout() {
 
             <main>
                 <aside className="library-wrapper">
-                    <Library />
+                    {location.pathname === '/listeningRoom' ? <Chat /> : <Library />}
                 </aside>
 
                 <div className="resize-handle"></div>
