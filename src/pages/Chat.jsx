@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG } from '../services/socket.service'
 
+
 export function Chat() {
     const [msg, setMsg] = useState({ txt: '' })
     const [msgs, setMsgs] = useState([])
@@ -15,6 +16,9 @@ export function Chat() {
 
     function addMsg(newMsg) {
         setMsgs(prevMsgs => [...prevMsgs, newMsg])
+    }
+    function expandLibraryToNormal() {
+        window.dispatchEvent(new CustomEvent("expand-library-to-normal"))
     }
 
     function sendMsg(ev) {
@@ -35,21 +39,30 @@ export function Chat() {
     }
 
     return (
-        <section className="chat">
-            <h2 className="chat-header">Chat Room</h2>
+        <>
+            <div className="chat-expand-btn" onClick={() => {
+                expandLibraryToNormal()
+                }}>
+                    💬
+            </div>
+            <section className="chat">
+                <h2 className="chat-header">Chat Room</h2>
+                <ul>
+                    {msgs.map((msg, idx) => (<li key={idx}>{msg.from}: {msg.txt}</li>))}
+                </ul>
 
-            <ul>
-                {msgs.map((msg, idx) => (<li key={idx}>{msg.from}: {msg.txt}</li>))}
-            </ul>
-
-            <form onSubmit={sendMsg}>
-                <input
-                    type="text" value={msg.txt} onChange={handleFormChange}
-                    name="txt" autoComplete="off" />
-                <button disabled={!msg.txt.trim()}>Send</button>
-            </form>
+                <form onSubmit={sendMsg}>
+                    <input
+                        type="text" value={msg.txt} onChange={handleFormChange}
+                        name="txt" autoComplete="off" />
+                    <button disabled={!msg.txt.trim()}>Send</button>
+                </form>
 
 
-        </section>
+            </section>
+        </>
+        
     )
 }
+
+

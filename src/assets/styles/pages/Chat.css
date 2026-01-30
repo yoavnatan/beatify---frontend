@@ -98,4 +98,73 @@
 .sidebar-collapsed .library-wrapper .chat {
     display: none;
 }
+.chat-expand-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
 
+    width: 48px;
+    height: 48px;
+
+    background: var(--sp-green);
+    border-radius: 50%;
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    animation: floatPulse 1.8s infinite ease-in-out;
+    transition: transform 0.2s ease;
+}
+
+.chat-expand-btn:hover {
+    transform: scale(1.1);
+}
+
+.chat-expand-btn {
+    top: 20%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    display: none;
+    width: 42px;
+    height: 42px;
+    background: var(--sp-green);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    animation: floatPulse 1.8s infinite ease-in-out;
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+.chat-expand-btn::after {
+    content: "Expand";
+    position: absolute;
+    bottom: 50px;
+    left: 55%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: var(--fs-body);
+    color: var(--sp-white);
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+
+.sidebar-collapsed .chat-expand-btn {
+    display: flex;
+}
+
+@keyframes floatPulse {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.05); }
+    100% { transform: translateY(0) scale(1); }
+}

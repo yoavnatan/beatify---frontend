@@ -95,7 +95,7 @@ export function MainLayout() {
             e.preventDefault()
             const newWidth = startWidth + (e.clientX - startX)
 
-            if (newWidth < 240) {
+            if (newWidth < 320) {
                 main.style.setProperty("--sidebar-width", "72px")
                 main.classList.add("sidebar-collapsed")
                 return
@@ -103,7 +103,7 @@ export function MainLayout() {
 
             main.classList.remove("sidebar-collapsed")
 
-            const clamped = Math.min(520, Math.max(240, newWidth))
+            const clamped = Math.min(520, Math.max(320, newWidth))
             main.style.setProperty("--sidebar-width", `${clamped}px`)
         }
 
@@ -124,7 +124,7 @@ export function MainLayout() {
         function expandLibraryToNormal() {
             main.classList.remove("sidebar-collapsed")
             main.classList.remove("sidebar-expend")
-            main.style.setProperty("--sidebar-width", "280px")
+            main.style.setProperty("--sidebar-width", "320px")
         }
 
         function collapseSidebar() {
