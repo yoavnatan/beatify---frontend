@@ -25,6 +25,7 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableQueueItem } from "./SortableQueueItem.jsx";
 import { SortableStationItem } from "./SortableStationItem.jsx";
 export function SideBar() {
+
     const [isBarOpen, SetIsBarOpen] = useState(false)
     const [artistBio, setArtistBio] = useState('')
     const navigate = useNavigate()
@@ -37,6 +38,8 @@ export function SideBar() {
     const { stations, stationSongs, nowPlaying: nowPlayingStationId } = useSelector(
         (storeState) => storeState.stationModule,
     )
+
+
     const { user } = useSelector(storeState => storeState.userModule)
 
     const sidebarRef = useRef()
@@ -50,6 +53,11 @@ export function SideBar() {
     useEffect(() => {
         if (queueShown) handleOpenBar()
     }, [queueShown])
+
+
+    useEffect(() => {
+        if (location.pathname === '/listeningRoom') handleCloseBar()
+    }, [location])
 
     async function onGetArtistBio() {
         const bio = await searchMusicService.getArtistBio(nowPlaying.artist.name)
@@ -116,7 +124,11 @@ export function SideBar() {
                     newWidth = MIN_WIDTH
                 }
 
-                if (!isBarOpen && newWidth > 100) SetIsBarOpen(true)
+                if (!isBarOpen && newWidth > 100) {
+                    if (location.pathname === '/listeningRoom') return
+
+                    SetIsBarOpen(true)
+                }
                 sidebarRef.current.style.width = `${newWidth}px`;
             }
         }
@@ -132,6 +144,8 @@ export function SideBar() {
     }
 
     function handleOpenBar() {
+        if (location.pathname === '/listeningRoom') return
+
         if (!isBarOpen) {
             SetIsBarOpen(true)
             sidebarRef.current.style.width = `${300}px`;

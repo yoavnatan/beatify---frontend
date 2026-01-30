@@ -15,7 +15,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { PAUSE, PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
+import { PAUSE, PLAY, SET_LAST_CLICKED, SET_NOW_PLAYING, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -86,7 +86,7 @@ export function ListeningRoom() {
       socketService.off(SOCKET_EVENT_TOGGLE_PLAY)
       socketService.off(SOCKET_EVENT_PLAY)
     }
-  }, [])
+  }, [stations])
 
 
 
@@ -104,19 +104,21 @@ export function ListeningRoom() {
 
 
   async function onPlayFromSocket(song) {
-
+    console.log('playingfromsocket')
     // const prev = lastClickedSong
     // dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
     // console.log(prev)
     // console.log(song.id)
     // if (prev?.id === song.id) {
     //   dispatch({ type: TOGGLE_PLAY })
+
+    const stationn = stations.find(station => station.isShared)
+    const stationnId = stationn?._id
     // } else {
-    setSong(song)
+    dispatch({ type: SET_NOW_PLAYING, nowPlaying: song });
     dispatch({ type: PLAY })
-    console.log(station)
-    dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: stationId })
-    dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
+    dispatch({ type: SET_NOW_PLAYING_STATION, nowPlaying: stationnId })
+    dispatch({ type: SET_STATION_SONGS, stationSongs: stationn.songs })
     // }
   }
 
