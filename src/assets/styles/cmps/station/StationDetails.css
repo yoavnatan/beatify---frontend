@@ -1,10 +1,10 @@
 .station-details {
-  background: var(--sp-black);
+  background-color: var(--sp-black);
   color: var(--sp-white);
   /* min-height: 100vh; */
   position: relative;
   background: linear-gradient(to bottom,
-      var(--avg-color) 0%, var(--sp-black) 35%);
+      var(--avg-color) 0%, var(--sp-black) 40%);
   /* display: grid; */
 }
 
@@ -176,11 +176,13 @@ h3,
   background-color: var(--sp-greenBrighter);
   transform: scale(1.06);
 }
-.like-remove-wrapper{
+
+.like-remove-wrapper {
   display: flex;
   gap: 20px;
 }
-.liked-station-hide{
+
+.liked-station-hide {
   display: none;
 }
 
@@ -195,7 +197,8 @@ h3,
   transition: transform .15s ease;
   width: 54px;
 }
-.add-song-btn{
+
+.add-song-btn {
   align-items: center;
   border: none;
   border-radius: 50%;
@@ -206,10 +209,12 @@ h3,
   transition: transform .15s ease;
   width: 54px;
 }
-.liked{
+
+.liked {
   display: none;
 }
-.check{
+
+.check {
   fill: var(--sp-green);
 }
 
