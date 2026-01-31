@@ -15,7 +15,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { PAUSE, PLAY, SET_LAST_CLICKED, SET_NOW_PLAYING, SHUFFLE_OFF, SHUFFLE_ON, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
+import { LOOP_OFF, LOOP_ON, PAUSE, PLAY, SET_LAST_CLICKED, SET_NOW_PLAYING, SHUFFLE_OFF, SHUFFLE_ON, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -30,7 +30,7 @@ import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
 import AddCircle from "../assets/svg/add-circle.svg?react";
-import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_SHUFFLE, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
+import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_LOOP, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_LOOP, SOCKET_EVENT_ON_SHUFFLE, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
 import { use } from "react";
 
 
@@ -79,6 +79,7 @@ export function ListeningRoom() {
     return () => {
       socketService.off(SOCKET_EVENT_ON_SHUFFLE)
       dispatch({ type: SHUFFLE_OFF })
+      dispatch({ type: LOOP_OFF })
 
     }
   }, [stations])
@@ -104,6 +105,13 @@ export function ListeningRoom() {
       dispatch({ type: SET_STATION_SONGS, stationSongs: data.stationSongs })
       dispatch({ type: SHUFFLE_OFF })
     })
+    socketService.on(SOCKET_EVENT_OFF_LOOP, () => {
+      dispatch({ type: LOOP_OFF })
+
+    })
+    socketService.on(SOCKET_EVENT_ON_LOOP, () => {
+      dispatch({ type: LOOP_ON })
+    })
 
     return () => {
       if (user) socketService.emit('leave-listening-room', user)
@@ -111,6 +119,8 @@ export function ListeningRoom() {
       socketService.off(SOCKET_EVENT_PLAY)
       socketService.off(SOCKET_EVENT_ON_SHUFFLE)
       socketService.off(SOCKET_EVENT_OFF_SHUFFLE)
+      socketService.off(SOCKET_EVENT_ON_LOOP)
+      socketService.off(SOCKET_EVENT_OFF_LOOP)
     }
   }, [stations])
 

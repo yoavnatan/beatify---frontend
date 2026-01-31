@@ -21,6 +21,8 @@ export const SHOW_QUEUE = 'SHOW_QUEUE'
 export const PAUSE = 'PAUSE'
 export const SHUFFLE_ON = 'SHUFFLE_ON'
 export const SHUFFLE_OFF = 'SHUFFLE_OFF'
+export const LOOP_ON = 'LOOP_ON'
+export const LOOP_OFF = 'LOOP_OFF'
 
 const initialState = {
     playing: false,
@@ -103,6 +105,12 @@ export function playerReducer(state = initialState, action) {
             break
         case SHUFFLE_OFF:
             newState = { ...state, shuffle: false }
+            break
+        case LOOP_ON:
+            newState = { ...state, loop: true }
+            break
+        case LOOP_OFF:
+            newState = { ...state, loop: false }
             break
         default:
     }

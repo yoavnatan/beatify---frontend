@@ -27,7 +27,7 @@ import { showSuccessMsg } from '../services/event-bus.service.js';
 import { searchMusicService } from '../services/searchMusic.service.js';
 import { getRandomIntInclusive, shuffleArray } from '../services/util.service.js';
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
-import { SOCKET_EMIT_OFF_SHUFFLE, SOCKET_EMIT_ON_SHUFFLE, SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_SHUFFLE, socketService } from '../services/socket.service.js';
+import { SOCKET_EMIT_OFF_LOOP, SOCKET_EMIT_OFF_SHUFFLE, SOCKET_EMIT_ON_LOOP, SOCKET_EMIT_ON_SHUFFLE, SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_SHUFFLE, socketService } from '../services/socket.service.js';
 import { useLocation } from 'react-router';
 
 
@@ -114,6 +114,11 @@ export function Player() {
 
     function onToggleLoop() {
         dispatch({ type: TOGLLE_LOOP })
+        if (!loop && stations.find(s => s.isShared)._id === nowPlayingStationId) {
+            socketService.emit(SOCKET_EMIT_ON_LOOP)
+        } else if (loop && stations.find(s => s.isShared)._id === nowPlayingStationId) {
+            socketService.emit(SOCKET_EMIT_OFF_LOOP)
+        }
     }
 
     function onPlayNext() {
