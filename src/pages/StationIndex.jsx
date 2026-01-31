@@ -120,11 +120,11 @@ export function StationIndex() {
                                 setGradientColor={setGradientColor}
                             />
                             <h2 className="carusel-title">More of your taste</h2>
-                            <StationCarousel stations={stations.slice(0, 7)} />
+                            <StationCarousel stations={stations.slice(0, 11)} />
                             <h2 className="carusel-title">Picks of the day</h2>
-                            <StationCarousel stations={stations.slice(7, 14)} />
+                            <StationCarousel stations={stations.slice(7, 19)} />
                             <h2 className="carusel-title">Discover new releases</h2>
-                            <StationCarousel stations={stations.slice(14)} />
+                            <StationCarousel stations={stations.slice(19)} />
                         </>
                     )}
                 </div>

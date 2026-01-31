@@ -15,7 +15,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { PAUSE, PLAY, SET_LAST_CLICKED, SET_NOW_PLAYING, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
+import { PAUSE, PLAY, SET_LAST_CLICKED, SET_NOW_PLAYING, SHUFFLE_OFF, SHUFFLE_ON, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -30,7 +30,7 @@ import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
 import AddCircle from "../assets/svg/add-circle.svg?react";
-import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
+import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_SHUFFLE, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
 import { use } from "react";
 
 
@@ -69,6 +69,21 @@ export function ListeningRoom() {
   }
 
   useEffect(() => {
+    socketService.on(SOCKET_EVENT_ON_SHUFFLE, data => {
+      if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+        dispatch({ type: SET_STATION_SONGS, stationSongs: data.stationSongs })
+        dispatch({ type: SHUFFLE_ON })
+      }
+    })
+
+    return () => {
+      socketService.off(SOCKET_EVENT_ON_SHUFFLE)
+      dispatch({ type: SHUFFLE_OFF })
+
+    }
+  }, [stations])
+
+  useEffect(() => {
     if (!user) return
 
     socketService.emit('join-listening-room', user)
@@ -80,18 +95,28 @@ export function ListeningRoom() {
     socketService.on(SOCKET_EVENT_TOGGLE_PLAY, playerInfo => {
       onToggleFromSocket(playerInfo.songInfo)
     })
+    socketService.on(SOCKET_EVENT_ON_SHUFFLE, data => {
+      dispatch({ type: SET_STATION_SONGS, stationSongs: data.stationSongs })
+      dispatch({ type: SHUFFLE_ON })
+
+    })
+    socketService.on(SOCKET_EVENT_OFF_SHUFFLE, data => {
+      dispatch({ type: SET_STATION_SONGS, stationSongs: data.stationSongs })
+      dispatch({ type: SHUFFLE_OFF })
+    })
 
     return () => {
       if (user) socketService.emit('leave-listening-room', user)
       socketService.off(SOCKET_EVENT_TOGGLE_PLAY)
       socketService.off(SOCKET_EVENT_PLAY)
+      socketService.off(SOCKET_EVENT_ON_SHUFFLE)
+      socketService.off(SOCKET_EVENT_OFF_SHUFFLE)
     }
   }, [stations])
 
 
 
   function onToggleFromSocket(song) {
-    console.log(playing)
     const prev = lastClickedSong
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
     dispatch({ type: TOGGLE_PLAY })
@@ -104,7 +129,6 @@ export function ListeningRoom() {
 
 
   async function onPlayFromSocket(song) {
-    console.log('playingfromsocket')
     // const prev = lastClickedSong
     // dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
     // console.log(prev)
@@ -209,7 +233,6 @@ export function ListeningRoom() {
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
     console.log(data)
     if (prev?.id === song.id) {
-      console.log(playing)
       dispatch({ type: TOGGLE_PLAY })
       socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, data)
     } else {

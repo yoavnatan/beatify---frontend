@@ -19,6 +19,8 @@ export const REMOVE_FROM_QUEUE = 'REMOVE_FROM_QUEUE'
 export const SET_QUEUE = 'SET_QUEUE'
 export const SHOW_QUEUE = 'SHOW_QUEUE'
 export const PAUSE = 'PAUSE'
+export const SHUFFLE_ON = 'SHUFFLE_ON'
+export const SHUFFLE_OFF = 'SHUFFLE_OFF'
 
 const initialState = {
     playing: false,
@@ -95,6 +97,12 @@ export function playerReducer(state = initialState, action) {
             break
         case SHOW_QUEUE:
             newState = { ...state, queueShown: true }
+            break
+        case SHUFFLE_ON:
+            newState = { ...state, shuffle: true }
+            break
+        case SHUFFLE_OFF:
+            newState = { ...state, shuffle: false }
             break
         default:
     }

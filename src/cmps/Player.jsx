@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import ReactPlayer from 'react-player'
 import { useDispatch, useSelector } from 'react-redux';
-import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED, TOGGLE_QUEUE_SHOW, REMOVE_FROM_QUEUE } from '../store/reducers/player.reducer.js';
+import { TOGGLE_PLAY, SET_IS_SEEKING, SET_LAST_VOLUME, SET_PLAYED, SET_PLAYED_SECONDS, SET_SRC, SET_VOLUME, TOGGLE_MUTE, TOGLLE_LOOP, TOGLLE_SHUFFLE, PLAY, SET_LAST_CLICKED, TOGGLE_QUEUE_SHOW, REMOVE_FROM_QUEUE, SHUFFLE_ON, SHUFFLE_OFF } from '../store/reducers/player.reducer.js';
 import Play from "../assets/svg/play.svg?react"
 import Pause from "../assets/svg/pause.svg?react"
 import PlayNext from "../assets/svg/play-next.svg?react"
@@ -27,7 +27,8 @@ import { showSuccessMsg } from '../services/event-bus.service.js';
 import { searchMusicService } from '../services/searchMusic.service.js';
 import { getRandomIntInclusive, shuffleArray } from '../services/util.service.js';
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS } from '../store/reducers/station.reducer.js';
-import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, socketService } from '../services/socket.service.js';
+import { SOCKET_EMIT_OFF_SHUFFLE, SOCKET_EMIT_ON_SHUFFLE, SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_SHUFFLE, socketService } from '../services/socket.service.js';
+import { useLocation } from 'react-router';
 
 
 export function Player() {
@@ -38,7 +39,7 @@ export function Player() {
     const { stationSongs, stations, nowPlaying: nowPlayingStationId } = useSelector(
         (storeState) => storeState.stationModule,
     );
-
+    const location = useLocation()
     const lastIdx = useRef()
     const dispatch = useDispatch()
     const min = 0;
@@ -53,6 +54,10 @@ export function Player() {
             backgroundSize: `${(volume - min) * 100 / (max - min)}% 100%`,
         }
     }
+
+
+
+
 
     function onToggleMute() {
         console.log(volume)
@@ -94,8 +99,14 @@ export function Player() {
         if (nowPlayingStationId && !shuffle) {
             const shuffledPlaylist = shuffleArray(stationSongs)
             dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
+            if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+                socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist })
+            }
         } else if (nowPlayingStationId && shuffle) {
             dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+            if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+                socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+            }
         }
         dispatch({ type: TOGLLE_SHUFFLE })
     }
@@ -106,7 +117,6 @@ export function Player() {
     }
 
     function onPlayNext() {
-        console.log(stations.find(s => s.isShared))
 
         let nextSongIdx
         if (queue.length > 0 && stations.find(s => s.isShared)._id !== nowPlayingStationId) {
@@ -158,7 +168,6 @@ export function Player() {
         const data = { song, user }
         const prev = lastClickedSong
         dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-        console.log(nowPlayingStationId)
         if (prev?.id === song.id) {
             dispatch({ type: TOGGLE_PLAY })
             if (stations.find(s => s.isShared)._id === nowPlayingStationId) {

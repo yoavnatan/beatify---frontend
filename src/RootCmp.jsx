@@ -20,6 +20,7 @@ import { use } from 'react'
 import { ListeningRoom } from './pages/ListeningRoom.jsx'
 import { TOGGLE_PLAY } from './store/reducers/player.reducer.js'
 import { Chat } from './pages/Chat.jsx'
+import { socketService } from './services/socket.service.js'
 
 
 
@@ -29,7 +30,6 @@ export function MainLayout() {
     const BREAKPOINT = 600;
     const location = useLocation()
     const dispatch = useDispatch()
-
 
     useEffect(() => {
 
