@@ -42,9 +42,7 @@
   z-index: 1000;
   background-color: var(--sp-card);
 }
-main:not(.sidebar-collapsed) .tippy-box {
-    display: none !important;
-}
+
 
 
 
