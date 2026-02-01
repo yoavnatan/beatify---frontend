@@ -163,15 +163,30 @@ async function _getAvgColors(stations) {
 }
 
 async function getAvgColor(station) {
-    const fac = new FastAverageColor()
+    if (!station) return Promise.resolve('rgba(52, 58, 64, 0.5)')
+    
+    let imgUrl = null
+    
+    if (station.imgUrl && station.imgUrl !== '/img/blank-screen.png') {
+        imgUrl = station.imgUrl
+    } else if (station.songs?.[0]?.imgUrl) {
+        imgUrl = station.songs[0].imgUrl
+    } else if (station.songs?.[0]?.album?.cover_big) {
+        imgUrl = station.songs[0].album.cover_big
+    }
+    
+    if (!imgUrl) {
+        return Promise.resolve('rgba(52, 58, 64, 0.5)')
+    }
+    
     try {
-        const color = await fac.getColorAsync(station.imgUrl)
-        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
+        return await getColorFromUrl(imgUrl)
     } catch (err) {
-        console.error(err)
-        return 'rgba(0,0,0,1)'
+        console.warn('Failed to get avg color:', err)
+        return 'rgba(52, 58, 64, 0.5)'
     }
 }
+
 
 
 async function getArtistStation(artist) {
