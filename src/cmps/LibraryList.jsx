@@ -70,6 +70,7 @@ export function LibraryList({ searchTerm }) {
 
                     return (
                         <Tippy
+                            key={station._id}
                             content={
                                 <>
                                     <div className="station-name">{station.name}</div>
