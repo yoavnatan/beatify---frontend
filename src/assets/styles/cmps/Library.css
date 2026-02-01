@@ -118,8 +118,11 @@
   border-radius: 40px;
   padding: 0 6px;
 }
-
 .create-wrapper.createShown {
+  background-color: var(--sp-card);
+}
+
+.create-wrapper.createShown:hover {
   background-color: var(--sp-hover);
 }
 
