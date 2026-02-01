@@ -30,6 +30,7 @@ import { stationService } from "../services/station";
 import { updateUser } from '../store/actions/user.actions.js';
 import AddCircle from "../assets/svg/add-circle.svg?react";
 import CheckCircle from "../assets/svg/check-circle.svg?react";
+import { LoaderDots } from "../cmps/Loader.jsx";
 
 
 
@@ -145,7 +146,7 @@ export function StationDetails() {
       dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
     }
   }
-  if (!station) return <div>Loading...</div>;
+  if (!station) return <LoaderDots text="" />
   const stationImg =
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"

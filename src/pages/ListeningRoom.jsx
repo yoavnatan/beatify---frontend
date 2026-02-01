@@ -32,6 +32,7 @@ import { stationService } from "../services/station";
 import AddCircle from "../assets/svg/add-circle.svg?react";
 import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_LOOP, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_LOOP, SOCKET_EVENT_ON_SHUFFLE, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
 import { use } from "react";
+import { LoaderDots } from "../cmps/Loader.jsx";
 
 
 
@@ -253,7 +254,7 @@ export function ListeningRoom() {
       dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
     }
   }
-  if (!station) return <div>Loading...</div>;
+  if (!station) return <LoaderDots text="" />;
   const stationImg = station.songs[0]?.imgUrl;
 
   async function deleteStation(ev, stationId) {
