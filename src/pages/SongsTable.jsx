@@ -25,8 +25,10 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from 
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableSongRow } from "../cmps/sortableSongRow.jsx"
-import { updateStation } from "../store/actions/station.actions.js"
+import { addStation, updateStation } from "../store/actions/station.actions.js"
 import { UPDATE_STATION } from "../store/reducers/station.reducer.js"
+import { stationService } from "../services/station/station.service.remote.js"
+import { useNavigate } from "react-router"
 
 export function SongsTable({
   deleteSong,
@@ -49,6 +51,7 @@ export function SongsTable({
   const [isSticky, setIsSticky] = useState(false);
   const headerRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -110,8 +113,21 @@ export function SongsTable({
       onUpdateStation({ ...station, songs: reorderedSongs });
     }
   }
-  //
 
+
+  async function createArtistStation(ev, artist) {
+    ev.stopPropagation()
+    const artistStation = await stationService.getArtistStation(artist)
+    const savedStation = await addStation(artistStation)
+    navigate(`/station/${savedStation._id}`)
+  }
+
+  async function createAlbumStation(ev, album) {
+    ev.stopPropagation()
+    const albumStation = await stationService.getAlbumStation(album)
+    const savedStation = await addStation(albumStation)
+    navigate(`/station/${savedStation._id}`)
+  }
 
   return (
     <section className="song-table container " ref={scrollContainerRef}>
@@ -194,11 +210,11 @@ export function SongsTable({
                 <img className="song-img" src={song.imgUrl} alt={song.title} />
                 <div className="song-info">
                   <div className="song-title">{song.title}</div>
-                  <div className="song-artist">{song.artist.name}</div>
+                  <div className="song-artist" onClick={(ev) => createArtistStation(ev, song.artist)}>{song.artist.name}</div>
                 </div>
               </div>
 
-              <div className="song-album">{song.album.title}</div>
+              <div className="song-album" onClick={(ev) => createAlbumStation(ev, song.album)}>{song.album.title}</div>
               <div className={`like-icon ${(user?.likedSongs || []).includes(song.id) ? 'on' : ''}`}>
                 <Tippy
                   content={`${(user?.likedSongs || []).includes(song.id) ? 'Remove from' : 'Add to'} Liked Songs`}
