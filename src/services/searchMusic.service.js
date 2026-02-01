@@ -1,5 +1,6 @@
 import axios from "axios"
 import { loadFromStorage, saveToStorage } from "./util.service.js"
+import { showErrorMsg } from "./event-bus.service.js"
 
 const STORAGE_KEY_VIDEOS = 'videosDB'
 
@@ -76,6 +77,7 @@ async function getArtistSongs(URL) {
         return songs
     } catch (err) {
         console.error(err)
+        showErrorMsg('Could not find this artist')
         throw err
     }
 }

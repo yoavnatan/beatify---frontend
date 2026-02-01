@@ -21,7 +21,8 @@ export const stationService = {
     getDefaultFilter,
     getAvgColors,
     getGenreStation,
-    addStationToLibrary
+    addStationToLibrary,
+    getAlbumStation,
 }
 async function addStationToLibrary(user, stationId) {
     return httpService.post(`${BASE_URL}${stationId}/addToLibrary`, { user })
@@ -97,14 +98,13 @@ async function addStationMsg(stationId, txt) {
 
 
 async function getArtistStation(artist) {
-    console.log(artist)
     const artistStation = {
         name: artist.name,
         imgUrl: artist.picture_medium,
         description: 'Artist Station',
         createdBy: {
-            fullname: '',
-            _id: ''
+            fullname: 'Beatify',
+            _id: 'System'
         },
         tags: ['Artist'],
         songs: [],
@@ -119,6 +119,28 @@ async function getArtistStation(artist) {
     return artistStation
 }
 
+async function getAlbumStation(album) {
+    console.log(album)
+    const albumStation = {
+        name: album.title,
+        imgUrl: album.cover_big,
+        description: 'Album Station',
+        createdBy: {
+            fullname: 'Beatify',
+            _id: 'System'
+        },
+        tags: ['Album'],
+        songs: [],
+        likedByUsers: [],
+    }
+
+    const songs = await searchMusicService.getArtistSongs(album.tracklist)
+    albumStation.songs = songs
+
+
+    return albumStation
+}
+
 async function getGenreStation(genre) {
     const genreStation = {
         name: genre.name,
@@ -126,8 +148,8 @@ async function getGenreStation(genre) {
         description: "Genre",
         createdBy:
         {
-            fullname: "",
-            _id: ""
+            fullname: 'Beatify',
+            _id: 'System'
         },
     }
 
