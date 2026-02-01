@@ -16,29 +16,29 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
         _id: "likedSongs",
         name: "Liked Songs",
         createdBy: { fullname: user.fullname },
-        songs: user.likedSongs || [], 
+        songs: user.likedSongs || [],
         imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
         likedByUsers: []
     } : null
 
     const fullStationsList = useMemo(() => {
         if (!user || !likedSongsStation) return stations.slice(0, 8)
-        
+
         const hasLikedSongsAlready = stations.some(s => s._id === "likedSongs")
-        const listWithLiked = hasLikedSongsAlready 
-            ? stations 
+        const listWithLiked = hasLikedSongsAlready
+            ? stations
             : [likedSongsStation, ...stations]
-        
+
         return listWithLiked.slice(0, 8)
     }, [stations, user])
 
     useEffect(() => {
         calcColors()
-    }, [fullStationsList]) 
+    }, [fullStationsList])
 
     async function calcColors() {
-        const colors = await Promise.all(fullStationsList.slice(0, 8).map(s => stationService.getAvgColor(s)))
-        setGreadients(colors)
+        const colors = await Promise.all(fullStationsList.slice(1, 8).map(s => stationService.getAvgColor(s)))
+        setGreadients(['rgba(47, 38, 89, 0.9)', ...colors])
     }
 
     function displayStationDetails(id) {
@@ -56,10 +56,10 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
             <ul className="station-list container">
                 {fullStationsList.slice(0, 8).map((station, idx) =>
                     <li key={station._id} onClick={() => displayStationDetails(station._id)}>
-                        <StationPreview 
-                            station={station} 
-                            gradient={gradients[idx]} 
-                            setGradientColor={setGradientColor} 
+                        <StationPreview
+                            station={station}
+                            gradient={gradients[idx]}
+                            setGradientColor={setGradientColor}
                         />
                         {shouldShowActionBtns(station) && (
                             <div className="actions">

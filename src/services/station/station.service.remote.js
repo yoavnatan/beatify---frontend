@@ -181,11 +181,13 @@ async function getAvgColor(station) {
     if (!station.songs?.[0]) {
         return Promise.resolve('rgba(52, 52, 52, 0.5)')
     }
-    
+
     const imgUrl = station.songs[0].imgUrl || station.songs[0].album?.cover_big
     try {
-        const color = await getColorFromUrl(imgUrl)
-        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
+        if (imgUrl) {
+            const color = await getColorFromUrl(imgUrl)
+            return `rgba(${[...color.value.slice(0, 3), 0.5]})`
+        }
     } catch (err) {
         console.error(err)
         return 'rgba(0,0,0,1)'
@@ -194,18 +196,18 @@ async function getAvgColor(station) {
 
 async function getColorFromUrl(imgUrl) {
     if (!imgUrl) throw new Error('No image URL')
-    
+
     const img = new Image()
     img.crossOrigin = 'anonymous'
-    
+
     await new Promise((resolve, reject) => {
         img.onload = () => resolve(img)
         img.onerror = () => reject(new Error('Failed to load image'))
         img.src = imgUrl
     })
-    
+
     const fac = new FastAverageColor()
-    return fac.getColor(img) 
+    return fac.getColor(img)
 }
 
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 import Playing from "../assets/svg/playing.svg?react"
-import { debounce } from  "../services/util.service.js" 
+import { debounce } from "../services/util.service.js"
 import Tippy from "@tippyjs/react"
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Play from "../assets/svg/play.svg?react"
@@ -68,46 +68,46 @@ export function LibraryList({ searchTerm }) {
                             station.imgUrl ||
                             "/img/blank-screen.png"
 
-                    return ( 
-                    <Tippy  
-                        content={
-                            <>
-                            <div className="station-name">{station.name}</div>
-                            <div className="station-created-by">Playlist • {station.createdBy.fullname}</div>
-                            </>
-                        }          
-                        className="custom-tooltip"  
-                        delay={[100, 0]} 
-                        offset={[85, -70]} 
-                        arrow={false} 
-                        placement="bottom-start"  
-                    >
-                        <li key={station._id}
-                            onClick={() => displayStationDetails(station._id)}
-                            className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
+                    return (
+                        <Tippy
+                            content={
+                                <>
+                                    <div className="station-name">{station.name}</div>
+                                    <div className="station-created-by">Playlist • {station.createdBy.fullname}</div>
+                                </>
+                            }
+                            className="custom-tooltip"
+                            delay={[100, 0]}
+                            offset={[85, -70]}
+                            arrow={false}
+                            placement="bottom-start"
+                        >
+                            <li key={station._id}
+                                onClick={() => displayStationDetails(station._id)}
+                                className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
 
-                            <img src={coverImg} alt={station.name} />
+                                <img src={coverImg} alt={station.name} />
 
-                            <div className="station-info flex justify-between">
-                                <div className="station-name">{station.name}</div>
-                                <div className="station-created-by">
-                                    by {station.createdBy.fullname}
+                                <div className="station-info flex justify-between">
+                                    <div className="station-name">{station.name}</div>
+                                    <div className="station-created-by">
+                                        by {station.createdBy.fullname}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="playing-icon on">
-                                {nowPlayingStationId === station._id && playing && (
-                                    <Playing className="icon small" />
-                                )}
-                            </div>
-                            <div className="icon-white-arrow">
-                                <WhiteArrow/>
-                            </div>
+                                <div className="playing-icon on">
+                                    {nowPlayingStationId === station._id && playing && (
+                                        <Playing className="icon small" />
+                                    )}
+                                </div>
+                                <div className="icon-white-arrow">
+                                    <WhiteArrow />
+                                </div>
                                 <div className="green-play-icon">
                                     <Play className="icon small-medium black" />
-                                </div>                            
-                        </li>
-                    </Tippy>
+                                </div>
+                            </li>
+                        </Tippy>
 
                     )
                 })}
