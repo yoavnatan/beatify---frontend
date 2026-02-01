@@ -4,14 +4,14 @@ import Search from "../assets/svg/search.svg?react"
 import X from "../assets/svg/x.svg?react"
 import { useEffect, useState, useRef } from "react"
 import { updateStation } from "../store/actions/station.actions"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { stationService } from "../services/station"
 
 
 
 
 
-export function LibraryEditStation({ coverImg}) {
+export function LibraryEditStation({ coverImg }) {
     const { user } = useSelector(storeState => storeState.userModule)
     const { stations } = useSelector((storeState) => storeState.stationModule);
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -22,6 +22,7 @@ export function LibraryEditStation({ coverImg}) {
     const station = useSelector(storeState => storeState.stationModule.station)
     const fileInputRef = useRef()
     const dispatch = useDispatch()
+    const location = useLocation()
 
     useEffect(() => {
         if (!station) return
@@ -29,13 +30,13 @@ export function LibraryEditStation({ coverImg}) {
         setStationName(station.name || "")
         setStationDesc(station.description || "")
         setStationImg(station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png")
-
+        if (location.pathname === '/listeningRoom' && stations.find(s => s.isShared).songs && stations.find(s => s.isShared).songs.length > 0) setStationImg(stations.find(s => s.isShared).songs[0].imgUrl || "/img/blank-screen.png")
     }, [station])
 
 
     async function saveStationUpdates() {
 
-        if (!station) return 
+        if (!station) return
 
         const updatedStation = {
             ...station,
