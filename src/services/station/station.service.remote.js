@@ -143,15 +143,12 @@ async function getGenreStation(genre) {
 async function getAvgColors(stations) {
     await Promise.all(
         stations.map(async station => {
-            const fac = new FastAverageColor()
             try {
-                const color = await fac.getColorAsync(station.songs[0].imgUrl)
+                const color = await getColorFromUrl(station.songs?.[0]?.imgUrl || station.songs?.[0]?.album?.cover_big)
                 station.averageColor = `rgba(${[...color.value.slice(0, 3), 0.5]})`
-
             } catch (err) {
                 console.error(err)
                 station.averageColor = 'rgba(0,0,0,1)'
-
             }
         })
     )
@@ -159,19 +156,37 @@ async function getAvgColors(stations) {
 }
 
 async function getAvgColor(station) {
-    if (!station.songs || station.songs.length <= 0) {
+    if (!station.songs?.[0]) {
         return Promise.resolve('rgba(52, 52, 52, 0.5)')
-    } else {
-        const fac = new FastAverageColor()
-        try {
-            const color = await fac.getColorAsync(station.songs[0].album.cover_big)
-            return `rgba(${[...color.value.slice(0, 3), 0.5]})`
-        } catch (err) {
-            console.error(err)
-            return 'rgba(0,0,0,1)'
-        }
+    }
+    
+    const imgUrl = station.songs[0].imgUrl || station.songs[0].album?.cover_big
+    try {
+        const color = await getColorFromUrl(imgUrl)
+        return `rgba(${[...color.value.slice(0, 3), 0.5]})`
+    } catch (err) {
+        console.error(err)
+        return 'rgba(0,0,0,1)'
     }
 }
+
+async function getColorFromUrl(imgUrl) {
+    if (!imgUrl) throw new Error('No image URL')
+    
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    
+    await new Promise((resolve, reject) => {
+        img.onload = () => resolve(img)
+        img.onerror = () => reject(new Error('Failed to load image'))
+        img.src = imgUrl
+    })
+    
+    const fac = new FastAverageColor()
+    return fac.getColor(img) 
+}
+
+
 
 
 function getDefaultFilter() {
