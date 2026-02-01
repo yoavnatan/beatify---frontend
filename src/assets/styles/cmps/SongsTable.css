@@ -28,10 +28,24 @@
   background-color: transparent;
   border-bottom: 1px solid var(--sp-border);
 
+
+  @media (min-width:900px) {
+    .col.title {
+      padding-inline-start: 60px;
+    }
+  }
+
   @media(max-width:900px) {
 
-    grid-template-columns: 20px 1fr 100px 40px 90px;
+    .col.title {
+      justify-self: start;
+      grid-column: 3;
+    }
+
+    grid-template-columns: 10px 60px 2fr 0 30px 40px 30px;
     padding: 0;
+    padding-inline-start: 2em;
+    padding-inline-end: 1em;
 
   }
 
@@ -50,6 +64,7 @@
   place-items: center;
 }
 
+
 .duration-icon {
   width: var(--fs-h1);
   fill: var(--sp-gray);
@@ -59,8 +74,6 @@
 .song-list {
   padding: 1em;
   border-bottom: 1px solid var(--sp-border);
-
-
 
 }
 
@@ -80,6 +93,22 @@
 
 }
 
+.song-row-inner:has(.drag-handle) {
+  @media(max-width:900px) {
+
+    grid-template-columns: 40px 2fr 0 30px 40px 30px;
+
+  }
+}
+
+.song-table:has(.drag-handle) .table-header {
+
+  @media (max-width:900px) {
+    grid-template-columns: 10px 90px 2fr 0 30px 40px 30px;
+  }
+
+
+}
 
 .song-date,
 .col.date {
@@ -91,6 +120,10 @@
   .song-date,
   .col.date {
     display: none;
+  }
+
+  .col.album {
+    opacity: 0;
   }
 }
 

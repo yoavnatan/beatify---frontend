@@ -220,11 +220,7 @@ h3,
 
 
 
-.col-index {
-  font-size: var(--fs-h2);
-  display: grid;
-  place-items: center;
-}
+
 
 .duration-icon {
   width: var(--fs-h1);
