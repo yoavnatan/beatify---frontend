@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 import Playing from "../assets/svg/playing.svg?react"
 import { debounce } from  "../services/util.service.js" 
+import Tippy from "@tippyjs/react"
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
 import Play from "../assets/svg/play.svg?react"
 
@@ -64,10 +65,23 @@ export function LibraryList({ searchTerm }) {
                         station._id === "likedSongs"
                             ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
                             : station.songs?.[0]?.imgUrl ||
-                              station.imgUrl ||
-                              "/img/blank-screen.png"
+                            station.imgUrl ||
+                            "/img/blank-screen.png"
 
-                    return (
+                    return ( 
+                    <Tippy  
+                        content={
+                            <>
+                            <div className="station-name">{station.name}</div>
+                            <div className="station-created-by">Playlist • {station.createdBy.fullname}</div>
+                            </>
+                        }          
+                        className="custom-tooltip"  
+                        delay={[100, 0]} 
+                        offset={[85, -70]} 
+                        arrow={false} 
+                        placement="bottom-start"  
+                    >
                         <li key={station._id}
                             onClick={() => displayStationDetails(station._id)}
                             className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
@@ -93,6 +107,8 @@ export function LibraryList({ searchTerm }) {
                                     <Play className="icon small-medium black" />
                                 </div>                            
                         </li>
+                    </Tippy>
+
                     )
                 })}
             </ul>

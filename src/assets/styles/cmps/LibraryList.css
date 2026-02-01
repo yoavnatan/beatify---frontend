@@ -16,6 +16,7 @@
   flex: 1;
   overflow-y: auto;
   padding-right: 4px;
+  position: relative;
 }
 
 .sidebar-collapsed .library-list ul {
@@ -24,14 +25,48 @@
 
 .library-list li {
   display: flex;
+  height: 72px !important; 
   align-items: center;
   gap: 12px;
-  padding: 3px 10px 3px 3px;
+  padding: 12px 10px !important;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.1s ease;
   position: relative;
 }
+
+.custom-tooltip{
+  position: absolute;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+  background-color: var(--sp-card);
+}
+main:not(.sidebar-collapsed) .tippy-box {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .sidebar-collapsed .library-list li {
   gap: 0;
@@ -42,16 +77,18 @@
 }
 
 .icon-white-arrow {
-  position: absolute;
-  top: 50%;
-  left: 26px;
-  transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
-  fill: var(--sp-white);
-  pointer-events: none;
-  display: none;
+    position: absolute;
+    top: 50%;                    
+    left: 35px;     
+    transform: translateX(-50%) translateY(-50%); 
+    width: 24px;
+    height: 24px;
+    fill: var(--sp-white);
+    pointer-events: none;
+    display: none;
+    z-index: 2; 
 }
+
 
 .library-list li:hover .icon-white-arrow {
   display: block;
@@ -67,7 +104,7 @@
 }
 
 .library-list li:hover img {
-  opacity: .6;
+  opacity: .4;
 }
 
 
@@ -89,6 +126,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 7600;
+  font-family: spotify-regular;
+
 }
 
 .station-created-by {
@@ -98,6 +138,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: spotify-regular;
 }
 
 .playing .station-name {
