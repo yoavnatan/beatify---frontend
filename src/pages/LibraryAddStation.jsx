@@ -31,6 +31,7 @@ export function LibraryEditStation({ coverImg }) {
         setStationDesc(station.description || "")
         setStationImg(station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png")
         if (location.pathname === '/listeningRoom' && stations.find(s => s.isShared).songs && stations.find(s => s.isShared).songs.length > 0) setStationImg(stations.find(s => s.isShared).songs[0].imgUrl || "/img/blank-screen.png")
+        if (location.pathname === '/listeningRoom' && (!stations.find(s => s.isShared).songs || stations.find(s => s.isShared).songs.length <= 0)) setStationImg("/img/blank-screen.png")
     }, [station])
 
 
