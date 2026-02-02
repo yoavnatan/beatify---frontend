@@ -238,6 +238,8 @@ export function StationDetails() {
       "--avg-color": station.color,
     }}
     >
+      <div className="top"></div>
+      <div className="bottom"></div>
       <div className="gradient-wrapper"
         style={{
 

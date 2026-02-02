@@ -128,8 +128,13 @@
     }
 
     align-items: center;
-    gap: 1em;
+    gap: 0.3em;
 
+
+}
+
+.sidebar:hover header {
+    gap: 1em;
 
 }
 
