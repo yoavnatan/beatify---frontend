@@ -72,7 +72,7 @@ export function StationIndex() {
             {/* <Loader isLoading={isLoading}> */}
             <div className="gradient" style={{
                 '--avg-color': gradientColor,
-                background: `linear-gradient(var(--avg-color)0%, rgba(0, 0, 0, 0) 50%)`,
+                // background: `linear-gradient(var(--avg-color)0%, rgba(0, 0, 0, 0) 50%)`,
                 transition: '--avg-color 0.5s ease-in-out'
 
             }}>
