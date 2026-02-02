@@ -8,8 +8,8 @@
     user-select: none;
 
     @media (max-width:600px) {
-        grid-template-columns: 180px minmax(100px, 200px) minmax(10px, auto);
-
+        grid-template-columns: 180px minmax(100px, 300px);
+        gap: 10px;
     }
 
 

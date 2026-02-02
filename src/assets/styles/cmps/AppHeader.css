@@ -85,7 +85,7 @@
   gap: 18px;
 
   @media (max-width: 600px) {
-    display: block;
+    /* display: block; */
     grid-row: 1;
     /* margin-top: 20px; */
   }

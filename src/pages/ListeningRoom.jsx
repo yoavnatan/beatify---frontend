@@ -38,7 +38,7 @@ import { LoaderDots } from "../cmps/Loader.jsx";
 
 
 export function ListeningRoom() {
-  const navigate = useNavigate();
+
   const { stations, stationSongs } = useSelector((storeState) => storeState.stationModule);
   const station = stations.find(station => station.isShared)
   const stationId = station?._id
