@@ -4,8 +4,17 @@
   /* min-height: 100vh; */
   position: relative;
   background: linear-gradient(to bottom,
-      var(--avg-color) 100px, var(--sp-black) 450px);
+      var(--avg-color) 80px, var(--sp-black) 520px);
   /* display: grid; */
+}
+
+@media (max-width: 600px) {
+
+  .station-details {
+    background: linear-gradient(to bottom,
+        var(--avg-color) 50px, var(--sp-black) 440px);
+  }
+
 }
 
 .station-details.container::after {
