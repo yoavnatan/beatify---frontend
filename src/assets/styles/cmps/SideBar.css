@@ -257,7 +257,7 @@
     /* height: 500px; */
     width: 100%;
     background-color: var(--sp-card);
-    padding: .5em
+    padding: .9em
 }
 
 .long-txt {
@@ -270,7 +270,8 @@
 .sidebar .artist-bio-header {
     font-size: large;
     margin-bottom: .5em;
-    margin-left: .5em;
+    margin-left: .8em;
+    margin-top: .8em
 }
 
 .queue {
@@ -344,6 +345,7 @@ h2 {
     border-radius: 2em;
     justify-self: end;
     border: 1px var(--sp-white) solid;
+    margin-top: 1em;
 }
 
 .exit-btn {
