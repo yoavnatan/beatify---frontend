@@ -52,9 +52,25 @@ export function Chat() {
             </div>
             <section className="chat">
                 <h2 className="chat-header">Chat Room</h2>
-                <ul>
-                    {msgs.map((msg, idx) => (<li key={idx}>{msg.from}: {msg.txt}</li>))}
-                </ul>
+                <ul className="messages">
+                {msgs.map((msg, idx) => {
+                    const isOwn = msg.from === (loggedInUser?.fullname || 'Me')
+                    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    return (
+                        <li 
+                            key={idx} 
+                            className={`msg-bubble ${isOwn ? 'own' : ''}`}
+                        >
+                            <div className="msg-header">
+                                <span className="msg-from">{msg.from}</span>
+                            </div>
+                            <div className="msg-text">{msg.txt}</div>
+                            <div className="msg-time">{time}</div>
+                        </li>
+                    )
+                })}
+            </ul>
+
 
                 <form onSubmit={sendMsg}>
                     <input
