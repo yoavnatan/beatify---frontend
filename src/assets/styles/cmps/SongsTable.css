@@ -151,22 +151,38 @@
 
 .song-album,
 .song-artist {
-  width: max-content;
+  /* width: max-content; */
 }
 
 .song-title,
 .song-artist,
 .song-album {
   cursor: pointer;
-  width: max-content
+  /* width: max-content */
 }
 
-.song-album {
-  width: max-content;
+.song-album,
+.song-artist {
+  /* width: max-content; */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
+}
+
+@media (max-width: 1220px) {
+
+  .song-date,
+  .col.date {
+    opacity: 0;
+
+  }
+}
+
+/* .listening-room .song-album, */
+.listening-room .song-title,
+.listening-room .song-artist {
+  width: max-content;
 }
 
 .station-details .song-title {
