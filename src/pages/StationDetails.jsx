@@ -15,7 +15,7 @@ import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
 import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
-import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
+import { SET_NOW_PLAYING_STATION, SET_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
 import Trash from "../assets/svg/trash.svg?react";
 import Delete from "../assets/svg/delete.svg?react";
@@ -73,6 +73,10 @@ export function StationDetails() {
       loadStation(stationId);
       setIsLikedStation(false)
       stationService.getAvgColor(station)
+    }
+
+    return () => {
+      dispatch({ type: SET_STATION, station: null })
     }
   }, [stationId, user]);
 
