@@ -340,7 +340,7 @@ export function SideBar() {
                         </header>
                         <h3>Now Playing</h3>
                         <div className="result-item playing" onClick={onTogglePlay}>
-                            <div className="drag-handle"></div>
+                            {/* <div className="drag-handle"></div> */}
                             <div className="img-overlay">
                                 {!playing && <WhiteArrow className="icon medium white" />}
                                 {playing && <Pause className="icon medium white" />}

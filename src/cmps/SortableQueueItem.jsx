@@ -27,12 +27,14 @@ export function SortableQueueItem({ song, user, onPlayQueueItem, likeSong, onRem
     return (
         <li
             ref={setNodeRef}
-            style={style}
+            style={{ ...style, cursor: 'grab' }}
             className={`result-item ${isDragging ? 'dragging' : ''}`}
             onClick={() => onPlayQueueItem(song)}
+            {...attributes}
+            {...listeners}
         >
             {/* ידית גרירה קטנה בצד שמאל */}
-            <div
+            {/* <div
                 className="drag-handle"
                 {...attributes}
                 {...listeners}
@@ -40,7 +42,7 @@ export function SortableQueueItem({ song, user, onPlayQueueItem, likeSong, onRem
                 style={{ cursor: 'grab', paddingRight: '10px', display: 'flex', alignItems: 'center' }}
             >
                 <span style={{ fontSize: '18px', color: '#888' }}>⠿</span>
-            </div>
+            </div> */}
 
             <div className="img-overlay">
                 <WhiteArrow className="icon medium white" />

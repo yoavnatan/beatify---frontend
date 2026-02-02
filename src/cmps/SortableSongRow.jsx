@@ -28,15 +28,17 @@ export function SortableSongRow({
     return (
         <li
             ref={setNodeRef}
-            style={style}
+            style={{ ...style, cursor: 'grab' }}
             className={`song-row ${isDragging ? 'dragging' : ''}`}
             onClick={() => onPlaySearchedResult(song)}
+            {...attributes}
+            {...listeners}
         >
             <div className='song-row-inner'>
                 <div className="song-index-wrapper">
 
                     {/* הידית המדויקת מה-SideBar */}
-                    <div
+                    {/* <div
                         className="drag-handle"
                         {...attributes}
                         {...listeners}
@@ -44,7 +46,7 @@ export function SortableSongRow({
                         style={{ cursor: 'grab', paddingRight: '10px', display: 'flex', alignItems: 'center' }}
                     >
                         <span style={{ fontSize: '18px', color: '#888' }}>⠿</span>
-                    </div>
+                    </div> */}
 
                     <span className="song-index">
                         {playing && song.id === nowPlaying.id ? (

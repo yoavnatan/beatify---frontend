@@ -18,12 +18,13 @@ export function SortableStationItem({ song, user, likeSong, onPlayFromQueue, now
     };
 
     return (
-        <li ref={setNodeRef} style={style} className={`result-item ${isDragging ? 'dragging' : ''}`}
-            onClick={() => onPlayFromQueue(song, nowPlayingStationId)}>
+        <li ref={setNodeRef} style={{ ...style, cursor: 'grab' }} className={`result-item ${isDragging ? 'dragging' : ''}`}
+            onClick={() => onPlayFromQueue(song, nowPlayingStationId)}
+            {...attributes} {...listeners}>
 
-            <div className="drag-handle" {...attributes} {...listeners} onClick={(e) => e.stopPropagation()}>
+            {/* <div className="drag-handle" >
                 <span style={{ cursor: 'grab', paddingRight: '10px' }}>⠿</span>
-            </div>
+            </div> */}
 
             <div className="img-overlay">
                 <WhiteArrow className="icon medium white" />

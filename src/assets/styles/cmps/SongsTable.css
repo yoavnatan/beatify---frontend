@@ -158,10 +158,11 @@
 .song-artist,
 .song-album {
   cursor: pointer;
+  width: max-content
 }
 
 .song-album {
-  width: 100%;
+  width: max-content;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

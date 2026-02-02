@@ -285,7 +285,7 @@
 
     .result-item {
         display: grid;
-        grid-template-columns: 20px 56px minmax(0, 1fr) 20px 30px;
+        grid-template-columns: 56px minmax(0, 1fr) 20px 30px;
         height: 54px;
         align-items: center;
         margin: 1em .3em;
@@ -306,6 +306,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             display: block;
+            width: max-content;
 
         }
 
