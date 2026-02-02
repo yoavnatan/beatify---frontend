@@ -119,12 +119,12 @@ export function SideBar() {
                 if (newWidth < MIN_WIDTH) newWidth = MIN_WIDTH;
                 if (newWidth > MAX_WIDTH) newWidth = MAX_WIDTH;
 
-                if (newWidth < 100) {
+                if (newWidth < 200) {
                     SetIsBarOpen(false)
                     newWidth = MIN_WIDTH
                 }
 
-                if (!isBarOpen && newWidth > 100) {
+                if (!isBarOpen && newWidth > 200) {
                     if (location.pathname === '/listeningRoom') return
 
                     SetIsBarOpen(true)

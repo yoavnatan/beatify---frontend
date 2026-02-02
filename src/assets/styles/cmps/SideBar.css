@@ -97,11 +97,11 @@
 
 .sidebar.container.close {
     cursor: pointer;
-    transition: transform 0.6s ease; 
+    transition: transform 0.6s ease;
 }
 
 .sidebar.container.close:hover {
-    transform: translateX(-10px); 
+    transform: translateX(-10px);
     z-index: 1000;
 }
 
