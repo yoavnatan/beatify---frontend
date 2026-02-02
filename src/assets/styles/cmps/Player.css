@@ -9,7 +9,8 @@
 
     @media (max-width:600px) {
         grid-template-columns: 180px minmax(100px, 300px);
-        gap: 10px;
+        /* gap: 10px; */
+        gap: 0;
     }
 
 
@@ -21,6 +22,7 @@
         text-overflow: ellipsis;
         gap: .8em;
         grid-template-columns: 56px minmax(0, 1fr) 18px;
+        justify-content: center;
 
         img {
             width: 56px;
@@ -251,7 +253,7 @@
     }
 
     .player .now-playing {
-        grid-template-columns: 40px minmax(0, 1fr) 18px;
+        grid-template-columns: 40px minmax(0, .8fr) 23px;
         gap: .5em;
     }
 
