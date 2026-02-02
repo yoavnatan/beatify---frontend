@@ -44,6 +44,11 @@
   /* inset: 0; */
   /* height: 100%; */
 
+
+}
+
+.listening-room .gradient-wrapper {
+  z-index: 500;
 }
 
 .station-header {
