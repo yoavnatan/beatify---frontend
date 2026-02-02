@@ -270,7 +270,8 @@
 .sidebar .artist-bio-header {
     font-size: large;
     margin-bottom: .5em;
-    margin-left: .5em;
+    margin-left: .8em;
+    margin-top: .8em
 }
 
 .queue {
