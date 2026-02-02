@@ -61,7 +61,7 @@ export function ListeningRoom() {
   const headerRef = useRef();
   const location = useLocation()
   if (station) getAvgclr(station)
-
+  const navigate = useNavigate()
   useEffect(() => {
     if (station) getAvgclr(station)
   }, [station])
