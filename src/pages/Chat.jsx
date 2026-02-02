@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG } from '../services/socket.service'
+import Arrow from "../assets/svg/nav-arrow.svg?react"
+import { useLocation, useNavigate } from 'react-router'
 
 
 export function Chat() {
     const [msg, setMsg] = useState({ txt: '' })
     const [msgs, setMsgs] = useState([])
     const loggedInUser = useSelector(storeState => storeState.userModule.user)
+    const location = useLocation()
+    const navigate = useNavigate();
+
     useEffect(() => {
         socketService.on(SOCKET_EVENT_ADD_MSG, addMsg)
         return () => {
@@ -42,8 +47,8 @@ export function Chat() {
         <>
             <div className="chat-expand-btn" onClick={() => {
                 expandLibraryToNormal()
-                }}>
-                    💬
+            }}>
+                💬
             </div>
             <section className="chat">
                 <h2 className="chat-header">Chat Room</h2>
@@ -58,10 +63,13 @@ export function Chat() {
                     <button disabled={!msg.txt.trim()}>Send</button>
                 </form>
 
-
+                {location.pathname === '/chatMobile' && <div className="back-icon"
+                    onClick={() => navigate('/listeningRoom')}>
+                    Back  <Arrow className='icon medium' />
+                </div>}
             </section>
         </>
-        
+
     )
 }
 

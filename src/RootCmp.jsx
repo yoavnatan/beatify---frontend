@@ -198,6 +198,7 @@ export function RootCmp() {
                     <Route path="queueMobile" element={<SideBar />} />
                     <Route path="browse" element={<Browse />} />
                     <Route path="listeningRoom" element={<ListeningRoom />} />
+                    <Route path="chatMobile" element={<Chat />} />
                 </Route>
             </Routes>
         </>

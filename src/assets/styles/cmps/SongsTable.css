@@ -328,6 +328,7 @@
 
   .wrapper {
     position: relative;
+    width: max-content;
 
     .tooltip-wrapper {
       position: absolute;

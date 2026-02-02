@@ -5,7 +5,20 @@
     flex-direction: column;
     justify-content: space-between;
     color: var(--sp-white);
+    position: relative
 }
+
+.back-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--sp-gray);
+    cursor: pointer;
+}
+
 .chat-header {
     font-size: var(--fs-h1);
     font-weight: 600;
@@ -15,6 +28,7 @@
     color: var(--sp-greenBrighter);
     letter-spacing: var(--ls-tight);
 }
+
 .chat ul {
     flex: 1;
     overflow-y: auto;
@@ -91,13 +105,16 @@
 .chat button:hover {
     background: var(--sp-greenBrighter);
 }
+
 .chat button:disabled {
     background: var(--sp-border);
     cursor: not-allowed;
 }
+
 .sidebar-collapsed .library-wrapper .chat {
     display: none;
 }
+
 .chat-expand-btn {
     position: absolute;
     bottom: 20px;
@@ -117,7 +134,7 @@
     font-size: 22px;
     cursor: pointer;
 
-    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
     animation: floatPulse 1.8s infinite ease-in-out;
     transition: transform 0.2s ease;
 }
@@ -139,7 +156,7 @@
     justify-content: center;
     color: white;
     cursor: pointer;
-    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
     animation: floatPulse 1.8s infinite ease-in-out;
     transition: transform 0.2s ease;
     position: relative;
@@ -164,7 +181,15 @@
 }
 
 @keyframes floatPulse {
-    0% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-6px) scale(1.05); }
-    100% { transform: translateY(0) scale(1); }
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-6px) scale(1.05);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
 }

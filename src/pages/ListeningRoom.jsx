@@ -22,7 +22,7 @@ import Tippy from "@tippyjs/react";
 import Trash from "../assets/svg/trash.svg?react";
 import Delete from "../assets/svg/delete.svg?react";
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { debounce, toRgbString } from "../services/util.service.js";
 import { searchMusicService } from "../services/searchMusic.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
@@ -59,6 +59,7 @@ export function ListeningRoom() {
   const [showActions, setShowActions] = useState(false);
   // const [avgColor, setAvgColor] = useState()
   const headerRef = useRef();
+  const location = useLocation()
   if (station) getAvgclr(station)
 
   useEffect(() => {
@@ -315,11 +316,14 @@ export function ListeningRoom() {
       : station.songs?.[0]?.imgUrl || station.imgUrl || "/img/blank-screen.png";
 
   return (
-    <section className="station-details container " style={{
+    <section className="station-details listening-room container " style={{
       backgroundColor: `rgba(${toRgbString(station.color)})`,
       "--avg-color": station.color,
     }}
     >
+      {location.pathname === '/listeningRoom' && <div className="chat-icon"
+        onClick={() => { navigate('/chatMobile') }}>💬</div>}
+
       <div className="gradient-wrapper"
         style={{
 
@@ -333,6 +337,7 @@ export function ListeningRoom() {
         >
           {showActions && (
             <div className="station-actions sticky-actions">
+
               <div className="station-actions-wrapper">
                 <Tippy
                   content={`Play ${station.name}`}
