@@ -103,7 +103,7 @@ export function MainLayout() {
 
             main.classList.remove("sidebar-collapsed")
 
-            const clamped = Math.min(520, Math.max(240, newWidth))
+            const clamped = Math.min(520, Math.max(320, newWidth))
             main.style.setProperty("--sidebar-width", `${clamped}px`)
         }
 
