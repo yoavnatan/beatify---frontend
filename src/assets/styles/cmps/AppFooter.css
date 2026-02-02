@@ -59,8 +59,9 @@
     .app-footer .mobile-nav-bar {
         display: flex;
         align-items: center;
-        gap: 3em;
-        justify-content: space-between;
+        /* gap: 3em; */
+        justify-content: space-around;
+        padding-inline: 1em;
 
         .nav-icon {
             margin: 0;
