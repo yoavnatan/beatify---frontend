@@ -71,15 +71,9 @@ export function ListeningRoom() {
   }
 
   useEffect(() => {
-    socketService.on(SOCKET_EVENT_ON_SHUFFLE, data => {
-      if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
-        dispatch({ type: SET_STATION_SONGS, stationSongs: data.stationSongs })
-        dispatch({ type: SHUFFLE_ON })
-      }
-    })
+
 
     return () => {
-      socketService.off(SOCKET_EVENT_ON_SHUFFLE)
       dispatch({ type: SHUFFLE_OFF })
       dispatch({ type: LOOP_OFF })
 
