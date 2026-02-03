@@ -228,6 +228,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-inline-end: .8em;
+
 }
 
 .icon-white-arrow-details {
@@ -319,16 +321,16 @@
 }
 
 .song-index-wrapper .play-icon-row {
-  transform: translateX(-11px);
-  opacity: 0;
+  display: none;
 }
 
 .song-row:hover .play-icon-row {
-  opacity: 1;
+  display: block;
+
 }
 
 .song-row:hover .song-index {
-  opacity: 0;
+  display: none;
 }
 
 .song-table.container {
