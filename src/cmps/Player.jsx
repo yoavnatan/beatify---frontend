@@ -122,7 +122,10 @@ export function Player() {
     }
 
     function onPlayNext() {
-
+        console.log(
+            'same array?',
+            stationSongs === stations.find(s => s._id === nowPlayingStationId)?.songs
+        )
         let nextSongIdx
         if (queue.length > 0 && stations.find(s => s.isShared)._id !== nowPlayingStationId) {
             onPlayFromQueue()
@@ -162,7 +165,7 @@ export function Player() {
 
         if (!search.src) {
             song = await searchMusicService.getYoutubeURL(search)
-            const songsToUpdate = stationSongs.map(s =>
+            const songsToUpdate = stations.find(s => s._id === nowPlayingStationId).songs.map(s =>
                 s.id === song.id ? { ...s, src: song.src } : s
             )
             if (nowPlayingStationId !== 'likedSongs') {
