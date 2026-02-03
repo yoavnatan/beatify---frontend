@@ -397,6 +397,12 @@
   border-radius: 2em;
   justify-self: end;
   border: 1px var(--sp-white) solid;
+  transition: .2s;
+
+  &:hover {
+    color: var(--sp-black);
+    background-color: var(--sp-white);
+  }
 }
 
 .options-menu {

@@ -346,6 +346,11 @@ h2 {
     justify-self: end;
     border: 1px var(--sp-white) solid;
     margin-top: 1em;
+
+    &:hover {
+        color: var(--sp-black);
+        background-color: var(--sp-white);
+    }
 }
 
 .exit-btn {
