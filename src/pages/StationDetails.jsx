@@ -46,7 +46,6 @@ export function StationDetails() {
   const { nowPlaying: nowPlayingStationId } = useSelector(
     (storeState) => storeState.stationModule,
   );
-  const [addedToLibrary, setAddedToLibrary] = useState(false);
 
   const dispatch = useDispatch();
   // const lastClickedSong = useRef();
@@ -59,8 +58,12 @@ export function StationDetails() {
   const [showActions, setShowActions] = useState(false);
   const [avgColor, setAvgColor] = useState()
   const [isLikedStation, setIsLikedStation] = useState(false)
+  const addedToLibrary = user?.likedSongsStations?.includes(stationId) || false;
+
+  
 
 
+console.log(user)
   const headerRef = useRef();
 
   useEffect(() => {
@@ -188,7 +191,6 @@ export function StationDetails() {
     }
     await updateStation(stationToUpdate)
     await updateUser(userToUpdate)
-    setAddedToLibrary(!isLiked)
 
     showSuccessMsg(
       isLiked
