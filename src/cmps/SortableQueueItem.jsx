@@ -22,6 +22,8 @@ export function SortableQueueItem({ song, user, onPlayQueueItem, likeSong, onRem
         zIndex: isDragging ? 10 : 1,
         opacity: isDragging ? 0.6 : 1,
         position: 'relative',
+        touchAction: 'none'
+
     };
 
     return (

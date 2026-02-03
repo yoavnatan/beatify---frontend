@@ -22,7 +22,8 @@ export function SortableSongRow({
         transition,
         zIndex: isDragging ? 9999 : undefined,
         opacity: isDragging ? 0.7 : 1,
-        isolation: 'isolate'
+        isolation: 'isolate',
+        touchAction: 'none'
     };
 
     return (

@@ -15,6 +15,8 @@ export function SortableStationItem({ song, user, likeSong, onPlayFromQueue, now
         transition,
         zIndex: isDragging ? 10 : 1,
         opacity: isDragging ? 0.6 : 1,
+        touchAction: 'none'
+
     };
 
     return (
