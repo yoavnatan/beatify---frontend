@@ -60,7 +60,6 @@ export function Player() {
 
 
     function onToggleMute() {
-        console.log(volume)
         if (volume === 0 && !muted) {
             dispatch({ type: SET_VOLUME, volume: 0.1 })
         }
@@ -85,7 +84,6 @@ export function Player() {
     };
 
     function onSetLastVolume(ev) {
-        console.log('last')
         dispatch({ type: SET_LAST_VOLUME, lastVolume: ev.target.value })
     }
 
@@ -122,10 +120,7 @@ export function Player() {
     }
 
     function onPlayNext() {
-        console.log(
-            'same array?',
-            stationSongs === stations.find(s => s._id === nowPlayingStationId)?.songs
-        )
+
         let nextSongIdx
         if (queue.length > 0 && stations.find(s => s.isShared)._id !== nowPlayingStationId) {
             onPlayFromQueue()
@@ -150,7 +145,6 @@ export function Player() {
     }
 
     function onPlayPrev() {
-        console.log(stationSongs)
         let prevSongIdx
         const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
         prevSongIdx = currentIdx - 1
@@ -160,7 +154,6 @@ export function Player() {
     }
 
     async function onPlaySearchedResult(search) {
-        console.log(search)
         let song = search
 
         if (!search.src) {
@@ -291,9 +284,7 @@ export function Player() {
                     <div className="btn-play"
                         onClick={() => {
                             dispatch({ type: TOGGLE_PLAY })
-                            console.log(nowPlayingStationId)
                             if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
-                                console.log(nowPlaying)
                                 socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, { song: nowPlaying })
                             }
                         }

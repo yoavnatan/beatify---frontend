@@ -17,7 +17,8 @@
   animation: fadeIn 0.25s ease forwards;
 
   @media (max-width:600px) {
-    bottom: 200px;
+    bottom: 180px;
+    translate: 50%;
   }
 }
 

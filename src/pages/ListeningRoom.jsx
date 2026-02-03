@@ -237,7 +237,6 @@ export function ListeningRoom() {
     const data = { song: search, user }
     const prev = lastClickedSong
     dispatch({ type: SET_LAST_CLICKED, lastClickedSong: song })
-    console.log(data)
     if (prev?.id === song.id) {
       dispatch({ type: TOGGLE_PLAY })
       socketService.emit(SOCKET_EMIT_TOGGLE_PLAY, data)

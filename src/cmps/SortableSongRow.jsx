@@ -1,11 +1,12 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Popover } from 'react-tiny-popover';
-
+import Tippy from "@tippyjs/react"
 import WhiteArrow from "../assets/svg/white-arrow.svg?react"
-
+import Pause from "../assets/svg/pause.svg?react";
 import Like from "../assets/svg/like.svg?react"
 import Liked from "../assets/svg/liked.svg?react"
+import { useSelector } from 'react-redux';
 
 
 export function SortableSongRow({
@@ -58,7 +59,16 @@ export function SortableSongRow({
                     </span>
 
                     <span className="play-icon-row">
-                        <WhiteArrow className="icon small white" />
+                        {(!playing || playing && song.id !== nowPlaying.id) && <Tippy content={'Play'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                            <span className="tooltip-wrapper">
+                                <WhiteArrow className="icon small white" />
+                            </span>
+                        </Tippy>}
+                        {playing && song.id === nowPlaying.id && <Tippy content={'Pause'} delay={[500, 0]} offset={[0, 15]} arrow={false} >
+                            <span className="tooltip-wrapper">
+                                <Pause className="icon small white" />
+                            </span>
+                        </Tippy>}
                     </span>
                 </div>
 
