@@ -69,20 +69,6 @@ export function LibraryList({ searchTerm }) {
                             "/img/blank-screen.png"
 
                     return (
-                        <Tippy
-                            key={station._id}
-                            content={
-                                <>
-                                    <div className="station-name">{station.name}</div>
-                                    <div className="station-created-by">Playlist • {station.createdBy.fullname}</div>
-                                </>
-                            }
-                            className="custom-tooltip"
-                            delay={[100, 0]}
-                            offset={[85, -70]}
-                            arrow={false}
-                            placement="bottom-start"
-                        >
                             <li key={station._id}
                                 onClick={() => displayStationDetails(station._id)}
                                 className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
@@ -108,8 +94,6 @@ export function LibraryList({ searchTerm }) {
                                     <Play className="icon small-medium black" />
                                 </div>
                             </li>
-                        </Tippy>
-
                     )
                 })}
             </ul>

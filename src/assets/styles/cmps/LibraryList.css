@@ -25,7 +25,6 @@
 
 .library-list li {
   display: flex;
-  height: 72px !important; 
   align-items: center;
   gap: 12px;
   padding: 12px 10px !important;
