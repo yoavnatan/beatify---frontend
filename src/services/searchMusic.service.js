@@ -157,7 +157,7 @@ async function getYoutubeURL(query) {
         song.src = embedUrl
 
         console.log('from cache')
-        console.log(song)
+
         return song
     } else {
         try {

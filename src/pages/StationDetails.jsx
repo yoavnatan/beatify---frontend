@@ -60,10 +60,6 @@ export function StationDetails() {
   const [isLikedStation, setIsLikedStation] = useState(false)
   const addedToLibrary = user?.likedSongsStations?.includes(stationId) || false;
 
-  
-
-
-console.log(user)
   const headerRef = useRef();
 
   useEffect(() => {
@@ -81,7 +77,11 @@ console.log(user)
     return () => {
       dispatch({ type: SET_STATION, station: null })
     }
-  }, [stationId, user]);
+  }, [stationId]);
+
+  useEffect(() => {
+    if (stationId === 'likedSongs') loadLikedSongsStation()
+  }, [user])
 
   useEffect(() => {
     if (search) debouncedOnSearch(search);

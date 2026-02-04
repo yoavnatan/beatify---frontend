@@ -87,7 +87,7 @@ export function SongsTable({
       showSuccessMsg("Song removed from Liked Songs")
 
     } else {
-      const userToUpdate = { ...user, likedSongs: [...likedSongs, songId] }
+      const userToUpdate = { ...user, likedSongs: [songId, ...likedSongs] }
       await updateUser(userToUpdate)
       showSuccessMsg("Song added to Liked Songs")
     }
@@ -142,6 +142,7 @@ export function SongsTable({
           <Duration className="duration-icon" />
         </div>
       </div>
+
       {station.isShared &&
         <DndContext
           sensors={sensors}
@@ -154,6 +155,7 @@ export function SongsTable({
             strategy={verticalListSortingStrategy}
           >
             <ul className="song-list">
+              {station.songs.length <= 0 && <h2 style={{ marginInline: '1em', color: 'var(--sp-gray)' }}>No songs to show...</h2>}
               {station.songs.map((song, idx) => (
                 <SortableSongRow
                   key={song.id}
@@ -177,6 +179,8 @@ export function SongsTable({
         </DndContext>}
 
       {!station.isShared && <ul className="song-list">
+        {station.songs.length <= 0 && <h2 style={{ marginInline: '1em', color: 'var(--sp-gray)' }}>No songs to show...</h2>}
+
         {station.songs.map((song, idx) => (
           <li
             key={`${station._id}-${song.id}-${idx}`}
