@@ -178,6 +178,7 @@ async function getAvgColors(stations) {
 }
 
 async function getAvgColor(station) {
+    if (!station || station.songs.length <= 0) return 'rgba(0,0,0,1)'
     if (!station.songs?.[0]) {
         return Promise.resolve('rgba(52, 52, 52, 0.5)')
     }
