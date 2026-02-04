@@ -69,31 +69,39 @@ export function LibraryList({ searchTerm }) {
                             "/img/blank-screen.png"
 
                     return (
-                            <li key={station._id}
-                                onClick={() => displayStationDetails(station._id)}
-                                className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
+                        <li key={station._id}
+                            onClick={() => displayStationDetails(station._id)}
+                            className={`${nowPlayingStationId === station._id ? "playing" : ''}`}>
 
-                                <img src={coverImg} alt={station.name} />
+                            <img src={coverImg} alt={station.name} />
 
-                                <div className="station-info flex justify-between">
-                                    <div className="station-name">{station.name}</div>
+                            <div className="station-info flex justify-between">
+                                <div className="station-name">{station.name}</div>
+                                {station._id === 'likedSongs'
+                                    ?
+                                    <div className="station-created-by">
+                                        {user.likedSongs.length} Songs
+                                    </div>
+                                    :
                                     <div className="station-created-by">
                                         by {station.createdBy.fullname}
-                                    </div>
-                                </div>
 
-                                <div className="playing-icon on">
-                                    {nowPlayingStationId === station._id && playing && (
-                                        <Playing className="icon small" />
-                                    )}
-                                </div>
-                                <div className="icon-white-arrow">
-                                    <WhiteArrow />
-                                </div>
-                                <div className="green-play-icon">
-                                    <Play className="icon small-medium black" />
-                                </div>
-                            </li>
+                                    </div>
+                                }
+                            </div>
+
+                            <div className="playing-icon on">
+                                {nowPlayingStationId === station._id && playing && (
+                                    <Playing className="icon small" />
+                                )}
+                            </div>
+                            <div className="icon-white-arrow">
+                                <WhiteArrow />
+                            </div>
+                            <div className="green-play-icon">
+                                <Play className="icon small-medium black" />
+                            </div>
+                        </li>
                     )
                 })}
             </ul>
