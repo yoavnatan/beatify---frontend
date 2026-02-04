@@ -38,7 +38,7 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
 
     async function calcColors() {
         const colors = await Promise.all(fullStationsList.slice(1, 8).map(s => stationService.getAvgColor(s)))
-        setGreadients(['rgba(47, 38, 89, 0.9)', ...colors])
+        setGreadients(['rgba(69, 44, 148, 0.9)', ...colors])
     }
 
     function displayStationDetails(id) {

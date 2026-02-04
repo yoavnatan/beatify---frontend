@@ -137,7 +137,7 @@ async function getLikedSongsStation() {
         createdBy: { fullname: user.fullname || "You" },
         songs: likedSongs,
         imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
-        averageColor: 'rgba(47, 38, 89, 0.9)'
+        averageColor: 'rgba(69, 44, 148, 0.9)'
     }
 }
 
@@ -164,9 +164,9 @@ async function _getAvgColors(stations) {
 
 async function getAvgColor(station) {
     if (!station) return Promise.resolve('rgba(52, 58, 64, 0.5)')
-    
+
     let imgUrl = null
-    
+
     if (station.imgUrl && station.imgUrl !== '/img/blank-screen.png') {
         imgUrl = station.imgUrl
     } else if (station.songs?.[0]?.imgUrl) {
@@ -174,11 +174,11 @@ async function getAvgColor(station) {
     } else if (station.songs?.[0]?.album?.cover_big) {
         imgUrl = station.songs[0].album.cover_big
     }
-    
+
     if (!imgUrl) {
         return Promise.resolve('rgba(52, 58, 64, 0.5)')
     }
-    
+
     try {
         return await getColorFromUrl(imgUrl)
     } catch (err) {

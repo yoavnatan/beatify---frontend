@@ -25,7 +25,7 @@ export function StationPreview({ station, gradient, setGradientColor }) {
     }
 
     function onRevertGradient() {
-        setGradientColor('rgba(47, 38, 89, 0.9)')
+        setGradientColor('rgba(69, 44, 148, 0.9)')
     }
 
     async function onPlaySearchedResult(search) {
