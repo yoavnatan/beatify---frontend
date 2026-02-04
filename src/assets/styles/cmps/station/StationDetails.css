@@ -30,6 +30,10 @@
 
 }
 
+.on .icon {
+  fill: var(--sp-green);
+}
+
 .sticky-actions {
   display: flex;
   align-items: center;

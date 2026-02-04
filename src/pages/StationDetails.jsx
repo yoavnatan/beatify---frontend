@@ -13,7 +13,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
+import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY, TOGLLE_SHUFFLE } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION, SET_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -21,7 +21,7 @@ import Trash from "../assets/svg/trash.svg?react";
 import Delete from "../assets/svg/delete.svg?react";
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react";
 import { useNavigate } from "react-router";
-import { debounce, toRgbString } from "../services/util.service.js";
+import { debounce, shuffleArray, toRgbString } from "../services/util.service.js";
 import { searchMusicService } from "../services/searchMusic.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
@@ -31,6 +31,7 @@ import { updateUser } from '../store/actions/user.actions.js';
 import AddCircle from "../assets/svg/add-circle.svg?react";
 import CheckCircle from "../assets/svg/check-circle.svg?react";
 import { LoaderDots } from "../cmps/Loader.jsx";
+import { SOCKET_EMIT_OFF_SHUFFLE, SOCKET_EMIT_ON_SHUFFLE, socketService } from "../services/socket.service.js";
 
 
 
@@ -40,7 +41,7 @@ export function StationDetails() {
   const navigate = useNavigate();
   const { stationId } = useParams();
   const { station, stations, stationSongs } = useSelector((storeState) => storeState.stationModule);
-  const { playing, nowPlaying, lastClickedSong } = useSelector(
+  const { playing, nowPlaying, lastClickedSong, shuffle } = useSelector(
     (storeState) => storeState.playerModule,
   );
   const { nowPlaying: nowPlayingStationId } = useSelector(
@@ -170,6 +171,23 @@ export function StationDetails() {
     navigate("/");
   }
 
+  function onToggleShuffle() {
+    console.log('hi')
+    if (nowPlayingStationId && !shuffle) {
+      const shuffledPlaylist = shuffleArray(stationSongs)
+      dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
+      if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+        socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist })
+      }
+    } else if (nowPlayingStationId && shuffle) {
+      dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+      if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+        socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+      }
+    }
+    dispatch({ type: TOGLLE_SHUFFLE })
+  }
+
 
   async function likeStation(stationId) {
     const likedStations = user.likedSongsStations || [];
@@ -289,9 +307,14 @@ export function StationDetails() {
                     )}
                   </button>
                 </Tippy>
-                <span className="shuffle-btn">
-                  <Shuffle className="icon medium-large" />
-                </span>
+
+                <div className={`shuffle-btn ${shuffle ? ' on' : ''}`} >
+                  <Tippy content={`${shuffle ? 'Disable' : 'Enable'} shuffle mode`} delay={[500, 0]} arrow={false}>
+                    <span className="tooltip-wrapper">
+                      <Shuffle className={`icon medium-large`} onClick={onToggleShuffle} />
+                    </span>
+                  </Tippy>
+                </div>
                 <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>
                   <Tippy
                     content={`${addedToLibrary ? 'Remove from' : 'Add to'} Liked Stations`}
@@ -393,17 +416,13 @@ export function StationDetails() {
               )}
             </button>
           </Tippy>
-
-          <Tippy
-            content={"Shuffle"}
-            delay={[500, 0]}
-            offset={[0, 0]}
-            arrow={false}
-          >
-            <span className="shuffle-btn">
-              <Shuffle className="icon large" />
-            </span>
-          </Tippy>
+          <div className={`shuffle-btn ${shuffle ? ' on' : ''}`} >
+            <Tippy content={`${shuffle ? 'Disable' : 'Enable'} shuffle mode`} delay={[500, 0]} arrow={false}>
+              <span className="tooltip-wrapper">
+                <Shuffle className={`icon medium-large`} onClick={onToggleShuffle} />
+              </span>
+            </Tippy>
+          </div>
 
 
           <div className={`like-remove-wrapper ${isLikedStation ? 'liked-station-hide' : ''}`}>

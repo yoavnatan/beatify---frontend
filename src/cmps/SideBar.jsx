@@ -260,8 +260,8 @@ export function SideBar() {
 
     let displayedSongs = [];
 
-    if (stationSongs.length >= 5) {
-        for (let i = 1; i <= 5; i++) {
+    if (stationSongs.length >= 15) {
+        for (let i = 1; i <= 15; i++) {
             displayedSongs.push(stationSongs[(currentIdx + i) % stationSongs.length]);
         }
     } else {

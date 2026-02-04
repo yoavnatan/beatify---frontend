@@ -307,11 +307,16 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             display: block;
-            width: max-content;
-
+            width: 100%;
         }
 
-
+        .song-info {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
 
         &:hover {
             background-color: var(--sp-hover);
