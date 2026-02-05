@@ -29,7 +29,7 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
             ? stations
             : [likedSongsStation, ...stations]
 
-        return listWithLiked.slice(0, 8)
+        return listWithLiked.filter(s => !s.isShared).slice(0, 8)
     }, [stations, user])
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export function StationList({ stations, onRemoveStation, onUpdateStation, setGra
 
     async function calcColors() {
         const colors = await Promise.all(fullStationsList.slice(1, 8).map(s => stationService.getAvgColor(s)))
-        setGreadients(['rgba(69, 44, 148, 0.9)', ...colors])
+        setGreadients(['rgba(50, 31, 110, 0.9)', ...colors])
     }
 
     function displayStationDetails(id) {

@@ -44,6 +44,7 @@ export async function loadLikedSongsStation() {
 export async function loadStation(stationId) {
     try {
         const station = await stationService.getById(stationId)
+        console.log(station)
         station.color = await stationService.getAvgColor(station)
         store.dispatch(getCmdSetStation(station))
     } catch (err) {
@@ -73,19 +74,19 @@ export async function addStationToLibrary(user, stationId) {
         throw err
     }
 }
-    async function likeSong(songId) {
-        const likedSongs = user.likedSongs
-        if (user.likedSongs.includes(songId)) {
-            let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
-            await updateUser(userToUpdate)
-            showSuccessMsg('Song removed from Liked Songs')
+async function likeSong(songId) {
+    const likedSongs = user.likedSongs
+    if (user.likedSongs.includes(songId)) {
+        let userToUpdate = { ...user, likedSongs: likedSongs.filter(song => song !== songId) }
+        await updateUser(userToUpdate)
+        showSuccessMsg('Song removed from Liked Songs')
 
-        } else {
-            const userToUpdate = { ...user, likedSongs: [songId, ...likedSongs] }
-            await updateUser(userToUpdate)
-            showSuccessMsg('Song added to Liked Songs')
-        }
+    } else {
+        const userToUpdate = { ...user, likedSongs: [songId, ...likedSongs] }
+        await updateUser(userToUpdate)
+        showSuccessMsg('Song added to Liked Songs')
     }
+}
 
 export async function addSongToStation(song, stationId) {
     const stations = store.getState().stationModule.stations
@@ -158,7 +159,7 @@ async function onPlayDefaultSong() {
     let song = store.getState().stationModule.stations[0].songs[0]
     const station = store.getState().stationModule.stations[0]
     if (!song.src) {
-        song = await searchMusicService.getYoutubeURL(search)
+        song = await searchMusicService.getYoutubeURL(song)
         const songsToUpdate = station.songs.map(s =>
             s.id === song.id ? { ...s, src: song.src } : s
         )

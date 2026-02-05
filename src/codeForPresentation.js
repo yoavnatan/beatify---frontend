@@ -12,7 +12,7 @@ function onToggleShuffle() {
             socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: currentPlayingStation.songs })
         }
     }
-    dispatch({ type: TOGLLE_SHUFFLE })
+    dispatch({ type: TOGGLE_SHUFFLE })
 }
 
 

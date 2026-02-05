@@ -389,6 +389,10 @@
   padding-bottom: 2.3em;
   background-color: var(--sp-card);
   z-index: 1000;
+
+  @media (max-width: 600px) {
+    max-height: 60vh;
+  }
 }
 
 

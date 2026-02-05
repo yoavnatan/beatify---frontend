@@ -103,7 +103,7 @@ export function StationCarousel({ stations }) {
                 <Arrow className="icon small arrow-right" />
             </div>}
             <ul ref={listRef} className="list" onScroll={onScrollEvent}>
-                {stations.map(station => {
+                {stations.filter(s => !s.isShared).map(station => {
 
                     const coverImg =
                         station._id === 'likedSongs'

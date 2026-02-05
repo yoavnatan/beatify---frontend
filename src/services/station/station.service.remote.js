@@ -87,7 +87,7 @@ async function getLikedSongsStation() {
         createdBy: { fullname: user.fullname || "You" },
         songs: likedSongs,
         imgUrl: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
-        color: 'rgba(69, 44, 148, 0.9)'
+        color: 'rgba(50, 31, 110, 0.9)'
     }
 }
 

@@ -122,9 +122,11 @@ export function StationIndex() {
                             <h2 className="carusel-title">More of your taste</h2>
                             <StationCarousel stations={stations.slice(0, 11)} />
                             <h2 className="carusel-title">Picks of the day</h2>
-                            <StationCarousel stations={stations.slice(7, 19)} />
+                            <StationCarousel stations={stations.slice(11, 19)} />
                             <h2 className="carusel-title">Discover new releases</h2>
-                            <StationCarousel stations={stations.slice(19)} />
+                            <StationCarousel stations={stations.slice(19, 28)} />
+                            <h2 className="carusel-title">Focus and Study</h2>
+                            <StationCarousel stations={stations.slice(29)} />
                         </>
                     )}
                 </div>
