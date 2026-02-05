@@ -39,6 +39,7 @@ export function Player() {
     const { stationSongs, stations, nowPlaying: nowPlayingStationId } = useSelector(
         (storeState) => storeState.stationModule,
     );
+
     const location = useLocation()
     const lastIdx = useRef()
     const dispatch = useDispatch()
@@ -131,8 +132,14 @@ export function Player() {
             return
         } else {
             if (lastIdx.current) nextSongIdx = lastIdx.current + 1
-            else nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
-            lastIdx.current = null
+            else {
+                if (nowPlayingStationId === 'likedSongs') {
+                    nextSongIdx = user.likedSongs.findIndex(s => s.id === nowPlaying.id) + 1
+                }
+
+                nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
+                lastIdx.current = null
+            }
             if (stationSongs.length === nextSongIdx) nextSongIdx = 0
         }
         onPlaySearchedResult(stationSongs[nextSongIdx])
@@ -156,15 +163,14 @@ export function Player() {
     async function onPlaySearchedResult(search) {
         let song = search
 
-        if (!search.src) {
+        if (!search.src && nowPlayingStationId !== 'likedSongs') {
             song = await searchMusicService.getYoutubeURL(search)
             const songsToUpdate = stations.find(s => s._id === nowPlayingStationId).songs.map(s =>
                 s.id === song.id ? { ...s, src: song.src } : s
             )
-            if (nowPlayingStationId !== 'likedSongs') {
-                const stationToUpdate = { ...stations.find(station => station._id === nowPlayingStationId), songs: songsToUpdate }
-                await updateStation(stationToUpdate)
-            }
+            const stationToUpdate = { ...stations.find(station => station._id === nowPlayingStationId), songs: songsToUpdate }
+            await updateStation(stationToUpdate)
+
         }
         const data = { song, user }
         const prev = lastClickedSong

@@ -228,17 +228,14 @@ export function SideBar() {
 
     async function onPlayFromQueue(search, stationId) {
         let song = search
-
+        let songsToUpdate
         if (!search.src) {
             song = await searchMusicService.getYoutubeURL(search)
-            if (stationId) {
-                const songsToUpdate = stations.find(s => s._id === stationId).songs.map(s =>
-                    s.id === song.id ? { ...s, src: song.src } : s
-                )
-                if (station._id !== 'likedSongs') {
-                    const stationToUpdate = { ...stations.find(s => s._id === stationId), songs: songsToUpdate }
-                    await updateStation(stationToUpdate)
-                }
+            if (stationId && stationId !== 'likedSongs') {
+                songsToUpdate = stations.find(s => s._id === stationId).songs.map(s =>
+                    s.id === song.id ? { ...s, src: song.src } : s)
+                const stationToUpdate = { ...stations.find(s => s._id === stationId), songs: songsToUpdate }
+                await updateStation(stationToUpdate)
             }
         }
 
@@ -260,13 +257,13 @@ export function SideBar() {
 
     let displayedSongs = [];
 
-    if (stationSongs.length >= 15) {
-        for (let i = 1; i <= 15; i++) {
-            displayedSongs.push(stationSongs[(currentIdx + i) % stationSongs.length]);
-        }
-    } else {
-        displayedSongs = stationSongs
+    // if (stationSongs.length >= 15) {
+    for (let i = 1; i <= stationSongs.length - 1; i++) {
+        displayedSongs.push(stationSongs[(currentIdx + i) % stationSongs.length]);
     }
+    // } else {
+    //     displayedSongs = stationSongs
+    // }
 
     return (
         <>
