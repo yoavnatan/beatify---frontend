@@ -1,8 +1,8 @@
 function onToggleShuffle() {
 
-    if (nowPlayingStation && !shuffle) {
+    if (nowPlayingStation && !shuffle) { // Checks if theres is a Playlist to shuffle
         const shuffledPlaylist = shuffleArray(nowStation.songs)
-        dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
+        dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist }) // a tamporary song list
         if (sharedStation._id === nowPlayingStation._id) {
             socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist })
         }

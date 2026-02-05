@@ -30,7 +30,7 @@
     }
 
     .gradient {
-        background: linear-gradient(var(--avg-color)0%, rgba(0, 0, 0, 0) 50%);
+        background: linear-gradient(var(--avg-color)100px, rgba(0, 0, 0, 0) 300px);
         /* background-image: linear-gradient(rgba(52, 52, 52, 0.5) 0%, rgba(0, 0, 0, 0) 50%); */
         border-radius: 8px;
 
