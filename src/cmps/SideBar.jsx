@@ -253,7 +253,7 @@ export function SideBar() {
 
 
 
-    const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id)
+    const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) || 0
 
     let displayedSongs = [];
 

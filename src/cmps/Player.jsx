@@ -128,7 +128,7 @@ export function Player() {
     }
 
     function onPlayNext() {
-
+        console.log(stationSongs)
         let nextSongIdx
         if (queue.length > 0 && stations.find(s => s.isShared)._id !== nowPlayingStationId) {
             onPlayFromQueue()
@@ -141,10 +141,10 @@ export function Player() {
             if (lastIdx.current) nextSongIdx = lastIdx.current + 1
             else {
                 if (nowPlayingStationId === 'likedSongs') {
-                    nextSongIdx = user.likedSongs.findIndex(s => s.id === nowPlaying.id) + 1
+                    nextSongIdx = user.likedSongs.findIndex(s => s === nowPlaying.id) + 1
+                } else {
+                    nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
                 }
-
-                nextSongIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) + 1
                 lastIdx.current = null
             }
             if (stationSongs.length === nextSongIdx) nextSongIdx = 0
@@ -170,13 +170,15 @@ export function Player() {
     async function onPlaySearchedResult(search) {
         let song = search
 
-        if (!search.src && nowPlayingStationId !== 'likedSongs') {
+        if (!search.src) {
             song = await searchMusicService.getYoutubeURL(search)
-            const songsToUpdate = stations.find(s => s._id === nowPlayingStationId).songs.map(s =>
-                s.id === song.id ? { ...s, src: song.src } : s
-            )
-            const stationToUpdate = { ...stations.find(station => station._id === nowPlayingStationId), songs: songsToUpdate }
-            await updateStation(stationToUpdate)
+            if (nowPlayingStationId !== 'likedSongs') {
+                const songsToUpdate = stations.find(s => s._id === nowPlayingStationId).songs.map(s =>
+                    s.id === song.id ? { ...s, src: song.src } : s
+                )
+                const stationToUpdate = { ...stations.find(station => station._id === nowPlayingStationId), songs: songsToUpdate }
+                await updateStation(stationToUpdate)
+            }
 
         }
         const data = { song, user }
