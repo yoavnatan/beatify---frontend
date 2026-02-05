@@ -118,6 +118,7 @@
   border-radius: 40px;
   padding: 0 6px;
 }
+
 .create-wrapper.createShown {
   background-color: var(--sp-card);
 }
@@ -419,7 +420,7 @@
 }
 
 .resize-handle {
-  transform: translateX(2px);
+  transform: translateX(1px);
   padding-left: 10px;
   padding-right: 10px;
   width: 1px;
