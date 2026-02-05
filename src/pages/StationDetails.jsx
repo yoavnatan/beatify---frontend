@@ -13,7 +13,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { PLAY, SET_LAST_CLICKED, TOGGLE_PLAY, TOGLLE_SHUFFLE } from "../store/reducers/player.reducer.js";
+import { PLAY, SET_LAST_CLICKED, SHUFFLE_OFF, TOGGLE_PLAY, TOGLLE_SHUFFLE } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION, SET_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -61,7 +61,9 @@ export function StationDetails() {
   const [isLikedStation, setIsLikedStation] = useState(false)
   const addedToLibrary = user?.likedSongsStations?.includes(stationId) || false;
 
+  const isFirstSongPlayed = useRef(false)
   const headerRef = useRef();
+  const likedSongs = useRef()
 
   useEffect(() => {
     if (!stationId) return;
@@ -74,6 +76,7 @@ export function StationDetails() {
       setIsLikedStation(false)
       stationService.getAvgColor(station)
     }
+    isFirstSongPlayed.current = false
 
     return () => {
       dispatch({ type: SET_STATION, station: null })
@@ -129,6 +132,13 @@ export function StationDetails() {
   }
 
   async function onPlaySearchedResult(search) {
+    console.log(isFirstSongPlayed.current)
+    if (!isFirstSongPlayed.current && shuffle) {
+      dispatch({ type: SHUFFLE_OFF })
+      // onToggleShuffle()
+      isFirstSongPlayed.current = true
+    }
+
     let song = search
 
     if (!search.src) {
@@ -172,21 +182,28 @@ export function StationDetails() {
   }
 
   function onToggleShuffle() {
-    console.log('hi')
     if (nowPlayingStationId && !shuffle) {
+      if (nowPlayingStationId === 'likedSongs') {
+        likedSongs.current = [...stationSongs]
+      }
       const shuffledPlaylist = shuffleArray(stationSongs)
       dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
       if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
         socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist })
       }
     } else if (nowPlayingStationId && shuffle) {
-      dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
-      if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
-        socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+      if (nowPlayingStationId === 'likedSongs') {
+        dispatch({ type: SET_STATION_SONGS, stationSongs: likedSongs.current })
+      } else {
+        dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+        if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+          socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+        }
       }
     }
     dispatch({ type: TOGLLE_SHUFFLE })
   }
+
 
 
   async function likeStation(stationId) {
