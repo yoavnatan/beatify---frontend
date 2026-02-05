@@ -1,15 +1,15 @@
 function onToggleShuffle() {
 
-    if (currentPlayingStation && !shuffle) {
-        const shuffledPlaylist = shuffleArray(currentStation.songs)
+    if (nowPlayingStation && !shuffle) {
+        const shuffledPlaylist = shuffleArray(nowStation.songs)
         dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
-        if (sharedStation._id === currentPlayingStation._id) {
+        if (sharedStation._id === nowPlayingStation._id) {
             socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist })
         }
-    } else if (currentPlayingStation._id && shuffle) {
-        dispatch({ type: SET_STATION_SONGS, stationSongs: currentPlayingStation.songs })
+    } else if (nowPlayingStation._id && shuffle) {
+        dispatch({ type: SET_STATION_SONGS, stationSongs: nowPlayingStation.songs })
         if (sharedStation._id === nowPlayingStationId) {
-            socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: currentPlayingStation.songs })
+            socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: nowPlayingStation.songs })
         }
     }
     dispatch({ type: TOGGLE_SHUFFLE })

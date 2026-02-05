@@ -57,7 +57,7 @@ export function Player() {
     }
 
 
-
+    const likedSongs = useRef()
 
 
     function onToggleMute() {
@@ -96,15 +96,22 @@ export function Player() {
 
     function onToggleShuffle() {
         if (nowPlayingStationId && !shuffle) {
+            if (nowPlayingStationId === 'likedSongs') {
+                likedSongs.current = [...stationSongs]
+            }
             const shuffledPlaylist = shuffleArray(stationSongs)
             dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
             if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
                 socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist })
             }
         } else if (nowPlayingStationId && shuffle) {
-            dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
-            if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
-                socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+            if (nowPlayingStationId === 'likedSongs') {
+                dispatch({ type: SET_STATION_SONGS, stationSongs: likedSongs.current })
+            } else {
+                dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+                if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+                    socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+                }
             }
         }
         dispatch({ type: TOGLLE_SHUFFLE })
