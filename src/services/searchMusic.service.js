@@ -4,7 +4,9 @@ import { showErrorMsg } from "./event-bus.service.js"
 
 const STORAGE_KEY_VIDEOS = 'videosDB'
 
-
+function _getApiUrl(url) {
+    return `https://corsproxy.io/?${encodeURIComponent(url)}`
+}
 
 export const searchMusicService = {
     searchMusic,
@@ -19,15 +21,10 @@ export const searchMusicService = {
 }
 
 async function searchMusic(query) {
-
-    const API_URL = import.meta.env.PROD
-        ? `https://api.deezer.com/search?q=${query}&limit=10`
-        : `https://corsproxy.io/?https://api.deezer.com/search?q=${query}&limit=10`
-
+    const url = `https://api.deezer.com/search?q=${query}&limit=10`
     try {
-        const res = await axios.get(API_URL)
-        const searchData = res.data.data
-        return searchData
+        const res = await axios.get(_getApiUrl(url))
+        return res.data.data
     } catch (err) {
         console.error(err)
         throw err
@@ -35,23 +32,18 @@ async function searchMusic(query) {
 }
 
 async function getSongById(songId) {
-
-    const API_URL = import.meta.env.PROD
-        ? `?https://api.deezer.com/track/${songId}`
-        : `https://corsproxy.io/?https://api.deezer.com/track/${songId}`
-
+    const url = `https://api.deezer.com/track/${songId}`
     try {
-        const res = await axios.get(API_URL)
+        const res = await axios.get(_getApiUrl(url))
         const searchData = res.data
 
         const songToPlay = await getYoutubeURL(searchData)
-        let song = {
+        return {
             id: searchData.id,
             imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/220x220.jpg`,
             title: searchData.title,
             src: songToPlay.src || ''
         }
-        return song
     } catch (err) {
         console.error(err)
         throw err
@@ -59,17 +51,10 @@ async function getSongById(songId) {
 }
 
 async function searchArtist(query) {
-
-    const API_URL = import.meta.env.PROD
-        ? `https://api.deezer.com/search/artist?q=${query}&limit=3`
-        : `https://corsproxy.io/?https://api.deezer.com/search/artist?q=${query}&limit=3`
-
-
+    const url = `https://api.deezer.com/search/artist?q=${query}&limit=3`
     try {
-        const res = await axios.get(API_URL)
-        const searchData = res.data.data
-        console.log(searchData)
-        return searchData
+        const res = await axios.get(_getApiUrl(url))
+        return res.data.data
     } catch (err) {
         console.error(err)
         throw err
@@ -77,16 +62,10 @@ async function searchArtist(query) {
 }
 
 async function getArtistSongs(URL) {
-
-    const API_URL = import.meta.env.PROD
-        ? URL
-        : `https://corsproxy.io/?${URL}`
-
     try {
-        const res = await axios.get(API_URL)
+        const res = await axios.get(_getApiUrl(URL))
         const searchData = res.data.data
-        const songs = await Promise.all(searchData.map(res => getSong(res.id)))
-        return songs
+        return await Promise.all(searchData.map(res => getSong(res.id)))
     } catch (err) {
         console.error(err)
         showErrorMsg('Could not find this artist')
@@ -95,22 +74,16 @@ async function getArtistSongs(URL) {
 }
 
 async function getSong(id) {
-
-    const API_URL = import.meta.env.PROD
-        ? `https://api.deezer.com/track/${id}`
-        : `https://corsproxy.io/?https://api.deezer.com/track/${id}`
-
+    const url = `https://api.deezer.com/track/${id}`
     try {
-        const res = await axios.get(API_URL)
+        const res = await axios.get(_getApiUrl(url))
         const searchData = res.data
-
-        let song = {
+        return {
             ...searchData,
             id: searchData.id,
             imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${searchData.md5_image}/220x220.jpg`,
             title: searchData.title,
         }
-        return song
     } catch (err) {
         console.error(err)
         throw err
@@ -119,28 +92,21 @@ async function getSong(id) {
 
 async function getArtistBio(artist) {
     const API_KEY = import.meta.env.VITE_LASTFM_API_KEY
-    const API_URL = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artist}&api_key=${API_KEY}&format=json`
+    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artist)}&api_key=${API_KEY}&format=json`
     try {
-        const res = await axios.get(API_URL)
-        const searchData = res.data.artist.bio.summary
-        return searchData
+        const res = await axios.get(url)
+        return res.data.artist.bio.summary
     } catch (err) {
         console.error(err)
         throw err
     }
-
 }
 
 async function getGenres() {
-    const API_URL = import.meta.env.PROD
-        ? `https://api.deezer.com/genre`
-        : `https://corsproxy.io/?https://api.deezer.com/genre`
-
-
+    const url = `https://api.deezer.com/genre`
     try {
-        const res = await axios.get(API_URL)
-        const searchData = res.data.data
-        return searchData
+        const res = await axios.get(_getApiUrl(url))
+        return res.data.data
     } catch (err) {
         console.error(err)
         throw err
@@ -148,61 +114,52 @@ async function getGenres() {
 }
 
 async function getGenreSongs(genreId) {
-    const API_URL = import.meta.env.PROD
-        ? `https://api.deezer.com/chart/${genreId}/tracks?limit=20`
-        : `https://corsproxy.io/?https://api.deezer.com/chart/${genreId}/tracks?limit=20`
-
+    const url = `https://api.deezer.com/chart/${genreId}/tracks?limit=20`
     try {
-        const res = await axios.get(API_URL)
+        const res = await axios.get(_getApiUrl(url))
         const searchData = res.data.data
-        const songs = await Promise.all(searchData.map(res => getSong(res.id)))
-        return songs
+        return await Promise.all(searchData.map(res => getSong(res.id)))
     } catch (err) {
         console.error(err)
         throw err
     }
-
 }
 
 async function getYoutubeURL(query) {
     let gVideosCache = loadFromStorage(STORAGE_KEY_VIDEOS) || []
-    const srcFromCache = (gVideosCache.find(video => video.id === query.id))
+    const srcFromCache = gVideosCache.find(video => video.id === query.id)
 
-    const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
-    const URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${query.title} ${query.artist?.name}&key=${API_KEY}`
-    const song = { ...query, id: query.id, imgUrl: `https://e-cdns-images.dzcdn.net/images/cover/${query.md5_image}/220x220.jpg`, title: query.title }
-    if (!query.md5_image) song.imgUrl = query.imgUrl
-    let embedUrl
     if (srcFromCache) {
-        embedUrl = srcFromCache.src
-        song.src = embedUrl
-
         console.log('from cache')
-
-        return song
-    } else {
-        try {
-            const res = await axios.get(URL)
-            console.log('from youtube api')
-
-            const youtubeRes = res.data
-
-            if (youtubeRes.items && youtubeRes.items.length > 0) {
-                const videoId = youtubeRes.items[0].id.videoId;
-                embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                song.src = embedUrl || ""
-                gVideosCache.push(song)
-                saveToStorage(STORAGE_KEY_VIDEOS, gVideosCache)
-                return song
-            }
-        } catch (err) {
-            console.log(err)
-            throw err
-        }
-
+        return srcFromCache
     }
 
+    const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
+    const searchTerm = encodeURIComponent(`${query.title} ${query.artist?.name || ''}`)
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${searchTerm}&key=${API_KEY}`
+
+    const song = {
+        ...query,
+        id: query.id,
+        imgUrl: query.imgUrl || `https://e-cdns-images.dzcdn.net/images/cover/${query.md5_image}/220x220.jpg`,
+        title: query.title
+    }
+
+    try {
+        const res = await axios.get(url)
+        const youtubeRes = res.data
+
+        if (youtubeRes.items && youtubeRes.items.length > 0) {
+            const videoId = youtubeRes.items[0].id.videoId
+            song.src = `https://www.youtube.com/embed/${videoId}`
+
+            gVideosCache.push(song)
+            saveToStorage(STORAGE_KEY_VIDEOS, gVideosCache)
+            return song
+        }
+        return song
+    } catch (err) {
+        console.error('Youtube API error:', err)
+        throw err
+    }
 }
-
-
-
