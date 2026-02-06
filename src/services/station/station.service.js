@@ -1,7 +1,7 @@
 
 import { storageService } from '../async-storage.service.js'
 import { makeId, saveToStorage } from '../util.service.js'
-import { userService } from '../user'
+import { userService } from '../user/user.service.remote.js'
 import { FastAverageColor } from 'fast-average-color';
 import { searchMusicService } from '../searchMusic.service.js';
 import { dataBase } from './databaselocal.js';
@@ -27,7 +27,6 @@ window.cs = stationService
 
 
 async function query(filterBy = { txt: '' }) {
-    console.loe('local')
     let stations = await storageService.query(STORAGE_KEY)
 
     if (!stations || stations.length === 0) {
