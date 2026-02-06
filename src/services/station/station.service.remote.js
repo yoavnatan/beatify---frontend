@@ -1,6 +1,7 @@
 import { httpService } from '../http.service'
 import { FastAverageColor } from 'fast-average-color'
 import { searchMusicService } from '../searchMusic.service'
+import { userService } from '../user/user.service.remote.js'
 
 const BASE_URL = 'station/'
 
