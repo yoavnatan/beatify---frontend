@@ -4,8 +4,14 @@ import { showErrorMsg } from "./event-bus.service.js"
 
 const STORAGE_KEY_VIDEOS = 'videosDB'
 
+
+const BASE_URL = import.meta.env.PROD
+    ? ''
+    : 'http://localhost:3030'
+
+
 function _getApiUrl(url) {
-    return `https://corsproxy.io/?${encodeURIComponent(url)}`
+    return `${BASE_URL}/api/deezer?url=${encodeURIComponent(url)}`
 }
 
 export const searchMusicService = {
@@ -26,7 +32,7 @@ async function searchMusic(query) {
         const res = await axios.get(_getApiUrl(url))
         return res.data.data
     } catch (err) {
-        console.error(err)
+        console.error('Error in searchMusic:', err)
         throw err
     }
 }
@@ -45,7 +51,7 @@ async function getSongById(songId) {
             src: songToPlay.src || ''
         }
     } catch (err) {
-        console.error(err)
+        console.error('Error in getSongById:', err)
         throw err
     }
 }
@@ -56,7 +62,7 @@ async function searchArtist(query) {
         const res = await axios.get(_getApiUrl(url))
         return res.data.data
     } catch (err) {
-        console.error(err)
+        console.error('Error in searchArtist:', err)
         throw err
     }
 }
@@ -67,7 +73,7 @@ async function getArtistSongs(URL) {
         const searchData = res.data.data
         return await Promise.all(searchData.map(res => getSong(res.id)))
     } catch (err) {
-        console.error(err)
+        console.error('Error in getArtistSongs:', err)
         showErrorMsg('Could not find this artist')
         throw err
     }
@@ -85,7 +91,7 @@ async function getSong(id) {
             title: searchData.title,
         }
     } catch (err) {
-        console.error(err)
+        console.error('Error in getSong:', err)
         throw err
     }
 }
@@ -94,10 +100,11 @@ async function getArtistBio(artist) {
     const API_KEY = import.meta.env.VITE_LASTFM_API_KEY
     const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artist)}&api_key=${API_KEY}&format=json`
     try {
+        // ב-LastFM בדרך כלל אין בעיית CORS, אז פונים ישירות
         const res = await axios.get(url)
         return res.data.artist.bio.summary
     } catch (err) {
-        console.error(err)
+        console.error('Error in getArtistBio:', err)
         throw err
     }
 }
@@ -108,7 +115,7 @@ async function getGenres() {
         const res = await axios.get(_getApiUrl(url))
         return res.data.data
     } catch (err) {
-        console.error(err)
+        console.error('Error in getGenres:', err)
         throw err
     }
 }
@@ -120,7 +127,7 @@ async function getGenreSongs(genreId) {
         const searchData = res.data.data
         return await Promise.all(searchData.map(res => getSong(res.id)))
     } catch (err) {
-        console.error(err)
+        console.error('Error in getGenreSongs:', err)
         throw err
     }
 }
