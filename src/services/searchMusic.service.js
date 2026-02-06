@@ -20,7 +20,9 @@ export const searchMusicService = {
 
 async function searchMusic(query) {
 
-    const API_URL = `https://corsproxy.io/?https://api.deezer.com/search?q=${query}&limit=10`
+    const API_URL = import.meta.env.PROD
+        ? `https://api.deezer.com/search?q=${query}&limit=10`
+        : `https://corsproxy.io/?https://api.deezer.com/search?q=${query}&limit=10`
 
     try {
         const res = await axios.get(API_URL)
@@ -34,7 +36,10 @@ async function searchMusic(query) {
 
 async function getSongById(songId) {
 
-    const API_URL = `https://corsproxy.io/?https://api.deezer.com/track/${songId}`
+    const API_URL = import.meta.env.PROD
+        ? `?https://api.deezer.com/track/${songId}`
+        : `https://corsproxy.io/?https://api.deezer.com/track/${songId}`
+
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data
@@ -54,7 +59,11 @@ async function getSongById(songId) {
 }
 
 async function searchArtist(query) {
-    const API_URL = `https://corsproxy.io/?https://api.deezer.com/search/artist?q=${query}&limit=3`
+
+    const API_URL = import.meta.env.PROD
+        ? `https://api.deezer.com/search/artist?q=${query}&limit=3`
+        : `https://corsproxy.io/?https://api.deezer.com/search/artist?q=${query}&limit=3`
+
 
     try {
         const res = await axios.get(API_URL)
@@ -69,7 +78,10 @@ async function searchArtist(query) {
 
 async function getArtistSongs(URL) {
 
-    const API_URL = `https://corsproxy.io/?${URL}`
+    const API_URL = import.meta.env.PROD
+        ? URL
+        : `https://corsproxy.io/?${URL}`
+
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data.data
@@ -84,7 +96,10 @@ async function getArtistSongs(URL) {
 
 async function getSong(id) {
 
-    const API_URL = `https://corsproxy.io/?https://api.deezer.com/track/${id}`
+    const API_URL = import.meta.env.PROD
+        ? `https://api.deezer.com/track/${id}`
+        : `https://corsproxy.io/?https://api.deezer.com/track/${id}`
+
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data
@@ -117,7 +132,10 @@ async function getArtistBio(artist) {
 }
 
 async function getGenres() {
-    const API_URL = `https://corsproxy.io/?https://api.deezer.com/genre`
+    const API_URL = import.meta.env.PROD
+        ? `https://api.deezer.com/genre`
+        : `https://corsproxy.io/?https://api.deezer.com/genre`
+
 
     try {
         const res = await axios.get(API_URL)
@@ -130,7 +148,10 @@ async function getGenres() {
 }
 
 async function getGenreSongs(genreId) {
-    const API_URL = `https://corsproxy.io/?https://api.deezer.com/chart/${genreId}/tracks?limit=20`
+    const API_URL = import.meta.env.PROD
+        ? `https://api.deezer.com/chart/${genreId}/tracks?limit=20`
+        : `https://corsproxy.io/?https://api.deezer.com/chart/${genreId}/tracks?limit=20`
+
     try {
         const res = await axios.get(API_URL)
         const searchData = res.data.data
