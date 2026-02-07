@@ -250,10 +250,13 @@ export function SideBar() {
             // dispatch({ type: SET_STATION_SONGS, stationSongs: station.songs })
         }
     }
+    let currentIdx
 
-
-
-    const currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) || 0
+    if (nowPlayingStationId === "likedSongs") {
+        currentIdx = stationSongs.findIndex(s => s === nowPlaying.id) || 0
+    } else {
+        currentIdx = stationSongs.findIndex(s => s.id === nowPlaying.id) || 0
+    }
 
     let displayedSongs = [];
 
