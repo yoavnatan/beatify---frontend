@@ -41,7 +41,7 @@ export function SortableStationItem({ song, user, likeSong, onPlayFromQueue, now
             <div className={`like-icon ${user.likedSongs.includes(song.id) ? 'on' : ''}`}>
                 <Tippy content="..." delay={[500, 0]} offset={[0, 15]} arrow={false} >
                     <span className="tooltip-wrapper" onClick={(e) => e.stopPropagation()}>
-                        {!user.likedSongs.includes(song.id) ? <Like onClick={() => likeSong(song.id)} /> : <Liked onClick={() => likeSong(song.id)} />}
+                        {!user.likedSongs.includes(song.id) ? <Like className="icon small" onClick={() => likeSong(song.id)} /> : <Liked className="icon small" onClick={() => likeSong(song.id)} />}
                     </span>
                 </Tippy>
             </div>
