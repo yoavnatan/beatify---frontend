@@ -15,7 +15,7 @@ import {
 import Play from "../assets/svg/play.svg?react";
 import Pause from "../assets/svg/pause.svg?react";
 import Shuffle from "../assets/svg/shuffle.svg?react";
-import { LOOP_OFF, LOOP_ON, PAUSE, PLAY, SET_LAST_CLICKED, SET_NOW_PLAYING, SHUFFLE_OFF, SHUFFLE_ON, TOGGLE_PLAY } from "../store/reducers/player.reducer.js";
+import { LOOP_OFF, LOOP_ON, PAUSE, PLAY, SET_LAST_CLICKED, SET_NOW_PLAYING, SHUFFLE_OFF, SHUFFLE_ON, TOGGLE_PLAY, TOGLLE_SHUFFLE } from "../store/reducers/player.reducer.js";
 import { setSong } from "../store/actions/player.actions.js";
 import { SET_NOW_PLAYING_STATION, SET_STATION_SONGS, UPDATE_STATION } from "../store/reducers/station.reducer.js";
 import Tippy from "@tippyjs/react";
@@ -23,14 +23,14 @@ import Trash from "../assets/svg/trash.svg?react";
 import Delete from "../assets/svg/delete.svg?react";
 import DropDownMenu from "../assets/svg/drop-down-menu.svg?react";
 import { useLocation, useNavigate } from "react-router";
-import { debounce, toRgbString } from "../services/util.service.js";
+import { debounce, shuffleArray, toRgbString } from "../services/util.service.js";
 import { searchMusicService } from "../services/searchMusic.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SongsTable } from "./SongsTable.jsx";
 import { LibraryEditStation } from "./LibraryAddStation.jsx";
 import { stationService } from "../services/station";
 import AddCircle from "../assets/svg/add-circle.svg?react";
-import { SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_LOOP, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_LOOP, SOCKET_EVENT_ON_SHUFFLE, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
+import { SOCKET_EMIT_OFF_SHUFFLE, SOCKET_EMIT_ON_SHUFFLE, SOCKET_EMIT_PLAY, SOCKET_EMIT_TOGGLE_PLAY, SOCKET_EVENT_OFF_LOOP, SOCKET_EVENT_OFF_SHUFFLE, SOCKET_EVENT_ON_LOOP, SOCKET_EVENT_ON_SHUFFLE, SOCKET_EVENT_PLAY, SOCKET_EVENT_STATION_UPDATE, SOCKET_EVENT_TOGGLE_PLAY, socketService } from "../services/socket.service.js";
 import { use } from "react";
 import { LoaderDots } from "../cmps/Loader.jsx";
 
@@ -42,7 +42,7 @@ export function ListeningRoom() {
   const { stations, stationSongs } = useSelector((storeState) => storeState.stationModule);
   const station = stations.find(station => station.isShared)
   const stationId = station?._id
-  const { playing, nowPlaying, lastClickedSong } = useSelector(
+  const { playing, nowPlaying, lastClickedSong, shuffle } = useSelector(
     (storeState) => storeState.playerModule,
   );
   const { nowPlaying: nowPlayingStationId } = useSelector(
@@ -303,6 +303,31 @@ export function ListeningRoom() {
     dispatch({ type: UPDATE_STATION, station: updatedStation })
   }
 
+
+  function onToggleShuffle() {
+    if (nowPlayingStationId && !shuffle) {
+      if (nowPlayingStationId === 'likedSongs') {
+        likedSongs.current = [...stationSongs]
+      }
+      const shuffledPlaylist = shuffleArray(stationSongs)
+      dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist })
+      if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+        socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist })
+      }
+    } else if (nowPlayingStationId && shuffle) {
+      if (nowPlayingStationId === 'likedSongs') {
+        dispatch({ type: SET_STATION_SONGS, stationSongs: likedSongs.current })
+      } else {
+        dispatch({ type: SET_STATION_SONGS, stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+        if (stations.find(s => s.isShared)._id === nowPlayingStationId) {
+          socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: stations.find(station => station._id === nowPlayingStationId).songs })
+        }
+      }
+    }
+    dispatch({ type: TOGLLE_SHUFFLE })
+  }
+
+
   const coverImg =
     station._id === "likedSongs"
       ? "https://misc.scdn.co/liked-songs/liked-songs-300.png"
@@ -368,9 +393,13 @@ export function ListeningRoom() {
                   </button>
                 </Tippy>
 
-                <button className="shuffle-btn">
-                  <Shuffle className="icon medium-large" />
-                </button>
+                <div className={`shuffle-btn ${shuffle ? ' on' : ''}`} >
+                  <Tippy content={`${shuffle ? 'Disable' : 'Enable'} shuffle mode`} delay={[500, 0]} arrow={false}>
+                    <span className="tooltip-wrapper">
+                      <Shuffle className={`icon medium-large`} onClick={onToggleShuffle} />
+                    </span>
+                  </Tippy>
+                </div>
 
               </div>
             </div>
@@ -446,17 +475,13 @@ export function ListeningRoom() {
             </button>
           </Tippy>
 
-          <Tippy
-            content={"Shuffle"}
-            delay={[500, 0]}
-            offset={[0, 0]}
-            arrow={false}
-          >
-            <button className="shuffle-btn">
-              <Shuffle className="icon medium-large" />
-            </button>
-          </Tippy>
-
+          <div className={`shuffle-btn ${shuffle ? ' on' : ''}`} >
+            <Tippy content={`${shuffle ? 'Disable' : 'Enable'} shuffle mode`} delay={[500, 0]} arrow={false}>
+              <span className="tooltip-wrapper">
+                <Shuffle className={`icon medium-large`} onClick={onToggleShuffle} />
+              </span>
+            </Tippy>
+          </div>
 
 
         </div>
