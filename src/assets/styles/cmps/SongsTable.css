@@ -182,7 +182,7 @@
 /* .listening-room .song-album, */
 .listening-room .song-title,
 .listening-room .song-artist {
-  width: max-content;
+  max-width: min-content;
 }
 
 .station-details .song-title {
