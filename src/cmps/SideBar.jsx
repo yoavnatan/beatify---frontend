@@ -296,17 +296,23 @@ export function SideBar() {
                         <h1>Now Playing</h1>
                     </header>
                     <article className="side-bar-item now-playing-song">
-                        <img src={nowPlaying.imgUrl}></img>
-                        <div className="inner-container">
-                            <div className="song-info">
+                        <img src={nowPlaying.imgUrl} onClick={onTogglePlay}></img>
+                        <div className="inner-container" >
+                            <div className="song-info" onClick={onTogglePlay}>
                                 <div className="song-title">{nowPlaying.title}</div>
                                 <div className="song-artist" onClick={(ev) => createArtistStation(ev, nowPlaying.artist)}>{nowPlaying.artist.name}</div>
                             </div>
                             <div className={`like-icon ${user?.likedSongs?.includes(nowPlaying.id) ? 'on' : ''}`}>
                                 <Tippy content={`${user?.likedSongs?.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                     <span className="tooltip-wrapper">
-                                        {!user?.likedSongs?.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
-                                        {user?.likedSongs?.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {!user?.likedSongs?.includes(nowPlaying.id) && <Like className="icon small" onClick={(ev) => {
+                                            ev.stopPropagation()
+                                            likeSong(nowPlaying.id)
+                                        }} />}
+                                        {user?.likedSongs?.includes(nowPlaying.id) && <Liked className="icon small" onClick={(ev) => {
+                                            ev.stopPropagation()
+                                            likeSong(nowPlaying.id)
+                                        }} />}
                                     </span>
                                 </Tippy>
                             </div>
@@ -336,22 +342,28 @@ export function SideBar() {
                             <h1 >Queue</h1>
                         </header>
                         <h3>Now Playing</h3>
-                        <div className="result-item playing" onClick={onTogglePlay}>
+                        <div className="result-item playing" >
                             {/* <div className="drag-handle"></div> */}
-                            <div className="img-overlay">
+                            <div className="img-overlay" onClick={onTogglePlay}>
                                 {!playing && <WhiteArrow className="icon medium white" />}
                                 {playing && <Pause className="icon medium white" />}
                                 <img className="song-img" src={nowPlaying.album.cover_big} />
                             </div>
-                            <div className="song-info">
+                            <div className="song-info" onClick={onTogglePlay}>
                                 <div className="song-title">{nowPlaying.title}</div>
                                 <div className="song-artist">{nowPlaying.artist.name}</div>
                             </div>
                             <div className={`like-icon ${user?.likedSongs?.includes(nowPlaying.id) ? 'on' : ''}`}>
                                 <Tippy content={`${user?.likedSongs?.includes(nowPlaying.id) ? 'Remove from' : 'Add to'} Liked Songs`} delay={[500, 0]} offset={[0, 15]} arrow={false} >
                                     <span className="tooltip-wrapper">
-                                        {!user?.likedSongs?.includes(nowPlaying.id) && <Like className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
-                                        {user?.likedSongs?.includes(nowPlaying.id) && <Liked className="icon small" onClick={() => likeSong(nowPlaying.id)} />}
+                                        {!user?.likedSongs?.includes(nowPlaying.id) && <Like className="icon small" onClick={(ev) => {
+                                            ev.stopPropagation()
+                                            likeSong(nowPlaying.id)
+                                        }} />}
+                                        {user?.likedSongs?.includes(nowPlaying.id) && <Liked className="icon small" onClick={(ev) => {
+                                            ev.stopPropagation()
+                                            likeSong(nowPlaying.id)
+                                        }} />}
                                     </span>
                                 </Tippy>
                             </div>
