@@ -1,18 +1,12 @@
 import axios from "axios"
 import { loadFromStorage, saveToStorage } from "./util.service.js"
 import { showErrorMsg } from "./event-bus.service.js"
+// ייבוא של ה-httpService שתוקן קודם
+import { httpService } from "./http.service.js"
 
 const STORAGE_KEY_VIDEOS = 'videosDB'
 
-
-const BASE_URL = import.meta.env.PROD
-    ? ''
-    : 'http://localhost:3030'
-
-
-function _getApiUrl(url) {
-    return `${BASE_URL}/api/deezer?url=${encodeURIComponent(url)}`
-}
+// אנחנו כבר לא צריכים את BASE_URL כאן כי הוא מוגדר בתוך httpService
 
 export const searchMusicService = {
     searchMusic,
@@ -29,8 +23,9 @@ export const searchMusicService = {
 async function searchMusic(query) {
     const url = `https://api.deezer.com/search?q=${query}&limit=10`
     try {
-        const res = await axios.get(_getApiUrl(url))
-        return res.data.data
+        // משתמשים ב-httpService שתוקן!
+        const res = await httpService.get(`deezer?url=${encodeURIComponent(url)}`)
+        return res.data
     } catch (err) {
         console.error('Error in searchMusic:', err)
         throw err
@@ -40,8 +35,7 @@ async function searchMusic(query) {
 async function getSongById(songId) {
     const url = `https://api.deezer.com/track/${songId}`
     try {
-        const res = await axios.get(_getApiUrl(url))
-        const searchData = res.data
+        const searchData = await httpService.get(`deezer?url=${encodeURIComponent(url)}`)
 
         const songToPlay = await getYoutubeURL(searchData)
         return {
@@ -59,8 +53,8 @@ async function getSongById(songId) {
 async function searchArtist(query) {
     const url = `https://api.deezer.com/search/artist?q=${query}&limit=3`
     try {
-        const res = await axios.get(_getApiUrl(url))
-        return res.data.data
+        const res = await httpService.get(`deezer?url=${encodeURIComponent(url)}`)
+        return res.data
     } catch (err) {
         console.error('Error in searchArtist:', err)
         throw err
@@ -69,8 +63,8 @@ async function searchArtist(query) {
 
 async function getArtistSongs(URL) {
     try {
-        const res = await axios.get(_getApiUrl(URL))
-        const searchData = res.data.data
+        const res = await httpService.get(`deezer?url=${encodeURIComponent(URL)}`)
+        const searchData = res.data
         return await Promise.all(searchData.map(res => getSong(res.id)))
     } catch (err) {
         console.error('Error in getArtistSongs:', err)
@@ -82,8 +76,7 @@ async function getArtistSongs(URL) {
 async function getSong(id) {
     const url = `https://api.deezer.com/track/${id}`
     try {
-        const res = await axios.get(_getApiUrl(url))
-        const searchData = res.data
+        const searchData = await httpService.get(`deezer?url=${encodeURIComponent(url)}`)
         return {
             ...searchData,
             id: searchData.id,
@@ -100,7 +93,6 @@ async function getArtistBio(artist) {
     const API_KEY = import.meta.env.VITE_LASTFM_API_KEY
     const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artist)}&api_key=${API_KEY}&format=json`
     try {
-        // ב-LastFM בדרך כלל אין בעיית CORS, אז פונים ישירות
         const res = await axios.get(url)
         return res.data.artist.bio.summary
     } catch (err) {
@@ -112,8 +104,8 @@ async function getArtistBio(artist) {
 async function getGenres() {
     const url = `https://api.deezer.com/genre`
     try {
-        const res = await axios.get(_getApiUrl(url))
-        return res.data.data
+        const res = await httpService.get(`deezer?url=${encodeURIComponent(url)}`)
+        return res.data
     } catch (err) {
         console.error('Error in getGenres:', err)
         throw err
@@ -123,8 +115,8 @@ async function getGenres() {
 async function getGenreSongs(genreId) {
     const url = `https://api.deezer.com/chart/${genreId}/tracks?limit=20`
     try {
-        const res = await axios.get(_getApiUrl(url))
-        const searchData = res.data.data
+        const res = await httpService.get(`deezer?url=${encodeURIComponent(url)}`)
+        const searchData = res.data
         return await Promise.all(searchData.map(res => getSong(res.id)))
     } catch (err) {
         console.error('Error in getGenreSongs:', err)
@@ -137,7 +129,6 @@ async function getYoutubeURL(query) {
     const srcFromCache = gVideosCache.find(video => video.id === query.id)
 
     if (srcFromCache) {
-        console.log('from cache')
         return srcFromCache
     }
 
