@@ -24,7 +24,7 @@ import { ADD_TO_QUEUE } from "../store/reducers/player.reducer.js"
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { SortableSongRow } from "../cmps/sortableSongRow.jsx"
+import { SortableSongRow } from "../cmps/SortableSongRow.jsx"
 import { addStation, updateStation } from "../store/actions/station.actions.js"
 import { UPDATE_STATION } from "../store/reducers/station.reducer.js"
 import { stationService } from "../services/station/station.service.remote.js"
