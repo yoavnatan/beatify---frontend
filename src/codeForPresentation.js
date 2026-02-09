@@ -1,14 +1,14 @@
 function onToggleShuffle() {
-
+    //The user clicks on Shuffle button
     if (nowPlayingStation && !shuffle) { // Checks if theres is a playlist to shuffle
-        const shuffledPlaylist = shuffleArray(nowStation.songs)
-        dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist }) // A tamporary song list we can manipulte
+        const shuffledPlaylist = shuffleArray(nowStation.songs) //Mix the original array
+        dispatch({ type: SET_STATION_SONGS, stationSongs: shuffledPlaylist }) // A variable that holds a separate song list we can manipulte
         if (sharedStation._id === nowPlayingStation._id) { // Checks if we're on the shared playlist 
             socketService.emit(SOCKET_EMIT_ON_SHUFFLE, { stationSongs: shuffledPlaylist }) // sharing the shuffled station
         }
     } else if (nowPlayingStation._id && shuffle) { // Unshuffle
         dispatch({ type: SET_STATION_SONGS, stationSongs: nowPlayingStation.songs })
-        if (sharedStation._id === nowPlayingStationId) {
+        if (sharedStation._id === nowPlayingStationId) { //Brings back the original songs list
             socketService.emit(SOCKET_EMIT_OFF_SHUFFLE, { stationSongs: nowPlayingStation.songs })
         }
     }
@@ -16,6 +16,7 @@ function onToggleShuffle() {
 }
 
 
+//Utility function
 
 export function shuffleArray(array) {
 
