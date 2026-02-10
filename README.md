@@ -1,18 +1,12 @@
-# Coding Academy React Frontend
+# Beatify App
 
-Modern React application built with Vite, featuring a complete frontend infrastructure for teaching full-stack development.
+Modern End-to-end React, node.js, and express application built with Vite.
+DB used with mongoDB.
 
-## 🚀 Quick Start
+The project is a replica to Spotify web app, and inspired by it. 
 
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Start development server:
-```bash
-npm run dev
-```
+This project was built as a final project in Coding Academy course,
+By Yoav Natan & Yahav mor. 
 
 ## 🏗️ Project Structure
 
@@ -35,44 +29,36 @@ src/
 ## 🎨 Components
 
 ### Core Components
-- `AppHeader` - Navigation and user menu
-- `AppFooter` - Footer with service status
+- `AppHeader` - Multifuncional Search bar and a user login/logout interface.
+- `AppFooter` - The player
 - `UserMsg` - Toast notifications
-- `CarList` - Grid display of cars with actions
-- `CarFilter` - Search and filter interface
-- `ReviewList` - User reviews with CRUD
+- `Library` - A dynemic, resizable component that contains a sortable list where the user can see its playlists    (Liked/Created)
+- `Player` - The player is set at the footer, its state is managed in a global store. The user can shuffle, play next/prev or in a loop.
+- `SideBar` - A resizable component that shows details about the current song and artists, and the queue playlist.
+the user can use drag and drop to change the order in the queue section. 
 
 ### Pages
-- `CarIndex` - Main car management
-- `ReviewIndex` - Review system
-- `UserDetails` - User profile
-- `AboutUs` - Static content with nested routes
-- `Chat` - Real-time messaging
+- `StationIndex` - Main index page where all the playlist are shown, by list and by carusesls. 
+- `StationDetails` - A page for everyPlaylist where the user can play songs, like or add to the queue/another playlist, the user can search songs inside the component and instancly add a new one to the playlist. 
+- `ListeningRoom` - A Shared playlist, users on this page can listen together to songs, add or delete songs drag and drop to change the order of the playlist, all live by using web sockets. 
+- `Search` - Search page with artists and songs by the user input. 
+- `Chat` - Real-time messaging inside the Shared playlist, using web sockets. 
+- `LoginSignup` - Page for authentication. 
 
 ## 🔄 State Management
 
-Using Redux with the following modules:
-- `carModule` - Car CRUD operations
+We used Redux with the following modules:
+- `playerModule` - Player states.
 - `userModule` - Authentication and user data
-- `reviewModule` - Review system
+- `stationModule` - Playlist states.
 - `systemModule` - App-wide settings
 
-### Example Usage
-```jsx
-// In component:
-const cars = useSelector(state => state.carModule.cars)
-const dispatch = useDispatch()
-
-// Action dispatch:
-dispatch(loadCars())
-```
 
 ## 🎯 Services
 
 ### REST API Services
-- `car.service` - Car CRUD operations
+- `station.service` - Playlists CRUD operations
 - `user.service` - Authentication & user management
-- `review.service` - Review system
 - `upload.service` - File uploads
 
 ### Utility Services
@@ -99,44 +85,5 @@ Using SCSS modules with:
 }
 ```
 
-## 🚦 Development Guidelines
-
-1. Component Structure
-```jsx
-export function MyComponent({ prop1, prop2 }) {
-    const [state, setState] = useState(null)
-    
-    useEffect(() => {
-        // Side effects here
-    }, [])
-
-    return <section className="my-component">
-        {/* JSX */}
-    </section>
-}
-```
-
-2. State Updates
-```jsx
-// Correct:
-setData(prevData => [...prevData, newItem])
-
-// Avoid:
-setData([...data, newItem])
-```
-
-## 📝 Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Production build
-- `npm run preview` - Preview production build
-- `npm run test` - Run tests
-
-
-## 📄 License
-MIT
-
----
-Coding Academy - Built with ❤️ for teaching modern fullstack development
-
+#####
 
