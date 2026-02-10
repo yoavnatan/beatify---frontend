@@ -42,6 +42,7 @@ the user can use drag and drop to change the order in the queue section.
 - `StationDetails` - A page for everyPlaylist where the user can play songs, like or add to the queue/another playlist, the user can search songs inside the component and instancly add a new one to the playlist. 
 - `ListeningRoom` - A Shared playlist, users on this page can listen together to songs, add or delete songs drag and drop to change the order of the playlist, all live by using web sockets. 
 - `Search` - Search page with artists and songs by the user input. 
+- `Browse` - Find playlist by genres. 
 - `Chat` - Real-time messaging inside the Shared playlist, using web sockets. 
 - `LoginSignup` - Page for authentication. 
 
@@ -66,6 +67,13 @@ We used Redux with the following modules:
 - `socket.service` - WebSocket connection
 - `storage.service` - Local storage wrapper
 - `util.service` - Common helpers
+- `http.service` - Connection to the backend server.
+
+### Additional services:
+
+- `searchMusic.service` - Connection to outsourced api services to import songs and other media.
+
+#####
 
 ## 🎨 Styling
 
@@ -76,14 +84,4 @@ Using SCSS modules with:
 - Responsive breakpoints
 - Utility classes
 
-### Example Usage
-```scss
-.car-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: .5em;
-}
-```
-
-#####
 
