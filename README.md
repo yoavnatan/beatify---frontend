@@ -1,6 +1,6 @@
 # Beatify App
 
-Modern End-to-end React, node.js, and express application built with Vite.
+Modern End-to-end React, node.js, and express responsive application built with Vite.
 DB used with mongoDB.
 
 The project is a replica to Spotify web app, and inspired by it. 
@@ -8,25 +8,15 @@ The project is a replica to Spotify web app, and inspired by it.
 This project was built as a final project in Coding Academy course,
 By Yoav Natan & Yahav mor. 
 
+<div style={display:flex}>
 <img width="1791" height="1000" alt="image" src="https://github.com/user-attachments/assets/bac9a694-35d5-489c-93aa-c30adfc11b46" />
+<img width="479" height="902" alt="image" src="https://github.com/user-attachments/assets/215ecaab-777e-4aac-a33e-4ace5397f971" />
+</div>
 
+Links:
+Live: https://beatify-backend-jyvg.onrender.com/
+Backend repository: https://github.com/yahavmor/beatify---backend
 ## 🏗️ Project Structure
-
-```
-src/
-├── assets/
-│   └── styles/        # SCSS modules
-│       ├── basics/    # Core styles
-│       ├── cmps/      # Component styles
-│       ├── pages/     # Page styles
-│       └── setup/     # SCSS variables & mixins
-├── cmps/              # Reusable components
-├── pages/             # Route components
-├── services/          # API and utility services
-└── store/            # Redux state management
-    ├── actions/      # Action creators
-    └── reducers/     # State reducers
-```
 
 ## 🎨 Components
 
