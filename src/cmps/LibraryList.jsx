@@ -59,7 +59,7 @@ export function LibraryList({ searchTerm }) {
 
     return (
         <section className="library-list">
-            <ul>
+            <ul className="inner-list">
                 {filteredList.slice(0, 7).map(station => {
                     const coverImg =
                         station._id === "likedSongs"

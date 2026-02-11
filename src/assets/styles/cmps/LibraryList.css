@@ -4,7 +4,11 @@
   height: 100%;
 }
 
-
+.library-list .inner-list {
+  @media (max-width:600px) {
+    overflow-y: unset
+  }
+}
 
 .library-list ul {
   list-style: none;
@@ -34,7 +38,7 @@
   position: relative;
 }
 
-.custom-tooltip{
+.custom-tooltip {
   position: absolute;
   padding: 8px 12px;
   border-radius: 6px;
@@ -74,16 +78,16 @@
 }
 
 .icon-white-arrow {
-    position: absolute;
-    top: 50%;                    
-    left: 35px;     
-    transform: translateX(-50%) translateY(-50%); 
-    width: 24px;
-    height: 24px;
-    fill: var(--sp-white);
-    pointer-events: none;
-    display: none;
-    z-index: 2; 
+  position: absolute;
+  top: 50%;
+  left: 35px;
+  transform: translateX(-50%) translateY(-50%);
+  width: 24px;
+  height: 24px;
+  fill: var(--sp-white);
+  pointer-events: none;
+  display: none;
+  z-index: 2;
 }
 
 
@@ -146,6 +150,7 @@
   margin-block-start: 3px;
   margin-inline-start: auto;
 }
+
 .sidebar-expend .library-list ul {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -166,8 +171,9 @@
   width: 170px;
   height: 170px;
   object-fit: cover;
-  border-radius: 8px; 
+  border-radius: 8px;
 }
+
 .sidebar-expend .station-name {
   font-size: var(--fs-h3);
   color: var(--sp-white);
@@ -179,9 +185,11 @@
   font-size: var(--fs-body);
   color: var(--sp-gray);
 }
+
 .sidebar-expend .library-list li:hover .icon-white-arrow {
   display: none;
 }
+
 .green-play-icon {
   position: absolute;
   right: 20px;
@@ -205,6 +213,3 @@
   opacity: 1;
   transform: translateY(0);
 }
-
-
-
