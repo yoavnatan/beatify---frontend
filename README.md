@@ -21,8 +21,8 @@ Frontend:
 - npm run dev
 
 backend:
-npm i
-npm start
+- npm i
+- npm start
 
 ## 🏗️ Project Structure
 
