@@ -10,15 +10,15 @@ By Yoav Natan & Yahav mor.
 
 <img width="1791" height="1000" alt="image" src="https://github.com/user-attachments/assets/bac9a694-35d5-489c-93aa-c30adfc11b46" />
 
-Links:
-Live: https://beatify-backend-jyvg.onrender.com/
-Backend repository: https://github.com/yahavmor/beatify---backend
+## **Links**:
+- Live: https://beatify-backend-jyvg.onrender.com/
+- Backend repository: https://github.com/yahavmor/beatify---backend
 
 ## 📦 Project Setup
 
 Frontend:
-npm i
-npm run dev
+- npm i
+- npm run dev
 
 backend:
 npm i
