@@ -14,7 +14,8 @@ Links:
 Live: https://beatify-backend-jyvg.onrender.com/
 Backend repository: https://github.com/yahavmor/beatify---backend
 
-**📦 Project Setup:**
+## 📦 Project Setup
+
 Frontend:
 npm i
 npm run dev
