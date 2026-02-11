@@ -8,7 +8,7 @@ The project is a replica to Spotify web app, and inspired by it.
 This project was built as a final project in Coding Academy course,
 By Yoav Natan & Yahav mor. 
 
-<div style={display:flex}>
+<div style={display:'flex'}>
 <img width="1791" height="1000" alt="image" src="https://github.com/user-attachments/assets/bac9a694-35d5-489c-93aa-c30adfc11b46" />
 <img width="479" height="902" alt="image" src="https://github.com/user-attachments/assets/215ecaab-777e-4aac-a33e-4ace5397f971" />
 </div>
