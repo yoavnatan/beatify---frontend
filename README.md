@@ -13,6 +13,16 @@ By Yoav Natan & Yahav mor.
 Links:
 Live: https://beatify-backend-jyvg.onrender.com/
 Backend repository: https://github.com/yahavmor/beatify---backend
+
+**📦 Project Setup:**
+Frontend:
+npm i
+npm run dev
+
+backend:
+npm i
+npm start
+
 ## 🏗️ Project Structure
 
 ## 🎨 Components
