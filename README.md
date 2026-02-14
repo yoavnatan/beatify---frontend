@@ -8,7 +8,7 @@ The project is a replica to Spotify web app, and inspired by it.
 This project was built as a final project in Coding Academy course,
 By Yoav Natan & Yahav mor. 
 
-<img width="1791" height="1002" alt="image" src="https://github.com/user-attachments/assets/d02c60dd-ca6b-4cc6-896b-cbb5d9cefd67" />
+<img width="1792" height="1001" alt="image" src="https://github.com/user-attachments/assets/4ffb9684-0cd4-4312-acef-27591e13647c" />
 
 ## **Links**:
 - Live: https://beatify-backend-jyvg.onrender.com/
