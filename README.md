@@ -1,6 +1,6 @@
 # Beatify App
 
-Modern End-to-end React, node.js, and express responsive application built with Vite.
+Modern End-to-end React, Redux, node.js, and express responsive application built with Vite.
 DB used with mongoDB.
 
 The project is a replica to Spotify web app, and inspired by it. 
